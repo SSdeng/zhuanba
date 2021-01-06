@@ -7,6 +7,7 @@
         <!--  开启驼峰命名  -->
         <setting name="mapUnderscoreToCamelCase" value="true"/>
         <setting name="autoMappingBehavior" value="full"/>
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
     </settings>
     <!--  开启别名  -->
     <typeAliases>
