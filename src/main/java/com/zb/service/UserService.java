@@ -70,15 +70,15 @@ public interface UserService {
      * @param user_id 用户id
      * @return 对应user对象
      */
-    User selectById(int user_id);
+    User findById(int user_id);
 
     /**
      * 根据用户名查找用户
      *
-     * @param name 用户名
+     * @param userName 用户名
      * @return 对应User对象
      */
-    User findByName(String name);
+    User findByUserName(String userName);
 
     /**
      * 根据学号查找用户
