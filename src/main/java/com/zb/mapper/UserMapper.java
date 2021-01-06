@@ -1,9 +1,8 @@
 package com.zb.mapper;
 
 import com.zb.pojo.User;
-import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
-@Mapper
 public interface UserMapper {
-  User selectById(int id);
+  User selectById(@Param("id") int id);
 }

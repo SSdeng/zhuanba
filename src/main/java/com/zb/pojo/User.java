@@ -6,24 +6,24 @@ import java.util.Date;
 import java.util.List;
 
 @Data
+@EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@EqualsAndHashCode
 public class User {
-  private int id;
+  private Integer id;
   private String username;
   private String password;
   private String realName;
   private String phoneNumber;
   private String email;
-  private int deleted;
-  private int gender;
+  private Integer gender;
   private String academy;
   private String grade;
-  private String studentNumber;
-  private String role;
-  private Date creatTime;
+  private Date createTime;
   private Date updateTime;
+  private String studentNumber;
+  private Integer deleted;
+  private String role;
   private List<Item> items;
 }
