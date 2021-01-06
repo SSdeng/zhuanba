@@ -2,6 +2,7 @@ package com.zb.pojo;
 
 import lombok.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -20,6 +21,8 @@ public class Item {
   private int status;
   private int sales;
   private int level;
+  private Date creatTime;
+  private Date updateTime;
   private User user;
   private List<Category> categories;
 }
