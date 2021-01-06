@@ -21,7 +21,7 @@ public class Item {
   private int status;
   private int sales;
   private int level;
-  private Date creatTime;
+  private Date createTime;
   private Date updateTime;
   private User user;
   private List<Category> categories;
