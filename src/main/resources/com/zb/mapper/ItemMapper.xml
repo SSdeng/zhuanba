@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zb.mapper.ItemMapper">
+
+    <resultMap id="ItemResultMap" type="com.zb.pojo.Item">
+        <id column="item_id" jdbcType="INTEGER" property="id"/>
+        <result column="item_name" jdbcType="VARCHAR" property="name"/>
+        <result column="item_description" jdbcType="VARCHAR" property="description"/>
+        <result column="item_price" jdbcType="DECIMAL" property="price"/>
+        <result column="item_image" jdbcType="INTEGER" property="image"/>
+        <result column="item_count" jdbcType="INTEGER" property="count"/>
+        <result column="item_deleted" jdbcType="INTEGER" property="deleted"/>
+        <result column="item_status" jdbcType="INTEGER" property="status"/>
+        <result column="item_sales" jdbcType="INTEGER" property="sales"/>
+        <result column="item_createTime" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="item_updateTime" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="item_level" jdbcType="INTEGER" property="level"/>
+        <association column="item_userId" select="com.zb.mapper.UserMapper.selectByPrimaryKey"
+                     javaType="com.zb.pojo.User" property="user"></association>
+    </resultMap>
+
+    <sql id="Item_Column_List">
+        item.id as item_id, item.name as item_name, item.description as item_description,
+            item.price as item_price, item.image as item_image, item.count as item_count,
+            item.deleted as item_delete, item.status as item_status, item.sales as item_sales,
+            item.create_time as item_createTime, item.update_time as item_updateTime,
+            item.level as item_level, item.user_id as item_userId
+    </sql>
+
+    <select id="selectByPrimary" parameterType="java.lang.Integer" resultMap="ItemResultMap">
+        select
+        <include refid="Item_Column_List"/>
+        from item item
+        where item.id = #{id,jdbcType=INTEGER}
+    </select>
+</mapper>
