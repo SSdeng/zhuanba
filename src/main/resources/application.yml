@@ -1,8 +1,31 @@
 spring:
   datasource:
+    url: jdbc:mysql://localhost:3306/zhuanba?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/mybatis_plus?
-      useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
-    username:
-    password:
 
+    druid:
+      aop-patterns: com.zb.*  #\u76D1\u63A7SpringBean
+      filters: stat,wall     # \u5E95\u5C42\u5F00\u542F\u529F\u80FD\uFF0Cstat\uFF08sql\u76D1\u63A7\uFF09\uFF0Cwall\uFF08\u9632\u706B\u5899\uFF09
+
+      stat-view-servlet: # \u914D\u7F6E\u76D1\u63A7\u9875\u529F\u80FD
+        enabled: true
+        login-username: admin
+        login-password: admin
+        resetEnable: false
+
+      web-stat-filter: # \u76D1\u63A7web
+        enabled: true
+        urlPattern: /*
+        exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
+
+      filter:
+        stat: # \u5BF9\u4E0A\u9762filters\u91CC\u9762\u7684stat\u7684\u8BE6\u7EC6\u914D\u7F6E
+          slow-sql-millis: 1000
+          logSlowSql: true
+          enabled: true
+        wall:
+          enabled: true
+          config:
+            drop-table-allow: false
