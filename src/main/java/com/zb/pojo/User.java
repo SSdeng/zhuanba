@@ -2,6 +2,8 @@ package com.zb.pojo;
 
 import lombok.*;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,4 +20,5 @@ public class User {
   private String academy;
   private String grade;
   private String studentNumber;
+  private List<Role> roles;
 }

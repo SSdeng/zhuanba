@@ -2,6 +2,8 @@ package com.zb.pojo;
 
 import lombok.*;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -10,4 +12,5 @@ import lombok.*;
 public class Role {
   private int id;
   private String name;
+  private List<User> users;
 }

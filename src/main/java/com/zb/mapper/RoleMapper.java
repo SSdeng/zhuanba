@@ -1,6 +1,6 @@
 package com.zb.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zb.pojo.Role;
+import org.apache.ibatis.annotations.Mapper;
 
-public interface RoleMapper extends BaseMapper<Role> {}
+@Mapper
+public interface RoleMapper {}
