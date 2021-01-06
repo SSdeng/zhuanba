@@ -2,8 +2,6 @@ package com.zb.pojo;
 
 import lombok.*;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,5 +19,4 @@ public class Item {
   private int status;
   private int sales;
   private int level;
-  private List<Category> categories;
 }
