@@ -6,39 +6,41 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * 用户相关映射器
+ * UserDAO层
+ * 
+ * @author dengzhijian
+ * @version 1.0
  */
 public interface UserMapper {
-
     /**
-     * 根据用户id删除用户
-     *
-     * @param id 用户id
-     * @return 删除用户数
+     * 根据主键删除商品（真删除）
+     * 
+     * @param id
+     *            主键
      */
     int deleteByPrimaryKey(Integer id);
 
     /**
-     * 添加用户
-     *
-     * @param record 用户
-     * @return 添加用户数
+     * 插入新商品
+     * 
+     * @param record
+     *            待插入商品
      */
     int insert(User record);
 
     /**
-     *安全添加用户
-     *
-     * @param record 用户
-     * @return 添加用户数
+     * 插入新商品（不插入空字段）
+     * 
+     * @param record
+     *            待插入商品
      */
     int insertSelective(User record);
 
     /**
-     * 根据用户id查找用户
-     *
-     * @param id 用户id
-     * @return 查找到的用户
+     * 根据主键查询商品（包含分类列表和用户信息）
+     * 
+     * @param id
+     *            主键
      */
     User selectByPrimaryKey(Integer id);
 
@@ -89,18 +91,18 @@ public interface UserMapper {
     List<User> selectAll();
 
     /**
-     * 安全更新用户
-     *
-     * @param record 用户
-     * @return 更新用户数
+     * 根据主键更新商品（不更新空字段）
+     * 
+     * @param record
+     *            新的商品
      */
     int updateByPrimaryKeySelective(User record);
 
     /**
-     * 更新用户
-     *
-     * @param record 用户
-     * @return 更新用户数
+     * 根据主键更新商品
+     * 
+     * @param record
+     *            新的商品
      */
     int updateByPrimaryKey(User record);
 }

@@ -14,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zb.vo.Result;
+import com.zb.util.Result;
 
 /** 安全认证设置 登录设置 */
 @Configuration

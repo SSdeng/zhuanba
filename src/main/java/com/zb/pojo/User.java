@@ -11,6 +11,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.*;
 
+/**
+ * 用户实体
+ */
 @Data
 @EqualsAndHashCode
 @AllArgsConstructor
