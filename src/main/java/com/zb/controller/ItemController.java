@@ -1,17 +1,17 @@
 package com.zb.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.zb.pojo.Item;
 import com.zb.service.ItemService;
 import com.zb.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 
 /**
  * 商品控制器
  *
  * @author lijiacheng
- * version 1.0
+ * @version 1.0
  */
 @RestController
 @RequestMapping("/api/item")
@@ -34,9 +34,33 @@ public class ItemController {
         return Result.ok("Release Success");
     }
 
+    /**
+     * 查看指定id商品详情
+     *
+     * @param itemId 商品id
+     * @return 查看结果
+     */
     @GetMapping("/details")
-    public Item itemDetails(@RequestParam int itemId){
-        Item item=itemService.selectById(itemId);
+    public Result itemDetails(@RequestParam("itemId") int itemId){
+        Item item=itemService.findById(itemId);
+        if(item == null){
+            return Result.error("Find no item");
+        }
+        return Result.ok("Item Details",item);
+    }
 
+    /**
+     * 分页查找所有商品
+     *
+     * @param pageNo 页码
+     * @param pageSize 单页商品数
+     * @return 分页后所有商品
+     */
+    @GetMapping("/all")
+    public Result itemAll(
+            @RequestParam(value = "pageNo", defaultValue = "1")int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "10")int pageSize){
+        PageInfo<Item> items = itemService.findPage(pageNo,pageSize);
+        return Result.ok("pageAll",items);
     }
 }
