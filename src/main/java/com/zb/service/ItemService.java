@@ -71,6 +71,6 @@ public interface ItemService {
      *            商品id
      * @return 对应Item对象
      */
-    Item selectById(Integer id);
+    Item findById(Integer id);
 
 }

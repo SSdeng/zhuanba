@@ -11,8 +11,18 @@ import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
+    /** 用户映射 */
+    final private UserMapper userMapper;
+
+    /**
+     * 构造器依赖注入
+     *
+     * @param userMapper 用户映射
+     */
     @Autowired
-    private UserMapper userMapper;
+    public UserServiceImpl (UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
 
     /**
      * 注册新用户
@@ -35,8 +45,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean deleteById(int user_id) {
         int res = userMapper.deleteByPrimaryKey(user_id);
-        if (res > 0) return true;
-        else return false;
+        return res > 0;
     }
 
     /**
@@ -59,8 +68,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public boolean hasDuplicateName(String userName) {
-        if (userMapper.findByUsername(userName) == null) return true;
-        else return false;
+        return userMapper.findByUsername(userName) == null;
     }
 
     /**

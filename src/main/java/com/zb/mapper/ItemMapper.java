@@ -39,6 +39,13 @@ public interface ItemMapper {
     int updateByPrimaryKey(Item record);
 
     /**
+     * 分页返回商品列表
+     *
+     * @return 商品列表
+     */
+    List<Item> selectALl();
+
+    /**
      * 根据用户id查找商品
      */
     List<Item> selectByUserId(Integer id);

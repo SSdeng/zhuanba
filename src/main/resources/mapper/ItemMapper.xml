@@ -60,6 +60,10 @@
             select item_id from item_category where category_id = #{id,jdbcType=INTEGER}
         )
     </select>
+    <select id="selectALl" resultType="com.zb.pojo.Item">
+        select *
+        from item
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         <!--@mbg.generated-->
         delete from item
