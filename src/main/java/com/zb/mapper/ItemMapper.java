@@ -1,13 +1,17 @@
 package com.zb.mapper;
 
-import generate.Item;
+import com.zb.pojo.Item;
 
 /**
- * @Entity generate.Item
+ * 商品相关映射器
  */
 public interface ItemMapper {
+
     /**
-     * @mbg.generated
+     * 通过商品id删除商品
+     *
+     * @param id 商品id
+     * @return 删除商品数
      */
     int deleteByPrimaryKey(Integer id);
 

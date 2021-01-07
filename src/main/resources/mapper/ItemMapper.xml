@@ -56,7 +56,7 @@
     delete from item
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="generate.Item" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.zb.pojo.Item" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into item (`name`, description, price, 
       user_id, image, `count`, 
@@ -69,7 +69,7 @@
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{level,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="generate.Item" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.zb.pojo.Item" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into item
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -149,7 +149,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="generate.Item">
+  <update id="updateByPrimaryKeySelective" parameterType="com.zb.pojo.Item">
     <!--@mbg.generated-->
     update item
     <set>
@@ -192,7 +192,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="generate.Item">
+  <update id="updateByPrimaryKey" parameterType="com.zb.pojo.Item">
     <!--@mbg.generated-->
     update item
     set `name` = #{name,jdbcType=VARCHAR},
