@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @MapperScan("com.zb.mapper")
 public class ZhuanbaApplication {
 
-  public static void main(String[] args) {
-    SpringApplication.run(ZhuanbaApplication.class, args);
-  }
+    public static void main(String[] args) {
+        SpringApplication.run(ZhuanbaApplication.class, args);
+    }
 }

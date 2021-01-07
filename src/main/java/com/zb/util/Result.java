@@ -20,7 +20,7 @@ public class Result {
     /** 返回信息 */
     private String msg;
     /** 数据 */
-    private Object obj;
+    private Object data;
 
     public static Result build() {
         return new Result();
