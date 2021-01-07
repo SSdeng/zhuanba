@@ -4,11 +4,14 @@ import com.zb.mapper.CategoryMapper;
 import com.zb.pojo.Category;
 import com.zb.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * 类别服务实现类
  *
+ * @author YeFeng
  */
+@Service
 public class CategoryServiceImpl implements CategoryService {
     /** 类别映射 */
     final private CategoryMapper categoryMapper;

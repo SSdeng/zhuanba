@@ -7,8 +7,9 @@ import com.zb.pojo.User;
 
 /**
  * 用户服务接口
+ *
+ * @author YeFeng
  */
-@Service
 public interface UserService {
     /**
      * 注册新用户

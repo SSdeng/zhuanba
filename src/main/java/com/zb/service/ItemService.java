@@ -7,8 +7,9 @@ import com.zb.pojo.Item;
 
 /**
  * 商品服务接口
+ *
+ * @author YeFeng
  */
-@Service
 public interface ItemService {
 
     /**

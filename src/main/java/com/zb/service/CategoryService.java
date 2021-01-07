@@ -5,7 +5,12 @@ import org.springframework.stereotype.Service;
 
 import com.zb.pojo.Category;
 
-@Service
+
+/**
+ * 类别服务接口
+ *
+ * @author YeFeng
+ */
 public interface CategoryService {
 
     /**

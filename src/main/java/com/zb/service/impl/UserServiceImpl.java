@@ -6,12 +6,16 @@ import com.zb.mapper.UserMapper;
 import com.zb.pojo.User;
 import com.zb.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * 用户服务实现类
+ *
+ * @author YeFeng
  */
+@Service
 public class UserServiceImpl implements UserService {
 
     /**

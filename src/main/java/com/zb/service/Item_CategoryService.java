@@ -7,6 +7,7 @@ import java.util.List;
 /**
  * 商品-类别服务接口
  *
+ * @author YeFeng
  */
 public interface Item_CategoryService {
 
