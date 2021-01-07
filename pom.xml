@@ -47,6 +47,25 @@
             <artifactId>pagehelper-spring-boot-starter</artifactId>
             <version>1.2.11</version>
         </dependency>
+        <!--  shiro  -->
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.crazycake</groupId>
+            <artifactId>shiro-redis</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+
+        <!--apache.codec:编码方法的工具类包
+        https://blog.csdn.net/u012881904/article/details/52767853-->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -73,6 +92,14 @@
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>
             <version>3.3</version>
+        </dependency>
+        <!--编写更少量的代码：使用apache commons工具类库:
+        https://www.cnblogs.com/ITtangtang/p/3966955.html-->
+        <!--apache.commons.lang3-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.8.1</version>
         </dependency>
     </dependencies>
 

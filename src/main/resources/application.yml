@@ -4,31 +4,10 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
-
-    druid:
-      aop-patterns: com.zb.*
-      filters: stat,wall
-
-      stat-view-servlet:
-        enabled: true
-        login-username: admin
-        login-password: admin
-        resetEnable: false
-
-      web-stat-filter:
-        enabled: true
-        urlPattern: /*
-        exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
-
-      filter:
-        stat:
-          slow-sql-millis: 1000
-          logSlowSql: true
-          enabled: true
-        wall:
-          enabled: true
-          config:
-            drop-table-allow: false
+  redis:
+    host: localhost
+    port: 6379
+    timeout: 2000s
 mybatis:
   mapper-locations: classpath:mapper/*.xml  #sql映射文件位置
   type-aliases-package: com.zb.pojo  # 开启别名

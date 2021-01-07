@@ -1,5 +1,8 @@
 package com.zb.exception;
 
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -29,9 +32,33 @@ public class ExceptionHandler {
         return Result.error(e.getMsg());
     }
 
+    /**
+     * 处理数据库插入异常
+     * 
+     * @param e
+     * @return
+     */
     @org.springframework.web.bind.annotation.ExceptionHandler(DataIntegrityViolationException.class)
     public Result DaoExceptionHandler(DataIntegrityViolationException e) {
         log.error("发生异常！原因是:{}", e.getMessage());
         return Result.error("含有重复字段");
     }
+
+    /**
+     * 处理认证异常
+     * 
+     * @param e
+     * @return
+     */
+    @org.springframework.web.bind.annotation.ExceptionHandler(AuthenticationException.class)
+    public Result authExceptionHandler(AuthenticationException e) {
+        log.error("发生异常！原因是:{}", e.getMessage());
+        if (e instanceof UnknownAccountException) {
+            return Result.error("用户名不存在");
+        } else if (e instanceof IncorrectCredentialsException) {
+            return Result.error("密码错误");
+        }
+        return Result.error("认证出错");
+    }
+
 }
