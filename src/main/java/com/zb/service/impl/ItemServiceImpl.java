@@ -4,11 +4,16 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zb.mapper.ItemMapper;
 import com.zb.pojo.Item;
+import com.zb.pojo.Item_Category;
 import com.zb.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
+/**
+ * 商品服务实现类
+ *
+ */
 public class ItemServiceImpl implements ItemService {
 
     /** 商品映射 */

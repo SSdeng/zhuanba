@@ -1,5 +1,6 @@
 package com.zb.service;
 
+import com.zb.pojo.User;
 import org.springframework.stereotype.Service;
 
 import com.zb.pojo.Category;
@@ -17,22 +18,26 @@ public interface CategoryService {
     Category insertSelective(Category newCategory);
 
     /**
-     * 给商品批量添加所属类别
+     * 根据类别id删除类别
      *
-     * @param item_id
-     *            商品id
-     * @param category_ids
-     *            类别id组
+     * @param category_id 类别id
+     * @return 删除结果
      */
-    void insertList(int item_id, int[] category_ids);
+    boolean deleteById(int category_id);
 
     /**
-     * 根据商品id删除商品-类别关联数据
+     * 更新类别信息
      *
-     * @param item_id
-     *            商品id
-     * @return 删除数据数
+     * @param category 待更新对象
+     * @return 更新后对象
      */
-    int removeByItem_id(int item_id);
+    Category updateCategory(Category category);
 
+    /**
+     * 根据类别名查找类别
+     *
+     * @param categoryName 类别名
+     * @return 类别对象
+     */
+    Category findByName(String categoryName);
 }
