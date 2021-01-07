@@ -1,12 +1,19 @@
-package com.zb.vo;
+package com.zb.util;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * 用于向前端传输操作结果响应
+ * 
+ * @author dengzhijian
+ * @version 1.1
+ */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Result {
     /** 状态码 */
     private Integer code;
@@ -28,10 +35,10 @@ public class Result {
     }
 
     public static Result error(String msg, Object obj) {
-        return new Result(-1, msg, obj);
+        return new Result(1, msg, obj);
     }
 
     public static Result error(String msg) {
-        return new Result(-1, msg, null);
+        return new Result(1, msg, null);
     }
 }

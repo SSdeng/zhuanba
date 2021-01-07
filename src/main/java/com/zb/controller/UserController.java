@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.zb.pojo.User;
 import com.zb.service.UserService;
-import com.zb.vo.Result;
+import com.zb.util.Result;
 
 /**
  * @author dengzhijian
