@@ -7,6 +7,8 @@ import com.zb.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 /**
  * 商品控制器
  *
@@ -17,8 +19,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/item")
 public class ItemController {
 
+    final ItemService itemService;
+
+    /**
+     * 构造器依赖注入
+     *
+     * @param itemService 商品服务
+     */
     @Autowired
-    private ItemService itemService;
+    public ItemController(ItemService itemService) {
+        this.itemService = itemService;
+    }
 
     /**
      * 商品发布处理
@@ -27,8 +38,15 @@ public class ItemController {
      * @return 发布结果
      */
     @PostMapping("/release")
-    public Result releaseItem(@RequestBody Item item){
-        if(itemService.insert(item)==null){
+    public Result releaseItem(@RequestBody Map<String,String> map){
+        Item item = new Item();
+        item.setName(map.get("itemname"));
+        item.setDescription(map.get("description"));
+        item.setLevel(Integer.parseInt(map.get("level")));
+        item.setPrice(Double.parseDouble(map.get("price")));
+        item.setCount(Integer.parseInt(map.get("count")));
+        int userId = Integer.parseInt(map.get("userId"));
+        if(itemService.insert(item,userId)==null){
             return Result.error("Error Occured");
         }
         return Result.ok("Release Success");

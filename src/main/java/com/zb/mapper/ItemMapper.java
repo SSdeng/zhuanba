@@ -25,16 +25,20 @@ public interface ItemMapper {
      * 
      * @param record
      *            待插入商品
+     * @param userId
+     *            待插入外键
      */
-    int insert(Item record);
+    int insert(Item record, int userId);
 
     /**
      * 插入新商品（不插入空字段）
      * 
      * @param record
      *            待插入商品
+     * @param userId
+     *            待插入外键
      */
-    int insertSelective(Item record);
+    int insertSelective(Item record, int userId);
 
     /**
      * 根据主键查询商品（包含分类列表和用户信息）
@@ -83,5 +87,5 @@ public interface ItemMapper {
      * @param info 输入信息
      * @return 查询结果商品列表
      */
-    List<Item> selectByInfo(@Param("info") String info);
+    List<Item> selectByInfo(String info);
 }

@@ -37,11 +37,13 @@ public class ItemServiceImpl implements ItemService {
      *
      * @param newItem
      *            新增Item对象
+     * @param userId
+     *            新增Item的外键
      * @return 插入后Item对象
      */
     @Override
-    public Item insert(Item newItem) {
-        itemMapper.insertSelective(newItem);
+    public Item insert(Item newItem,int userId) {
+        itemMapper.insertSelective(newItem, userId);
         return newItem;
     }
 
