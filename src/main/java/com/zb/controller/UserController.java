@@ -1,6 +1,7 @@
 package com.zb.controller;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -70,7 +71,9 @@ public class UserController {
      * @return
      */
     @PostMapping("/login")
-    public Result login(String username, String password) {
+    public Result login(@RequestBody Map map) {
+        String username = (String)map.get("username");
+        String password = (String)map.get("password");
         User user = userService.login(username, password);
         return Result.ok("登录成功", new HashMap<>().put("userId", user.getId()));
     }

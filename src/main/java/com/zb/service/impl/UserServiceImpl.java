@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
      *            用户映射
      */
     @Autowired
-    public UserServiceImpl (UserMapper userMapper) {
+    public UserServiceImpl(UserMapper userMapper) {
         this.userMapper = userMapper;
     }
 
@@ -47,10 +47,10 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User insert(User newUser) {
-        if (hasDuplicateName(newUser.getUsername()) || findByPhoneNumber(newUser.getPhoneNumber()) != null
-            || findByStudentNumber(newUser.getStudentNumber()) != null) {
-            return null;
-        }
+        // if (hasDuplicateName(newUser.getUsername()) || findByPhoneNumber(newUser.getPhoneNumber()) != null
+        // || findByStudentNumber(newUser.getStudentNumber()) != null) {
+        // return null;
+        // }
         userMapper.insertSelective(newUser);
         return newUser;
     }
