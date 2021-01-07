@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Result {
     /** 状态码 */
-    private Integer status;
+    private Integer code;
     /** 返回信息 */
-    private String result;
+    private String msg;
     /** 数据 */
     private Object obj;
 

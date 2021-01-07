@@ -5,6 +5,9 @@ import java.util.List;
 
 import lombok.*;
 
+/**
+ * 商品实体
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

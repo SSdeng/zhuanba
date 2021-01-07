@@ -6,26 +6,41 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * @Entity generate.User
+ * UserDAO层
+ * 
+ * @author dengzhijian
+ * @version 1.0
  */
 public interface UserMapper {
     /**
-     * @mbg.generated
+     * 根据主键删除商品（真删除）
+     * 
+     * @param id
+     *            主键
      */
     int deleteByPrimaryKey(Integer id);
 
     /**
-     * @mbg.generated
+     * 插入新商品
+     * 
+     * @param record
+     *            待插入商品
      */
     int insert(User record);
 
     /**
-     * @mbg.generated
+     * 插入新商品（不插入空字段）
+     * 
+     * @param record
+     *            待插入商品
      */
     int insertSelective(User record);
 
     /**
-     * @mbg.generated
+     * 根据主键查询商品（包含分类列表和用户信息）
+     * 
+     * @param id
+     *            主键
      */
     User selectByPrimaryKey(Integer id);
 
@@ -76,12 +91,18 @@ public interface UserMapper {
     List<User> selectAll();
 
     /**
-     * @mbg.generated
+     * 根据主键更新商品（不更新空字段）
+     * 
+     * @param record
+     *            新的商品
      */
     int updateByPrimaryKeySelective(User record);
 
     /**
-     * @mbg.generated
+     * 根据主键更新商品
+     * 
+     * @param record
+     *            新的商品
      */
     int updateByPrimaryKey(User record);
 }
