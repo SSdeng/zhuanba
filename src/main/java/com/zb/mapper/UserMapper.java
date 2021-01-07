@@ -1,6 +1,6 @@
 package com.zb.mapper;
 
-import generate.User;
+import com.zb.pojo.User;
 
 /**
  * @Entity generate.User
