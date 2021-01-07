@@ -5,41 +5,65 @@ import java.util.List;
 import com.zb.pojo.Category;
 
 /**
- * @Entity generate.Category
+ * CategoryDAO层
+ * 
+ * @author dengzhijian
+ * @version 1.0
  */
 public interface CategoryMapper {
     /**
-     * @mbg.generated
+     * 根据主键删除分类（真删除）
+     * 
+     * @param id
+     *            主键
      */
     int deleteByPrimaryKey(Integer id);
 
     /**
-     * @mbg.generated
+     * 插入新分类
+     * 
+     * @param record
+     *            待插入分类
      */
     int insert(Category record);
 
     /**
-     * @mbg.generated
+     * 插入新分类（不插入空字段）
+     * 
+     * @param record
+     *            待插入分类
      */
     int insertSelective(Category record);
 
     /**
-     * @mbg.generated
+     * 根据主键查询分类（包含商品列表）
+     * 
+     * @param id
+     *            主键
      */
     Category selectByPrimaryKey(Integer id);
 
     /**
-     * 根据商品id获取
+     * 根据商品id获取简单分类列表
+     * 
+     * @param id
+     *            主键
      */
     List<Category> selectByItemId(Integer id);
 
     /**
-     * @mbg.generated
+     * 根据主键更新分类（不更新空字段）
+     * 
+     * @param record
+     *            新的分类
      */
     int updateByPrimaryKeySelective(Category record);
 
     /**
-     * @mbg.generated
+     * 根据主键更新分类
+     * 
+     * @param record
+     *            新的分类
      */
     int updateByPrimaryKey(Category record);
 }
