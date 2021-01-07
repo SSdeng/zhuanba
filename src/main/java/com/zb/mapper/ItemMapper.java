@@ -1,17 +1,15 @@
 package com.zb.mapper;
 
+import java.util.List;
+
 import com.zb.pojo.Item;
 
 /**
- * 商品相关映射器
+ * @Entity generate.Item
  */
 public interface ItemMapper {
-
     /**
-     * 通过商品id删除商品
-     *
-     * @param id 商品id
-     * @return 删除商品数
+     * @mbg.generated
      */
     int deleteByPrimaryKey(Integer id);
 
@@ -41,7 +39,12 @@ public interface ItemMapper {
     int updateByPrimaryKey(Item record);
 
     /**
-     *
+     * 根据用户id查找商品
      */
-    Item selectByUserId(Integer userId);
+    List<Item> selectByUserId(Integer id);
+
+    /**
+     * 根据分类id查找所有商品
+     */
+    List<Item> selectByCategoryId(Integer id);
 }
