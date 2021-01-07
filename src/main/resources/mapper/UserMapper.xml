@@ -46,6 +46,40 @@
     from user
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="findByUsername" resultType="com.zb.pojo.User">
+    select
+    <include refid="User_Column_List"/>
+    from user
+    where username = #{username,jdbcType=VARCHAR}
+  </select>
+  <select id="findByUsernameAndPassword" resultType="com.zb.pojo.User">
+    select
+    <include refid="User_Column_List"/>
+    from user
+    where username = #{username,jdbcType=VARCHAR}
+    and password = #{password,jdbcType=VARCHAR}
+  </select>
+  <select id="count" resultType="java.lang.Integer">
+    select count(1)
+    from user
+  </select>
+  <select id="selectAll" resultType="com.zb.pojo.User">
+    select
+    <include refid="User_Column_List"/>
+    from user
+  </select>
+  <select id="findByStudentNumber" resultType="com.zb.pojo.User">
+    select
+    <include refid="User_Column_List"/>
+    from user
+    where student_number = #{studentNumber,jdbcType=VARCHAR}
+  </select>
+  <select id="findByPhoneNumber" resultType="com.zb.pojo.User">
+    select
+    <include refid="User_Column_List"/>
+    from user
+    where phone_number = #{phoneNumber,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--@mbg.generated-->
     delete from user

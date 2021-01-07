@@ -1,6 +1,6 @@
 package com.zb.mapper;
 
-import generate.Category;
+import com.zb.pojo.Category;
 
 /**
  * @Entity generate.Category

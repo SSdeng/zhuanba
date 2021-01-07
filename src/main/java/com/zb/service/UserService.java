@@ -83,10 +83,10 @@ public interface UserService {
     /**
      * 根据学号查找用户
      *
-     * @param schoolNumber 学号
+     * @param studentNumber 学号
      * @return 对应User对象
      */
-    User findBySchoolNumber(String schoolNumber);
+    User findByStudentNumber(String studentNumber);
 
     /**
      * 根据手机号查找用户

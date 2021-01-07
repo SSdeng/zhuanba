@@ -1,6 +1,7 @@
 package com.zb.mapper;
 
-import generate.Item;
+
+import com.zb.pojo.Item;
 
 /**
  * @Entity generate.Item
