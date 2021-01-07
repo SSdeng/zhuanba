@@ -10,10 +10,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * 用户服务实现类
+ *
+ * @author YeFeng
+ */
 @Service
 public class UserServiceImpl implements UserService {
 
-    /** 用户映射 */
+    /**
+     * 用户映射
+     */
     final private UserMapper userMapper;
 
     /**
@@ -34,6 +41,11 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User insert(User newUser) {
+        if (hasDuplicateName(newUser.getUsername())
+                || findByPhoneNumber(newUser.getPhoneNumber()) != null
+                || findByStudentNumber(newUser.getStudentNumber()) != null) {
+            return null;
+        }
         userMapper.insertSelective(newUser);
         return newUser;
     }
@@ -98,7 +110,7 @@ public class UserServiceImpl implements UserService {
     /**
      * 分页查询
      *
-     * @param pageNo 起始页码
+     * @param pageNo   起始页码
      * @param pageSize 分页大小
      * @return 用户列表
      */

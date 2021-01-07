@@ -8,13 +8,25 @@ import com.zb.service.UserService;
 import com.zb.util.Result;
 
 /**
+ * 用户控制器
+ *
  * @author dengzhijian
  * @version 1.0
  **/
 @RestController
 public class UserController {
+
+    final UserService userService;
+
+    /**
+     * 构造器依赖注入
+     *
+     * @param userService 用户服务
+     */
     @Autowired
-    UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     /**
      * 获取用户信息

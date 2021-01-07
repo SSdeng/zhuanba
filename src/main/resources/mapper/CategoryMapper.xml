@@ -31,6 +31,12 @@
         select category_id from item_category where item_id=#{id,jdbcType=INTEGER}
         )
     </select>
+    <select id="findByName" resultType="com.zb.pojo.Category">
+        select
+        <include refid="Base_Column_List"/>
+        from category
+        where name = #{name,jdbc=VARCHAR}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         <!--@mbg.generated-->
         delete from category

@@ -3,6 +3,7 @@ package com.zb.mapper;
 import java.util.List;
 
 import com.zb.pojo.Category;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * CategoryDAO层
@@ -66,4 +67,12 @@ public interface CategoryMapper {
      *            新的分类
      */
     int updateByPrimaryKey(Category record);
+
+    /**
+     * 按类别名查找类别
+     *
+     * @param name 类别名
+     * @return 类别对象
+     */
+    Category findByName(@Param("name") String name);
 }
