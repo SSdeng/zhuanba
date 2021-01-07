@@ -1,11 +1,14 @@
 package com.zb.service;
 
+import org.springframework.stereotype.Service;
+
 import com.github.pagehelper.PageInfo;
 import com.zb.pojo.User;
 
 /**
  * 用户服务接口
  */
+@Service
 public interface UserService {
     /**
      * 注册新用户

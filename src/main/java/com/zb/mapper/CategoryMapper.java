@@ -1,5 +1,7 @@
 package com.zb.mapper;
 
+import java.util.List;
+
 import com.zb.pojo.Category;
 
 /**
@@ -25,6 +27,11 @@ public interface CategoryMapper {
      * @mbg.generated
      */
     Category selectByPrimaryKey(Integer id);
+
+    /**
+     * 根据商品id获取
+     */
+    List<Category> selectByItemId(Integer id);
 
     /**
      * @mbg.generated

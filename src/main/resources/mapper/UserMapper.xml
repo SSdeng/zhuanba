@@ -2,47 +2,47 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zb.mapper.UserMapper">
 
-  <resultMap id="UserResultMap" type="com.zb.pojo.User">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="username" jdbcType="VARCHAR" property="username" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="real_name" jdbcType="VARCHAR" property="realName" />
-    <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber" />
-    <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="gender" jdbcType="INTEGER" property="gender" />
-    <result column="academy" jdbcType="VARCHAR" property="academy" />
-    <result column="grade" jdbcType="VARCHAR" property="grade" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="student_number" jdbcType="VARCHAR" property="studentNumber" />
-    <result column="deleted" jdbcType="INTEGER" property="deleted" />
-    <result column="role" jdbcType="VARCHAR" property="role" />
-    <collection column="user_id" ofType="com.zb.pojo.Item" property="items" fetchType="lazy"
+  <resultMap id="UserResultMap" type="user">
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="username" jdbcType="VARCHAR" property="username"/>
+    <result column="password" jdbcType="VARCHAR" property="password"/>
+    <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+    <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber"/>
+    <result column="email" jdbcType="VARCHAR" property="email"/>
+    <result column="gender" jdbcType="INTEGER" property="gender"/>
+    <result column="academy" jdbcType="VARCHAR" property="academy"/>
+    <result column="grade" jdbcType="VARCHAR" property="grade"/>
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    <result column="student_number" jdbcType="VARCHAR" property="studentNumber"/>
+    <result column="deleted" jdbcType="INTEGER" property="deleted"/>
+    <result column="role" jdbcType="VARCHAR" property="role"/>
+    <collection column="id" ofType="com.zb.pojo.Item" property="items" fetchType="lazy"
                 select="com.zb.mapper.ItemMapper.selectByUserId">
-      <id column="id" jdbcType="INTEGER" property="id" />
-      <result column="name" jdbcType="VARCHAR" property="name" />
-      <result column="description" jdbcType="VARCHAR" property="description" />
-      <result column="price" jdbcType="DECIMAL" property="price" />
-      <result column="image" jdbcType="VARCHAR" property="image" />
-      <result column="count" jdbcType="INTEGER" property="count" />
-      <result column="deleted" jdbcType="INTEGER" property="deleted" />
-      <result column="status" jdbcType="INTEGER" property="status" />
-      <result column="sales" jdbcType="INTEGER" property="sales" />
-      <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-      <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-      <result column="level" jdbcType="INTEGER" property="level" />
+      <id column="id" jdbcType="INTEGER" property="id"/>
+      <result column="name" jdbcType="VARCHAR" property="name"/>
+      <result column="description" jdbcType="VARCHAR" property="description"/>
+      <result column="price" jdbcType="DECIMAL" property="price"/>
+      <result column="image" jdbcType="VARCHAR" property="image"/>
+      <result column="count" jdbcType="INTEGER" property="count"/>
+      <result column="deleted" jdbcType="INTEGER" property="deleted"/>
+      <result column="status" jdbcType="INTEGER" property="status"/>
+      <result column="sales" jdbcType="INTEGER" property="sales"/>
+      <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+      <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+      <result column="level" jdbcType="INTEGER" property="level"/>
     </collection>
   </resultMap>
 
   <sql id="User_Column_List">
-    id, username, `password`, real_name, phone_number, email, gender, academy, grade, 
+    id, username, `password`, real_name, phone_number, email, gender, academy, grade,
     create_time, update_time, student_number, deleted, `role`
   </sql>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="UserResultMap">
     <!--@mbg.generated-->
-    select 
-    <include refid="User_Column_List" />
+    select
+    <include refid="User_Column_List"/>
     from user
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -85,20 +85,20 @@
     delete from user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="generate.User" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="user" useGeneratedKeys="true">
     <!--@mbg.generated-->
-    insert into user (username, `password`, real_name, 
-      phone_number, email, gender, 
-      academy, grade, create_time, 
-      update_time, student_number, deleted, 
-      `role`)
-    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, 
-      #{phoneNumber,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, 
-      #{academy,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{studentNumber,jdbcType=VARCHAR}, #{deleted,jdbcType=INTEGER}, 
-      #{role,jdbcType=VARCHAR})
+    insert into user (username, `password`, real_name,
+    phone_number, email, gender,
+    academy, grade, create_time,
+    update_time, student_number, deleted,
+    `role`)
+    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR},
+    #{phoneNumber,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER},
+    #{academy,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+    #{updateTime,jdbcType=TIMESTAMP}, #{studentNumber,jdbcType=VARCHAR}, #{deleted,jdbcType=INTEGER},
+    #{role,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="generate.User" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="user" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -184,7 +184,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="generate.User">
+  <update id="updateByPrimaryKeySelective" parameterType="user">
     <!--@mbg.generated-->
     update user
     <set>
@@ -230,22 +230,22 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="generate.User">
+  <update id="updateByPrimaryKey" parameterType="user">
     <!--@mbg.generated-->
     update user
     set username = #{username,jdbcType=VARCHAR},
-      `password` = #{password,jdbcType=VARCHAR},
-      real_name = #{realName,jdbcType=VARCHAR},
-      phone_number = #{phoneNumber,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR},
-      gender = #{gender,jdbcType=INTEGER},
-      academy = #{academy,jdbcType=VARCHAR},
-      grade = #{grade,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      student_number = #{studentNumber,jdbcType=VARCHAR},
-      deleted = #{deleted,jdbcType=INTEGER},
-      `role` = #{role,jdbcType=VARCHAR}
+    `password` = #{password,jdbcType=VARCHAR},
+    real_name = #{realName,jdbcType=VARCHAR},
+    phone_number = #{phoneNumber,jdbcType=VARCHAR},
+    email = #{email,jdbcType=VARCHAR},
+    gender = #{gender,jdbcType=INTEGER},
+    academy = #{academy,jdbcType=VARCHAR},
+    grade = #{grade,jdbcType=VARCHAR},
+    create_time = #{createTime,jdbcType=TIMESTAMP},
+    update_time = #{updateTime,jdbcType=TIMESTAMP},
+    student_number = #{studentNumber,jdbcType=VARCHAR},
+    deleted = #{deleted,jdbcType=INTEGER},
+    `role` = #{role,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

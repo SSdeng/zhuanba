@@ -1,5 +1,6 @@
 package com.zb.mapper;
 
+import java.util.List;
 
 import com.zb.pojo.Item;
 
@@ -38,7 +39,12 @@ public interface ItemMapper {
     int updateByPrimaryKey(Item record);
 
     /**
-     *
+     * 根据用户id查找商品
      */
-    Item selectByUserId(Integer userId);
+    List<Item> selectByUserId(Integer id);
+
+    /**
+     * 根据分类id查找所有商品
+     */
+    List<Item> selectByCategoryId(Integer id);
 }
