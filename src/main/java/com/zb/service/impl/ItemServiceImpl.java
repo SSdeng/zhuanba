@@ -1,18 +1,29 @@
 package com.zb.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zb.mapper.ItemMapper;
 import com.zb.pojo.Item;
 import com.zb.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- * 商品服务
- */
+import java.util.List;
+
 public class ItemServiceImpl implements ItemService {
 
+    /** 商品映射 */
+    final private ItemMapper itemMapper;
+
+    /**
+     * 构造器依赖注入
+     *
+     * @param itemMapper 商品映射
+     */
     @Autowired
-    private ItemMapper itemMapper;
+    public ItemServiceImpl(ItemMapper itemMapper) {
+        this.itemMapper = itemMapper;
+    }
+
     /**
      * 发布商品
      *
@@ -20,8 +31,9 @@ public class ItemServiceImpl implements ItemService {
      *            新增Item对象
      * @return 插入后Item对象
      */
-    public Item insert(Item newItem){
-        itemMapper.insert(newItem);
+    @Override
+    public Item insert(Item newItem) {
+        itemMapper.insertSelective(newItem);
         return newItem;
     }
 
@@ -32,11 +44,10 @@ public class ItemServiceImpl implements ItemService {
      *            商品id
      * @return 删除结果
      */
-    public boolean deleteById(int item_id){
-        if(itemMapper.deleteByPrimaryKey(item_id) == 0){
-            return false;
-        }
-        return true;
+    @Override
+    public boolean deleteById(int item_id) {
+        int cnt = itemMapper.deleteByPrimaryKey(item_id);
+        return cnt > 0;
     }
 
     /**
@@ -46,7 +57,8 @@ public class ItemServiceImpl implements ItemService {
      *            需更新Item对象
      * @return 更新后Item对象
      */
-    Item updateItemInfo(Item item){
+    @Override
+    public Item updateItemInfo(Item item) {
         itemMapper.updateByPrimaryKeySelective(item);
         return item;
     }
@@ -64,7 +76,11 @@ public class ItemServiceImpl implements ItemService {
      *            新审核状态
      * @return 修改后的Item对象
      */
-    Item setAuditStatus(int item_id, int manager_id, int status);
+    @Override
+    public Item setAuditStatus(int item_id, int manager_id, int status) {
+        //TODO
+        return null;
+    }
 
     /**
      * 分页查询
@@ -75,7 +91,12 @@ public class ItemServiceImpl implements ItemService {
      *            分页大小
      * @return 商品列表
      */
-    PageInfo<Item> findPage(int pageNo, int pageSize);
+    @Override
+    public PageInfo<Item> findPage(int pageNo, int pageSize) {
+        PageHelper.startPage(pageNo, pageSize);
+        List<Item> list = itemMapper.selectALl();
+        return new PageInfo<>(list);
+    }
 
     /**
      * 根据商品id查找商品
@@ -84,5 +105,9 @@ public class ItemServiceImpl implements ItemService {
      *            商品id
      * @return 对应Item对象
      */
-    Item selectById(Integer id);
+    @Override
+    public Item findById(Integer id) {
+        return itemMapper.selectByPrimaryKey(id);
+    }
+
 }
