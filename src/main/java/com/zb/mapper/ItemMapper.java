@@ -3,6 +3,7 @@ package com.zb.mapper;
 import java.util.List;
 
 import com.zb.pojo.Item;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * ItemDAO层
@@ -75,4 +76,12 @@ public interface ItemMapper {
      * 根据商品id查找所有商品
      */
     List<Item> selectByCategoryId(Integer id);
+
+    /**
+     * 根据输入信息模糊查询商品
+     *
+     * @param info 输入信息
+     * @return 查询结果商品列表
+     */
+    List<Item> selectByInfo(@Param("info") String info);
 }

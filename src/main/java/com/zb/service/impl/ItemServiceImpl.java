@@ -6,9 +6,11 @@ import com.zb.mapper.ItemMapper;
 import com.zb.pojo.Item;
 import com.zb.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ItemServiceImpl implements ItemService {
 
     /** 商品映射 */
@@ -110,4 +112,18 @@ public class ItemServiceImpl implements ItemService {
         return itemMapper.selectByPrimaryKey(id);
     }
 
+    /**
+     * 分页搜索商品
+     *
+     * @param info 搜索信息
+     * @param pageNo 起始页码
+     * @param pageSize 分页大小
+     * @return 结果商品列表
+     */
+    @Override
+    public PageInfo<Item> searchPage(String info, int pageNo, int pageSize){
+        PageHelper.startPage(pageNo, pageSize);
+        List<Item> list = itemMapper.selectByInfo(info);
+        return new PageInfo<>(list);
+    }
 }

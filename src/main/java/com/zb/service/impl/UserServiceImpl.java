@@ -6,9 +6,11 @@ import com.zb.mapper.UserMapper;
 import com.zb.pojo.User;
 import com.zb.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class UserServiceImpl implements UserService {
 
     /** 用户映射 */

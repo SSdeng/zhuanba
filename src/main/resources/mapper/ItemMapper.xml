@@ -64,6 +64,12 @@
         select *
         from item
     </select>
+    <select id="selectByInfo" parameterType="string" resultType="com.zb.pojo.Item">
+        <bind name="pattern" value="'%' + info + '%'" />
+        select *
+        from item
+        where name like #{pattern} or description like #{pattern}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         <!--@mbg.generated-->
         delete from item

@@ -52,8 +52,8 @@ public class ItemController {
     /**
      * 分页查找所有商品
      *
-     * @param pageNo 页码
-     * @param pageSize 单页商品数
+     * @param pageNo 起始页码
+     * @param pageSize 分页大小
      * @return 分页后所有商品
      */
     @GetMapping("/all")
@@ -63,4 +63,22 @@ public class ItemController {
         PageInfo<Item> items = itemService.findPage(pageNo,pageSize);
         return Result.ok("pageAll",items);
     }
+
+    /**
+     * 根据输入信息搜索商品
+     *
+     * @param searchInfo 搜索信息
+     * @param pageNo 起始页码
+     * @param pageSize 分页大小
+     * @return 分页后搜索结果
+     */
+    @GetMapping("/search")
+    public Result itemSearch(
+            @RequestParam("searchInfo") String searchInfo,
+            @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
+        PageInfo<Item> items = itemService.searchPage(searchInfo,pageNo,pageSize);
+        return Result.ok("searchResultPage",items);
+    }
+
 }

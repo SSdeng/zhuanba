@@ -73,4 +73,13 @@ public interface ItemService {
      */
     Item findById(Integer id);
 
+    /**
+     * 分页搜索商品
+     *
+     * @param info 搜索信息
+     * @param pageNo 起始页码
+     * @param pageSize 分页大小
+     * @return 结果商品列表
+     */
+    PageInfo<Item> searchPage(String info, int pageNo, int pageSize);
 }
