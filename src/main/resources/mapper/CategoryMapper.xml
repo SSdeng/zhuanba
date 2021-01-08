@@ -17,6 +17,12 @@
         <!--@mbg.generated-->
         id, `name`, deleted, create_time, update_time
     </sql>
+
+    <!-- 只返回部门的id及姓名 -->
+    <sql id="Base_information_List">
+        <!--@mbg.generated-->
+        id, `name`
+    </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         <!--@mbg.generated-->
         select
@@ -111,7 +117,9 @@
         where id = #{id,jdbcType=INTEGER}
     </update>
     <select id="selectAll" resultType="com.zb.entity.Category">
-        select *
+        select
+        <include refid="Base_information_List"/>
         from catalog
+        where delete = 0
     </select>
 </mapper>
