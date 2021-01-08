@@ -1,9 +1,9 @@
 package com.zb.mapper;
 
-import java.util.List;
-
 import com.zb.pojo.Category;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * CategoryDAO层
@@ -75,4 +75,11 @@ public interface CategoryMapper {
      * @return 类别对象
      */
     Category findByName(@Param("name") String name);
+
+    /**
+     * 分页返回分类列表
+     *
+     * @return 商品列表
+     */
+     List<Category> selectAll();
 }

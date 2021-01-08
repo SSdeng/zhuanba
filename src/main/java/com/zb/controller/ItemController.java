@@ -102,26 +102,33 @@ public class ItemController {
         return Result.ok("searchResultPage",items);
     }
 
+    /**
+     * 接受文件图片
+     *
+     * @param itemId
+     * @param image
+     */
     @PostMapping("/upload")
-    public Result uploadPicture(@RequestParam("itemId") int itemId, @RequestParam("image")MultipartFile image){
+    public void uploadPicture(@RequestParam("itemId") int itemId, @RequestParam("image")MultipartFile image){
 
-        String itemPictureName = new String();
+        //String itemPictureName = new String();
 
         try {
             //使用图片上传工具类，接受文件后，返回文件的新名称
-            itemPictureName = FileUtil.uploadFile(image);
+            String itemPictureName = FileUtil.uploadFile(image);
+
+            Item item = itemService.findById(itemId);
+
+            item.setImage(itemPictureName);
+
+            itemService.updateItemInfo(item);
+
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        Item item = itemService.findById(itemId);
-
-        item.setImage(itemPictureName);
-
-        itemService.updateItemInfo(item);
-
-        return Result.ok("upload success");
+        //return Result.ok("upload success");
 
     }
 

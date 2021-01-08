@@ -110,4 +110,8 @@
         update_time = #{updateTime,jdbcType=TIMESTAMP}
         where id = #{id,jdbcType=INTEGER}
     </update>
+    <select id="selectAll" resultType="com.zb.pojo.Category">
+        select *
+        from catalog
+    </select>
 </mapper>
