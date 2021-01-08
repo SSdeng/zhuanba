@@ -1,5 +1,6 @@
 package com.zb.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +14,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class User {
+public class User implements Serializable {
+    private static final long serialVersionUID = -2249088288605052627L;
     private Integer id;
     private String username;
     private String password;
