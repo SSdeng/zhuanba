@@ -12,6 +12,6 @@
     </settings>
     <!--  开启别名  -->
     <typeAliases>
-        <package name="com.zb.pojo"/>
+        <package name="com.zb.entity"/>
     </typeAliases>
 </configuration>

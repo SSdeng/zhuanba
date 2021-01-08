@@ -1,10 +1,11 @@
 package com.zb.mapper;
 
-import com.zb.pojo.Category;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.zb.entity.Category;
 
 /**
  * CategoryDAO层
@@ -73,7 +74,8 @@ public interface CategoryMapper {
     /**
      * 按类别名查找类别
      *
-     * @param name 类别名
+     * @param name
+     *            类别名
      * @return 类别对象
      */
     Category findByName(@Param("name") String name);
@@ -83,5 +85,5 @@ public interface CategoryMapper {
      *
      * @return 商品列表
      */
-     List<Category> selectAll();
+    List<Category> selectAll();
 }

@@ -1,15 +1,14 @@
 package com.zb.service.impl;
 
-import java.util.List;
-
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.zb.entity.Item;
+import com.zb.mapper.ItemMapper;
+import com.zb.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.zb.mapper.ItemMapper;
-import com.zb.pojo.Item;
-import com.zb.service.ItemService;
+import java.util.List;
 
 /**
  * 商品服务实现类
@@ -25,8 +24,7 @@ public class ItemServiceImpl implements ItemService {
     /**
      * 构造器依赖注入
      *
-     * @param itemMapper
-     *            商品映射
+     * @param itemMapper 商品映射
      */
     @Autowired
     public ItemServiceImpl(ItemMapper itemMapper) {
@@ -38,13 +36,11 @@ public class ItemServiceImpl implements ItemService {
      *
      * @param newItem
      *            新增Item对象
-     * @param userId
-     *            新增Item的外键
      * @return 插入后Item对象
      */
     @Override
-    public Item insert(Item newItem, int userId) {
-        itemMapper.insertSelective(newItem, userId);
+    public Item insert(Item newItem) {
+        itemMapper.insertSelective(newItem);
         return newItem;
     }
 
@@ -77,7 +73,7 @@ public class ItemServiceImpl implements ItemService {
     /**
      * 修改商品id对应商品的审核状态
      *
-     * @see com.zb.pojo.Item
+     * @see com.zb.entity.Item
      *
      * @param item_id
      *            商品id
@@ -89,7 +85,7 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     public Item setAuditStatus(int item_id, int manager_id, int status) {
-        // TODO
+        //TODO
         return null;
     }
 
@@ -124,16 +120,13 @@ public class ItemServiceImpl implements ItemService {
     /**
      * 分页搜索商品
      *
-     * @param info
-     *            搜索信息
-     * @param pageNo
-     *            起始页码
-     * @param pageSize
-     *            分页大小
+     * @param info 搜索信息
+     * @param pageNo 起始页码
+     * @param pageSize 分页大小
      * @return 结果商品列表
      */
     @Override
-    public PageInfo<Item> searchPage(String info, int pageNo, int pageSize) {
+    public PageInfo<Item> searchPage(String info, int pageNo, int pageSize){
         PageHelper.startPage(pageNo, pageSize);
         List<Item> list = itemMapper.selectByInfo(info);
         return new PageInfo<>(list);

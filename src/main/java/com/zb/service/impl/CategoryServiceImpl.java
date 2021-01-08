@@ -1,14 +1,15 @@
 package com.zb.service.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.zb.mapper.CategoryMapper;
-import com.zb.pojo.Category;
-import com.zb.service.CategoryService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.zb.entity.Category;
+import com.zb.mapper.CategoryMapper;
+import com.zb.service.CategoryService;
 
 /**
  * 类别服务实现类
@@ -25,7 +26,8 @@ public class CategoryServiceImpl implements CategoryService {
     /**
      * 构造器依赖注入
      *
-     * @param categoryMapper 类别映射
+     * @param categoryMapper
+     *            类别映射
      */
     @Autowired
     public CategoryServiceImpl(CategoryMapper categoryMapper) {
@@ -44,11 +46,11 @@ public class CategoryServiceImpl implements CategoryService {
         return newCategory;
     }
 
-
     /**
      * 根据类别id删除类别
      *
-     * @param category_id 类别id
+     * @param category_id
+     *            类别id
      * @return 删除结果
      */
     @Override
@@ -60,7 +62,8 @@ public class CategoryServiceImpl implements CategoryService {
     /**
      * 更新类别信息
      *
-     * @param category 待更新对象
+     * @param category
+     *            待更新对象
      * @return 更新后对象
      */
     @Override
@@ -72,7 +75,8 @@ public class CategoryServiceImpl implements CategoryService {
     /**
      * 根据类别名查找类别
      *
-     * @param categoryName 类别名
+     * @param categoryName
+     *            类别名
      * @return 类别对象
      */
     @Override

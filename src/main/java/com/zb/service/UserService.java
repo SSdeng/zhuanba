@@ -1,7 +1,7 @@
 package com.zb.service;
 
 import com.github.pagehelper.PageInfo;
-import com.zb.pojo.User;
+import com.zb.entity.User;
 
 /**
  * 用户服务接口

@@ -1,4 +1,4 @@
-package com.zb.config;
+package com.zb.shiro;
 
 import java.time.Duration;
 import java.util.LinkedHashMap;
@@ -65,6 +65,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/html/**", "anon");
         filterChainDefinitionMap.put("/druid/**", "anon");
+        filterChainDefinitionMap.put("/api/item/release", "anon");
         // 所有url都必须认证通过才可以访问
         filterChainDefinitionMap.put("/**", "authc");
         // 配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了, 位置放在 anon、authc下面

@@ -1,10 +1,7 @@
 package com.zb.service;
 
 import com.github.pagehelper.PageInfo;
-import com.zb.pojo.Category;
-
-import java.util.List;
-
+import com.zb.entity.Category;
 
 /**
  * 类别服务接口
@@ -25,7 +22,8 @@ public interface CategoryService {
     /**
      * 根据类别id删除类别
      *
-     * @param category_id 类别id
+     * @param category_id
+     *            类别id
      * @return 删除结果
      */
     boolean deleteById(int category_id);
@@ -33,7 +31,8 @@ public interface CategoryService {
     /**
      * 更新类别信息
      *
-     * @param category 待更新对象
+     * @param category
+     *            待更新对象
      * @return 更新后对象
      */
     Category updateCategory(Category category);
@@ -41,7 +40,8 @@ public interface CategoryService {
     /**
      * 根据类别名查找类别
      *
-     * @param categoryName 类别名
+     * @param categoryName
+     *            类别名
      * @return 类别对象
      */
     Category findByName(String categoryName);

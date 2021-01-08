@@ -1,9 +1,7 @@
 package com.zb.service;
 
-import org.springframework.stereotype.Service;
-
 import com.github.pagehelper.PageInfo;
-import com.zb.pojo.Item;
+import com.zb.entity.Item;
 
 /**
  * 商品服务接口
@@ -17,11 +15,9 @@ public interface ItemService {
      *
      * @param newItem
      *            新增Item对象
-     * @param userId
-     *            新增Item的外键
      * @return 插入后Item对象
      */
-    Item insert(Item newItem, int userId);
+    Item insert(Item newItem);
 
     /**
      * 根据商品id删除商品
@@ -44,7 +40,7 @@ public interface ItemService {
     /**
      * 修改商品id对应商品的审核状态
      * 
-     * @see com.zb.pojo.Item
+     * @see com.zb.entity.Item
      *
      * @param item_id
      *            商品id
@@ -79,9 +75,12 @@ public interface ItemService {
     /**
      * 分页搜索商品
      *
-     * @param info 搜索信息
-     * @param pageNo 起始页码
-     * @param pageSize 分页大小
+     * @param info
+     *            搜索信息
+     * @param pageNo
+     *            起始页码
+     * @param pageSize
+     *            分页大小
      * @return 结果商品列表
      */
     PageInfo<Item> searchPage(String info, int pageNo, int pageSize);

@@ -1,4 +1,4 @@
-package com.zb.config;
+package com.zb.shiro;
 
 /**
  * @author dengzhijian

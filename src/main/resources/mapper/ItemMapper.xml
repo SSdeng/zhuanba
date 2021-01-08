@@ -48,24 +48,24 @@
         from item i,user
         where i.id = #{id,jdbcType=INTEGER}
     </select>
-    <select id="selectByUserId" resultType="com.zb.pojo.Item">
+    <select id="selectByUserId" resultType="com.zb.entity.Item">
         select *
         from item
         where user_id = #{id,jdbcType=INTEGER}
     </select>
-    <select id="selectByCategoryId" resultType="com.zb.pojo.Item">
+    <select id="selectByCategoryId" resultType="com.zb.entity.Item">
         select *
         from item
         where id in (
             select item_id from item_category where category_id = #{id,jdbcType=INTEGER}
         )
     </select>
-    <select id="selectALl" resultType="com.zb.pojo.Item">
+    <select id="selectALl" resultType="com.zb.entity.Item">
         select *
         from item
     </select>
-    <select id="selectByInfo" parameterType="string" resultType="com.zb.pojo.Item">
-        <bind name="pattern" value="'%' + info + '%'" />
+    <select id="selectByInfo" parameterType="string" resultType="com.zb.entity.Item">
+        <bind name="pattern" value="'%' + info + '%'"/>
         select *
         from item
         where name like #{pattern} or description like #{pattern}
@@ -75,7 +75,7 @@
         delete from item
         where id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insert" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+    <insert id="insert" keyColumn="id" keyProperty="id" useGeneratedKeys="true" parameterType="item">
         <!--@mbg.generated-->
         insert into item (`name`, description, price,
         user_id, image, `count`,
@@ -83,12 +83,12 @@
         create_time, update_time, `level`
         )
         values (#{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL},
-        #{userId,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER},
+        #{user.id,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER},
         #{deleted,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{sales,jdbcType=INTEGER},
         #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{level,jdbcType=INTEGER}
         )
     </insert>
-    <insert id="insertSelective" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" useGeneratedKeys="true" parameterType="item">
         <!--@mbg.generated-->
         insert into item
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -101,7 +101,7 @@
             <if test="record.price != null">
                 price,
             </if>
-            <if test="userId != null">
+            <if test="record.user.id != null">
                 user_id,
             </if>
             <if test="record.image != null">
@@ -139,8 +139,8 @@
             <if test="record.price != null">
                 #{record.price,jdbcType=DECIMAL},
             </if>
-            <if test="userId != null">
-                #{userId,jdbcType=INTEGER},
+            <if test="record.user.id != null">
+                #{record.user.id,jdbcType=INTEGER},
             </if>
             <if test="record.image != null">
                 #{record.image,jdbcType=VARCHAR},
