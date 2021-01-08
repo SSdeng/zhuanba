@@ -18,9 +18,7 @@ import com.zb.service.CategoryService;
  */
 @Service
 public class CategoryServiceImpl implements CategoryService {
-    /**
-     * 类别映射
-     */
+    /** 类别映射 */
     final private CategoryMapper categoryMapper;
 
     /**
@@ -37,7 +35,8 @@ public class CategoryServiceImpl implements CategoryService {
     /**
      * 增加商品分类
      *
-     * @param newCategory 新增Category对象
+     * @param newCategory
+     *            新增Category对象
      * @return 插入后Category对象
      */
     @Override
@@ -94,12 +93,13 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryMapper.selectAll();
     }
 
-
     /**
      * 分页查询分类
      *
-     * @param pageNo   起始页码
-     * @param pageSize 分页大小
+     * @param pageNo
+     *            起始页码
+     * @param pageSize
+     *            分页大小
      * @return 商品列表
      */
     @Override

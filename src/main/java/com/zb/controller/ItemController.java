@@ -1,7 +1,12 @@
 package com.zb.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import com.zb.enums.ResultEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -59,11 +64,11 @@ public class ItemController {
      */
     @PostMapping("/release")
     public Result releaseItem(@RequestBody Item item) {
-        Item insert = itemService.insert(item);
-        if (insert == null) {
-            return Result.error("Error Occured");
+        if (item == null) {
+            return Result.error("Release Failed","");
         }
-        return Result.ok("Release Success");
+        itemService.insert(item);
+        return Result.ok();
     }
 
     /**
@@ -77,9 +82,9 @@ public class ItemController {
     public Result itemDetails(@RequestParam("itemId") int itemId) {
         Item item = itemService.findById(itemId);
         if (item == null) {
-            return Result.error("Find no item");
+            return Result.error("Item Not Found","");
         }
-        return Result.ok("Item Details", item);
+        return Result.ok(item);
     }
 
     /**
@@ -96,7 +101,10 @@ public class ItemController {
             @RequestParam(value = "pageNo", defaultValue = "1")int pageNo,
             @RequestParam(value = "pageSize", defaultValue = "10")int pageSize){
         PageInfo<Item> items = itemService.findPage(pageNo,pageSize);
-        return Result.ok("pageAll",items);
+        if(items == null){
+            return Result.error("No Item Existed","");
+        }
+        return Result.ok(getResult(items));
     }
 
     /**
@@ -116,7 +124,10 @@ public class ItemController {
             @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
         PageInfo<Item> items = itemService.searchPage(searchInfo,pageNo,pageSize);
-        return Result.ok("searchResultPage",items);
+        if(items == null){
+            return Result.error("No Matched Item","");
+        }
+        return Result.ok(getResult(items));
     }
 
     /**
@@ -148,4 +159,22 @@ public class ItemController {
 
     }
 
+    /**
+     * 提取PageInfo中的主要信息包装结果
+     *
+     * @param items 提取对象
+     * @return 提取结果
+     */
+    private List<Map<String,String>> getResult(PageInfo<Item> items){
+        List<Map<String,String>> result = new ArrayList<Map<String,String>>();
+        for(Item item : items.getList()){
+            Map<String,String> map = new HashMap<String, String>();
+            map.put("itemId", Integer.toString(item.getId()));
+            map.put("itemName", item.getName());
+            map.put("price", item.getPrice().toString());
+            map.put("image", item.getImage());
+            result.add(map);
+        }
+        return result;
+    }
 }
