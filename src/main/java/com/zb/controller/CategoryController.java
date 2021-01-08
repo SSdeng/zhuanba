@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,18 +34,24 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
+    /**
+     * @return 返回所有分类信息
+     */
     @GetMapping("/get")
     public Result getAllCategory(){
 
         List<Category> list = categoryService.selectAll();
 
-        HashMap<Integer,String> map = new HashMap<Integer,String>();
+        List<HashMap> mapList = new ArrayList<HashMap>();
 
         for(Category category : list){
+
+            HashMap<Integer,String> map = new HashMap<Integer,String>();
             map.put(category.getId(), category.getName());
+            mapList.add(map);
         }
 
-        return Result.ok("返回部门信息",map);
+        return Result.ok("返回部门信息",mapList);
     }
 
     @GetMapping("/find")
