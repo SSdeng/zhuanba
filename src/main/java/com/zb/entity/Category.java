@@ -1,4 +1,4 @@
-package com.zb.pojo;
+package com.zb.entity;
 
 import java.io.Serializable;
 import java.util.Date;

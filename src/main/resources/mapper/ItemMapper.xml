@@ -48,24 +48,24 @@
         from item i,user
         where i.id = #{id,jdbcType=INTEGER}
     </select>
-    <select id="selectByUserId" resultType="com.zb.pojo.Item">
+    <select id="selectByUserId" resultType="com.zb.entity.Item">
         select *
         from item
         where user_id = #{id,jdbcType=INTEGER}
     </select>
-    <select id="selectByCategoryId" resultType="com.zb.pojo.Item">
+    <select id="selectByCategoryId" resultType="com.zb.entity.Item">
         select *
         from item
         where id in (
             select item_id from item_category where category_id = #{id,jdbcType=INTEGER}
         )
     </select>
-    <select id="selectALl" resultType="com.zb.pojo.Item">
+    <select id="selectALl" resultType="com.zb.entity.Item">
         select *
         from item
     </select>
-    <select id="selectByInfo" parameterType="string" resultType="com.zb.pojo.Item">
-        <bind name="pattern" value="'%' + info + '%'" />
+    <select id="selectByInfo" parameterType="string" resultType="com.zb.entity.Item">
+        <bind name="pattern" value="'%' + info + '%'"/>
         select *
         from item
         where name like #{pattern} or description like #{pattern}

@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.zb.entity.Category;
 import com.zb.mapper.CategoryMapper;
 import com.zb.mapper.ItemMapper;
 import com.zb.mapper.UserMapper;
-import com.zb.pojo.Category;
 
 @SpringBootTest
 class ZhuanbaApplicationTests {

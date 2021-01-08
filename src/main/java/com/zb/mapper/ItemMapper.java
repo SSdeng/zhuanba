@@ -2,8 +2,9 @@ package com.zb.mapper;
 
 import java.util.List;
 
-import com.zb.pojo.Item;
 import org.apache.ibatis.annotations.Param;
+
+import com.zb.entity.Item;
 
 /**
  * ItemDAO层
@@ -80,7 +81,8 @@ public interface ItemMapper {
     /**
      * 根据输入信息模糊查询商品
      *
-     * @param info 输入信息
+     * @param info
+     *            输入信息
      * @return 查询结果商品列表
      */
     List<Item> selectByInfo(String info);

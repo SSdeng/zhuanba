@@ -1,4 +1,4 @@
-package com.zb.config;
+package com.zb.shiro;
 
 import java.util.Objects;
 
@@ -14,7 +14,7 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 
-import com.zb.pojo.User;
+import com.zb.entity.User;
 import com.zb.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
