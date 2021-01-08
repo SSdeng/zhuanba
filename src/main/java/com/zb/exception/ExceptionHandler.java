@@ -29,7 +29,7 @@ public class ExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(value = MyException.class)
     public Result customerExceptionHandler(MyException e) {
         log.error("发生异常！原因是:{}", e.getMessage());
-        return Result.error(e.getMsg());
+        return Result.error(e.getMsg(), null);
     }
 
     /**
@@ -41,7 +41,7 @@ public class ExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(DataIntegrityViolationException.class)
     public Result DaoExceptionHandler(DataIntegrityViolationException e) {
         log.error("发生异常！原因是:{}", e.getMessage());
-        return Result.error("含有重复字段");
+        return Result.error("含有重复字段", null);
     }
 
     /**
@@ -54,11 +54,11 @@ public class ExceptionHandler {
     public Result authExceptionHandler(AuthenticationException e) {
         log.error("发生异常！原因是:{}", e.getMessage());
         if (e instanceof UnknownAccountException) {
-            return Result.error("用户名不存在");
+            return Result.error("用户名不存在", null);
         } else if (e instanceof IncorrectCredentialsException) {
-            return Result.error("密码错误");
+            return Result.error("密码错误", null);
         }
-        return Result.error("认证出错");
+        return Result.error("认证出错", null);
     }
 
 }
