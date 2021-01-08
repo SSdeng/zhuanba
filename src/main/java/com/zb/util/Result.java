@@ -1,5 +1,7 @@
 package com.zb.util;
 
+import com.zb.enums.ResultEnum;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,23 +24,34 @@ public class Result {
     /** 数据 */
     private Object data;
 
-    public static Result build() {
-        return new Result();
+    public static Result build(ResultEnum resultEnum, Object obj) {
+        Result result = new Result();
+        result.setCode(resultEnum.getCode());
+        result.setMsg(resultEnum.getMsg());
+        result.setData(obj);
+        return result;
     }
 
-    public static Result ok(String msg, Object obj) {
-        return new Result(0, msg, obj);
+    public static Result build(ResultEnum resultEnum) {
+        Result result = new Result();
+        result.setCode(resultEnum.getCode());
+        result.setMsg(resultEnum.getMsg());
+        return result;
     }
 
-    public static Result ok(String msg) {
-        return new Result(0, msg, null);
+    public static Result ok(Object obj) {
+        return build(ResultEnum.SUCCESS, obj);
     }
 
-    public static Result error(String msg, Object obj) {
-        return new Result(1, msg, obj);
+    public static Result ok() {
+        return build(ResultEnum.SUCCESS);
     }
 
-    public static Result error(String msg) {
-        return new Result(1, msg, null);
+    public static Result error(Object obj) {
+        return build(ResultEnum.FAILURE, obj);
+    }
+
+    public static Result error() {
+        return build(ResultEnum.FAILURE);
     }
 }
