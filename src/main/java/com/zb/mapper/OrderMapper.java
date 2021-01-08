@@ -1,6 +1,6 @@
 package com.zb.mapper;
 
-import com.zb.pojo.Order;
+import com.zb.entity.Order;
 
 /**
  *  Order DAO层
