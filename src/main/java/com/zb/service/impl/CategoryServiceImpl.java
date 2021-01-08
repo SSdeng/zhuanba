@@ -1,15 +1,12 @@
 package com.zb.service.impl;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.zb.entity.Category;
 import com.zb.mapper.CategoryMapper;
 import com.zb.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 类别服务实现类
@@ -83,19 +80,30 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryMapper.findByName(categoryName);
     }
 
+
+//    /**
+//     * 分页查询分类
+//     *
+//     * @param pageNo
+//     *            起始页码
+//     * @param pageSize
+//     *            分页大小
+//     * @return 商品列表
+//     */
+//    @Override
+//    public PageInfo<Category> findPage(int pageNo, int pageSize) {
+//        PageHelper.startPage(pageNo, pageSize);
+//        List<Category> list = categoryMapper.selectAll();
+//        return new PageInfo<>(list);
+//    }
+
+
     /**
-     * 分页查询分类
-     *
-     * @param pageNo
-     *            起始页码
-     * @param pageSize
-     *            分页大小
-     * @return 商品列表
+     * @return 返回所有分类id和名称
      */
     @Override
-    public PageInfo<Category> findPage(int pageNo, int pageSize) {
-        PageHelper.startPage(pageNo, pageSize);
+    public List<Category> selectAll(){
         List<Category> list = categoryMapper.selectAll();
-        return new PageInfo<>(list);
+        return list;
     }
 }

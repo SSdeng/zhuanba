@@ -1,7 +1,8 @@
 package com.zb.service;
 
-import com.github.pagehelper.PageInfo;
 import com.zb.entity.Category;
+
+import java.util.List;
 
 /**
  * 类别服务接口
@@ -46,14 +47,19 @@ public interface CategoryService {
      */
     Category findByName(String categoryName);
 
+//    /**
+//     * 分页查询
+//     *
+//     * @param pageNo
+//     *            起始页码
+//     * @param pageSize
+//     *            分页大小
+//     * @return 商品列表
+//     */
+//    PageInfo<Category> findPage(int pageNo, int pageSize);
+
     /**
-     * 分页查询
-     *
-     * @param pageNo
-     *            起始页码
-     * @param pageSize
-     *            分页大小
-     * @return 商品列表
+     * @return 返回所有的分类类别
      */
-    PageInfo<Category> findPage(int pageNo, int pageSize);
+    List<Category> selectAll();
 }
