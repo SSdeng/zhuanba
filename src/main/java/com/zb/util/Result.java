@@ -43,12 +43,24 @@ public class Result {
         return build(ResultEnum.SUCCESS, obj);
     }
 
+    public static Result ok(String msg, Object obj) {
+        Result result = build(ResultEnum.SUCCESS, obj);
+        result.setMsg(msg);
+        return result;
+    }
+
     public static Result ok() {
         return build(ResultEnum.SUCCESS);
     }
 
     public static Result error(Object obj) {
         return build(ResultEnum.FAILURE, obj);
+    }
+
+    public static Result error(String msg, Object obj) {
+        Result result = build(ResultEnum.FAILURE, obj);
+        result.setMsg(msg);
+        return result;
     }
 
     public static Result error() {

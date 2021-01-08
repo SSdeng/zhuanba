@@ -72,7 +72,7 @@ public class UserController {
         String username = (String)map.get("username");
         String password = (String)map.get("password");
         User user = userService.login(username, password);
-        return Result.ok("登录成功", new HashMap<>().put("userId", user.getId()));
+        return Result.ok(new HashMap<>().put("userId", user.getId()));
     }
 
     // @GetMapping("/logout")
@@ -83,7 +83,7 @@ public class UserController {
     @PostMapping("/register")
     public Result register(@RequestBody User user) {
         userService.insert(user);
-        return Result.ok("注册成功");
+        return Result.ok();
     }
 
     @RequestMapping("/un_auth")
