@@ -2,6 +2,7 @@ package com.zb.mapper;
 
 import com.zb.pojo.Category;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import java.util.List;
  * @author dengzhijian
  * @version 1.0
  */
+@Repository
 public interface CategoryMapper {
     /**
      * 根据主键删除分类（真删除）

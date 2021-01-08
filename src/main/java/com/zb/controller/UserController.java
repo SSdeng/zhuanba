@@ -25,8 +25,7 @@ public class UserController {
     /**
      * 构造器依赖注入
      *
-     * @param userService
-     *            用户服务
+     * @param userService 用户服务
      */
     @Autowired
     public UserController(UserService userService) {
@@ -35,9 +34,8 @@ public class UserController {
 
     /**
      * 获取用户信息
-     * 
-     * @param userId
-     *            用户id
+     *
+     * @param userId 用户id
      * @return 用户实体
      */
     @GetMapping("/info")
@@ -47,9 +45,8 @@ public class UserController {
 
     /**
      * 修改用户信息
-     * 
-     * @param userId
-     *            用户id
+     *
+     * @param userId 用户id
      * @return Result
      */
     @PostMapping("/info")
@@ -63,26 +60,33 @@ public class UserController {
 
     /**
      * 处理用户登录
-     * 
-     * @param username
-     *            用户名
-     * @param password
-     *            密码
+     *
+     * @param username 用户名
+     * @param password 密码
      * @return
      */
     @PostMapping("/login")
     public Result login(@RequestBody Map map) {
-        String username = (String)map.get("username");
-        String password = (String)map.get("password");
+        String username = (String) map.get("username");
+        String password = (String) map.get("password");
         User user = userService.login(username, password);
         return Result.ok("登录成功", new HashMap<>().put("userId", user.getId()));
     }
 
-    // @GetMapping("/logout")
-    // public Result logout() {
-    // userService.logout();
-    // return Result.ok("注销成功");
-    // }
+    /*
+    @GetMapping("/logout")
+    public Result logout() {
+        userService.logout();
+        return Result.ok("注销成功");
+    }
+    */
+
+    /**
+     * 处理用户注册
+     *
+     * @param user 用户
+     * @return
+     */
     @PostMapping("/register")
     public Result register(@RequestBody User user) {
         userService.insert(user);

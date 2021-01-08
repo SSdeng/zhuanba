@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.zb.pojo.Item;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 /**
  * ItemDAO层
@@ -11,6 +12,7 @@ import org.apache.ibatis.annotations.Param;
  * @author dengzhijian
  * @version 1.0
  */
+@Repository
 public interface ItemMapper {
     /**
      * 根据主键删除商品（真删除）

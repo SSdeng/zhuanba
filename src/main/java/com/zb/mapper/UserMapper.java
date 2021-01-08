@@ -2,6 +2,7 @@ package com.zb.mapper;
 
 import com.zb.pojo.User;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import java.util.List;
  * @author dengzhijian
  * @version 1.0
  */
+@Repository
 public interface UserMapper {
     /**
      * 根据主键删除商品（真删除）

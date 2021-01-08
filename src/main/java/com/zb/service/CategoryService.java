@@ -3,6 +3,8 @@ package com.zb.service;
 import com.github.pagehelper.PageInfo;
 import com.zb.pojo.Category;
 
+import java.util.List;
+
 
 /**
  * 类别服务接口
@@ -43,6 +45,14 @@ public interface CategoryService {
      * @return 类别对象
      */
     Category findByName(String categoryName);
+
+
+    /**
+     * 返回所有类别
+     *
+     * @return 类别List
+     */
+    List<Category> getAllCategories();
 
     /**
      * 分页查询

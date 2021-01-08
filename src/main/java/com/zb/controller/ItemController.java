@@ -41,7 +41,7 @@ public class ItemController {
      * @return 发布结果
      */
     @PostMapping("/release")
-    public Result releaseItem(@RequestBody Map<String,String> map){
+    public Result releaseItem(@RequestBody Map<String, String> map) {
         Item item = new Item();
         item.setName(map.get("itemname"));
         item.setDescription(map.get("description"));
@@ -49,7 +49,7 @@ public class ItemController {
         item.setPrice(Double.parseDouble(map.get("price")));
         item.setCount(Integer.parseInt(map.get("count")));
         int userId = Integer.parseInt(map.get("userId"));
-        if(itemService.insert(item,userId)==null){
+        if (itemService.insert(item, userId) == null) {
             return Result.error("Error Occured");
         }
         return Result.ok("Release Success");
@@ -62,44 +62,44 @@ public class ItemController {
      * @return 查看结果
      */
     @GetMapping("/details")
-    public Result itemDetails(@RequestParam("itemId") int itemId){
-        Item item=itemService.findById(itemId);
-        if(item == null){
+    public Result itemDetails(@RequestParam("itemId") int itemId) {
+        Item item = itemService.findById(itemId);
+        if (item == null) {
             return Result.error("Find no item");
         }
-        return Result.ok("Item Details",item);
+        return Result.ok("Item Details", item);
     }
 
     /**
      * 分页查找所有商品
      *
-     * @param pageNo 起始页码
+     * @param pageNo   起始页码
      * @param pageSize 分页大小
      * @return 分页后所有商品
      */
     @GetMapping("/all")
     public Result itemAll(
-            @RequestParam(value = "pageNo", defaultValue = "1")int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "10")int pageSize){
-        PageInfo<Item> items = itemService.findPage(pageNo,pageSize);
-        return Result.ok("pageAll",items);
+            @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+        PageInfo<Item> items = itemService.findPage(pageNo, pageSize);
+        return Result.ok("pageAll", items);
     }
 
     /**
      * 根据输入信息搜索商品
      *
      * @param searchInfo 搜索信息
-     * @param pageNo 起始页码
-     * @param pageSize 分页大小
+     * @param pageNo     起始页码
+     * @param pageSize   分页大小
      * @return 分页后搜索结果
      */
     @GetMapping("/search")
     public Result itemSearch(
             @RequestParam("searchInfo") String searchInfo,
             @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
-        PageInfo<Item> items = itemService.searchPage(searchInfo,pageNo,pageSize);
-        return Result.ok("searchResultPage",items);
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+        PageInfo<Item> items = itemService.searchPage(searchInfo, pageNo, pageSize);
+        return Result.ok("searchResultPage", items);
     }
 
     /**
