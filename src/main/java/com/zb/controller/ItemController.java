@@ -65,7 +65,7 @@ public class ItemController {
     @PostMapping("/release")
     public Result releaseItem(@RequestBody Item item) {
         if (item == null) {
-            return Result.build(ResultEnum.BODY_NOT_MATCH);
+            return Result.error("Release Failed","");
         }
         itemService.insert(item);
         return Result.ok();
@@ -82,7 +82,7 @@ public class ItemController {
     public Result itemDetails(@RequestParam("itemId") int itemId) {
         Item item = itemService.findById(itemId);
         if (item == null) {
-            return Result.build(ResultEnum.NOT_FOUND);
+            return Result.error("Item Not Found","");
         }
         return Result.ok(item);
     }
@@ -102,7 +102,7 @@ public class ItemController {
             @RequestParam(value = "pageSize", defaultValue = "10")int pageSize){
         PageInfo<Item> items = itemService.findPage(pageNo,pageSize);
         if(items == null){
-            return Result.build(ResultEnum.NOT_FOUND);
+            return Result.error("No Item Existed","");
         }
         return Result.ok(getResult(items));
     }
@@ -125,7 +125,7 @@ public class ItemController {
             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
         PageInfo<Item> items = itemService.searchPage(searchInfo,pageNo,pageSize);
         if(items == null){
-            return Result.build(ResultEnum.NOT_FOUND);
+            return Result.error("No Matched Item","");
         }
         return Result.ok(getResult(items));
     }
