@@ -2,6 +2,7 @@ package com.zb.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.zb.pojo.Item;
+import com.zb.pojo.User;
 import com.zb.service.ItemService;
 import com.zb.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,10 +38,11 @@ public class ItemController {
      * @param item 发布商品
      * @return 发布结果
      */
+    /**
     @PostMapping("/release")
     public Result releaseItem(@RequestBody Map<String,String> map){
         Item item = new Item();
-        item.setName(map.get("itemname"));
+        item.setName(map.get("itemName"));
         item.setDescription(map.get("description"));
         item.setLevel(Integer.parseInt(map.get("level")));
         item.setPrice(Double.parseDouble(map.get("price")));
@@ -50,8 +52,15 @@ public class ItemController {
             return Result.error("Error Occured");
         }
         return Result.ok("Release Success");
-    }
+    }*/
 
+    @PostMapping("/release")
+    public Result releaseItem(@RequestBody Item item) {
+        if (itemService.insert(item) == null) {
+            return Result.error("Error Occured");
+        }
+        return Result.ok("Release Success");
+    }
     /**
      * 查看指定id商品详情
      *

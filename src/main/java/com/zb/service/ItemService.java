@@ -21,7 +21,7 @@ public interface ItemService {
      *            新增Item的外键
      * @return 插入后Item对象
      */
-    Item insert(Item newItem, int userId);
+    Item insert(Item newItem);
 
     /**
      * 根据商品id删除商品

@@ -38,7 +38,7 @@ public interface ItemMapper {
      * @param userId
      *            待插入外键
      */
-    int insertSelective(Item record, int userId);
+    int insertSelective(Item record);
 
     /**
      * 根据主键查询商品（包含分类列表和用户信息）

@@ -140,7 +140,9 @@
                 #{record.price,jdbcType=DECIMAL},
             </if>
             <if test="userId != null">
-                #{userId,jdbcType=INTEGER},
+
+            --TODO
+                #{record.user.userId,jdbcType=INTEGER},
             </if>
             <if test="record.image != null">
                 #{record.image,jdbcType=VARCHAR},

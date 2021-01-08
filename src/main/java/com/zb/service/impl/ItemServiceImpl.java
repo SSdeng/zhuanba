@@ -42,8 +42,8 @@ public class ItemServiceImpl implements ItemService {
      * @return 插入后Item对象
      */
     @Override
-    public Item insert(Item newItem,int userId) {
-        itemMapper.insertSelective(newItem, userId);
+    public Item insert(Item newItem) {
+        itemMapper.insertSelective(newItem);
         return newItem;
     }
 
