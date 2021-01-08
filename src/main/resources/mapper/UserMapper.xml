@@ -102,7 +102,7 @@
         <!--@mbg.generated-->
         insert into user
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="username != null">
+            <if test="user.username != null">
                 username,
             </if>
             <if test="password != null">

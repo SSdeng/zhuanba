@@ -79,18 +79,17 @@ public class UserController {
         return Result.ok("注销成功");
     }
     */
-     */
 
     /**
      * 处理用户注册
      *
      * @param user 用户
-     * @return
+     * @return 注册成功
      */
     @PostMapping("/register")
     public Result register(@RequestBody User user) {
         userService.insert(user);
-        return Result.ok();
+        return Result.ok("注册成功", null);
     }
 
     @RequestMapping("/un_auth")
