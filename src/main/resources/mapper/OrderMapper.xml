@@ -9,8 +9,25 @@
     <result column="total_price" jdbcType="DECIMAL" property="totalPrice" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <association property="user" javaType="com.zb.pojo.User" column="user_id"
+      select="com.zb.mapper.UserMapper.selectByPrimaryKey">
+      <id column="id" jdbcType="INTEGER" property="id"/>
+      <result column="username" jdbcType="VARCHAR" property="username"/>
+      <result column="password" jdbcType="VARCHAR" property="password"/>
+      <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+      <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber"/>
+      <result column="email" jdbcType="VARCHAR" property="email"/>
+      <result column="gender" jdbcType="INTEGER" property="gender"/>
+      <result column="academy" jdbcType="VARCHAR" property="academy"/>
+      <result column="grade" jdbcType="VARCHAR" property="grade"/>
+      <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+      <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+      <result column="student_number" jdbcType="VARCHAR" property="studentNumber"/>
+      <result column="deleted" jdbcType="INTEGER" property="deleted"/>
+      <result column="role" jdbcType="VARCHAR" property="role"/>
+    </association>
     <association property="item" javaType="com.zb.pojo.Item" column="item_id"
-      select="com.zb.mapper.ItemMapper.selectByPrimaryKey">
+                 select="com.zb.mapper.ItemMapper.selectByPrimaryKey">
       <id property="id" column="id"/>
       <result column="name" jdbcType="VARCHAR" property="name"/>
       <result column="description" jdbcType="VARCHAR" property="description"/>
@@ -24,8 +41,6 @@
       <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
       <result column="level" jdbcType="INTEGER" property="level"/>
     </association>
-
-    <result column="item_id" jdbcType="INTEGER" property="itemId" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->

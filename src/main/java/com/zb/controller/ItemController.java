@@ -2,7 +2,6 @@ package com.zb.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.zb.pojo.Item;
-import com.zb.pojo.User;
 import com.zb.service.ItemService;
 import com.zb.util.FileUtil;
 import com.zb.util.Result;
@@ -36,12 +35,6 @@ public class ItemController {
     }
 
     /**
-     * 商品发布处理
-     *
-     * @param //item 发布商品
-     * @return 发布结果
-     */
-    /**
     @PostMapping("/release")
     public Result releaseItem(@RequestBody Map<String,String> map){
         Item item = new Item();
@@ -57,13 +50,21 @@ public class ItemController {
         return Result.ok("Release Success");
     }*/
 
+    /**
+     * 发布商品处理
+     *
+     * @param item 新的商品
+     * @return 发布结果
+     */
     @PostMapping("/release")
     public Result releaseItem(@RequestBody Item item) {
+        System.out.println(item.getUser().getId());
         if (itemService.insert(item) == null) {
             return Result.error("Error Occured");
         }
         return Result.ok("Release Success");
     }
+
     /**
      * 查看指定id商品详情
      *

@@ -75,7 +75,7 @@
         delete from item
         where id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insert" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+    <insert id="insert" keyColumn="id" keyProperty="id" useGeneratedKeys="true" parameterType="item">
         <!--@mbg.generated-->
         insert into item (`name`, description, price,
         user_id, image, `count`,
@@ -83,90 +83,88 @@
         create_time, update_time, `level`
         )
         values (#{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL},
-        #{userId,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER},
+        #{user.id,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER},
         #{deleted,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{sales,jdbcType=INTEGER},
         #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{level,jdbcType=INTEGER}
         )
     </insert>
-    <insert id="insertSelective" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" useGeneratedKeys="true" parameterType="item">
         <!--@mbg.generated-->
         insert into item
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="record.name != null">
+            <if test="name != null">
                 `name`,
             </if>
-            <if test="record.description != null">
+            <if test="description != null">
                 description,
             </if>
-            <if test="record.price != null">
+            <if test="price != null">
                 price,
             </if>
-            <if test="userId != null">
+            <if test="user.id != null">
                 user_id,
             </if>
-            <if test="record.image != null">
+            <if test="image != null">
                 image,
             </if>
-            <if test="record.count != null">
+            <if test="count != null">
                 `count`,
             </if>
-            <if test="record.deleted != null">
+            <if test="deleted != null">
                 deleted,
             </if>
-            <if test="record.status != null">
+            <if test="status != null">
                 `status`,
             </if>
-            <if test="record.sales != null">
+            <if test="sales != null">
                 sales,
             </if>
-            <if test="record.createTime != null">
+            <if test="createTime != null">
                 create_time,
             </if>
-            <if test="record.updateTime != null">
+            <if test="updateTime != null">
                 update_time,
             </if>
-            <if test="record.level != null">
+            <if test="level != null">
                 `level`,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="record.name != null">
-                #{record.name,jdbcType=VARCHAR},
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
             </if>
-            <if test="record.description != null">
-                #{record.description,jdbcType=VARCHAR},
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
             </if>
-            <if test="record.price != null">
-                #{record.price,jdbcType=DECIMAL},
+            <if test="price != null">
+                #{price,jdbcType=DECIMAL},
             </if>
-            <if test="userId != null">
-
-            --TODO
-                #{record.user.userId,jdbcType=INTEGER},
+            <if test="user.id != null">
+                #{user.id,jdbcType=INTEGER},
             </if>
-            <if test="record.image != null">
-                #{record.image,jdbcType=VARCHAR},
+            <if test="image != null">
+                #{image,jdbcType=VARCHAR},
             </if>
-            <if test="record.count != null">
-                #{record.count,jdbcType=INTEGER},
+            <if test="count != null">
+                #{count,jdbcType=INTEGER},
             </if>
-            <if test="record.deleted != null">
-                #{record.deleted,jdbcType=INTEGER},
+            <if test="deleted != null">
+                #{deleted,jdbcType=INTEGER},
             </if>
-            <if test="record.status != null">
-                #{record.status,jdbcType=INTEGER},
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
             </if>
-            <if test="record.sales != null">
-                #{record.sales,jdbcType=INTEGER},
+            <if test="sales != null">
+                #{sales,jdbcType=INTEGER},
             </if>
-            <if test="record.createTime != null">
-                #{record.createTime,jdbcType=TIMESTAMP},
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
             </if>
-            <if test="record.updateTime != null">
-                #{record.updateTime,jdbcType=TIMESTAMP},
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
             </if>
-            <if test="record.level != null">
-                #{record.level,jdbcType=INTEGER},
+            <if test="level != null">
+                #{level,jdbcType=INTEGER},
             </if>
         </trim>
     </insert>
