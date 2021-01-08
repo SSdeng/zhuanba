@@ -56,10 +56,10 @@ public class UserController {
     @PostMapping("/info")
     public Result modifyUserInfo(@RequestBody User user, @RequestParam("userId") int userId) {
         if (userService.findById(userId) == null) {
-            return Result.error("该用户不存在");
+            return Result.error("该用户不存在", null);
         }
         userService.updateUserInfo(user);
-        return Result.ok("修改用户信息成功");
+        return Result.ok("修改用户信息成功", null);
     }
 
     /**
@@ -83,7 +83,7 @@ public class UserController {
     @PostMapping("/register")
     public Result register(@RequestBody User user) {
         userService.insert(user);
-        return Result.ok("注册成功");
+        return Result.ok("注册成功", null);
     }
 
     @RequestMapping("/un_auth")
