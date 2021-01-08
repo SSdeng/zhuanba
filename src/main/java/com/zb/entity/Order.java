@@ -1,6 +1,7 @@
 package com.zb.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import lombok.*;
@@ -17,7 +18,7 @@ public class Order implements Serializable {
     private Integer id;
     private Integer status;
     private Integer itemCount;
-    private Double totalPrice;
+    private BigDecimal totalPrice;
     private Date createTime;
     private Date updateTime;
     private static final long serialVersionUID = 1L;

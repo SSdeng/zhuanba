@@ -1,6 +1,7 @@
 package com.zb.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class Item implements Serializable {
     private int id;
     private String name;
     private String description;
-    private Double price;
+    private BigDecimal price;
     private String image;
     private int count;
     private int deleted;

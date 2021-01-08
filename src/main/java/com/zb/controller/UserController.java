@@ -72,7 +72,7 @@ public class UserController {
         String username = (String)map.get("username");
         String password = (String)map.get("password");
         User user = userService.login(username, password);
-        return Result.ok("登录成功", new HashMap<>().put("userId", user.getId()));
+        return Result.ok();
     }
 
     // @GetMapping("/logout")
