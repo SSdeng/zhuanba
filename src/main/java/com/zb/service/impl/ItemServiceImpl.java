@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.zb.entity.Item;
 import com.zb.mapper.ItemMapper;
-import com.zb.pojo.Item;
 import com.zb.service.ItemService;
 
 /**
@@ -38,13 +38,11 @@ public class ItemServiceImpl implements ItemService {
      *
      * @param newItem
      *            新增Item对象
-     * @param userId
-     *            新增Item的外键
      * @return 插入后Item对象
      */
     @Override
-    public Item insert(Item newItem, int userId) {
-        itemMapper.insertSelective(newItem, userId);
+    public Item insert(Item newItem) {
+        itemMapper.insertSelective(newItem);
         return newItem;
     }
 
@@ -77,7 +75,7 @@ public class ItemServiceImpl implements ItemService {
     /**
      * 修改商品id对应商品的审核状态
      *
-     * @see com.zb.pojo.Item
+     * @see com.zb.entity.Item
      *
      * @param item_id
      *            商品id

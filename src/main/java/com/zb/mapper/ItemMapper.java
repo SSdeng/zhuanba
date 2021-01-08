@@ -2,8 +2,9 @@ package com.zb.mapper;
 
 import java.util.List;
 
-import com.zb.pojo.Item;
 import org.apache.ibatis.annotations.Param;
+
+import com.zb.entity.Item;
 
 /**
  * ItemDAO层
@@ -25,20 +26,18 @@ public interface ItemMapper {
      * 
      * @param record
      *            待插入商品
-     * @param userId
-     *            待插入外键
+     *
      */
-    int insert(Item record, int userId);
+    int insert(Item record);
 
     /**
      * 插入新商品（不插入空字段）
      * 
      * @param record
      *            待插入商品
-     * @param userId
-     *            待插入外键
+     *
      */
-    int insertSelective(Item record, int userId);
+    int insertSelective(@Param("record") Item record);
 
     /**
      * 根据主键查询商品（包含分类列表和用户信息）
@@ -84,7 +83,8 @@ public interface ItemMapper {
     /**
      * 根据输入信息模糊查询商品
      *
-     * @param info 输入信息
+     * @param info
+     *            输入信息
      * @return 查询结果商品列表
      */
     List<Item> selectByInfo(String info);

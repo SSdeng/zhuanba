@@ -24,14 +24,14 @@
         from category
         where id = #{id,jdbcType=INTEGER}
     </select>
-    <select id="selectByItemId" resultType="com.zb.pojo.Category">
+    <select id="selectByItemId" resultType="com.zb.entity.Category">
         select
         <include refid="Base_Column_List"/>
         from category where id in (
         select category_id from item_category where item_id=#{id,jdbcType=INTEGER}
         )
     </select>
-    <select id="findByName" resultType="com.zb.pojo.Category">
+    <select id="findByName" resultType="com.zb.entity.Category">
         select
         <include refid="Base_Column_List"/>
         from category
@@ -110,7 +110,7 @@
         update_time = #{updateTime,jdbcType=TIMESTAMP}
         where id = #{id,jdbcType=INTEGER}
     </update>
-    <select id="selectAll" resultType="com.zb.pojo.Category">
+    <select id="selectAll" resultType="com.zb.entity.Category">
         select *
         from catalog
     </select>

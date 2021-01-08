@@ -1,9 +1,10 @@
 package com.zb.mapper;
 
-import com.zb.pojo.User;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
+import com.zb.entity.User;
 
 /**
  * UserDAO层
@@ -47,7 +48,8 @@ public interface UserMapper {
     /**
      * 根据用户名查找User
      *
-     * @param username 用户名
+     * @param username
+     *            用户名
      * @return User对象
      */
     User findByUsername(@Param("username") String username);
@@ -55,8 +57,10 @@ public interface UserMapper {
     /**
      * 根据用户名和密码查找User
      *
-     * @param username 用户名
-     * @param password 密码
+     * @param username
+     *            用户名
+     * @param password
+     *            密码
      * @return User对象
      */
     User findByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
@@ -64,7 +68,8 @@ public interface UserMapper {
     /**
      * 根据学号查找User
      *
-     * @param studentNumber 学号
+     * @param studentNumber
+     *            学号
      * @return User对象
      */
     User findByStudentNumber(@Param("studentNumber") String studentNumber);
@@ -72,7 +77,8 @@ public interface UserMapper {
     /**
      * 根据手机号查找User
      *
-     * @param phoneNumber 手机号码
+     * @param phoneNumber
+     *            手机号码
      * @return User对象
      */
     User findByPhoneNumber(@Param("phoneNumber") String phoneNumber);

@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.zb.pojo.User;
+import com.zb.entity.User;
 import com.zb.service.UserService;
 import com.zb.util.Result;
 
