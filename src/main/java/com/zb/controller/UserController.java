@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.zb.entity.User;
+import com.zb.enums.ResultEnum;
 import com.zb.service.UserService;
 import com.zb.util.Result;
 
@@ -64,11 +65,7 @@ public class UserController {
     /**
      * 处理用户登录
      * 
-     * @param username
-     *            用户名
-     * @param password
-     *            密码
-     * @return
+     * @return Result
      */
     @PostMapping("/login")
     public Result login(@RequestBody Map map) {
@@ -91,17 +88,11 @@ public class UserController {
 
     @RequestMapping("/un_auth")
     public Result unAuth() {
-        Result result = Result.build();
-        result.setCode(2);
-        result.setMsg("用户未登录");
-        return result;
+        return Result.build(ResultEnum.USER_NOT_LOGIN);
     }
 
     @RequestMapping("/unauthorized")
     public Result unauthorized() {
-        Result result = Result.build();
-        result.setCode(3);
-        result.setMsg("用户无权限！");
-        return result;
+        return Result.build(ResultEnum.USER_NOT_AUTH);
     }
 }
