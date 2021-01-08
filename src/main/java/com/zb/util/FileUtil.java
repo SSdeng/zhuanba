@@ -1,10 +1,10 @@
 package com.zb.util;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
-
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 处理文件上传工具类
@@ -16,8 +16,9 @@ public class FileUtil {
     // 上传文件的目录
     private static final String FileDirectoryPATH = "";
 
-    public String uploadFile(MultipartFile multipartFile) throws IOException {
+    public static String uploadFile(MultipartFile multipartFile) throws IOException {
 
+        //文件夹目录
         File dir = new File(FileDirectoryPATH);
 
         if (!dir.exists()) {// 文件夹不存在则创建
@@ -36,5 +37,9 @@ public class FileUtil {
         // 存储文件
         multipartFile.transferTo(file);
         return newName;
+    }
+
+    public static String getFileDirectoryPATH(){
+        return FileDirectoryPATH;
     }
 }

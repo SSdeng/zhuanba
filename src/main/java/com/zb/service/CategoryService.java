@@ -1,8 +1,6 @@
 package com.zb.service;
 
-import com.zb.pojo.User;
-import org.springframework.stereotype.Service;
-
+import com.github.pagehelper.PageInfo;
 import com.zb.pojo.Category;
 
 
@@ -45,4 +43,15 @@ public interface CategoryService {
      * @return 类别对象
      */
     Category findByName(String categoryName);
+
+    /**
+     * 分页查询
+     *
+     * @param pageNo
+     *            起始页码
+     * @param pageSize
+     *            分页大小
+     * @return 商品列表
+     */
+    PageInfo<Category> findPage(int pageNo, int pageSize);
 }

@@ -4,10 +4,13 @@ import com.github.pagehelper.PageInfo;
 import com.zb.pojo.Item;
 import com.zb.pojo.User;
 import com.zb.service.ItemService;
+import com.zb.util.FileUtil;
 import com.zb.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -35,7 +38,7 @@ public class ItemController {
     /**
      * 商品发布处理
      *
-     * @param item 发布商品
+     * @param //item 发布商品
      * @return 发布结果
      */
     /**
@@ -106,6 +109,36 @@ public class ItemController {
             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
         PageInfo<Item> items = itemService.searchPage(searchInfo,pageNo,pageSize);
         return Result.ok("searchResultPage",items);
+    }
+
+    /**
+     * 接受文件图片
+     *
+     * @param itemId
+     * @param image
+     */
+    @PostMapping("/upload")
+    public void uploadPicture(@RequestParam("itemId") int itemId, @RequestParam("image")MultipartFile image){
+
+        //String itemPictureName = new String();
+
+        try {
+            //使用图片上传工具类，接受文件后，返回文件的新名称
+            String itemPictureName = FileUtil.uploadFile(image);
+
+            Item item = itemService.findById(itemId);
+
+            item.setImage(itemPictureName);
+
+            itemService.updateItemInfo(item);
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //return Result.ok("upload success");
+
     }
 
 }

@@ -5,9 +5,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator;
+import org.apache.shiro.session.mgt.eis.SessionIdGenerator;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -16,6 +18,7 @@ import org.crazycake.shiro.RedisCacheManager;
 import org.crazycake.shiro.RedisManager;
 import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -29,11 +32,12 @@ import lombok.Data;
  */
 @Configuration
 @Data
+@ConfigurationProperties(prefix = "spring.redis")
 public class ShiroConfig {
 
-    private String host = "localhost";
-    private int port = 6379;
-    private Duration timeout = Duration.ofSeconds(2000);
+    private String host;
+    private int port;
+    private Duration timeout;
 
     /**
      * Filter工厂，设置对应的过滤条件和跳转条件
@@ -60,14 +64,13 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/img/**", "anon");
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/html/**", "anon");
+        filterChainDefinitionMap.put("/druid/**", "anon");
         // 所有url都必须认证通过才可以访问
         filterChainDefinitionMap.put("/**", "authc");
-
         // 配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了, 位置放在 anon、authc下面
         filterChainDefinitionMap.put("/api/user/logout", "logout");
 
-        // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
-        // 配器shirot认登录界面地址，前后端分离中登录累面跳转应由前端路由控制，后台仅返回json数据, 对应LoginController中unauth请求
+        // 设置未授权路由，之后再返回json数据给前端
         shiroFilterFactoryBean.setLoginUrl("/api/user/un_auth");
 
         // 登录成功后要跳转的链接, 此项目是前后端分离，故此行注释掉，登录成功之后返回用户基本信息及token给前端
@@ -100,9 +103,9 @@ public class ShiroConfig {
      * @return MyShiroRealm
      */
     @Bean
-    public MyShiroRealm myShiroRealm() {
+    public MyShiroRealm myShiroRealm(HashedCredentialsMatcher hashedCredentialsMatcher) {
         MyShiroRealm myShiroRealm = new MyShiroRealm();
-        myShiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+        myShiroRealm.setCredentialsMatcher(hashedCredentialsMatcher);
         return myShiroRealm;
     }
 
@@ -112,10 +115,10 @@ public class ShiroConfig {
      * @return RedisSessionDAO
      */
     @Bean
-    public RedisSessionDAO redisSessionDAO() {
+    public RedisSessionDAO redisSessionDAO(SessionIdGenerator sessionIdGenerator) {
         RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
         redisSessionDAO.setRedisManager(redisManager());
-        redisSessionDAO.setSessionIdGenerator(sessionIdGenerator());
+        redisSessionDAO.setSessionIdGenerator(sessionIdGenerator);
         redisSessionDAO.setExpire(1800);
         return redisSessionDAO;
     }
@@ -136,9 +139,9 @@ public class ShiroConfig {
      * @return SessionManager
      */
     @Bean
-    public SessionManager sessionManager() {
+    public SessionManager sessionManager(RedisSessionDAO redisSessionDAO) {
         MySessionManager mySessionManager = new MySessionManager();
-        mySessionManager.setSessionDAO(redisSessionDAO());
+        mySessionManager.setSessionDAO(redisSessionDAO);
         return mySessionManager;
     }
 
@@ -175,13 +178,14 @@ public class ShiroConfig {
      * @return SecurityManager
      */
     @Bean
-    public SecurityManager securityManager() {
+    public SecurityManager securityManager(MyShiroRealm myShiroRealm, SessionManager sessionManager,
+        CacheManager cacheManager) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        securityManager.setRealm(myShiroRealm());
+        securityManager.setRealm(myShiroRealm);
         // 自定义session管理 使用redis
-        securityManager.setSessionManager(sessionManager());
+        securityManager.setSessionManager(sessionManager);
         // 自定义缓存实现 使用redis
-        securityManager.setCacheManager(cacheManager());
+        securityManager.setCacheManager(cacheManager);
         return securityManager;
     }
 
@@ -190,7 +194,7 @@ public class ShiroConfig {
      * 配置以下两个bean(DefaultAdvisorAutoProxyCreator(可选)和AuthorizationAttributeSourceAdvisor)即可实现此功能
      */
     @Bean
-    public DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator() {
+    public DefaultAdvisorAutoProxyCreator getAdvisorAutoProxyCreator() {
         DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
         advisorAutoProxyCreator.setProxyTargetClass(true);
         return advisorAutoProxyCreator;
