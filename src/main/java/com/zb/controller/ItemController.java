@@ -3,10 +3,13 @@ package com.zb.controller;
 import com.github.pagehelper.PageInfo;
 import com.zb.pojo.Item;
 import com.zb.service.ItemService;
+import com.zb.util.FileUtil;
 import com.zb.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -34,7 +37,7 @@ public class ItemController {
     /**
      * 商品发布处理
      *
-     * @param item 发布商品
+     * @param //item 发布商品
      * @return 发布结果
      */
     @PostMapping("/release")
@@ -97,6 +100,29 @@ public class ItemController {
             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
         PageInfo<Item> items = itemService.searchPage(searchInfo,pageNo,pageSize);
         return Result.ok("searchResultPage",items);
+    }
+
+    @PostMapping("/upload")
+    public Result uploadPicture(@RequestParam("itemId") int itemId, @RequestParam("image")MultipartFile image){
+
+        String itemPictureName = new String();
+
+        try {
+            //使用图片上传工具类，接受文件后，返回文件的新名称
+            itemPictureName = FileUtil.uploadFile(image);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Item item = itemService.findById(itemId);
+
+        item.setImage(itemPictureName);
+
+        itemService.updateItemInfo(item);
+
+        return Result.ok("upload success");
+
     }
 
 }
