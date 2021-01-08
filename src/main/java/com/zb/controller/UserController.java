@@ -3,6 +3,7 @@ package com.zb.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -88,6 +89,8 @@ public class UserController {
      */
     @PostMapping("/register")
     public Result register(@RequestBody User user) {
+        String newPassword = new Md5Hash(user.getPassword(), user.getUsername(), 2).toString();
+        user.setPassword(newPassword);
         userService.insert(user);
         return Result.ok("注册成功", null);
     }
