@@ -1,14 +1,15 @@
 package com.zb.service.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.zb.entity.Item;
-import com.zb.mapper.ItemMapper;
-import com.zb.service.ItemService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.zb.entity.Item;
+import com.zb.repository.ItemRepository;
+import com.zb.service.ItemService;
 
 /**
  * 商品服务实现类
@@ -19,16 +20,17 @@ import java.util.List;
 public class ItemServiceImpl implements ItemService {
 
     /** 商品映射 */
-    final private ItemMapper itemMapper;
+    final private ItemRepository itemRepository;
 
     /**
      * 构造器依赖注入
      *
-     * @param itemMapper 商品映射
+     * @param itemRepository
+     *            商品映射
      */
     @Autowired
-    public ItemServiceImpl(ItemMapper itemMapper) {
-        this.itemMapper = itemMapper;
+    public ItemServiceImpl(ItemRepository itemRepository) {
+        this.itemRepository = itemRepository;
     }
 
     /**
@@ -40,7 +42,7 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     public Item insert(Item newItem) {
-        itemMapper.insertSelective(newItem);
+        itemRepository.insertSelective(newItem);
         return newItem;
     }
 
@@ -53,7 +55,7 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     public boolean deleteById(int item_id) {
-        int cnt = itemMapper.deleteByPrimaryKey(item_id);
+        int cnt = itemRepository.deleteByPrimaryKey(item_id);
         return cnt > 0;
     }
 
@@ -66,7 +68,7 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     public Item updateItemInfo(Item item) {
-        itemMapper.updateByPrimaryKeySelective(item);
+        itemRepository.updateByPrimaryKeySelective(item);
         return item;
     }
 
@@ -85,7 +87,7 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     public Item setAuditStatus(int item_id, int manager_id, int status) {
-        //TODO
+        // TODO
         return null;
     }
 
@@ -101,7 +103,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public PageInfo<Item> findPage(int pageNo, int pageSize) {
         PageHelper.startPage(pageNo, pageSize);
-        List<Item> list = itemMapper.selectALl();
+        List<Item> list = itemRepository.selectALl();
         return new PageInfo<>(list);
     }
 
@@ -114,21 +116,24 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     public Item findById(Integer id) {
-        return itemMapper.selectByPrimaryKey(id);
+        return itemRepository.selectByPrimaryKey(id);
     }
 
     /**
      * 分页搜索商品
      *
-     * @param info 搜索信息
-     * @param pageNo 起始页码
-     * @param pageSize 分页大小
+     * @param info
+     *            搜索信息
+     * @param pageNo
+     *            起始页码
+     * @param pageSize
+     *            分页大小
      * @return 结果商品列表
      */
     @Override
-    public PageInfo<Item> searchPage(String info, int pageNo, int pageSize){
+    public PageInfo<Item> searchPage(String info, int pageNo, int pageSize) {
         PageHelper.startPage(pageNo, pageSize);
-        List<Item> list = itemMapper.selectByInfo(info);
+        List<Item> list = itemRepository.selectByInfo(info);
         return new PageInfo<>(list);
     }
 }

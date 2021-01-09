@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zb.entity.User;
-import com.zb.mapper.UserMapper;
+import com.zb.repository.UserMapper;
 import com.zb.service.UserService;
 
 /**
