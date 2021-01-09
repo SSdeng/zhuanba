@@ -1,17 +1,20 @@
 package com.zb.service.impl;
 
-import java.util.List;
+import java.util.Optional;
+
+import javax.annotation.Resource;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.subject.Subject;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.zb.entity.User;
-import com.zb.repository.UserMapper;
+import com.zb.exception.MyException;
+import com.zb.repository.UserRepository;
 import com.zb.service.UserService;
 
 /**
@@ -21,22 +24,8 @@ import com.zb.service.UserService;
  */
 @Service
 public class UserServiceImpl implements UserService {
-
-    /**
-     * 用户映射
-     */
-    final private UserMapper userMapper;
-
-    /**
-     * 构造器依赖注入
-     *
-     * @param userMapper
-     *            用户映射
-     */
-    @Autowired
-    public UserServiceImpl(UserMapper userMapper) {
-        this.userMapper = userMapper;
-    }
+    @Resource
+    private UserRepository userRepository;
 
     /**
      * 注册新用户
@@ -46,12 +35,10 @@ public class UserServiceImpl implements UserService {
      * @return 插入后User对象
      */
     @Override
-    public User insert(User newUser) {
-        // if (hasDuplicateName(newUser.getUsername()) || findByPhoneNumber(newUser.getPhoneNumber()) != null
-        // || findByStudentNumber(newUser.getStudentNumber()) != null) {
-        // return null;
-        // }
-        userMapper.insertSelective(newUser);
+    public User register(User newUser) {
+        String newPassword = new Md5Hash(newUser.getPassword(), newUser.getUsername(), 2).toString();
+        newUser.setPassword(newPassword);
+        userRepository.save(newUser);
         return newUser;
     }
 
@@ -63,9 +50,8 @@ public class UserServiceImpl implements UserService {
      * @return 删除结果
      */
     @Override
-    public boolean deleteById(int user_id) {
-        int res = userMapper.deleteByPrimaryKey(user_id);
-        return res > 0;
+    public void deleteById(int user_id) {
+        userRepository.deleteById(user_id);
     }
 
     /**
@@ -77,20 +63,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User updateUserInfo(User user) {
-        userMapper.updateByPrimaryKeySelective(user);
+        userRepository.save(user);
         return user;
-    }
-
-    /**
-     * 查看用户名是否重复
-     *
-     * @param userName
-     *            用户名
-     * @return true表重复; false表不重复
-     */
-    @Override
-    public boolean hasDuplicateName(String userName) {
-        return userMapper.findByUsername(userName) == null;
     }
 
     /**
@@ -116,8 +90,8 @@ public class UserServiceImpl implements UserService {
      * @return 用户总数
      */
     @Override
-    public int getTotalNumber() {
-        return userMapper.count();
+    public long getTotalNumber() {
+        return userRepository.count();
     }
 
     /**
@@ -130,10 +104,8 @@ public class UserServiceImpl implements UserService {
      * @return 用户列表
      */
     @Override
-    public PageInfo<User> findPage(int pageNo, int pageSize) {
-        PageHelper.startPage(pageNo, pageSize);
-        List<User> list = userMapper.selectAll();
-        return new PageInfo<>(list);
+    public Page<User> findAllByPage(int pageNo, int pageSize) {
+        return userRepository.findAll(PageRequest.of(pageNo - 1, pageSize));
     }
 
     /**
@@ -145,7 +117,11 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User findById(int user_id) {
-        return userMapper.selectByPrimaryKey(user_id);
+        Optional<User> user = userRepository.findById(user_id);
+        if (!user.isPresent()) {
+            throw new MyException("用户未找到");
+        }
+        return user.get();
     }
 
     /**
@@ -157,30 +133,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User findByUserName(String userName) {
-        return userMapper.findByUsername(userName);
+        return userRepository.findByUsername(userName);
     }
 
-    /**
-     * 根据学号查找用户
-     *
-     * @param studentNumber
-     *            学号
-     * @return 对应User对象
-     */
-    @Override
-    public User findByStudentNumber(String studentNumber) {
-        return userMapper.findByStudentNumber(studentNumber);
-    }
-
-    /**
-     * 根据手机号查找用户
-     *
-     * @param phoneNumber
-     *            手机号
-     * @return 对应User对象
-     */
-    @Override
-    public User findByPhoneNumber(String phoneNumber) {
-        return userMapper.findByPhoneNumber(phoneNumber);
-    }
 }

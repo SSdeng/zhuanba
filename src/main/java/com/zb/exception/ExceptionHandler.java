@@ -29,7 +29,7 @@ public class ExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(value = MyException.class)
     public Result customerExceptionHandler(MyException e) {
         log.error("发生异常！原因是:{}", e.getMessage());
-        return Result.error(e.getMsg(), null);
+        return Result.build(e.getCode(), e.getMsg(), null);
     }
 
     /**

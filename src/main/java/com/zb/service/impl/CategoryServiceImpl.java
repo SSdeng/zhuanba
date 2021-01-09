@@ -2,11 +2,10 @@ package com.zb.service.impl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.zb.entity.Category;
 import com.zb.repository.CategoryRepository;
 import com.zb.service.CategoryService;
@@ -18,19 +17,8 @@ import com.zb.service.CategoryService;
  */
 @Service
 public class CategoryServiceImpl implements CategoryService {
-    /** 类别映射 */
-    final private CategoryRepository categoryRepository;
-
-    /**
-     * 构造器依赖注入
-     *
-     * @param categoryRepository
-     *            类别映射
-     */
-    @Autowired
-    public CategoryServiceImpl(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
+    @Resource
+    private CategoryRepository categoryRepository;
 
     /**
      * 增加商品分类

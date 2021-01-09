@@ -11,4 +11,6 @@ import com.zb.entity.User;
  * @author dengzhijian
  * @version 1.0
  */
-public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecificationExecutor<User> {}
+public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecificationExecutor<User> {
+    User findByUsername(String userName);
+}

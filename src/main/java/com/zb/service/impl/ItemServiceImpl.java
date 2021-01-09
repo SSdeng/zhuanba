@@ -2,7 +2,8 @@ package com.zb.service.impl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
@@ -18,20 +19,8 @@ import com.zb.service.ItemService;
  */
 @Service
 public class ItemServiceImpl implements ItemService {
-
-    /** 商品映射 */
-    final private ItemRepository itemRepository;
-
-    /**
-     * 构造器依赖注入
-     *
-     * @param itemRepository
-     *            商品映射
-     */
-    @Autowired
-    public ItemServiceImpl(ItemRepository itemRepository) {
-        this.itemRepository = itemRepository;
-    }
+    @Resource
+    private ItemRepository itemRepository;
 
     /**
      * 发布商品
