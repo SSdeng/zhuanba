@@ -19,13 +19,20 @@ import javax.persistence.*;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Entity
 @Table(name = "sys_user_order")
 @DynamicInsert
 @DynamicUpdate
 public class UserOrder extends BaseOrder implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 相关商品
+     */
+    @ManyToOne(targetEntity = Item.class, cascade = {CascadeType.REFRESH})
+    @JoinColumn(name = "item_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Item item;
+
     /**
      * 订单状态
      *  0：未付款， 1：进行中， 2：已完成， 3：已关闭
@@ -45,10 +52,4 @@ public class UserOrder extends BaseOrder implements Serializable {
     @ManyToOne
     @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     private User user;
-    /**
-     * 相关商品
-     */
-    @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
-    private Item item;
 }
