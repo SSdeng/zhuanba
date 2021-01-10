@@ -2,12 +2,10 @@ package com.zb.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 /**
  * 订单公共属性字段
@@ -16,6 +14,7 @@ import javax.persistence.OneToOne;
  * @version 1.0
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @MappedSuperclass
@@ -26,10 +25,4 @@ public class BaseOrder extends BaseEntity{
      */
     @Column(nullable = false)
     private Integer itemCount = 1;
-    /**
-     * 相关商品
-     */
-    @OneToOne
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
-    private Item item;
 }
