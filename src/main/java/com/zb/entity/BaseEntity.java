@@ -1,15 +1,13 @@
 package com.zb.entity;
 
-import java.util.Date;
-
-import javax.persistence.*;
-
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import javax.persistence.*;
+import java.util.Date;
 
 /**
  * 各实体共有的属性字段
@@ -24,7 +22,7 @@ import lombok.NoArgsConstructor;
 public abstract class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id; // 主键，自增
+    private Long id; // 主键，自增
 
     private Integer deleted = 0;
 

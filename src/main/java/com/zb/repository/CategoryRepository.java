@@ -11,4 +11,4 @@ import com.zb.entity.Category;
  * @author dengzhijian
  * @version 1.0
  */
-public interface CategoryRepository extends JpaRepository<Category, Integer>, JpaSpecificationExecutor<Category> {}
+public interface CategoryRepository extends JpaRepository<Category, Long>, JpaSpecificationExecutor<Category> {}

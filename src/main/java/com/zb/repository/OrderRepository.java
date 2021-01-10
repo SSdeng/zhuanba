@@ -8,6 +8,6 @@ import com.zb.entity.UserOrder;
 /**
  * UserOrder DAO层
  */
-public interface OrderRepository extends JpaRepository<UserOrder, Integer>, JpaSpecificationExecutor<UserOrder> {
+public interface OrderRepository extends JpaRepository<UserOrder, Long>, JpaSpecificationExecutor<UserOrder> {
 
 }
