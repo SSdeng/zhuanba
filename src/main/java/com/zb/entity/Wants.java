@@ -45,7 +45,7 @@ public class Wants extends BaseEntity implements Serializable {
      * 求购所属用户
      */
     @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "wants_id", referencedColumnName = "id", insertable = false, updatable = false)
     private User user;
     /**
      *  求购评论列表

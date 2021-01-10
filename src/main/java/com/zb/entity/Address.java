@@ -34,6 +34,6 @@ public class Address extends BaseEntity implements Serializable {
      * 所属用户
      */
     @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "address_id", referencedColumnName = "id", insertable = false, updatable = false)
     private User user;
 }

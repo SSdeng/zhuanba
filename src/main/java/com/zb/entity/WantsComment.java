@@ -31,13 +31,13 @@ public class WantsComment extends BaseComment implements Serializable {
      * 所属求购
      */
     @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "w_comment_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Wants wants;
     /**
      * 发表用户
      */
     @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "w_comment_id", referencedColumnName = "id", insertable = false, updatable = false)
     private User user;
 
 }
