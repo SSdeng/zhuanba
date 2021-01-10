@@ -1,19 +1,17 @@
 package com.zb.entity;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
- * 订单实体
+ * 求购信息
  *
- * @author ljjiacheng
+ * @author lijiacheng
  * @version 1.0
  */
 @Data
@@ -22,15 +20,8 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "sys_order")
+@Table(name = "sys_wants")
 @DynamicInsert // 动态插入
 @DynamicUpdate // 动态更新
-public class Order extends BaseEntity implements Serializable {
-    private Integer status;
-    private Integer itemCount;
-    private BigDecimal totalPrice;
-    private static final long serialVersionUID = 1L;
-    private User user;
-    private Item item;
-
+public class Wants extends BaseEntity implements Serializable {
 }
