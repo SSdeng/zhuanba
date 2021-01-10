@@ -74,9 +74,14 @@ public class User extends BaseEntity implements Serializable {
      */
     private String role = "user";
     /**
+     * 用户地址表
+     */
+    @OneToMany(targetEntity = Address.class, mappedBy = "user",cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    private List<Address> addresses;
+    /**
      * 用户发布商品列表
      */
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    @OneToMany(targetEntity = Item.class, mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     private List<Item> items; // 一对多关系，所有全部级联操作都开启，放弃维护权，由item维护外键,
     /**
      * 用户订单列表
