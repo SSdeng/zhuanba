@@ -1,6 +1,5 @@
 package com.zb.entity;
 
-import com.sun.istack.Nullable;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -9,7 +8,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * 求购信息
+ * 用户地址
  *
  * @author lijiacheng
  * @version 1.0
@@ -20,28 +19,19 @@ import java.io.Serializable;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "sys_wants")
+@Table(name = "sys_address")
 @DynamicInsert // 动态插入
 @DynamicUpdate // 动态更新
-public class Wants extends BaseEntity implements Serializable {
+public class Address extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     /**
-     * 求购标题
+     * 地址详情
      *  不可为空
      */
     @Column(nullable = false)
-    private String title;
+    private String detail;
     /**
-     * 求购描述
-     *  默认为空串
-     */
-    private String description = "";
-    /**
-     * 求购图片地址
-     */
-    private String image;
-    /**
-     * 求购所属用户
+     * 所属用户
      */
     @ManyToOne
     @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)

@@ -20,6 +20,9 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public class BaseComment extends BaseEntity{
 
+    /**
+     * 评论内容
+     */
     @Column(nullable = false)
     private String content;
 
