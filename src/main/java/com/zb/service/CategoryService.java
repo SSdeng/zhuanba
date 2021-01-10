@@ -5,7 +5,7 @@ import com.zb.entity.Category;
 import java.util.List;
 
 /**
- * 类别服务接口
+ * 分类服务接口
  *
  * @author shenmanjie
  */
@@ -21,7 +21,7 @@ public interface CategoryService {
     Category addCategory(Category newCategory);
 
     /**
-     * 根据类别id删除类别
+     * 根据类别id删除分类
      *
      * @param category_id
      *            类别id
@@ -30,7 +30,7 @@ public interface CategoryService {
     boolean deleteById(int category_id);
 
     /**
-     * 更新类别信息
+     * 更新分类信息
      *
      * @param category
      *            待更新对象
@@ -39,7 +39,7 @@ public interface CategoryService {
     Category updateCategory(Category category);
 
     /**
-     * 根据类别名查找类别
+     * 根据类别名查找分类
      *
      * @param categoryName
      *            类别名
@@ -48,7 +48,7 @@ public interface CategoryService {
     Category findByName(String categoryName);
 
     /**
-     * 返回所有类别
+     * 返回所有分类
      *
      * @return 类别List
      */

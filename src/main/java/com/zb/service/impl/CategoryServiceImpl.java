@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * 类别服务实现类
+ * 分类服务实现类
  *
  * @author shenmanjie
  */
