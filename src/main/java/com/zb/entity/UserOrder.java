@@ -21,9 +21,9 @@ import javax.persistence.*;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "sys_order")
-@DynamicInsert // 动态插入
-@DynamicUpdate // 动态更新
+@Table(name = "sys_user_order")
+@DynamicInsert
+@DynamicUpdate
 public class UserOrder extends BaseOrder implements Serializable {
     private static final long serialVersionUID = 1L;
     /**

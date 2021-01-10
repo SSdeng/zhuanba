@@ -20,8 +20,8 @@ import java.io.Serializable;
 @ToString
 @Entity
 @Table(name = "sys_address")
-@DynamicInsert // 动态插入
-@DynamicUpdate // 动态更新
+@DynamicInsert
+@DynamicUpdate
 public class Address extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     /**

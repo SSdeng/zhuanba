@@ -49,6 +49,7 @@ public class Item extends BaseEntity implements Serializable {
     /**
      * 商品相关订单列表
      */
-    @OneToMany(targetEntity = UserOrder.class, mappedBy = "item",cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    @OneToMany(targetEntity = UserOrder.class, mappedBy = "item",cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     private List<UserOrder> itemOrders;
+
 }

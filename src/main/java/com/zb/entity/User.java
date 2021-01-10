@@ -93,4 +93,9 @@ public class User extends BaseEntity implements Serializable {
      */
     @OneToMany(targetEntity = Wants.class, mappedBy = "user",cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     private List<Wants> wants;
+    /**
+     * 用户求购评论列表
+     */
+    @OneToMany(targetEntity = WantsComment.class, mappedBy = "user",cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    private List<WantsComment> wantsComments;
 }
