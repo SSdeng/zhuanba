@@ -28,12 +28,14 @@ public class UserOrder extends BaseOrder implements Serializable {
     private static final long serialVersionUID = 1L;
     /**
      * 订单状态
-     * 0：未付款， 1：进行中， 2：已完成， 3：已关闭
+     *  0：未付款， 1：进行中， 2：已完成， 3：已关闭
+     *  默认为0
      */
     @Column(nullable = false)
     private Integer status = 0;
     /**
      * 总价格
+     *  不可为空
      */
     @Column(nullable = false)
     private BigDecimal totalPrice;
@@ -43,5 +45,10 @@ public class UserOrder extends BaseOrder implements Serializable {
     @ManyToOne
     @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     private User user;
-
+    /**
+     * 相关商品
+     */
+    @ManyToOne
+    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Item item;
 }
