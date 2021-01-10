@@ -1,7 +1,5 @@
 package com.zb.service.impl;
 
-import java.util.Optional;
-
 import javax.annotation.Resource;
 
 import org.apache.shiro.SecurityUtils;
@@ -12,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zb.entity.User;
 import com.zb.exception.MyException;
 import com.zb.repository.UserRepository;
@@ -47,7 +47,6 @@ public class UserServiceImpl implements UserService {
      *
      * @param user_id
      *            用户id
-     * @return 删除结果
      */
     @Override
     public void deleteById(int user_id) {
@@ -56,15 +55,26 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 更新用户信息
-     *
-     * @param user
-     *            需更新User对象
-     * @return 更新后User对象
+     * 
+     * @param JSONUser
+     *            JSON格式的用户信息
+     * @param userId
+     *            用户id
+     * @return 更新后的用户
      */
     @Override
-    public User updateUserInfo(User user) {
-        userRepository.save(user);
-        return user;
+    public User updateUserInfo(String JSONUser, Integer userId) {
+        User dataUser = findById(userId);
+        ObjectMapper mapper = new ObjectMapper();
+        // 利用jackson相关API，实现非null值的合并更新
+        User newUser = null;
+        try {
+            newUser = mapper.readerForUpdating(dataUser).readValue(JSONUser);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        userRepository.save(newUser);
+        return newUser;
     }
 
     /**
@@ -117,11 +127,11 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User findById(int user_id) {
-        Optional<User> user = userRepository.findById(user_id);
-        if (!user.isPresent()) {
+        User user = userRepository.findById(user_id).orElse(null);
+        if (user == null) {
             throw new MyException("用户未找到");
         }
-        return user.get();
+        return user;
     }
 
     /**
@@ -133,7 +143,11 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User findByUserName(String userName) {
-        return userRepository.findByUsername(userName);
+        User user = userRepository.findByUsername(userName);
+        if (user == null) {
+            throw new MyException("用户未找到");
+        }
+        return user;
     }
 
 }

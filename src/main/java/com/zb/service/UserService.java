@@ -30,11 +30,13 @@ public interface UserService {
     /**
      * 更新用户信息
      *
-     * @param user
-     *            需更新User对象
-     * @return 更新后User对象
+     * @param JSONUser
+     *            JSON格式的用户信息
+     * @param userId
+     *            用户id
+     * @return 更新后的用户
      */
-    User updateUserInfo(User user);
+    User updateUserInfo(String JSONUser, Integer userId);
 
     /**
      * 登录

@@ -1,7 +1,5 @@
 package com.zb.shiro;
 
-import java.util.Objects;
-
 import javax.annotation.Resource;
 
 import org.apache.shiro.authc.AuthenticationException;
@@ -62,9 +60,6 @@ public class MyShiroRealm extends AuthorizingRealm {
 
         // 通过username从数据库中查找 User对象.
         User user = userService.findByUserName(userName);
-        if (Objects.isNull(user)) {
-            return null;
-        }
         return new SimpleAuthenticationInfo(user, user.getPassword(), ByteSource.Util.bytes(userName), getName());
     }
 

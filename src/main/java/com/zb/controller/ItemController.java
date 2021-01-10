@@ -2,7 +2,9 @@ package com.zb.controller;
 
 import java.io.IOException;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,27 +24,8 @@ import com.zb.util.Result;
 @RequestMapping("/api/item")
 public class ItemController {
 
-    final ItemService itemService;
-
-    /**
-     * 构造器依赖注入
-     *
-     * @param itemService
-     *            商品服务
-     */
-    @Autowired
-    public ItemController(ItemService itemService) {
-        this.itemService = itemService;
-    }
-
-    /**
-     * @PostMapping("/release") public Result releaseItem(@RequestBody Map<String,String> map){ Item item = new Item();
-     * item.setName(map.get("itemName")); item.setDescription(map.get("description"));
-     * item.setLevel(Integer.parseInt(map.get("level"))); item.setPrice(Double.parseDouble(map.get("price")));
-     * item.setCount(Integer.parseInt(map.get("count"))); int userId = Integer.parseInt(map.get("userId"));
-     * if(itemService.register(item,userId)==null){ return Result.error("Error Occured"); } return Result.ok("Release
-     * Success"); }
-     */
+    @Resource
+    private ItemService itemService;
 
     /**
      * 发布商品处理
@@ -107,7 +90,7 @@ public class ItemController {
     public Result itemSearch(@RequestParam("searchInfo") String searchInfo,
         @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
         @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-        PageInfo<Item> items = itemService.searchPage(searchInfo, pageNo, pageSize);
+        Page<Item> items = itemService.searchPage(searchInfo, pageNo, pageSize);
         return Result.ok("searchResultPage", items);
     }
 

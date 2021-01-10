@@ -12,6 +12,9 @@ import lombok.*;
 
 /**
  * 用户实体
+ * 
+ * @author dengzhijian
+ * @version 1.1
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
