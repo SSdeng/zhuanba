@@ -52,10 +52,4 @@ public class UserOrder extends BaseOrder implements Serializable {
     @ManyToOne
     @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     private User user;
-    /**
-     * 相关商品
-     */
-    @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
-    private Item item;
 }
