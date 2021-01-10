@@ -7,9 +7,7 @@ import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * 订单实体
@@ -40,8 +38,10 @@ public class UserOrder extends BaseOrder implements Serializable {
     @Column(nullable = false)
     private BigDecimal totalPrice;
     /**
-     *
+     * 相关用户
      */
+    @ManyToOne
+    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     private User user;
 
 }

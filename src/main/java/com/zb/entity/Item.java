@@ -46,4 +46,9 @@ public class Item extends BaseEntity implements Serializable {
         // 对方对象在中间表的外键
         inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")})
     private List<Category> categories; // 商品所有的分类标签，负责维护外键
+    /**
+     * 商品相关订单列表
+     */
+    @OneToMany(targetEntity = UserOrder.class, mappedBy = "item",cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    private List<UserOrder> itemOrders;
 }

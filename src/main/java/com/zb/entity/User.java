@@ -41,4 +41,9 @@ public class User extends BaseEntity implements Serializable {
     private String role = "user"; // 角色，用于权限认证
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     private List<Item> items; // 一对多关系，所有全部级联操作都开启，放弃维护权，由item维护外键,
+    /**
+     * 用户订单列表
+     */
+    @OneToMany(targetEntity = UserOrder.class, mappedBy = "user",cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    private List<UserOrder> userOrders;
 }
