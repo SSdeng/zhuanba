@@ -39,6 +39,10 @@ public class Result {
         return result;
     }
 
+    public static Result build(int code, String msg, Object obj) {
+        return new Result(code, msg, obj);
+    }
+
     public static Result ok(Object obj) {
         return build(ResultEnum.SUCCESS, obj);
     }

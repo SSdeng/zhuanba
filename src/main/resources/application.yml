@@ -34,14 +34,8 @@ spring:
     host: localhost
     port: 6379
     timeout: 2000s
-mybatis:
-  mapper-locations: classpath:mapper/*.xml  #sql映射文件位置
-  type-aliases-package: com.zb.pojo  # 开启别名
-  config-location: classpath:mybatis-config.xml
 
-# 配置pageHelper参数
-pagehelper:
-  helperDialect: mysql
-  reasonable: true
-  supportMethodsArguments: true
-  params: count=countSql
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create

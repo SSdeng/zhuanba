@@ -1,6 +1,7 @@
 package com.zb.service;
 
-import com.github.pagehelper.PageInfo;
+import org.springframework.data.domain.Page;
+
 import com.zb.entity.User;
 
 /**
@@ -16,34 +17,26 @@ public interface UserService {
      *            新增User对象
      * @return 插入后User对象
      */
-    User insert(User newUser);
+    User register(User newUser);
 
     /**
      * 根据用户id删除用户
      *
      * @param user_id
      *            用户id
-     * @return 删除结果
      */
-    boolean deleteById(int user_id);
+    void deleteById(int user_id);
 
     /**
      * 更新用户信息
      *
-     * @param user
-     *            需更新User对象
-     * @return 更新后User对象
+     * @param JSONUser
+     *            JSON格式的用户信息
+     * @param userId
+     *            用户id
+     * @return 更新后的用户
      */
-    User updateUserInfo(User user);
-
-    /**
-     * 查看用户名是否重复
-     *
-     * @param userName
-     *            用户名
-     * @return true表重复; false表不重复
-     */
-    boolean hasDuplicateName(String userName);
+    User updateUserInfo(String JSONUser, Integer userId);
 
     /**
      * 登录
@@ -61,7 +54,7 @@ public interface UserService {
      *
      * @return 用户总数
      */
-    int getTotalNumber();
+    long getTotalNumber();
 
     /**
      * 分页查询
@@ -72,7 +65,7 @@ public interface UserService {
      *            分页大小
      * @return 用户列表
      */
-    PageInfo<User> findPage(int pageNo, int pageSize);
+    Page<User> findAllByPage(int pageNo, int pageSize);
 
     /**
      * 根据用户id查找用户
@@ -91,22 +84,4 @@ public interface UserService {
      * @return 对应User对象
      */
     User findByUserName(String userName);
-
-    /**
-     * 根据学号查找用户
-     *
-     * @param studentNumber
-     *            学号
-     * @return 对应User对象
-     */
-    User findByStudentNumber(String studentNumber);
-
-    /**
-     * 根据手机号查找用户
-     *
-     * @param phoneNumber
-     *            手机号
-     * @return 对应User对象
-     */
-    User findByPhoneNumber(String phoneNumber);
 }

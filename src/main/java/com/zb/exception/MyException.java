@@ -1,5 +1,7 @@
 package com.zb.exception;
 
+import com.zb.enums.ResultEnum;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -14,8 +16,10 @@ public class MyException extends RuntimeException {
     private int code = -1;
     private String msg;
 
-    public MyException() {
-        super();
+    public MyException(ResultEnum resultEnum) {
+        super(resultEnum.getMsg());
+        this.code = resultEnum.getCode();
+        this.msg = resultEnum.getMsg();
     }
 
     public MyException(String msg) {

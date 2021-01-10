@@ -2,13 +2,12 @@ package com.zb.service.impl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.zb.entity.Category;
-import com.zb.mapper.CategoryMapper;
+import com.zb.repository.CategoryRepository;
 import com.zb.service.CategoryService;
 
 /**
@@ -18,19 +17,8 @@ import com.zb.service.CategoryService;
  */
 @Service
 public class CategoryServiceImpl implements CategoryService {
-    /** 类别映射 */
-    final private CategoryMapper categoryMapper;
-
-    /**
-     * 构造器依赖注入
-     *
-     * @param categoryMapper
-     *            类别映射
-     */
-    @Autowired
-    public CategoryServiceImpl(CategoryMapper categoryMapper) {
-        this.categoryMapper = categoryMapper;
-    }
+    @Resource
+    private CategoryRepository categoryRepository;
 
     /**
      * 增加商品分类
@@ -41,7 +29,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public Category insertSelective(Category newCategory) {
-        categoryMapper.insertSelective((newCategory));
+        categoryRepository.insertSelective((newCategory));
         return newCategory;
     }
 
@@ -54,7 +42,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public boolean deleteById(int category_id) {
-        int cnt = categoryMapper.deleteByPrimaryKey(category_id);
+        int cnt = categoryRepository.deleteByPrimaryKey(category_id);
         return cnt > 0;
     }
 
@@ -67,7 +55,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public Category updateCategory(Category category) {
-        categoryMapper.updateByPrimaryKeySelective(category);
+        categoryRepository.updateByPrimaryKeySelective(category);
         return category;
     }
 
@@ -80,7 +68,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public Category findByName(String categoryName) {
-        return categoryMapper.findByName(categoryName);
+        return categoryRepository.findByName(categoryName);
     }
 
     /**
@@ -105,7 +93,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public PageInfo<Category> findPage(int pageNo, int pageSize) {
         PageHelper.startPage(pageNo, pageSize);
-        List<Category> list = categoryMapper.selectAll();
+        List<Category> list = categoryRepository.selectAll();
         return new PageInfo<>(list);
     }
 }

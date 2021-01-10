@@ -1,13 +1,10 @@
 package com.zb.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import com.zb.enums.ResultEnum;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,48 +24,23 @@ import com.zb.util.Result;
 @RequestMapping("/api/item")
 public class ItemController {
 
-    final ItemService itemService;
-
-    /**
-     * 构造器依赖注入
-     *
-     * @param itemService
-     *            商品服务
-     */
-    @Autowired
-    public ItemController(ItemService itemService) {
-        this.itemService = itemService;
-    }
-
-    /**
-     @PostMapping("/release")
-     public Result releaseItem(@RequestBody Map<String,String> map){
-     Item item = new Item();
-     item.setName(map.get("itemName"));
-     item.setDescription(map.get("description"));
-     item.setLevel(Integer.parseInt(map.get("level")));
-     item.setPrice(Double.parseDouble(map.get("price")));
-     item.setCount(Integer.parseInt(map.get("count")));
-     int userId = Integer.parseInt(map.get("userId"));
-     if(itemService.insert(item,userId)==null){
-     return Result.error("Error Occured");
-     }
-     return Result.ok("Release Success");
-     }*/
+    @Resource
+    private ItemService itemService;
 
     /**
      * 发布商品处理
      *
-     * @param item 新的商品
+     * @param item
+     *            新的商品
      * @return 发布结果
      */
     @PostMapping("/release")
     public Result releaseItem(@RequestBody Item item) {
-        if (item == null) {
-            return Result.error("Release Failed","");
+        Item insert = itemService.insert(item);
+        if (insert == null) {
+            return Result.error("Error Occured");
         }
-        itemService.insert(item);
-        return Result.ok();
+        return Result.ok("Release Success");
     }
 
     /**
@@ -82,9 +54,9 @@ public class ItemController {
     public Result itemDetails(@RequestParam("itemId") int itemId) {
         Item item = itemService.findById(itemId);
         if (item == null) {
-            return Result.error("Item Not Found","");
+            return Result.error("Find no item");
         }
-        return Result.ok(item);
+        return Result.ok("Item Details", item);
     }
 
     /**
@@ -97,14 +69,10 @@ public class ItemController {
      * @return 分页后所有商品
      */
     @GetMapping("/all")
-    public Result itemAll(
-            @RequestParam(value = "pageNo", defaultValue = "1")int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "10")int pageSize){
-        PageInfo<Item> items = itemService.findPage(pageNo,pageSize);
-        if(items == null){
-            return Result.error("No Item Existed","");
-        }
-        return Result.ok(getResult(items));
+    public Result itemAll(@RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+        @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+        PageInfo<Item> items = itemService.findPage(pageNo, pageSize);
+        return Result.ok("pageAll", items);
     }
 
     /**
@@ -119,15 +87,11 @@ public class ItemController {
      * @return 分页后搜索结果
      */
     @GetMapping("/search")
-    public Result itemSearch(
-            @RequestParam("searchInfo") String searchInfo,
-            @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
-        PageInfo<Item> items = itemService.searchPage(searchInfo,pageNo,pageSize);
-        if(items == null){
-            return Result.error("No Matched Item","");
-        }
-        return Result.ok(getResult(items));
+    public Result itemSearch(@RequestParam("searchInfo") String searchInfo,
+        @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+        @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+        Page<Item> items = itemService.searchPage(searchInfo, pageNo, pageSize);
+        return Result.ok("searchResultPage", items);
     }
 
     /**
@@ -159,22 +123,4 @@ public class ItemController {
 
     }
 
-    /**
-     * 提取PageInfo中的主要信息包装结果
-     *
-     * @param items 提取对象
-     * @return 提取结果
-     */
-    private List<Map<String,String>> getResult(PageInfo<Item> items){
-        List<Map<String,String>> result = new ArrayList<Map<String,String>>();
-        for(Item item : items.getList()){
-            Map<String,String> map = new HashMap<String, String>();
-            map.put("itemId", Integer.toString(item.getId()));
-            map.put("itemName", item.getName());
-            map.put("price", item.getPrice().toString());
-            map.put("image", item.getImage());
-            result.add(map);
-        }
-        return result;
-    }
 }

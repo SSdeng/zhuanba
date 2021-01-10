@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.zb.entity.Category;
-import com.zb.mapper.CategoryMapper;
-import com.zb.mapper.ItemMapper;
-import com.zb.mapper.UserMapper;
+import com.zb.repository.CategoryRepository;
+import com.zb.repository.ItemRepository;
+import com.zb.repository.UserMapper;
 
 @SpringBootTest
 class ZhuanbaApplicationTests {
@@ -15,15 +15,15 @@ class ZhuanbaApplicationTests {
     @Autowired
     private UserMapper userMapper;
     @Autowired
-    private ItemMapper itemMapper;
+    private ItemRepository itemRepository;
     @Autowired
-    private CategoryMapper categoryMapper;
+    private CategoryRepository categoryRepository;
 
     @Test
     void contextLoads() {
         // User user = userMapper.selectByPrimaryKey(1);
         // System.out.println(user);
-        Category item = categoryMapper.selectByPrimaryKey(1);
+        Category item = categoryRepository.selectByPrimaryKey(1);
         System.out.println(item);
     }
 }
