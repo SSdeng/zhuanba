@@ -28,8 +28,8 @@ import lombok.NoArgsConstructor;
 @DynamicInsert // 动态插入，字段为空时不加入到insert语句
 @DynamicUpdate // 动态更新，仅更新改变字段
 public class Item extends BaseEntity implements Serializable {
-    private static final long serialVersionUID = 2151072683055622844L;
 
+    private static final long serialVersionUID = -5566211160135800001L;
     /**
      * 商品名称,不可为空
      */

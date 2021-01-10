@@ -25,6 +25,8 @@ import java.io.Serializable;
 @DynamicUpdate // 动态更新，仅更新改变字段
 public class CartOrder extends BaseOrder implements Serializable {
 
+    private static final long serialVersionUID = -4331477511607701470L;
+
     /**
      * 相关商品
      */

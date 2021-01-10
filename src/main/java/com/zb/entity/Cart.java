@@ -27,6 +27,8 @@ import java.util.List;
 @DynamicUpdate // 动态更新，仅更新改变字段
 public class Cart extends BaseEntity implements Serializable {
 
+    private static final long serialVersionUID = -8790089710781789422L;
+
     /**
      * 所属用户
      */
