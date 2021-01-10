@@ -1,19 +1,17 @@
 package com.zb.service.impl;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
-
 import com.zb.entity.Category;
 import com.zb.repository.CategoryRepository;
 import com.zb.service.CategoryService;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 类别服务实现类
  *
- * @author YeFeng
+ * @author shenmanjie
  */
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -28,9 +26,11 @@ public class CategoryServiceImpl implements CategoryService {
      * @return 插入后Category对象
      */
     @Override
-    public Category insertSelective(Category newCategory) {
-        categoryRepository.insertSelective((newCategory));
-        return newCategory;
+    public Category addCategory(Category newCategory) {
+
+        Category save = categoryRepository.save(newCategory);
+
+        return save;
     }
 
     /**
@@ -42,8 +42,8 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public boolean deleteById(int category_id) {
-        int cnt = categoryRepository.deleteByPrimaryKey(category_id);
-        return cnt > 0;
+        categoryRepository.deleteById((long) category_id);
+        return categoryRepository.existsById((long) category_id);
     }
 
     /**
@@ -55,8 +55,8 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public Category updateCategory(Category category) {
-        categoryRepository.updateByPrimaryKeySelective(category);
-        return category;
+        Category newCategory = categoryRepository.save(category);
+        return newCategory;
     }
 
     /**
@@ -78,22 +78,24 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public List<Category> getAllCategories() {
-        return categoryMapper.selectAll();
+        return categoryRepository.findAll();
     }
+//
+//    /**
+//     * 分页查询分类
+//     *
+//     * @param pageNo
+//     *            起始页码
+//     * @param pageSize
+//     *            分页大小
+//     * @return 商品列表
+//     */
+//    @Override
+//    public PageInfo<Category> findPage(int pageNo, int pageSize) {
+//        PageHelper.startPage(pageNo, pageSize);
+//        List<Category> list = categoryRepository.selectAll();
+//        return new PageInfo<>(list);
+//    }
 
-    /**
-     * 分页查询分类
-     *
-     * @param pageNo
-     *            起始页码
-     * @param pageSize
-     *            分页大小
-     * @return 商品列表
-     */
-    @Override
-    public PageInfo<Category> findPage(int pageNo, int pageSize) {
-        PageHelper.startPage(pageNo, pageSize);
-        List<Category> list = categoryRepository.selectAll();
-        return new PageInfo<>(list);
-    }
+
 }

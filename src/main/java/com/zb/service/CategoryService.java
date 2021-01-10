@@ -1,6 +1,5 @@
 package com.zb.service;
 
-import com.github.pagehelper.PageInfo;
 import com.zb.entity.Category;
 
 import java.util.List;
@@ -8,7 +7,7 @@ import java.util.List;
 /**
  * 类别服务接口
  *
- * @author YeFeng
+ * @author shenmanjie
  */
 public interface CategoryService {
 
@@ -19,7 +18,7 @@ public interface CategoryService {
      *            新增Category对象
      * @return 插入后Category对象
      */
-    Category insertSelective(Category newCategory);
+    Category addCategory(Category newCategory);
 
     /**
      * 根据类别id删除类别
@@ -54,15 +53,15 @@ public interface CategoryService {
      * @return 类别List
      */
     List<Category> getAllCategories();
-
-    /**
-     * 分页查询
-     *
-     * @param pageNo
-     *            起始页码
-     * @param pageSize
-     *            分页大小
-     * @return 商品列表
-     */
-    PageInfo<Category> findPage(int pageNo, int pageSize);
+//
+//    /**
+//     * 分页查询
+//     *
+//     * @param pageNo
+//     *            起始页码
+//     * @param pageSize
+//     *            分页大小
+//     * @return 商品列表
+//     */
+//    PageInfo<Category> findPage(int pageNo, int pageSize);
 }
