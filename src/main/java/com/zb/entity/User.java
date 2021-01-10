@@ -25,7 +25,8 @@ import lombok.*;
 @DynamicInsert // 动态插入，字段为空时不加入到insert语句
 @DynamicUpdate // 动态更新，仅更新改变字段
 public class User extends BaseEntity implements Serializable {
-    private static final long serialVersionUID = -2249088288605052627L;
+
+    private static final long serialVersionUID = 6224633281865581627L;
     /**
      * 用户名
      *  唯一，不可为空
