@@ -3,11 +3,11 @@ package com.zb.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import com.zb.entity.Order;
+import com.zb.entity.UserOrder;
 
 /**
- * Order DAO层
+ * UserOrder DAO层
  */
-public interface OrderRepository extends JpaRepository<Order, Integer>, JpaSpecificationExecutor<Order> {
+public interface OrderRepository extends JpaRepository<UserOrder, Integer>, JpaSpecificationExecutor<UserOrder> {
 
 }
