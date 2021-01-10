@@ -1,18 +1,16 @@
 package com.zb.entity;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.List;
-
-import javax.persistence.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * 商品实体
@@ -94,4 +92,10 @@ public class Item extends BaseEntity implements Serializable {
             // 对方对象在中间表的外键
             inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")})
     private List<Category> categories;
+
+    /**
+     * 商品评论列表
+     */
+    @OneToMany(targetEntity = ItemComment.class, mappedBy = "item", cascade = {CascadeType.REMOVE, CascadeType.MERGE})
+    private List<ItemComment> itemComments;
 }

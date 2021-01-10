@@ -1,14 +1,15 @@
 package com.zb.entity;
 
-import java.io.Serializable;
-import java.util.List;
-
-import javax.persistence.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import lombok.*;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * 用户实体
@@ -98,4 +99,10 @@ public class User extends BaseEntity implements Serializable {
      */
     @OneToMany(targetEntity = WantsComment.class, mappedBy = "user",cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     private List<WantsComment> wantsComments;
+
+    /**
+     * 商品评论列表
+     */
+    @OneToMany(targetEntity = ItemComment.class, mappedBy = "user", cascade = {CascadeType.REMOVE, CascadeType.MERGE})
+    private List<ItemComment> itemComments;
 }
