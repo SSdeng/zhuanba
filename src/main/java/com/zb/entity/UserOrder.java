@@ -20,7 +20,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "sys_user_order")
+@Table(name = "sys_uorder")
 @DynamicInsert
 @DynamicUpdate
 public class UserOrder extends BaseOrder implements Serializable {
@@ -51,6 +51,6 @@ public class UserOrder extends BaseOrder implements Serializable {
      * 相关用户
      */
     @ManyToOne
-    @JoinColumn(name = "user_order_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
     private User user;
 }

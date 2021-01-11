@@ -13,15 +13,15 @@ import java.io.Serializable;
  *
  */
 @Entity
-@Table(name = "sys_Item_Comment")
+@Table(name = "sys_icomment")
 public class ItemComment extends BaseComment implements Serializable {
 
     @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "itemcomment_user_id",referencedColumnName = "id")
+    @JoinColumn(name = "user_id",referencedColumnName = "id")
     private User user;
 
     @ManyToOne(targetEntity = Item.class)
-    @JoinColumn(name = "itemcomment_item_id",referencedColumnName = "id")
+    @JoinColumn(name = "item_id",referencedColumnName = "id")
     private Item item;
 
 }
