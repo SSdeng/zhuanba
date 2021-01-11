@@ -3,7 +3,6 @@ package com.zb.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -19,9 +18,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Entity
-@Table(name = "user_collection")
+@Table(name = "sys_collection")
 @DynamicInsert // 动态插入，字段为空时不加入到insert语句
 @DynamicUpdate // 动态更新，字段为空时不加入到update语句
 public class Collection implements Serializable {
@@ -43,8 +41,10 @@ public class Collection implements Serializable {
     @ManyToMany(targetEntity = Item.class, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "sys_collection_item",
             // 当前对象在中间表的外键
-            joinColumns = {@JoinColumn(name = "collection_name", referencedColumnName = "collection_name")},
+            joinColumns = {@JoinColumn(name = "sys_collection_name", referencedColumnName = "collection_name")},
             // 对方对象在中间表的外键
-            inverseJoinColumns = {@JoinColumn(name = "item_id", referencedColumnName = "id")})
+            inverseJoinColumns = {@JoinColumn(name = "sys_item_id", referencedColumnName = "id")})
     private List<Item> items;
+
+
 }
