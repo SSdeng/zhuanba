@@ -17,7 +17,7 @@ public interface ItemCommentService {
      *            新增ItemComment对象
      * @return 插入后ItemComment对象
      */
-    ItemComment addItemComment(ItemComment newItemComment);
+    ItemComment insertSelective(ItemComment newItemComment);
 
 //    /**
 //     * 根据id删除商品评论

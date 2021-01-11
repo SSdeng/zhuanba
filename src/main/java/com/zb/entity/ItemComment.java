@@ -1,5 +1,12 @@
 package com.zb.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -12,8 +19,14 @@ import java.io.Serializable;
  * @author shenmanjie
  *
  */
+@Data
+@EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "sys_icomment")
+@DynamicInsert // 动态插入，字段为空时不加入到insert语句
+@DynamicUpdate // 动态更新，仅更新改变字段
 public class ItemComment extends BaseComment implements Serializable {
 
     @ManyToOne(targetEntity = User.class)

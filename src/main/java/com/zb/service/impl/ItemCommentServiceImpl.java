@@ -24,10 +24,7 @@ public class ItemCommentServiceImpl implements ItemCommentService {
      * @return
      */
     @Override
-    public ItemComment addItemComment(ItemComment newItemComment) {
-
-        ItemComment save = itemCommentRepository.save(newItemComment);
-
-        return save;
+    public ItemComment insertSelective(ItemComment newItemComment) {
+        return itemCommentRepository.saveAndFlush(newItemComment);
     }
 }
