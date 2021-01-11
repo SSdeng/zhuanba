@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * 用户实体
- * 
+ *
  * @author dengzhijian
  * @version 1.1
  */
@@ -30,13 +30,13 @@ public class User extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 6224633281865581627L;
     /**
      * 用户名
-     *  唯一，不可为空
+     * 唯一，不可为空
      */
     @Column(unique = true, nullable = false)
     private String username;
     /**
      * 密码
-     *  不可为空
+     * 不可为空
      */
     @Column(nullable = false)
     private String password;
@@ -54,7 +54,7 @@ public class User extends BaseEntity implements Serializable {
     private String email;
     /**
      * 性别
-     *  0为男性，1为女性，默认为0
+     * 0为男性，1为女性，默认为0
      */
     private Integer gender = 0;
     /**
@@ -71,19 +71,19 @@ public class User extends BaseEntity implements Serializable {
     private String studentNumber;
     /**
      * 角色
-     *  用于权限认证
+     * 用于权限认证
      */
     private String role = "user";
     /**
      * 用户购物车
      */
-    @OneToOne(mappedBy = "user",cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
-    @JoinColumn(name = "cart_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @OneToOne(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    @JoinColumn(name = "cart_id", referencedColumnName = "id", updatable = false)
     private Cart cart;
     /**
      * 用户地址表
      */
-    @OneToMany(mappedBy = "user",cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     private List<Address> addresses;
     /**
      * 用户发布商品列表
@@ -93,17 +93,17 @@ public class User extends BaseEntity implements Serializable {
     /**
      * 用户订单列表
      */
-    @OneToMany(mappedBy = "user",cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     private List<UserOrder> userOrders;
     /**
      * 用户求购项列表
      */
-    @OneToMany(mappedBy = "user",cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     private List<Wants> wants;
     /**
      * 用户求购评论列表
      */
-    @OneToMany(mappedBy = "user",cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     private List<WantsComment> wantsComments;
 
     /**

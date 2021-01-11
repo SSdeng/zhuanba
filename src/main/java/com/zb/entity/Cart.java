@@ -9,6 +9,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,7 +34,7 @@ public class Cart extends BaseEntity implements Serializable {
      * 所属用户
      */
     @OneToOne(targetEntity = User.class)
-    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
     private User user;
 
     /**
@@ -41,4 +42,9 @@ public class Cart extends BaseEntity implements Serializable {
      */
     @OneToMany(mappedBy = "cart", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     private List<CartOrder> orderList;
+
+    public Cart(User user) {
+        this.user = user;
+        this.orderList = new ArrayList<>();
+    }
 }
