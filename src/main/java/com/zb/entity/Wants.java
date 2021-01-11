@@ -7,6 +7,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 求购信息
@@ -21,8 +22,8 @@ import java.io.Serializable;
 @ToString
 @Entity
 @Table(name = "sys_wants")
-@DynamicInsert // 动态插入
-@DynamicUpdate // 动态更新
+@DynamicInsert
+@DynamicUpdate
 public class Wants extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     /**
@@ -44,6 +45,11 @@ public class Wants extends BaseEntity implements Serializable {
      * 求购所属用户
      */
     @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "wants_id", referencedColumnName = "id", insertable = false, updatable = false)
     private User user;
+    /**
+     *  求购评论列表
+     */
+    @OneToMany(targetEntity = WantsComment.class, mappedBy = "wants",cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    private List<WantsComment> comments;
 }

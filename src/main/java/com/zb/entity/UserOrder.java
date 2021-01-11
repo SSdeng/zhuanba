@@ -20,9 +20,9 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "sys_order")
-@DynamicInsert // 动态插入，字段为空时不加入到insert语句
-@DynamicUpdate // 动态更新，仅更新改变字段
+@Table(name = "sys_user_order")
+@DynamicInsert
+@DynamicUpdate
 public class UserOrder extends BaseOrder implements Serializable {
 
     private static final long serialVersionUID = -162659726395555840L;
@@ -51,6 +51,6 @@ public class UserOrder extends BaseOrder implements Serializable {
      * 相关用户
      */
     @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_order_id", referencedColumnName = "id", insertable = false, updatable = false)
     private User user;
 }

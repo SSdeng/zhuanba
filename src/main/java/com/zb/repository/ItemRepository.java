@@ -11,4 +11,4 @@ import com.zb.entity.Item;
  * @author dengzhijian
  * @version 1.0
  */
-public interface ItemRepository extends JpaRepository<Item, Integer>, JpaSpecificationExecutor<Item> {}
+public interface ItemRepository extends JpaRepository<Item, Long>, JpaSpecificationExecutor<Item> {}

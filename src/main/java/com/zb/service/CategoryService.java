@@ -1,12 +1,13 @@
 package com.zb.service;
 
-import com.github.pagehelper.PageInfo;
 import com.zb.entity.Category;
 
+import java.util.List;
+
 /**
- * 类别服务接口
+ * 分类服务接口
  *
- * @author YeFeng
+ * @author shenmanjie
  */
 public interface CategoryService {
 
@@ -17,10 +18,10 @@ public interface CategoryService {
      *            新增Category对象
      * @return 插入后Category对象
      */
-    Category insertSelective(Category newCategory);
+    Category addCategory(Category newCategory);
 
     /**
-     * 根据类别id删除类别
+     * 根据类别id删除分类
      *
      * @param category_id
      *            类别id
@@ -29,7 +30,7 @@ public interface CategoryService {
     boolean deleteById(int category_id);
 
     /**
-     * 更新类别信息
+     * 更新分类信息
      *
      * @param category
      *            待更新对象
@@ -38,7 +39,7 @@ public interface CategoryService {
     Category updateCategory(Category category);
 
     /**
-     * 根据类别名查找类别
+     * 根据类别名查找分类
      *
      * @param categoryName
      *            类别名
@@ -47,13 +48,20 @@ public interface CategoryService {
     Category findByName(String categoryName);
 
     /**
-     * 分页查询
+     * 返回所有分类
      *
-     * @param pageNo
-     *            起始页码
-     * @param pageSize
-     *            分页大小
-     * @return 商品列表
+     * @return 类别List
      */
-    PageInfo<Category> findPage(int pageNo, int pageSize);
+    List<Category> getAllCategories();
+//
+//    /**
+//     * 分页查询
+//     *
+//     * @param pageNo
+//     *            起始页码
+//     * @param pageSize
+//     *            分页大小
+//     * @return 商品列表
+//     */
+//    PageInfo<Category> findPage(int pageNo, int pageSize);
 }
