@@ -20,7 +20,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "sys_cartOrder")
+@Table(name = "sys_corder")
 @DynamicInsert // 动态插入，字段为空时不加入到insert语句
 @DynamicUpdate // 动态更新，仅更新改变字段
 public class CartOrder extends BaseOrder implements Serializable {

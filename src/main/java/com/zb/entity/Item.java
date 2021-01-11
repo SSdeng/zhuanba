@@ -96,6 +96,6 @@ public class Item extends BaseEntity implements Serializable {
     /**
      * 商品评论列表
      */
-    @OneToMany(targetEntity = ItemComment.class, mappedBy = "item", cascade = {CascadeType.REMOVE, CascadeType.MERGE})
+    @OneToMany(mappedBy = "item", cascade = {CascadeType.REMOVE, CascadeType.MERGE})
     private List<ItemComment> itemComments;
 }
