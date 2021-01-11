@@ -1,16 +1,15 @@
 package com.zb.controller;
 
 import com.zb.entity.Category;
+import com.zb.entity.Item;
 import com.zb.service.CategoryService;
-import com.zb.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -18,7 +17,7 @@ import java.util.List;
  * shenmanjie
  * 2021/1/8 11:23
  */
-@RestController
+@Controller
 @RequestMapping("/api/category")
 public class CategoryController {
 
@@ -34,29 +33,22 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
+
     /**
-     * @return 返回所有分类信息
+     * 返回指定分类下所有的Item
+     *
+     * @param categoryId
+     * @return
      */
-    @GetMapping("/get")
-    public Result getAllCategory(){
-
-        List<Category> list = categoryService.selectAll();
-
-        List<HashMap> mapList = new ArrayList<HashMap>();
-
-        for(Category category : list){
-
-            HashMap<Integer,String> map = new HashMap<Integer,String>();
-            map.put(category.getId(), category.getName());
-            mapList.add(map);
-        }
-
-        return Result.ok("返回部门信息",mapList);
-    }
-
     @GetMapping("/find")
-    public Result getSpecificCategoryItem(@RequestParam("categoryId") int categoryId){
+    public String getSpecificCategoryItems(@RequestParam("categoryId") int categoryId, Model model){
 
-        return null;
+        List<Item> items = categoryService.getSpecificCategoryItems(categoryId);
+        List<Category> categories = categoryService.getAllCategories();
+
+        model.addAttribute("items", items);
+        model.addAttribute("categories", categories);
+
+        return "index";
     }
 }

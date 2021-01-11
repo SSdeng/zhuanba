@@ -1,6 +1,7 @@
 package com.zb.service;
 
 import com.zb.entity.Category;
+import com.zb.entity.Item;
 
 import java.util.List;
 
@@ -39,6 +40,14 @@ public interface CategoryService {
     Category updateCategory(Category category);
 
     /**
+     * 根据分类Id查找分类
+     *
+     * @param categoryId
+     * @return
+     */
+    Category findById(int categoryId);
+
+    /**
      * 根据类别名查找分类
      *
      * @param categoryName
@@ -53,6 +62,15 @@ public interface CategoryService {
      * @return 类别List
      */
     List<Category> getAllCategories();
+
+
+    /**
+     * 返回分类下的商品信息
+     *
+     * @param categoryId
+     * @return
+     */
+    List<Item> getSpecificCategoryItems(int categoryId);
 //
 //    /**
 //     * 分页查询
