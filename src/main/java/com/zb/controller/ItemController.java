@@ -4,7 +4,10 @@ import java.io.IOException;
 
 import javax.annotation.Resource;
 
+import com.zb.entity.vo.ItemVO;
 import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,7 +22,7 @@ import com.zb.util.Result;
  * @author lijiacheng
  * @version 1.0
  */
-@RestController
+@Controller
 @RequestMapping("/api/item")
 public class ItemController {
 
@@ -34,12 +37,13 @@ public class ItemController {
      * @return 发布结果
      */
     @PostMapping("/release")
-    public Result releaseItem(@RequestBody Item item) {
-        Item insert = itemService.insertSelective(item);
+    @ResponseBody
+    public Result releaseItem(@RequestBody ItemVO itemVO) {
+        Item insert = itemService.insertSelective(itemVO);
         if (insert == null) {
-            return Result.error("Error Occured");
+            return Result.error(-1);
         }
-        return Result.ok("Release Success");
+        return Result.ok(insert.getId());
     }
 
     /**
@@ -50,12 +54,16 @@ public class ItemController {
      * @return 查看结果
      */
     @GetMapping("/details")
-    public Result itemDetails(@RequestParam("itemId") int itemId) {
+    @ResponseBody
+    public Result itemDetails(Model model, @RequestParam("itemId") int itemId) {
         Item item = itemService.findById(itemId);
         if (item == null) {
             return Result.error("Find no item");
         }
-        return Result.ok("Item Details", item);
+        model.addAttribute("item",item);
+        model.addAttribute("categories",item.getCategories());
+        model.addAttribute("comments",item.getItemComments());
+        return Result.ok();
     }
 
     /**
@@ -70,6 +78,7 @@ public class ItemController {
     @GetMapping("/all")
     public Result itemAll(@RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
         @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+        //TODO 转移至home“/”
         Page<Item> items = itemService.findAllByPage(pageNo, pageSize);
         return Result.ok("pageAll", items);
     }
@@ -89,6 +98,7 @@ public class ItemController {
     public Result itemSearch(@RequestParam("searchInfo") String searchInfo,
         @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
         @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+        //TODO
         Page<Item> items = itemService.searchByPage(searchInfo, pageNo, pageSize);
         return Result.ok("searchResultPage", items);
     }
@@ -100,26 +110,42 @@ public class ItemController {
      * @param image
      */
     @PostMapping("/upload")
-    public void uploadPicture(@RequestParam("itemId") int itemId, @RequestParam("image") MultipartFile image) {
+    public void uploadPicture(Model model, @RequestParam("itemId") int itemId, @RequestParam("image") MultipartFile image) throws IOException {
 
         // String itemPictureName = new String();
 
-        try {
-            // 使用图片上传工具类，接受文件后，返回文件的新名称
-            String itemPictureName = FileUtil.uploadFile(image);
+        // 使用图片上传工具类，接受文件后，返回文件的新名称
+        String itemPictureName = FileUtil.uploadFile(image);
 
-            Item item = itemService.findById(itemId);
+        Item item = itemService.findById(itemId);
 
-            item.setImage(itemPictureName);
+        item.setImage(itemPictureName);
 
-            itemService.updateItemInfo(item);
+        item = itemService.updateItemInfo(item);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        model.addAttribute("item",item);
 
         // return Result.ok("upload success");
 
     }
 
+    /**
+     * 进入购买商品
+     *
+     * @param model
+     * @param itemId 商品id
+     * @return 商品id，数量（1），价格
+     */
+    @PostMapping("/buy")
+    @ResponseBody
+    public Result bugItem(Model model, @RequestParam("itemId") Long itemId){
+        Item item = itemService.findById(itemId);
+        if (item == null) {
+            return Result.error();
+        }
+        model.addAttribute("itemId",item.getId());
+        model.addAttribute("number",1);
+        model.addAttribute("cost",item.getPrice());
+        return Result.ok();
+    }
 }

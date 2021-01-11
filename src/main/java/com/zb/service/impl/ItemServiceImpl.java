@@ -1,8 +1,12 @@
 package com.zb.service.impl;
 
 import javax.annotation.Resource;
+import javax.annotation.Resources;
 
+import com.zb.entity.vo.ItemVO;
 import com.zb.exception.MyException;
+import com.zb.repository.UserRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,18 +25,20 @@ import com.zb.service.ItemService;
 public class ItemServiceImpl implements ItemService {
     @Resource
     private ItemRepository itemRepository;
+    @Resource
+    private UserRepository userRepository;
 
     /**
      * 发布商品
      *
-     * @param newItem 新增Item对象
+     * @param itemVOtem 新增Item对象
      * @return 插入后Item对象
      */
     @Override
-    public Item insertSelective(Item newItem) {
-        if (getById(newItem.getId()) != null) {
-            throw new DataIntegrityViolationException("相同id的item已存在");
-        }
+    public Item insertSelective(ItemVO itemVO) {
+        Item newItem = new Item();
+        newItem.setUser(userRepository.getOne(itemVO.getUserId()));
+        BeanUtils.copyProperties(itemVO, newItem);
         return itemRepository.saveAndFlush(newItem);
     }
 

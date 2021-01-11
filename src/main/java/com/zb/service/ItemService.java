@@ -1,6 +1,7 @@
 package com.zb.service;
 
 import com.zb.entity.Item;
+import com.zb.entity.vo.ItemVO;
 import org.springframework.data.domain.Page;
 
 /**
@@ -13,10 +14,10 @@ public interface ItemService {
     /**
      * 发布商品
      *
-     * @param newItem 新增Item对象
+     * @param itemVOtem 新增Item对象
      * @return 插入后Item对象
      */
-    Item insertSelective(Item newItem);
+    Item insertSelective(ItemVO itemVO);
 
     /**
      * 根据商品id删除商品
