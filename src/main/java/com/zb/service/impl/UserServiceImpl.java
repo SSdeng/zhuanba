@@ -17,6 +17,8 @@ import com.zb.exception.MyException;
 import com.zb.repository.UserRepository;
 import com.zb.service.UserService;
 
+import java.io.IOException;
+
 /**
  * 用户服务实现类
  *
@@ -49,7 +51,7 @@ public class UserServiceImpl implements UserService {
      *            用户id
      */
     @Override
-    public void deleteById(int user_id) {
+    public void deleteById(Long user_id) {
         userRepository.deleteById(user_id);
     }
 
@@ -63,16 +65,12 @@ public class UserServiceImpl implements UserService {
      * @return 更新后的用户
      */
     @Override
-    public User updateUserInfo(String JSONUser, Integer userId) {
+    public User updateUserInfo(String JSONUser, Long userId) throws IOException {
         User dataUser = findById(userId);
         ObjectMapper mapper = new ObjectMapper();
         // 利用jackson相关API，实现非null值的合并更新
         User newUser = null;
-        try {
             newUser = mapper.readerForUpdating(dataUser).readValue(JSONUser);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
         userRepository.save(newUser);
         return newUser;
     }
@@ -126,7 +124,7 @@ public class UserServiceImpl implements UserService {
      * @return 对应user对象
      */
     @Override
-    public User findById(int user_id) {
+    public User findById(Long user_id) {
         User user = userRepository.findById(user_id).orElse(null);
         if (user == null) {
             throw new MyException("用户未找到");

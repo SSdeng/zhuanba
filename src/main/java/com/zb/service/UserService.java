@@ -4,6 +4,8 @@ import org.springframework.data.domain.Page;
 
 import com.zb.entity.User;
 
+import java.io.IOException;
+
 /**
  * 用户服务接口
  *
@@ -25,7 +27,7 @@ public interface UserService {
      * @param user_id
      *            用户id
      */
-    void deleteById(int user_id);
+    void deleteById(Long user_id);
 
     /**
      * 更新用户信息
@@ -36,7 +38,7 @@ public interface UserService {
      *            用户id
      * @return 更新后的用户
      */
-    User updateUserInfo(String JSONUser, Integer userId);
+    User updateUserInfo(String JSONUser, Long userId) throws IOException;
 
     /**
      * 登录
@@ -74,7 +76,7 @@ public interface UserService {
      *            用户id
      * @return 对应user对象
      */
-    User findById(int user_id);
+    User findById(Long user_id);
 
     /**
      * 根据用户名查找用户

@@ -1,6 +1,5 @@
 package com.zb.entity;
 
-import com.sun.istack.Nullable;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
