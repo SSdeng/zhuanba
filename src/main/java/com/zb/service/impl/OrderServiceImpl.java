@@ -21,6 +21,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Resource
     private OrderRepository orderRepository;
+
     /**
      * 新建订单
      *
@@ -29,7 +30,7 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public UserOrder insertOrder(UserOrder order) {
-        return null;
+        return orderRepository.saveAndFlush(order);
     }
 
     /**
@@ -40,7 +41,8 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public boolean deleteById(Long orderId) {
-        return false;
+        //todo
+        orderRepository.deleteById(orderId);
     }
 
     /**
