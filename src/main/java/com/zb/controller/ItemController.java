@@ -110,9 +110,8 @@ public class ItemController {
      * @param image
      */
     @PostMapping("/upload")
-    public void uploadPicture(Model model, @RequestParam("itemId") int itemId, @RequestParam("image") MultipartFile image) throws IOException {
-
-        // String itemPictureName = new String();
+    @ResponseBody
+    public Result uploadPicture(Model model, @RequestParam("itemId") int itemId, @RequestParam("image") MultipartFile image) throws IOException {
 
         // 使用图片上传工具类，接受文件后，返回文件的新名称
         String itemPictureName = FileUtil.uploadFile(image);
@@ -125,7 +124,7 @@ public class ItemController {
 
         model.addAttribute("item",item);
 
-        // return Result.ok("upload success");
+        return Result.ok();
 
     }
 
