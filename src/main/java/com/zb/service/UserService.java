@@ -17,7 +17,7 @@ public interface UserService {
      *            新增User对象
      * @return 插入后User对象
      */
-    User register(User newUser);
+    User insertSelective(User newUser);
 
     /**
      * 根据用户id删除用户
@@ -25,7 +25,7 @@ public interface UserService {
      * @param user_id
      *            用户id
      */
-    void deleteById(int user_id);
+    void deleteById(long user_id);
 
     /**
      * 更新用户信息
@@ -74,7 +74,7 @@ public interface UserService {
      *            用户id
      * @return 对应user对象
      */
-    User findById(int user_id);
+    User findById(long user_id);
 
     /**
      * 根据用户名查找用户

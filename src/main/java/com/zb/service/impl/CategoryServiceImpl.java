@@ -1,5 +1,13 @@
 package com.zb.service.impl;
 
+import javax.annotation.Resource;
+
+import com.zb.entity.User;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+
 import com.zb.entity.Category;
 import com.zb.entity.Item;
 import com.zb.repository.CategoryRepository;
@@ -27,11 +35,11 @@ public class CategoryServiceImpl implements CategoryService {
      * @return 插入后Category对象
      */
     @Override
-    public Category addCategory(Category newCategory) {
-
-        Category save = categoryRepository.save(newCategory);
-
-        return save;
+    public Category insertSelective(Category newCategory) {
+        if (getById(newCategory.getId()) != null) {
+            throw new DataIntegrityViolationException("相同id的category已存在");
+        }
+        return categoryRepository.saveAndFlush(newCategory);
     }
 
     /**
@@ -42,9 +50,9 @@ public class CategoryServiceImpl implements CategoryService {
      * @return 删除结果
      */
     @Override
-    public boolean deleteById(int category_id) {
-        categoryRepository.deleteById((long) category_id);
-        return categoryRepository.existsById((long) category_id);
+    public boolean deleteById(long category_id) {
+        categoryRepository.deleteById(category_id);
+        return true;
     }
 
     /**
@@ -56,8 +64,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public Category updateCategory(Category category) {
-        Category newCategory = categoryRepository.save(category);
-        return newCategory;
+        return categoryRepository.save(category);
     }
 
     /**
@@ -67,7 +74,7 @@ public class CategoryServiceImpl implements CategoryService {
      * @return 分类
      */
     @Override
-    public Category findById(int categoryId){
+    public Category findById(long categoryId){
         return categoryRepository.getOne((long) categoryId);
     }
 
@@ -93,7 +100,6 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.findAll();
     }
 
-
     /**
      * 返回分类中的商品
      *
@@ -101,27 +107,33 @@ public class CategoryServiceImpl implements CategoryService {
      * @return
      */
     @Override
-    public List<Item> getSpecificCategoryItems(int categoryId){
+    public List<Item> getSpecificCategoryItems(long categoryId){
         Category one = categoryRepository.getOne((long) categoryId);
         List<Item> items = one.getItems();
         return items;
     }
-//
-//    /**
-//     * 分页查询分类
-//     *
-//     * @param pageNo
-//     *            起始页码
-//     * @param pageSize
-//     *            分页大小
-//     * @return 商品列表
-//     */
-//    @Override
-//    public PageInfo<Category> findPage(int pageNo, int pageSize) {
-//        PageHelper.startPage(pageNo, pageSize);
-//        List<Category> list = categoryRepository.selectAll();
-//        return new PageInfo<>(list);
-//    }
 
+    /**
+     * 分页查询分类
+     *
+     * @param pageNo
+     *            起始页码
+     * @param pageSize
+     *            分页大小
+     * @return 商品列表
+     */
+    @Override
+    public Page<Category> findAllByPage(int pageNo, int pageSize) {
+        return categoryRepository.findAll(PageRequest.of(pageNo - 1, pageSize));
+    }
 
+    /**
+     * 获取id对应category
+     *
+     * @param id category_id
+     * @return category对象 不存在返回null
+     */
+    private Category getById(Long id) {
+        return id == null ? null : categoryRepository.findById(id).orElse(null);
+    }
 }

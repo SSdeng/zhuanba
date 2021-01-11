@@ -2,6 +2,11 @@ package com.zb.service;
 
 import com.zb.entity.Category;
 import com.zb.entity.Item;
+import org.springframework.data.domain.Page;
+
+import java.util.List;
+import org.springframework.data.domain.Page;
+import com.zb.entity.Item;
 
 import java.util.List;
 
@@ -19,7 +24,7 @@ public interface CategoryService {
      *            新增Category对象
      * @return 插入后Category对象
      */
-    Category addCategory(Category newCategory);
+    Category insertSelective(Category newCategory);
 
     /**
      * 根据类别id删除分类
@@ -28,7 +33,7 @@ public interface CategoryService {
      *            类别id
      * @return 删除结果
      */
-    boolean deleteById(int category_id);
+    boolean deleteById(long category_id);
 
     /**
      * 更新分类信息
@@ -45,7 +50,7 @@ public interface CategoryService {
      * @param categoryId
      * @return
      */
-    Category findById(int categoryId);
+    Category findById(long categoryId);
 
     /**
      * 根据类别名查找分类
@@ -70,16 +75,16 @@ public interface CategoryService {
      * @param categoryId
      * @return
      */
-    List<Item> getSpecificCategoryItems(int categoryId);
-//
-//    /**
-//     * 分页查询
-//     *
-//     * @param pageNo
-//     *            起始页码
-//     * @param pageSize
-//     *            分页大小
-//     * @return 商品列表
-//     */
-//    PageInfo<Category> findPage(int pageNo, int pageSize);
+    List<Item> getSpecificCategoryItems(long categoryId);
+
+    /**
+     * 分页查询
+     *
+     * @param pageNo
+     *            起始页码
+     * @param pageSize
+     *            分页大小
+     * @return 商品列表
+     */
+    Page<Category> findAllByPage(int pageNo, int pageSize);
 }
