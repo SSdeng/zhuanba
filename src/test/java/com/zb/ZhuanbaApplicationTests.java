@@ -7,13 +7,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.zb.entity.Category;
 import com.zb.repository.CategoryRepository;
 import com.zb.repository.ItemRepository;
-import com.zb.repository.UserMapper;
 
 @SpringBootTest
 class ZhuanbaApplicationTests {
 
-    @Autowired
-    private UserMapper userMapper;
     @Autowired
     private ItemRepository itemRepository;
     @Autowired
@@ -23,7 +20,7 @@ class ZhuanbaApplicationTests {
     void contextLoads() {
         // User user = userMapper.selectByPrimaryKey(1);
         // System.out.println(user);
-        Category item = categoryRepository.selectByPrimaryKey(1);
-        System.out.println(item);
+        //Category item = categoryRepository.selectByPrimaryKey(1);
+        //System.out.println(item);
     }
 }

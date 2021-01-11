@@ -17,6 +17,6 @@ public interface CategoryRepository extends JpaRepository<Category, Long>, JpaSp
      * 根据客户名称查询客户
      * 使用jpql的形式查询
      */
-    @Query(value="from Category where name = ?")
+    @Query(value="from Category where name = ?1")
     public Category findByName(String categoryName);
 }

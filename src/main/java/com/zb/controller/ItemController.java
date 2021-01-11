@@ -8,7 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.github.pagehelper.PageInfo;
 import com.zb.entity.Item;
 import com.zb.service.ItemService;
 import com.zb.util.FileUtil;
@@ -36,7 +35,7 @@ public class ItemController {
      */
     @PostMapping("/release")
     public Result releaseItem(@RequestBody Item item) {
-        Item insert = itemService.insert(item);
+        Item insert = itemService.insertSelective(item);
         if (insert == null) {
             return Result.error("Error Occured");
         }
@@ -71,7 +70,7 @@ public class ItemController {
     @GetMapping("/all")
     public Result itemAll(@RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
         @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-        PageInfo<Item> items = itemService.findPage(pageNo, pageSize);
+        Page<Item> items = itemService.findAllByPage(pageNo, pageSize);
         return Result.ok("pageAll", items);
     }
 
@@ -90,7 +89,7 @@ public class ItemController {
     public Result itemSearch(@RequestParam("searchInfo") String searchInfo,
         @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
         @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-        Page<Item> items = itemService.searchPage(searchInfo, pageNo, pageSize);
+        Page<Item> items = itemService.searchByPage(searchInfo, pageNo, pageSize);
         return Result.ok("searchResultPage", items);
     }
 

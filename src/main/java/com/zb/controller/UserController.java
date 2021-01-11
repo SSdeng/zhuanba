@@ -65,7 +65,7 @@ public class UserController {
 
     @PostMapping("/register")
     public Result register(@RequestBody User user) {
-        userService.register(user);
+        userService.insertSelective(user);
         return Result.ok("注册成功", null);
     }
 

@@ -22,7 +22,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "sys_wants_comment")
+@Table(name = "sys_wcomment")
 @DynamicInsert
 @DynamicUpdate
 public class WantsComment extends BaseComment implements Serializable {
@@ -30,14 +30,14 @@ public class WantsComment extends BaseComment implements Serializable {
     /**
      * 所属求购
      */
-    @ManyToOne
-    @JoinColumn(name = "w_comment_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(targetEntity = Wants.class)
+    @JoinColumn(name = "wants_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Wants wants;
     /**
      * 发表用户
      */
-    @ManyToOne
-    @JoinColumn(name = "w_comment_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
     private User user;
 
 }

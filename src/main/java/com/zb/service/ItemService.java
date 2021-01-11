@@ -1,7 +1,7 @@
 package com.zb.service;
 
-import com.github.pagehelper.PageInfo;
 import com.zb.entity.Item;
+import org.springframework.data.domain.Page;
 
 /**
  * 商品服务接口
@@ -13,75 +13,62 @@ public interface ItemService {
     /**
      * 发布商品
      *
-     * @param newItem
-     *            新增Item对象
+     * @param newItem 新增Item对象
      * @return 插入后Item对象
      */
-    Item insert(Item newItem);
+    Item insertSelective(Item newItem);
 
     /**
      * 根据商品id删除商品
      *
-     * @param item_id
-     *            商品id
+     * @param item_id 商品id
      * @return 删除结果
      */
-    boolean deleteById(int item_id);
+    boolean deleteById(long item_id);
 
     /**
      * 更新商品信息
      *
-     * @param item
-     *            需更新Item对象
+     * @param item 需更新Item对象
      * @return 更新后Item对象
      */
     Item updateItemInfo(Item item);
 
     /**
      * 修改商品id对应商品的审核状态
-     * 
-     * @see com.zb.entity.Item
      *
-     * @param item_id
-     *            商品id
-     * @param manager_id
-     *            管理员id
-     * @param status
-     *            新审核状态
+     * @param item_id    商品id
+     * @param manager_id 管理员id
+     * @param status     新审核状态
      * @return 修改后的Item对象
+     * @see com.zb.entity.Item
      */
-    Item setAuditStatus(int item_id, int manager_id, int status);
+    Item setAuditStatus(long item_id, long manager_id, int status);
 
     /**
      * 分页查询
      *
-     * @param pageNo
-     *            起始页码
-     * @param pageSize
-     *            分页大小
+     * @param pageNo   起始页码
+     * @param pageSize 分页大小
      * @return 商品列表
      */
-    PageInfo<Item> findPage(int pageNo, int pageSize);
+    Page<Item> findAllByPage(int pageNo, int pageSize);
 
     /**
      * 根据商品id查找商品
      *
-     * @param id
-     *            商品id
+     * @param id 商品id
      * @return 对应Item对象
      */
-    Item findById(Integer id);
+    Item findById(long id);
 
     /**
-     * 分页搜索商品
+     * 按条件分页查找
      *
-     * @param info
-     *            搜索信息
-     * @param pageNo
-     *            起始页码
-     * @param pageSize
-     *            分页大小
-     * @return 结果商品列表
+     * @param searchInfo 搜索信息
+     * @param pageNo 起始页码
+     * @param pageSize 分页大小
+     * @return 查询结果
      */
-    PageInfo<Item> searchPage(String info, int pageNo, int pageSize);
+    Page<Item> searchByPage(String searchInfo, int pageNo, int pageSize);
 }

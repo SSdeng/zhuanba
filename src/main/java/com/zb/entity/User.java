@@ -75,34 +75,40 @@ public class User extends BaseEntity implements Serializable {
      */
     private String role = "user";
     /**
+     * 用户购物车
+     */
+    @OneToOne(mappedBy = "user",cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    @JoinColumn(name = "cart_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Cart cart;
+    /**
      * 用户地址表
      */
-    @OneToMany(targetEntity = Address.class, mappedBy = "user",cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    @OneToMany(mappedBy = "user",cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     private List<Address> addresses;
     /**
      * 用户发布商品列表
      */
-    @OneToMany(targetEntity = Item.class, mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     private List<Item> items; // 一对多关系，所有全部级联操作都开启，放弃维护权，由item维护外键,
     /**
      * 用户订单列表
      */
-    @OneToMany(targetEntity = UserOrder.class, mappedBy = "user",cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    @OneToMany(mappedBy = "user",cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     private List<UserOrder> userOrders;
     /**
      * 用户求购项列表
      */
-    @OneToMany(targetEntity = Wants.class, mappedBy = "user",cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    @OneToMany(mappedBy = "user",cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     private List<Wants> wants;
     /**
      * 用户求购评论列表
      */
-    @OneToMany(targetEntity = WantsComment.class, mappedBy = "user",cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    @OneToMany(mappedBy = "user",cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     private List<WantsComment> wantsComments;
 
     /**
      * 商品评论列表
      */
-    @OneToMany(targetEntity = ItemComment.class, mappedBy = "user", cascade = {CascadeType.REMOVE, CascadeType.MERGE})
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE, CascadeType.MERGE})
     private List<ItemComment> itemComments;
 }

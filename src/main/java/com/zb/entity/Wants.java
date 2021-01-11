@@ -1,6 +1,5 @@
 package com.zb.entity;
 
-import com.sun.istack.Nullable;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -45,11 +44,11 @@ public class Wants extends BaseEntity implements Serializable {
      * 求购所属用户
      */
     @ManyToOne
-    @JoinColumn(name = "wants_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
     private User user;
     /**
      *  求购评论列表
      */
-    @OneToMany(targetEntity = WantsComment.class, mappedBy = "wants",cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    @OneToMany(mappedBy = "wants",cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     private List<WantsComment> comments;
 }
