@@ -1,6 +1,7 @@
 package com.zb.service.impl;
 
 import com.zb.entity.Category;
+import com.zb.entity.Item;
 import com.zb.repository.CategoryRepository;
 import com.zb.service.CategoryService;
 import org.springframework.stereotype.Service;
@@ -60,6 +61,17 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     /**
+     * 根据分类Id返回分类
+     *
+     * @param categoryId
+     * @return 分类
+     */
+    @Override
+    public Category findById(int categoryId){
+        return categoryRepository.getOne((long) categoryId);
+    }
+
+    /**
      * 根据类别名查找类别
      *
      * @param categoryName
@@ -79,6 +91,20 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
+    }
+
+
+    /**
+     * 返回分类中的商品
+     *
+     * @param categoryId
+     * @return
+     */
+    @Override
+    public List<Item> getSpecificCategoryItems(int categoryId){
+        Category one = categoryRepository.getOne((long) categoryId);
+        List<Item> items = one.getItems();
+        return items;
     }
 //
 //    /**
