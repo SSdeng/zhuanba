@@ -2,12 +2,15 @@ package com.zb.service.impl;
 
 import com.alibaba.druid.sql.dialect.mysql.visitor.transform.OrderByResolve;
 import com.zb.entity.UserOrder;
+import com.zb.exception.MyException;
 import com.zb.repository.OrderRepository;
 import com.zb.service.OrderService;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.nio.file.attribute.UserPrincipal;
 import java.util.List;
 
 /**
@@ -29,7 +32,7 @@ public class OrderServiceImpl implements OrderService {
      * @return 新订单
      */
     @Override
-    public UserOrder insertOrder(UserOrder order) {
+    public UserOrder insertSelective(UserOrder order) {
         return orderRepository.saveAndFlush(order);
     }
 
@@ -41,19 +44,11 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public boolean deleteById(Long orderId) {
-        //todo
-        orderRepository.deleteById(orderId);
-    }
-
-    /**
-     * 更新订单
-     *
-     * @param order 要更新的订单
-     * @return 更新后订单
-     */
-    @Override
-    public UserOrder updateOrder(UserOrder order) {
-        return null;
+        if(orderRepository.existsById(orderId)){
+            orderRepository.deleteById(orderId);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -64,7 +59,11 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public UserOrder getById(Long orderId) {
-        return null;
+        UserOrder order = orderRepository.findById(orderId).orElse(null);
+        if(order == null){
+            throw new MyException("待查找订单不存在");
+        }
+        return order;
     }
 
     /**
@@ -74,7 +73,7 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public List<UserOrder> getAllOrder() {
-        return null;
+        return orderRepository.findAll();
     }
 
     /**
@@ -86,6 +85,6 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public Page<UserOrder> getAllByPage(int pageNo, int pageSize) {
-        return null;
+        return orderRepository.findAll(PageRequest.of(pageNo - 1, pageSize));
     }
 }

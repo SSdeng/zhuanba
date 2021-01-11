@@ -4,11 +4,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,6 +26,8 @@ import lombok.NoArgsConstructor;
 @Table(name = "sys_corder")
 @DynamicInsert // 动态插入，字段为空时不加入到insert语句
 @DynamicUpdate // 动态更新，仅更新改变字段
+@SQLDelete(sql = "update sys_corder set deleted = 1 where id = ?")
+@Where(clause = "deleted = 0")
 public class CartOrder implements Serializable {
 
     private static final long serialVersionUID = -4331477511607701470L;

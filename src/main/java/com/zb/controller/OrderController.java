@@ -104,7 +104,7 @@ public class OrderController {
         order.setItem(item);
         order.setItemCount(count);
         order.setTotalPrice(item.getPrice().multiply(new BigDecimal(count)));
-        return orderService.insertOrder(order);
+        return orderService.insertSelective(order);
     }
 
 }

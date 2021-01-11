@@ -4,11 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.*;
 
 import lombok.*;
 
@@ -19,14 +18,14 @@ import lombok.*;
  * @version 1.0
  */
 @Data
-@EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Entity
 @Table(name = "sys_wcomment")
 @DynamicInsert
 @DynamicUpdate
+@SQLDelete(sql = "update sys_wcomment set deleted = 1 where id = ?")
+@Where(clause = "deleted = 0")
 public class WantsComment implements Serializable {
     private static final long serialVersionUID = 1L;
 

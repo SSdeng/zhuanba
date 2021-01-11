@@ -5,11 +5,11 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,6 +28,8 @@ import lombok.NoArgsConstructor;
 @Table(name = "sys_wants")
 @DynamicInsert
 @DynamicUpdate
+@SQLDelete(sql = "update sys_user set deleted = 1 where id = ?")
+@Where(clause = "deleted = 0")
 public class Wants implements Serializable {
     private static final long serialVersionUID = 1L;
 
