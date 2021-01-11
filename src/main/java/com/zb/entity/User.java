@@ -1,15 +1,19 @@
 package com.zb.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 用户实体
@@ -18,25 +22,52 @@ import java.util.List;
  * @version 1.1
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "sys_user")
 @DynamicInsert // 动态插入，字段为空时不加入到insert语句
 @DynamicUpdate // 动态更新，仅更新改变字段
-public class User extends BaseEntity implements Serializable {
+@SQLDelete(sql = "update sys_user set deleted = 1 where id = ?")
+@Where(clause = "deleted = 0")
+public class User implements Serializable {
 
     private static final long serialVersionUID = 6224633281865581627L;
+
     /**
-     * 用户名
-     * 唯一，不可为空
+     * 主键，自增
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id; // 主键，自增
+
+    /**
+     * 用于逻辑删除，0为未删除，1为已删除
+     */
+    private Integer deleted = 0;
+
+    /**
+     * 创建时间，执行insert操作时自动更新该字段值
+     */
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
+    @Column(name = "create_time", updatable = false)
+    private Date createTime;
+
+    /**
+     * 修改时间，执行update操作时自动更新该字段值
+     */
+    @Temporal(TemporalType.TIMESTAMP)
+    @UpdateTimestamp
+    @Column(name = "update_time")
+    private Date updateTime;
+    /**
+     * 用户名 唯一，不可为空
      */
     @Column(unique = true, nullable = false)
     private String username;
     /**
-     * 密码
-     * 不可为空
+     * 密码 不可为空
      */
     @Column(nullable = false)
     private String password;
@@ -53,8 +84,7 @@ public class User extends BaseEntity implements Serializable {
      */
     private String email;
     /**
-     * 性别
-     * 0为男性，1为女性，默认为0
+     * 性别 0为男性，1为女性，默认为0
      */
     private Integer gender = 0;
     /**
@@ -70,16 +100,20 @@ public class User extends BaseEntity implements Serializable {
      */
     private String studentNumber;
     /**
-     * 角色
-     * 用于权限认证
+     * 角色 用于权限认证
      */
     private String role = "user";
     /**
      * 用户购物车
      */
     @OneToOne(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
-    @JoinColumn(name = "cart_id", referencedColumnName = "id", updatable = false)
+    @JoinColumn(name = "cart_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Cart cart;
+    /**
+     * 用户收藏夹
+     */
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    private List<Collection> collections;
     /**
      * 用户地址表
      */

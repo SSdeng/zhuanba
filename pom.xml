@@ -24,6 +24,11 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!--Elasticsearch-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+        </dependency>
         <!--mysql数据库驱动-->
         <dependency>
             <groupId>mysql</groupId>

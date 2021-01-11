@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping("/api/category")
 public class CategoryController {
 
-    CategoryService categoryService ;
+    CategoryService categoryService;
 
     /**
      * 构造器依赖注入
@@ -41,7 +41,10 @@ public class CategoryController {
      * @return
      */
     @GetMapping("/find")
-    public String getSpecificCategoryItems(@RequestParam("categoryId") int categoryId, Model model){
+    public String getSpecificCategoryItems(@RequestParam("categoryId") int categoryId,
+                                           @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+                                           @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
+                                           Model model) {
 
         List<Item> items = categoryService.getSpecificCategoryItems(categoryId);
         List<Category> categories = categoryService.getAllCategories();

@@ -1,14 +1,15 @@
 package com.zb.entity;
 
-import lombok.*;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Date;
+
+import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.*;
+
+import lombok.*;
 
 /**
  * 求购评论
@@ -17,16 +18,51 @@ import java.io.Serializable;
  * @version 1.0
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Entity
 @Table(name = "sys_wcomment")
 @DynamicInsert
 @DynamicUpdate
-public class WantsComment extends BaseComment implements Serializable {
+@SQLDelete(sql = "update sys_wcomment set deleted = 1 where id = ?")
+@Where(clause = "deleted = 0")
+public class WantsComment implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 主键，自增
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id; // 主键，自增
+
+    /**
+     * 用于逻辑删除，0为未删除，1为已删除
+     */
+    private Integer deleted = 0;
+
+    /**
+     * 创建时间，执行insert操作时自动更新该字段值
+     */
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
+    @Column(name = "create_time", updatable = false)
+    private Date createTime;
+
+    /**
+     * 修改时间，执行update操作时自动更新该字段值
+     */
+    @Temporal(TemporalType.TIMESTAMP)
+    @UpdateTimestamp
+    @Column(name = "update_time")
+    private Date updateTime;
+
+    /**
+     * 评论内容
+     */
+    @Column(nullable = false)
+    private String content;
+
     /**
      * 所属求购
      */

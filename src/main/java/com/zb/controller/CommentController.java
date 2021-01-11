@@ -1,39 +1,52 @@
 package com.zb.controller;
 
+import com.zb.entity.ItemComment;
 import com.zb.service.ItemCommentService;
-import com.zb.util.Result;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import com.zb.service.ItemService;
+import com.zb.service.UserService;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * CommentController
  * shenmanjie
  * 2021/1/10 23:16
  */
-@RestController
+@Controller
 @RequestMapping("/api/comment")
 public class CommentController {
 
+    @Resource
     ItemCommentService itemCommentService;
 
+    @Resource
+    UserService userService;
+
+    @Resource
+    ItemService itemService;
 
     /**
-     * 构造器依赖注入
-     *
-     * @param itemCommentService 商品评论服务
+     * @return 增加商品评论
      */
-    @Autowired
-    public CommentController(ItemCommentService itemCommentService) {
-        this.itemCommentService = itemCommentService;
-    }
+    @PostMapping("/item")
+    public String addItemComment(@RequestParam("itemId") int itemId, Map<String, Object> map) {
 
-    /**
-     * @return 返回所有分类信息
-     */
-    @GetMapping("/item")
-    public Result getItemComment(){
-        return null;
+        int userId = (int) map.get("userId");
+        String content = (String) map.get("content");
+
+        ItemComment itemComment = new ItemComment();
+        itemComment.setUser(userService.findById(userId));
+        itemComment.setItem(itemService.findById(itemId));
+        itemComment.setContent(content);
+
+        itemCommentService.insertSelective(itemComment);
+
+        //response.sendRedirect("/api/item/details");
+        return "/api/item/details";
     }
 }
