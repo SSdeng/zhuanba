@@ -5,11 +5,11 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,6 +28,8 @@ import lombok.NoArgsConstructor;
 @Table(name = "sys_user")
 @DynamicInsert // 动态插入，字段为空时不加入到insert语句
 @DynamicUpdate // 动态更新，仅更新改变字段
+@SQLDelete(sql = "update sys_user set deleted = 1 where id = ?")
+@Where(clause = "deleted = 0")
 public class User implements Serializable {
 
     private static final long serialVersionUID = 6224633281865581627L;
@@ -107,6 +109,11 @@ public class User implements Serializable {
     @OneToOne(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     @JoinColumn(name = "cart_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Cart cart;
+    /**
+     * 用户收藏夹
+     */
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    private List<Collection> collections;
     /**
      * 用户地址表
      */

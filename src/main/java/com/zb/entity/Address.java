@@ -4,11 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,6 +26,8 @@ import lombok.NoArgsConstructor;
 @Table(name = "sys_address")
 @DynamicInsert
 @DynamicUpdate
+@SQLDelete(sql = "update sys_address set deleted = 1 where id = ?")
+@Where(clause = "deleted = 0")
 public class Address implements Serializable {
     private static final long serialVersionUID = 1L;
     /**

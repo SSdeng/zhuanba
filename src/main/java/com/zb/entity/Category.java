@@ -5,11 +5,11 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,11 +25,12 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Entity
 @Table(name = "sys_category")
 @DynamicInsert // 动态插入，字段为空时不加入到insert语句
 @DynamicUpdate // 动态更新，字段为空时不加入到update语句
+@SQLDelete(sql = "update sys_category set deleted = 1 where id = ?")
+@Where(clause = "deleted = 0")
 public class Category implements Serializable {
 
     private static final long serialVersionUID = -679460945000584109L;

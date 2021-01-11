@@ -5,15 +5,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
 /**
+ * 用户收藏
+ *
  * @author whz
  * @version 1.0
- * 用户收藏
  **/
 @Data
 @AllArgsConstructor
@@ -22,6 +25,8 @@ import java.util.List;
 @Table(name = "sys_collection")
 @DynamicInsert // 动态插入，字段为空时不加入到insert语句
 @DynamicUpdate // 动态更新，字段为空时不加入到update语句
+@SQLDelete(sql = "update sys_collection set deleted = 1 where id = ?")
+@Where(clause = "deleted = 0")
 public class Collection  implements Serializable {
     /**
      * 主键，自增
@@ -41,14 +46,9 @@ public class Collection  implements Serializable {
     @JoinColumn(name = "user_Id", referencedColumnName = "id")
     private User user;
     /**
-     * 收藏列表，负责维护外键
+     * 收藏列表，放弃维护权
      */
-    @ManyToMany(targetEntity = Item.class, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "sys_collection_item",
-            // 当前对象在中间表的外键
-            joinColumns = {@JoinColumn(name = "collection_id", referencedColumnName = "id")},
-            // 对方对象在中间表的外键
-            inverseJoinColumns = {@JoinColumn(name = "item_id", referencedColumnName = "id")})
+    @ManyToMany(mappedBy = "collections", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Item> items;
 
 
