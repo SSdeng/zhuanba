@@ -11,6 +11,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -65,5 +66,9 @@ public class Collection  implements Serializable {
     @JsonIgnoreProperties
     private List<Item> Items;
 
+    public Collection(User user) {
+        this.user = user;
+        this.Items = new ArrayList<>();
+    }
 
 }

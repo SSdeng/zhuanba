@@ -2,9 +2,11 @@ package com.zb.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zb.entity.Collection;
+import com.zb.entity.*;
 import com.zb.exception.MyException;
 import com.zb.repository.CollectionRepository;
+import com.zb.repository.ItemRepository;
+import com.zb.repository.UserRepository;
 import com.zb.service.CollectionService;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * 收藏服务实现类
@@ -23,32 +26,41 @@ import java.io.IOException;
 public class CollectionServiceImpl implements CollectionService {
     @Resource
     private CollectionRepository collectionRepository;
-
-
+    private ItemRepository itemRepository;
+    private UserRepository userRepository;
     /**
-     * 分页显示所有收藏夹
-     * @param pageNo
-     * @param pageSize
-     * @return
+     * 添加商品到收藏
+     *
+     * @param userId  用户id
+     * @param itemId  商品id
+     * @return 收藏
      */
+
     @Override
-    public Page<Collection> getAllCollections(int pageNo,int pageSize) {
-        return collectionRepository.findAll(PageRequest.of(pageNo-1,pageSize));
+    public Collection addItem(Long userId, Long itemId) {
+        User user = userRepository.getOne(userId);
+        Collection collection = user.getCollection();
+        collection.getItems().add(getItemById(itemId));
+        return collectionRepository.save(collection);
     }
 
     /**
-     * 添加收藏夹
-     * @param newCollection
-     * @return
+     * 从收藏夹移除商品
+     * @param collectionId
+     * @param itemId
      */
     @Override
-    public Collection addCollection(Collection newCollection) {
-        if (getById(newCollection.getId()) != null) {
-            throw new DataIntegrityViolationException("相同id的collection已存在");
-        }
-        return collectionRepository.saveAndFlush(newCollection);
+    public Collection removeItem(Long collectionId, Long itemId) {
+        Collection collection = findById(collectionId);
+        collection.getItems().remove(getItemById(itemId));
+        return collectionRepository.save(collection);
     }
 
+    /**
+     * 通过Id获取收藏
+     * @param id
+     * @return
+     */
     @Override
     public Collection findById(Long id) {
         Collection collection = getById(id);
@@ -59,44 +71,22 @@ public class CollectionServiceImpl implements CollectionService {
     }
 
     /**
-     * 更新收藏夹
-     * @param JSONCollection
-     * @param collectionId
-     * @return
-     */
-    @Override
-    public Collection UpdateCollection(String JSONCollection,Long collectionId) {
-        Collection dataCollection = findById(collectionId);
-        ObjectMapper mapper = new ObjectMapper();
-        // 利用jackson相关API，实现非null值的合并更新
-         Collection newCollection = null;
-        try {
-            newCollection = mapper.readerForUpdating(dataCollection).readValue(JSONCollection);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return collectionRepository.save(newCollection);
-    }
-
-    /**
-     * 删除收藏夹
-     * @param id
-     * @return
-     */
-    @Override
-    public boolean deleteById(Long id) {
-        collectionRepository.deleteById(id);
-        return true;
-    }
-    /**
-     * 获取id对应item
+     * 获取id对应收藏
      *
      * @param id collection_id
      * @return item对象 不存在时返回null
      */
     private Collection getById(Long id) {
         return id == null ? null : collectionRepository.findById(id).orElse(null);
+    }
+
+    /**
+     * 获取id对应item
+     *
+     * @param id item_id
+     * @return item对象 不存在时返回null
+     */
+    private Item getItemById(Long id) {
+        return id == null ? null : itemRepository.findById(id).orElse(null);
     }
 }
