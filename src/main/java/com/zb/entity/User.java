@@ -112,8 +112,9 @@ public class User implements Serializable {
     /**
      * 用户收藏夹
      */
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
-    private List<Collection> collections;
+    @OneToOne(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    @JoinColumn(name = "collection_id", referencedColumnName = "id",insertable = false, updatable = false )
+    private Collection collection;
     /**
      * 用户地址表
      */
