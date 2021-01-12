@@ -160,6 +160,15 @@ public class CategoryServiceImpl implements CategoryService {
         return ps;
     }
 
+//    /**
+//     * 分页返回指定分类下的商品
+//     * 实现方式：JPA命名规则
+//     *
+//     * @param categoryId
+//     * @param pageNo
+//     * @param pageSize
+//     * @return
+//     */
 //    @Override
 //    public Page<Item> getSpecificCategoryItemsByNamingParameters(Long categoryId, int pageNo, int pageSize){
 //
