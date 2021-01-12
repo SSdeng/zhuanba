@@ -1,7 +1,6 @@
 package com.zb.controller;
 
 
-import com.zb.entity.Collection;
 import com.zb.entity.User;
 import com.zb.service.CollectionService;
 import com.zb.service.UserService;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
+
 
 @RestController
 @RequestMapping("/api/collection")
@@ -37,7 +36,8 @@ public class CollectionController {
 
     }
     @PostMapping("/remove")
-    public String RemoveItem(@RequestParam("collectionId")Long collectionId , @RequestParam("itemId") Long itemId, Model model){
+    public String RemoveItem(@RequestParam("collectionId")Long collectionId
+            , @RequestParam("itemId") Long itemId){
         User user = collectionService.findById(collectionId).getUser();
         collectionService.removeItem(collectionId,itemId);
         return "redirect:/api/user/info?userId"+user.getId();
