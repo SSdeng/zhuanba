@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * 用户实体
- * 
+ *
  * @author dengzhijian
  * @version 1.1
  */
@@ -107,16 +107,17 @@ public class User implements Serializable {
     /**
      * 用户购物车
      */
-    @OneToOne(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
-    @JoinColumn(name = "cart_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @OneToOne(cascade = {CascadeType.ALL})
+    @PrimaryKeyJoinColumn
     @JsonIgnoreProperties
     private Cart cart;
     /**
      * 用户收藏夹
      */
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    @OneToOne(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    @JoinColumn(name = "collection_id", referencedColumnName = "id",insertable = false, updatable = false )
     @JsonIgnoreProperties
-    private List<Collection> collections;
+    private Collection collection;
     /**
      * 用户地址表
      */

@@ -2,6 +2,7 @@ package com.zb.service.impl;
 
 import javax.annotation.Resource;
 
+import com.zb.entity.Cart;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.Md5Hash;
@@ -44,6 +45,8 @@ public class UserServiceImpl implements UserService {
         }
         String newPassword = new Md5Hash(newUser.getPassword(), newUser.getUsername(), 2).toString();
         newUser.setPassword(newPassword);
+        // 级联保存
+        newUser.setCart(new Cart(newUser));
         return userRepository.saveAndFlush(newUser);
     }
 

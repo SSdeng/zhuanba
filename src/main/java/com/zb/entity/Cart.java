@@ -69,12 +69,18 @@ public class Cart implements Serializable {
     @OneToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
     @JsonIgnoreProperties
+    @PrimaryKeyJoinColumn
     private User user;
 
     /**
      * 拥有订单表
      */
-    @OneToMany(mappedBy = "cart", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "cart", cascade = {CascadeType.ALL})
     @JsonIgnoreProperties
     private List<CartOrder> orderList;
+
+    public Cart(User user) {
+        this.user = user;
+        this.orderList = new ArrayList<>();
+    }
 }
