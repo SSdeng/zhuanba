@@ -12,16 +12,11 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.apache.commons.lang3.builder.ToStringExclude;
 import org.hibernate.annotations.*;
-import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
  * 商品实体
@@ -119,7 +114,7 @@ public class Item implements Serializable {
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
     @JsonIgnoreProperties(value = "items")
-    @ToStringExclude
+    @ToString.Exclude
     private User user;
 
     /**
@@ -127,7 +122,7 @@ public class Item implements Serializable {
      */
     @OneToMany(mappedBy = "item", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnoreProperties(value = "item")
-    @ToStringExclude
+    @ToString.Exclude
     private List<UserOrder> orderList;
 
     /**
@@ -140,7 +135,7 @@ public class Item implements Serializable {
         // 对方对象在中间表的外键
         inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")})
     @JsonIgnoreProperties(value = "items")
-    @ToStringExclude
+    @ToString.Exclude
     private List<Category> categories;
 
     /**
@@ -149,7 +144,7 @@ public class Item implements Serializable {
     @ManyToOne(targetEntity = Collection.class, cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "collection_id", referencedColumnName = "id", insertable = false, updatable = false)
     @JsonIgnoreProperties(value = "items")
-    @ToStringExclude
+    @ToString.Exclude
     private Collection collection;
 
     /**
@@ -157,6 +152,6 @@ public class Item implements Serializable {
      */
     @OneToMany(mappedBy = "item", cascade = {CascadeType.REMOVE, CascadeType.MERGE})
     @JsonIgnoreProperties(value = "item")
-    @ToStringExclude
+    @ToString.Exclude
     private List<ItemComment> itemComments;
 }

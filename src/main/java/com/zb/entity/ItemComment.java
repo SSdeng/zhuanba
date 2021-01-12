@@ -11,10 +11,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.builder.ToStringExclude;
 import org.hibernate.annotations.*;
 
-import lombok.Data;
+import lombok.*;
 
 /**
  * 商品评论
@@ -74,13 +73,13 @@ public class ItemComment implements Serializable {
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonIgnoreProperties(value = "itemComments")
-    @ToStringExclude
+    @ToString.Exclude
     private User user;
 
     @ManyToOne(targetEntity = Item.class)
     @JoinColumn(name = "item_id", referencedColumnName = "id")
     @JsonIgnoreProperties(value = "itemComments")
-    @ToStringExclude
+    @ToString.Exclude
     private Item item;
 
 }

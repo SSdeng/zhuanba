@@ -5,18 +5,14 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.apache.commons.lang3.builder.ToStringExclude;
 import org.hibernate.annotations.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
  * 订单实体
@@ -90,7 +86,7 @@ public class UserOrder implements Serializable {
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
     @JsonIgnoreProperties(value = "userOrders")
-    @ToStringExclude
+    @ToString.Exclude
     private User user;
 
     /**
@@ -99,6 +95,6 @@ public class UserOrder implements Serializable {
     @ManyToOne(targetEntity = Item.class)
     @JoinColumn(name = "item_id", referencedColumnName = "id", updatable = false)
     @JsonIgnoreProperties(value = "orderList")
-    @ToStringExclude
+    @ToString.Exclude
     private Item item;
 }

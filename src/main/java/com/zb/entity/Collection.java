@@ -2,10 +2,7 @@ package com.zb.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.builder.ToStringExclude;
+import lombok.*;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
@@ -78,7 +75,7 @@ public class Collection  implements Serializable {
     @OneToOne(targetEntity = User.class)
     @JoinColumn(name = "user_Id", referencedColumnName = "id", updatable = false)
     @JsonIgnoreProperties(value = "collection")
-    @ToStringExclude
+    @ToString.Exclude
     private User user;
 
     /**
@@ -86,7 +83,7 @@ public class Collection  implements Serializable {
      */
     @OneToMany(mappedBy = "collection", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JsonIgnoreProperties(value = "collection")
-    @ToStringExclude
+    @ToString.Exclude
     private List<Item> items;
 
     public Collection(User user) {

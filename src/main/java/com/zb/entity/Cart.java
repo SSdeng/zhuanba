@@ -12,7 +12,6 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.*;
 import lombok.*;
-import org.apache.commons.lang3.builder.ToStringExclude;
 import org.hibernate.annotations.*;
 
 /**
@@ -70,7 +69,7 @@ public class Cart implements Serializable {
     @OneToOne(targetEntity = User.class)
     @PrimaryKeyJoinColumn
     @JsonIgnoreProperties(value = "cart")
-    @ToStringExclude
+    @ToString.Exclude
     private User user;
 
     /**
@@ -78,23 +77,11 @@ public class Cart implements Serializable {
      */
     @OneToMany(mappedBy = "cart", cascade = {CascadeType.ALL})
     @JsonIgnoreProperties(value = "cart")
-    @ToStringExclude
+    @ToString.Exclude
     private List<CartOrder> orderList;
 
     public Cart(User user) {
         this.user = user;
         this.orderList = new ArrayList<>();
-    }
-
-    @Override
-    public String toString() {
-        return "Cart{" +
-                "id=" + id +
-                ", deleted=" + deleted +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                ", user=" + user +
-                ", orderList=" + orderList +
-                '}';
     }
 }
