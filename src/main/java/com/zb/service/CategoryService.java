@@ -2,11 +2,8 @@ package com.zb.service;
 
 import com.zb.entity.Category;
 import com.zb.entity.Item;
+import com.zb.util.PaginationSupport;
 import org.springframework.data.domain.Page;
-
-import java.util.List;
-import org.springframework.data.domain.Page;
-import com.zb.entity.Item;
 
 import java.util.List;
 
@@ -87,4 +84,14 @@ public interface CategoryService {
      * @return 商品列表
      */
     Page<Category> findAllByPage(int pageNo, int pageSize);
+
+    /**
+     * 分页返回指定分类下的商品
+     *
+     * @param categoryId
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    PaginationSupport<Item> getSpecificCategoryItems(int categoryId, int pageNo, int pageSize);
 }
