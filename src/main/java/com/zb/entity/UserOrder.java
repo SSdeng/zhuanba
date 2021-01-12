@@ -11,6 +11,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.apache.commons.lang3.builder.ToStringExclude;
 import org.hibernate.annotations.*;
 
 import lombok.AllArgsConstructor;
@@ -89,6 +90,7 @@ public class UserOrder implements Serializable {
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
     @JsonIgnoreProperties(value = "userOrders")
+    @ToStringExclude
     private User user;
 
     /**
@@ -97,5 +99,6 @@ public class UserOrder implements Serializable {
     @ManyToOne(targetEntity = Item.class)
     @JoinColumn(name = "item_id", referencedColumnName = "id", updatable = false)
     @JsonIgnoreProperties(value = "orderList")
+    @ToStringExclude
     private Item item;
 }

@@ -9,6 +9,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.apache.commons.lang3.builder.ToStringExclude;
 import org.hibernate.annotations.*;
 
 import lombok.AllArgsConstructor;
@@ -75,5 +76,6 @@ public class Address implements Serializable {
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
     @JsonIgnoreProperties(value = "addresses")
+    @ToStringExclude
     private User user;
 }

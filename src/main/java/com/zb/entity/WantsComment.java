@@ -9,6 +9,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.apache.commons.lang3.builder.ToStringExclude;
 import org.hibernate.annotations.*;
 
 import lombok.*;
@@ -74,6 +75,7 @@ public class WantsComment implements Serializable {
     @ManyToOne(targetEntity = Wants.class)
     @JoinColumn(name = "wants_id", referencedColumnName = "id", updatable = false)
     @JsonIgnoreProperties(value = "comments")
+    @ToStringExclude
     private Wants wants;
     /**
      * 发表用户
@@ -81,6 +83,7 @@ public class WantsComment implements Serializable {
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
     @JsonIgnoreProperties(value = "wantsComments")
+    @ToStringExclude
     private User user;
 
 }

@@ -10,6 +10,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.apache.commons.lang3.builder.ToStringExclude;
 import org.hibernate.annotations.*;
 
 import lombok.AllArgsConstructor;
@@ -75,6 +76,7 @@ public class CartOrder implements Serializable {
      */
     @ManyToOne(targetEntity = Item.class, cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "item_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @ToStringExclude
     private Item item;
 
     /**
@@ -83,6 +85,7 @@ public class CartOrder implements Serializable {
     @ManyToOne(targetEntity = Cart.class, cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "cart_id", referencedColumnName = "id", insertable = false, updatable = false)
     @JsonIgnoreProperties(value = "orderList")
+    @ToStringExclude
     private Cart cart;
 
     public CartOrder(long itemId, int cnt) {
