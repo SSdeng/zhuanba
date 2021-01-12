@@ -33,7 +33,7 @@ public class UserController {
      * @return 用户实体
      */
     @GetMapping("/info")
-    public User getUserInfo(@RequestParam("userId") int userId) {
+    public User getUserInfo(@RequestParam("userId") long userId) {
         return userService.findById(userId);
     }
 
@@ -45,7 +45,7 @@ public class UserController {
      * @return Result
      */
     @PostMapping("/info")
-    public Result modifyUserInfo(@RequestBody String JSONUser, @RequestParam("userId") int userId) {
+    public Result modifyUserInfo(@RequestBody String JSONUser, @RequestParam("userId") Long userId) {
         userService.updateUserInfo(JSONUser, userId);
         return Result.ok("修改用户信息成功", null);
     }
@@ -60,7 +60,9 @@ public class UserController {
         String username = (String)map.get("username");
         String password = (String)map.get("password");
         User user = userService.login(username, password);
-        return Result.ok("登录成功", new HashMap<>().put("userId", user.getId()));
+        Map<String, Object> data = new HashMap<>();
+        data.put("userId", user.getId());
+        return Result.ok("登录成功", data);
     }
 
     @PostMapping("/register")

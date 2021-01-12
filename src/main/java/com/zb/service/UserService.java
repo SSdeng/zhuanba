@@ -36,7 +36,7 @@ public interface UserService {
      *            用户id
      * @return 更新后的用户
      */
-    User updateUserInfo(String JSONUser, Integer userId);
+    User updateUserInfo(String JSONUser, long userId);
 
     /**
      * 登录
