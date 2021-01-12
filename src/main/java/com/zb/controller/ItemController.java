@@ -63,7 +63,7 @@ public class ItemController {
         model.addAttribute("item",item);
         model.addAttribute("categories",item.getCategories());
         model.addAttribute("comments",item.getItemComments());
-        return Result.ok();
+        return Result.ok(model);
     }
 
     /**

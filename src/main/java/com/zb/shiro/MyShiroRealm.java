@@ -13,7 +13,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 
 import com.zb.entity.User;
-import com.zb.service.UserService;
+import com.zb.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MyShiroRealm extends AuthorizingRealm {
 
     @Resource
-    private UserService userService;
+    private UserRepository userRepository;
 
     /**
      * 授权
@@ -59,7 +59,10 @@ public class MyShiroRealm extends AuthorizingRealm {
         String userName = (String)token.getPrincipal();
 
         // 通过username从数据库中查找 User对象.
-        User user = userService.findByUserName(userName);
+        User user = userRepository.findByUsername(userName);
+        if (user == null) {
+            return null;
+        }
         return new SimpleAuthenticationInfo(user, user.getPassword(), ByteSource.Util.bytes(userName), getName());
     }
 

@@ -3,6 +3,7 @@ package com.zb.controller;
 import com.zb.entity.Category;
 import com.zb.entity.Item;
 import com.zb.service.CategoryService;
+import com.zb.util.PaginationSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,10 +47,13 @@ public class CategoryController {
                                            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
                                            Model model) {
 
-        List<Item> items = categoryService.getSpecificCategoryItems(categoryId);
+        //获取指定分类下的商品列表分页
+        PaginationSupport<Item> page = categoryService.getSpecificCategoryItems(categoryId,pageNo,pageSize);
+        //List<Item> items = page.getItems();
+        //获取所有分类
         List<Category> categories = categoryService.getAllCategories();
 
-        model.addAttribute("items", items);
+        model.addAttribute("page", page);
         model.addAttribute("categories", categories);
 
         return "index";

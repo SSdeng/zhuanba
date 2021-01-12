@@ -148,7 +148,7 @@ public class Item implements Serializable {
      */
     @ManyToOne(targetEntity = Collection.class, cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "collection_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @JsonIgnoreProperties
+    @JsonIgnoreProperties(value = "items")
     @ToStringExclude
     private Collection collection;
 
@@ -156,7 +156,7 @@ public class Item implements Serializable {
      * 商品评论列表
      */
     @OneToMany(mappedBy = "item", cascade = {CascadeType.REMOVE, CascadeType.MERGE})
-    @JsonIgnoreProperties
+    @JsonIgnoreProperties(value = "item")
     @ToStringExclude
     private List<ItemComment> itemComments;
 }

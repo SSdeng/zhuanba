@@ -94,4 +94,6 @@ public interface CategoryService {
      * @return
      */
     PaginationSupport<Item> getSpecificCategoryItems(int categoryId, int pageNo, int pageSize);
+
+//    Page<Item> getSpecificCategoryItemsByNamingParameters(Long categoryId, int pageNo, int pageSize);
 }
