@@ -3,6 +3,8 @@ package com.zb.service;
 
 import com.zb.entity.ItemComment;
 
+import java.util.List;
+
 /**
  * 商品评论接口类
  * shenmanjie
@@ -18,6 +20,14 @@ public interface ItemCommentService {
      * @return 插入后ItemComment对象
      */
     ItemComment insertSelective(ItemComment newItemComment);
+
+    /**
+     * 返回指定商品Id的所有评论
+     *
+     * @param itemId
+     * @return
+     */
+    List<ItemComment> getSpecificItemComments(Long itemId);
 
 //    /**
 //     * 根据id删除商品评论

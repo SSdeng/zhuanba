@@ -6,6 +6,7 @@ import com.zb.service.ItemCommentService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 商品评论服务实现类
@@ -26,5 +27,16 @@ public class ItemCommentServiceImpl implements ItemCommentService {
     @Override
     public ItemComment insertSelective(ItemComment newItemComment) {
         return itemCommentRepository.saveAndFlush(newItemComment);
+    }
+
+    /**
+     * 返回指定商品Id的所有评论
+     *
+     * @param itemId
+     * @return
+     */
+    @Override
+    public List<ItemComment> getSpecificItemComments(Long itemId) {
+        return itemCommentRepository.getByItem_IdOrderByCreateTime(itemId);
     }
 }
