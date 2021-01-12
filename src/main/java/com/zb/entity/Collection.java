@@ -1,5 +1,6 @@
 package com.zb.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,17 +46,29 @@ public class Collection  implements Serializable {
     private Integer deleted = 0;
 
     /**
+     * 收藏名称,不可为空
+     */
+    @Column(name = "collection_name",nullable = false)
+    private String collectionName;
+
+    /**
      * 所属用户，设置外键user_id，参照sys_user的id字段
      */
     @OneToOne(targetEntity = User.class)
-    @JoinColumn(name = "user_Id", referencedColumnName = "id",insertable = false, updatable = false)
+    @JoinColumn(name = "user_Id", referencedColumnName = "id", updatable = false)
+    @JsonIgnoreProperties
     private User user;
 
     /**
      * 拥有商品表
      */
     @OneToMany(mappedBy = "collection", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @JsonIgnoreProperties
     private List<Item> Items;
 
+    public Collection(User user) {
+        this.user = user;
+        this.Items = new ArrayList<>();
+    }
 
 }

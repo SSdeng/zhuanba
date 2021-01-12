@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.*;
@@ -68,10 +69,12 @@ public class ItemComment implements Serializable {
 
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonIgnoreProperties
     private User user;
 
     @ManyToOne(targetEntity = Item.class)
     @JoinColumn(name = "item_id", referencedColumnName = "id")
+    @JsonIgnoreProperties
     private Item item;
 
 }

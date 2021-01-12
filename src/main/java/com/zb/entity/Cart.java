@@ -1,6 +1,7 @@
 package com.zb.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,18 +10,13 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.ToString;
 import org.hibernate.annotations.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 购物车
@@ -72,14 +68,16 @@ public class Cart implements Serializable {
     /**
      * 所属用户
      */
-    @OneToOne
+    @OneToOne(targetEntity = User.class)
     @PrimaryKeyJoinColumn
+    @JsonIgnoreProperties(value = "cart")
     private User user;
 
     /**
      * 拥有订单表
      */
     @OneToMany(mappedBy = "cart", cascade = {CascadeType.ALL})
+    @JsonIgnoreProperties(value = "cart")
     private List<CartOrder> orderList;
 
     public Cart(User user) {

@@ -45,7 +45,9 @@ public class OrderController {
      */
     @PostMapping("/addone")
     @ResponseBody
-    public Result addOneOrder(@RequestParam("itemId") Long itemId, @RequestParam("userId") Long userId, @RequestParam("count") int count){
+    public Result addOneOrder(@RequestParam("itemId") Long itemId,
+                              @RequestParam("userId") Long userId,
+                              @RequestParam(value = "count", defaultValue = "1") int count){
         if(addOrder(userId, itemId, count) == null){
             return Result.error();
         }
@@ -67,7 +69,7 @@ public class OrderController {
         if(orderService.deleteById(orderId)){
             return Result.ok();
         }
-        return Result.error("Error Occured");
+        return Result.error("Order Not Exist");
     }
 
     /**

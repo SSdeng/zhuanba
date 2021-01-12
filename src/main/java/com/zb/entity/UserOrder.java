@@ -9,6 +9,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.*;
 
 import lombok.AllArgsConstructor;
@@ -72,7 +73,7 @@ public class UserOrder implements Serializable {
      * 相关商品
      */
     @ManyToOne(targetEntity = Item.class, cascade = {CascadeType.REFRESH})
-    @JoinColumn(name = "item_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "item_id", referencedColumnName = "id", updatable = false)
     private Item item;
 
     /**
@@ -89,6 +90,7 @@ public class UserOrder implements Serializable {
      * 相关用户
      */
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
+    @JsonIgnoreProperties
     private User user;
 }

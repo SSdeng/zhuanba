@@ -10,6 +10,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.*;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -112,13 +113,15 @@ public class Item implements Serializable {
      * 所属用户，设置外键user_id，参照sys_user的id字段
      */
     @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
+    @JsonIgnoreProperties
     private User user;
 
     /**
      * 商品订单表
      */
     @OneToMany(mappedBy = "item", cascade = {CascadeType.REFRESH})
+    @JsonIgnoreProperties
     private List<UserOrder> orderList;
 
     /**
@@ -130,6 +133,7 @@ public class Item implements Serializable {
         joinColumns = {@JoinColumn(name = "item_id", referencedColumnName = "id")},
         // 对方对象在中间表的外键
         inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")})
+    @JsonIgnoreProperties
     private List<Category> categories;
 
     /**
@@ -137,11 +141,13 @@ public class Item implements Serializable {
      */
     @ManyToOne(targetEntity = Collection.class, cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "collection_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JsonIgnoreProperties
     private Collection collection;
 
     /**
      * 商品评论列表
      */
     @OneToMany(mappedBy = "item", cascade = {CascadeType.REMOVE, CascadeType.MERGE})
+    @JsonIgnoreProperties
     private List<ItemComment> itemComments;
 }

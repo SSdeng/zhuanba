@@ -9,6 +9,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.*;
 
 import lombok.AllArgsConstructor;
@@ -78,11 +79,13 @@ public class Wants implements Serializable {
      * 求购所属用户
      */
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
+    @JsonIgnoreProperties
     private User user;
     /**
      * 求购评论列表
      */
     @OneToMany(mappedBy = "wants", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    @JsonIgnoreProperties
     private List<WantsComment> comments;
 }
