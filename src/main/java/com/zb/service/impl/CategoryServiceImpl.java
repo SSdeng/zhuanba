@@ -140,6 +140,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     /**
      * 分页返回指定分类下的商品
+     * 实现方式：sql语句查询
      *
      * @param categoryId
      * @param pageNo
@@ -158,4 +159,14 @@ public class CategoryServiceImpl implements CategoryService {
 
         return ps;
     }
+
+//    @Override
+//    public Page<Item> getSpecificCategoryItemsByNamingParameters(Long categoryId, int pageNo, int pageSize){
+//
+//        Pageable pageable = PageRequest.of(pageNo, pageSize);
+//        Page<Item> items = itemRepository.findItemsByCategories_id(categoryId, pageable);
+//
+//        return items;
+//    }
+
 }
