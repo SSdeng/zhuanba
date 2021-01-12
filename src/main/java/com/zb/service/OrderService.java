@@ -16,10 +16,10 @@ public interface OrderService {
     /**
      * 新建订单
      *
-     * @param order 新订单
+     * @param newOrder 新订单
      * @return 新订单
      */
-    UserOrder insertSelective(UserOrder order);
+    UserOrder insertSelective(UserOrder newOrder);
 
     /**
      * 通过id删除订单
@@ -28,6 +28,14 @@ public interface OrderService {
      * @return 删除结果
      */
     boolean deleteById(Long orderId);
+
+    /**
+     * 更新订单
+     *
+     * @param order 待更新订单
+     * @return 更新后订单
+     */
+    UserOrder updateOrder(UserOrder order);
 
     /**
      * 通过id查找订单

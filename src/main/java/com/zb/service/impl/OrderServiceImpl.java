@@ -28,12 +28,12 @@ public class OrderServiceImpl implements OrderService {
     /**
      * 新建订单
      *
-     * @param order 新订单
+     * @param newOrder 新订单
      * @return 新订单
      */
     @Override
-    public UserOrder insertSelective(UserOrder order) {
-        return orderRepository.saveAndFlush(order);
+    public UserOrder insertSelective(UserOrder newOrder) {
+        return orderRepository.saveAndFlush(newOrder);
     }
 
     /**
@@ -49,6 +49,16 @@ public class OrderServiceImpl implements OrderService {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 更新订单
+     *
+     * @param order 待更新订单
+     * @return 更新后订单
+     */
+    public UserOrder updateOrder(UserOrder order){
+        return orderRepository.saveAndFlush(order);
     }
 
     /**
