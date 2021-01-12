@@ -1,21 +1,17 @@
 package com.zb.service.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.zb.entity.*;
 import com.zb.exception.MyException;
 import com.zb.repository.CollectionRepository;
 import com.zb.repository.ItemRepository;
 import com.zb.repository.UserRepository;
 import com.zb.service.CollectionService;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+
 import javax.annotation.Resource;
-import java.io.IOException;
-import java.util.Objects;
+
 
 /**
  * 收藏服务实现类
@@ -26,14 +22,16 @@ import java.util.Objects;
 public class CollectionServiceImpl implements CollectionService {
     @Resource
     private CollectionRepository collectionRepository;
+    @Resource
     private ItemRepository itemRepository;
+    @Resource
     private UserRepository userRepository;
     /**
      * 添加商品到收藏
      *
      * @param userId  用户id
      * @param itemId  商品id
-     * @return 收藏
+     * @return Collection 收藏
      */
 
     @Override
@@ -46,35 +44,50 @@ public class CollectionServiceImpl implements CollectionService {
 
     /**
      * 从收藏夹移除商品
-     * @param collectionId
-     * @param itemId
+     * @param collectionId 收藏夹id
+     * @param itemId 商品id
+     * @return Collection 收藏
      */
     @Override
     public Collection removeItem(Long collectionId, Long itemId) {
         Collection collection = findById(collectionId);
-        collection.getItems().remove(getItemById(itemId));
+        collection.getItems().remove(findItemById(itemId));
         return collectionRepository.save(collection);
     }
 
     /**
      * 通过Id获取收藏
-     * @param id
-     * @return
+     * @param id 收藏id
+     * @return Collection 收藏
      */
     @Override
     public Collection findById(Long id) {
         Collection collection = getById(id);
         if (collection == null) {
-            throw new MyException("商品未找到");
+            throw new MyException("收藏未找到");
         }
         return collection;
     }
 
     /**
+     * 通过id获取商品
+     * @param id 商品id
+     * @return Item 商品
+     */
+    @Override
+    public Item findItemById(Long id) {
+        Item item = getItemById(id);
+        if(item == null){
+            throw new MyException("商品未找到");
+        }
+        return item;
+    }
+
+    /**
      * 获取id对应收藏
      *
-     * @param id collection_id
-     * @return item对象 不存在时返回null
+     * @param id 收藏id
+     * @return ollection 对象 不存在时返回null
      */
     private Collection getById(Long id) {
         return id == null ? null : collectionRepository.findById(id).orElse(null);
@@ -83,8 +96,8 @@ public class CollectionServiceImpl implements CollectionService {
     /**
      * 获取id对应item
      *
-     * @param id item_id
-     * @return item对象 不存在时返回null
+     * @param id 商品id
+     * @return Item 对象 不存在时返回null
      */
     private Item getItemById(Long id) {
         return id == null ? null : itemRepository.findById(id).orElse(null);

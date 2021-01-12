@@ -1,6 +1,7 @@
 package com.zb.service;
 
 import com.zb.entity.Collection;
+import com.zb.entity.Item;
 import org.springframework.data.domain.Page;
 
 /**
@@ -14,23 +15,31 @@ public interface CollectionService {
 
     /**
      * 根据收藏夹id获取收藏夹
-     * @param id
-     * @return
+     * @param id 收藏id
+     * @return Collection
      */
     Collection findById(Long id);
 
     /**
+     * 通过商品Id获取商品
+     * @param id 商品id
+     * @return Item
+     */
+    Item findItemById(Long id);
+
+    /**
      * 添加商品到收藏夹
-     * @param userId
-     * @param itemId
-     * @return
+     * @param userId 用户id
+     * @param itemId 商品id
+     * @return Collection
      */
     Collection addItem(Long userId, Long itemId);
 
     /**
      * 从收藏夹移除商品
-     * @param collectionId
-     * @param itemId
+     * @param collectionId 收藏id
+     * @param itemId 商品id
+     * @return Collection
      */
     Collection removeItem(Long collectionId , Long itemId);
 

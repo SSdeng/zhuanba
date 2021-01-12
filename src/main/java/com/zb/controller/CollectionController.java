@@ -34,9 +34,9 @@ public class CollectionController {
 
     /**
      * 向收藏中添加商品
-     * @param userId
-     * @param itemId
-     * @return
+     * @param userId 用户id
+     * @param itemId 商品id
+     * @return Result
      */
     @PostMapping("/add")
     public Result AddItem(@RequestParam("userId")Long  userId, @RequestParam("itemId") Long itemId){
@@ -46,9 +46,9 @@ public class CollectionController {
 
     /**
      * 从收藏中移除商品
-     * @param collectionId
-     * @param itemId
-     * @return
+     * @param collectionId 收藏id
+     * @param itemId 商品id
+     * @return String
      */
     @PostMapping("/remove")
     public String RemoveItem(@RequestParam("collectionId")Long collectionId
