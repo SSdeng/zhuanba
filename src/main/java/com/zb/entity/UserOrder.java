@@ -9,6 +9,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.*;
 
@@ -53,6 +54,7 @@ public class UserOrder implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     @Column(name = "create_time", updatable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date createTime;
 
     /**
@@ -61,6 +63,7 @@ public class UserOrder implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @UpdateTimestamp
     @Column(name = "update_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date updateTime;
 
     /**
@@ -68,13 +71,6 @@ public class UserOrder implements Serializable {
      */
     @Column(nullable = false)
     private Integer itemCount = 1;
-
-    /**
-     * 相关商品
-     */
-    @ManyToOne(targetEntity = Item.class, cascade = {CascadeType.REFRESH})
-    @JoinColumn(name = "item_id", referencedColumnName = "id", updatable = false)
-    private Item item;
 
     /**
      * 订单状态 0：未付款， 1：进行中， 2：已完成， 3：已关闭 默认为0
@@ -86,11 +82,20 @@ public class UserOrder implements Serializable {
      */
     @Column(nullable = false)
     private BigDecimal totalPrice;
+
     /**
      * 相关用户
      */
-    @ManyToOne
+    @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
-    @JsonIgnoreProperties
+    @JsonIgnoreProperties(value = "userOrders")
     private User user;
+
+    /**
+     * 相关商品
+     */
+    @ManyToOne(targetEntity = Item.class)
+    @JoinColumn(name = "item_id", referencedColumnName = "id", updatable = false)
+    @JsonIgnoreProperties(value = "orderList")
+    private Item item;
 }

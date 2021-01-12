@@ -10,6 +10,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.*;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -57,6 +58,7 @@ public class Item implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     @Column(name = "create_time", updatable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date createTime;
 
     /**
@@ -65,6 +67,7 @@ public class Item implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @UpdateTimestamp
     @Column(name = "update_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date updateTime;
 
     /**
@@ -114,14 +117,14 @@ public class Item implements Serializable {
      */
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
-    @JsonIgnoreProperties
+    @JsonIgnoreProperties(value = "items")
     private User user;
 
     /**
      * 商品订单表
      */
-    @OneToMany(mappedBy = "item", cascade = {CascadeType.REFRESH})
-    @JsonIgnoreProperties
+    @OneToMany(mappedBy = "item", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonIgnoreProperties(value = "item")
     private List<UserOrder> orderList;
 
     /**
@@ -133,7 +136,7 @@ public class Item implements Serializable {
         joinColumns = {@JoinColumn(name = "item_id", referencedColumnName = "id")},
         // 对方对象在中间表的外键
         inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")})
-    @JsonIgnoreProperties
+    @JsonIgnoreProperties(value = "items")
     private List<Category> categories;
 
     /**
