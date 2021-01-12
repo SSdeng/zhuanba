@@ -45,6 +45,7 @@ public class UserServiceImpl implements UserService {
         }
         String newPassword = new Md5Hash(newUser.getPassword(), newUser.getUsername(), 2).toString();
         newUser.setPassword(newPassword);
+        // 级联保存
         newUser.setCart(new Cart(newUser));
         return userRepository.saveAndFlush(newUser);
     }

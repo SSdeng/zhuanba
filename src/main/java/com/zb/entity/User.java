@@ -106,8 +106,8 @@ public class User implements Serializable {
     /**
      * 用户购物车
      */
-    @OneToOne(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
-    @JoinColumn(name = "cart_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @OneToOne(cascade = {CascadeType.ALL})
+    @PrimaryKeyJoinColumn
     private Cart cart;
     /**
      * 用户收藏夹
