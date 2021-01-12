@@ -29,7 +29,8 @@ import lombok.*;
 @SQLDelete(sql = "update sys_wcomment set deleted = 1 where id = ?")
 @Where(clause = "deleted = 0")
 public class WantsComment implements Serializable {
-    private static final long serialVersionUID = 1L;
+
+    private static final long serialVersionUID = -6056049233558744367L;
 
     /**
      * 主键，自增

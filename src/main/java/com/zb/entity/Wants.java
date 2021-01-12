@@ -33,7 +33,8 @@ import lombok.NoArgsConstructor;
 @SQLDelete(sql = "update sys_user set deleted = 1 where id = ?")
 @Where(clause = "deleted = 0")
 public class Wants implements Serializable {
-    private static final long serialVersionUID = 1L;
+
+    private static final long serialVersionUID = -8037839931624232126L;
 
     /**
      * 主键，自增

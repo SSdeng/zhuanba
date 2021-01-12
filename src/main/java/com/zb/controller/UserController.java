@@ -63,6 +63,12 @@ public class UserController {
         return Result.ok("登录成功", new HashMap<>().put("userId", user.getId()));
     }
 
+    /**
+     * 用户注册
+     *
+     * @param user 用户
+     * @return 返回消息
+     */
     @PostMapping("/register")
     public Result register(@RequestBody User user) {
         userService.insertSelective(user);
