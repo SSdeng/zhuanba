@@ -48,13 +48,11 @@ public class OrderController {
      */
     @PostMapping("/addone")
     @ResponseBody
-    public Result addOneOrder(@RequestParam("itemId") Long itemId,
-                              @RequestParam("userId") Long userId,
+    public Result addOneOrder(@RequestParam("itemId") long itemId,
+                              @RequestParam("userId") long userId,
                               @RequestParam(value = "value", defaultValue = "1") int count){
-        if(addOrder(userId, itemId, count) == null){
-            return Result.error();
-        }
-        return Result.ok();
+        UserOrder newOrder = addOrder(userId, itemId, count);
+        return Result.ok("购买成功", null);
     }
 
     /**
@@ -67,12 +65,10 @@ public class OrderController {
     @ResponseBody
     public Result removeOrder(@RequestParam("orderId") Long orderId){
         if(orderService.getById(orderId) == null){
-            return Result.error("Order Not Exist");
+            return Result.error("Order Not Exist", null);
         }
-        if(orderService.deleteById(orderId)){
-            return Result.ok();
-        }
-        return Result.error("Order Not Exist");
+        orderService.deleteById(orderId);
+        return Result.ok("删除成功", null);
     }
 
     /**
@@ -83,15 +79,12 @@ public class OrderController {
      */
     @PostMapping("/addcart")
     @ResponseBody
-    public Result addMultipleOrder(@RequestParam("userId") Long userId, @RequestParam("items") List<Map<String,String>> items){
+    public Result addMultipleOrder(@RequestParam("userId") long userId, @RequestParam("items") List<Map<String,String>> items){
         for(Map<String,String> map:items){
-            cartService.removeOrder(userId, Long.valueOf(map.get("itemId")));
-            UserOrder order = addOrder(userId, Long.valueOf(map.get("itemId")), Integer.parseInt(map.get("value")));
-            if(order == null){
-                return Result.error();
-            }
+            cartService.removeOrder(userId, Long.parseLong(map.get("itemId")));
+            UserOrder order = addOrder(userId, Long.parseLong(map.get("itemId")), Integer.parseInt(map.get("value")));
         }
-        return Result.ok();
+        return Result.ok("结算成功", null);
     }
 
     /**
@@ -102,7 +95,7 @@ public class OrderController {
      * @param count 商品数量
      * @return 结果订单
      */
-    private UserOrder addOrder(Long userId, Long itemId, int count){
+    private UserOrder addOrder(long userId, long itemId, int count){
         User user = userService.findById(userId);
         Item item = itemService.findById(itemId);
         UserOrder order = new UserOrder();
