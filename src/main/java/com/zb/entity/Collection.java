@@ -56,14 +56,14 @@ public class Collection  implements Serializable {
      */
     @OneToOne(targetEntity = User.class)
     @JoinColumn(name = "user_Id", referencedColumnName = "id", updatable = false)
-    @JsonIgnoreProperties
+    @JsonIgnoreProperties(value = "collection")
     private User user;
 
     /**
      * 拥有商品表
      */
     @OneToMany(mappedBy = "collection", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-    @JsonIgnoreProperties
+    @JsonIgnoreProperties(value = "collection")
     private List<Item> Items;
 
     public Collection(User user) {

@@ -69,14 +69,14 @@ public class WantsComment implements Serializable {
      */
     @ManyToOne(targetEntity = Wants.class)
     @JoinColumn(name = "wants_id", referencedColumnName = "id", updatable = false)
-    @JsonIgnoreProperties
+    @JsonIgnoreProperties(value = "comments")
     private Wants wants;
     /**
      * 发表用户
      */
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
-    @JsonIgnoreProperties
+    @JsonIgnoreProperties(value = "wantsComments")
     private User user;
 
 }

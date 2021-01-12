@@ -74,7 +74,7 @@ public class Category implements Serializable {
      * 该分类下的所有商品，放弃维护权
      */
     @ManyToMany(mappedBy = "categories", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonIgnoreProperties
+    @JsonIgnoreProperties(value = "categories")
     private List<Item> items;
 
 }

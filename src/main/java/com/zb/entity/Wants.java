@@ -80,12 +80,12 @@ public class Wants implements Serializable {
      */
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
-    @JsonIgnoreProperties
+    @JsonIgnoreProperties(value = "wants")
     private User user;
     /**
      * 求购评论列表
      */
     @OneToMany(mappedBy = "wants", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
-    @JsonIgnoreProperties
+    @JsonIgnoreProperties(value = "wants")
     private List<WantsComment> comments;
 }

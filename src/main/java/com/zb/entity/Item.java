@@ -114,14 +114,14 @@ public class Item implements Serializable {
      */
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
-    @JsonIgnoreProperties
+    @JsonIgnoreProperties(value = "items")
     private User user;
 
     /**
      * 商品订单表
      */
     @OneToMany(mappedBy = "item", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonIgnoreProperties
+    @JsonIgnoreProperties(value = "item")
     private List<UserOrder> orderList;
 
     /**
@@ -133,7 +133,7 @@ public class Item implements Serializable {
         joinColumns = {@JoinColumn(name = "item_id", referencedColumnName = "id")},
         // 对方对象在中间表的外键
         inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")})
-    @JsonIgnoreProperties
+    @JsonIgnoreProperties(value = "items")
     private List<Category> categories;
 
     /**
