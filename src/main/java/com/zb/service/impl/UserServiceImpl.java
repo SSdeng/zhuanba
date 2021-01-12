@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import javax.annotation.Resource;
 
+import com.zb.util.JsonTransfer;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.Md5Hash;
@@ -69,14 +70,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUserInfo(String JSONUser, long userId) {
         User dataUser = findById(userId);
-        ObjectMapper mapper = new ObjectMapper();
-        // 利用jackson相关API，实现非null值的合并更新
-        User newUser = null;
-        try {
-            newUser = mapper.readerForUpdating(dataUser).readValue(JSONUser);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+        User newUser = JsonTransfer.transToObject(JSONUser,dataUser);
         return userRepository.save(newUser);
     }
 

@@ -50,7 +50,7 @@ public class WantsServiceImpl implements WantsService {
         return false;
     }
 
-    /**
+    /*
      * 更新求购项
      *
      * @param wants 待更新求购
@@ -68,7 +68,7 @@ public class WantsServiceImpl implements WantsService {
      * @return 查找结果
      */
     @Override
-    public Wants getById(Long wantsId) {
+    public Wants findById(Long wantsId) {
         Wants wants = wantsRepository.findById(wantsId).orElse(null);
         if(wants == null){
             throw new MyException("待查找求购项不存在");

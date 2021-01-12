@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import com.zb.entity.User;
@@ -19,7 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @author dengzhijian
  * @version 1.0
  **/
-@RestController
+@Controller
 @RequestMapping("/api/user")
 public class UserController {
 
@@ -31,7 +32,7 @@ public class UserController {
      * 
      * @param userId
      *            用户id
-     * @return 视图
+     * @return 用户信息
      */
     @GetMapping("/info")
     public ModelAndView getUserInfo(@RequestParam("userId") long userId) {
@@ -52,6 +53,7 @@ public class UserController {
      * @return Result
      */
     @PostMapping("/info")
+    @ResponseBody
     public Result modifyUserInfo(@RequestBody String JSONUser, @RequestParam("userId") Long userId) {
         userService.updateUserInfo(JSONUser, userId);
         return Result.ok("修改用户信息成功", null);
@@ -63,6 +65,7 @@ public class UserController {
      * @return Result
      */
     @PostMapping("/login")
+    @ResponseBody
     public Result login(@RequestBody Map<String, Object> map) {
         String username = (String)map.get("username");
         String password = (String)map.get("password");
@@ -79,6 +82,7 @@ public class UserController {
      * @return 返回消息
      */
     @PostMapping("/register")
+    @ResponseBody
     public Result register(@RequestBody User user) {
         userService.insertSelective(user);
         return Result.ok("注册成功", null);
@@ -90,6 +94,7 @@ public class UserController {
      * @return Result
      */
     @RequestMapping("/un_auth")
+    @ResponseBody
     public Result unAuth() {
         return Result.build(ResultEnum.USER_NOT_LOGIN);
     }
@@ -100,6 +105,7 @@ public class UserController {
      * @return Result
      */
     @RequestMapping("/unauthorized")
+    @ResponseBody
     public Result unauthorized() {
         return Result.build(ResultEnum.USER_NOT_AUTH);
     }
