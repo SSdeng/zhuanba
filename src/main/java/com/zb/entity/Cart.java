@@ -1,6 +1,7 @@
 package com.zb.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -67,9 +68,8 @@ public class Cart implements Serializable {
      * 所属用户
      */
     @OneToOne(targetEntity = User.class)
-    @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
-    @JsonIgnoreProperties
     @PrimaryKeyJoinColumn
+    @JsonIgnoreProperties
     private User user;
 
     /**
