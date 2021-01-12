@@ -9,6 +9,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.*;
 
 import lombok.AllArgsConstructor;
@@ -66,12 +67,14 @@ public class Cart implements Serializable {
      * 所属用户
      */
     @OneToOne(targetEntity = User.class)
-    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
+    @JsonIgnoreProperties
     private User user;
 
     /**
      * 拥有订单表
      */
     @OneToMany(mappedBy = "cart", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @JsonIgnoreProperties
     private List<CartOrder> orderList;
 }

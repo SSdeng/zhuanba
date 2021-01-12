@@ -9,6 +9,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.*;
 
 import lombok.AllArgsConstructor;
@@ -73,6 +74,7 @@ public class Category implements Serializable {
      * 该分类下的所有商品，放弃维护权
      */
     @ManyToMany(mappedBy = "categories", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonIgnoreProperties
     private List<Item> items;
 
 }

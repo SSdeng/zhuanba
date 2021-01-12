@@ -57,6 +57,7 @@ public class ShiroConfig {
          * anon:所有url都都可以匿名访问，authc:所有url都必须认证通过才可以访问;
          * 过滤链定义，从上向下顺序执行，authc 应放在 anon 下面
          * */
+        filterChainDefinitionMap.put("/", "anon");
         filterChainDefinitionMap.put("/api/user/login", "anon");
         filterChainDefinitionMap.put("/api/user/register", "anon");
         filterChainDefinitionMap.put("/css/**", "anon");
@@ -65,7 +66,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/html/**", "anon");
         filterChainDefinitionMap.put("/druid/**", "anon");
-        filterChainDefinitionMap.put("/api/item/**", "anon");
+        //filterChainDefinitionMap.put("/api/**", "anon");
         // 所有url都必须认证通过才可以访问
         filterChainDefinitionMap.put("/**", "authc");
         // 配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了, 位置放在 anon、authc下面

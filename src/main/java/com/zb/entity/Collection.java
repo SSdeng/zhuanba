@@ -1,5 +1,6 @@
 package com.zb.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -44,11 +45,13 @@ public class Collection  implements Serializable {
      */
     @ManyToOne(targetEntity = User.class, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "user_Id", referencedColumnName = "id")
+    @JsonIgnoreProperties
     private User user;
     /**
      * 收藏列表，放弃维护权
      */
     @ManyToMany(mappedBy = "collections", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonIgnoreProperties
     private List<Item> items;
 
 
