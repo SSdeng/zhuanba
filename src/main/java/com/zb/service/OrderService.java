@@ -46,6 +46,26 @@ public interface OrderService {
     UserOrder getById(Long orderId);
 
     /**
+     * 更新订单状态
+     *
+     * @param orderId 订单id
+     * @param newStatus 新状态
+     * @return 更新后订单
+     */
+    UserOrder setOrderStatus(Long orderId, Integer newStatus);
+
+    /**
+     * 通过状态分页获取订单
+     *
+     * @param userId 用户id
+     * @param status 订单状态
+     * @param pageNo 起始页码
+     * @param pageSize 分页大小
+     * @return 分页结果
+     */
+    Page<UserOrder> getPageByStatus(Long userId, Integer status, int pageNo, int pageSize);
+
+    /**
      * 获取所有订单
      *
      * @return 订单列表

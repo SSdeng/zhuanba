@@ -3,6 +3,7 @@ package com.zb.controller;
 import com.zb.entity.Item;
 import com.zb.entity.User;
 import com.zb.entity.UserOrder;
+import com.zb.service.CartService;
 import com.zb.service.ItemService;
 import com.zb.service.OrderService;
 import com.zb.service.UserService;
@@ -34,6 +35,8 @@ public class OrderController {
     private UserService userService;
     @Resource
     private ItemService itemService;
+    @Resource
+    private CartService cartService;
 
     /**
      * 提交订单
@@ -47,7 +50,7 @@ public class OrderController {
     @ResponseBody
     public Result addOneOrder(@RequestParam("itemId") Long itemId,
                               @RequestParam("userId") Long userId,
-                              @RequestParam(value = "count", defaultValue = "1") int count){
+                              @RequestParam(value = "value", defaultValue = "1") int count){
         if(addOrder(userId, itemId, count) == null){
             return Result.error();
         }
@@ -80,9 +83,10 @@ public class OrderController {
      */
     @PostMapping("/addcart")
     @ResponseBody
-    public Result addMultipleOrder(@RequestParam("items") List<Map<String,String>> items){
+    public Result addMultipleOrder(@RequestParam("userId") Long userId, @RequestParam("items") List<Map<String,String>> items){
         for(Map<String,String> map:items){
-            UserOrder order = addOrder(Long.valueOf(map.get("userId")), Long.valueOf(map.get("itemId")), Integer.parseInt(map.get("count")));
+            cartService.removeOrder(userId, Long.valueOf(map.get("itemId")));
+            UserOrder order = addOrder(userId, Long.valueOf(map.get("itemId")), Integer.parseInt(map.get("value")));
             if(order == null){
                 return Result.error();
             }
@@ -102,6 +106,7 @@ public class OrderController {
         User user = userService.findById(userId);
         Item item = itemService.findById(itemId);
         UserOrder order = new UserOrder();
+        item.setCount(item.getCount()-count);
         order.setUser(user);
         order.setItem(item);
         order.setItemCount(count);

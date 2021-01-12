@@ -120,7 +120,7 @@ public class Item implements Serializable {
     /**
      * 商品订单表
      */
-    @OneToMany(mappedBy = "item", cascade = {CascadeType.REFRESH})
+    @OneToMany(mappedBy = "item", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnoreProperties
     private List<UserOrder> orderList;
 

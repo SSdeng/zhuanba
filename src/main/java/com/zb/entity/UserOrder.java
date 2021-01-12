@@ -70,13 +70,6 @@ public class UserOrder implements Serializable {
     private Integer itemCount = 1;
 
     /**
-     * 相关商品
-     */
-    @ManyToOne(targetEntity = Item.class, cascade = {CascadeType.REFRESH})
-    @JoinColumn(name = "item_id", referencedColumnName = "id", updatable = false)
-    private Item item;
-
-    /**
      * 订单状态 0：未付款， 1：进行中， 2：已完成， 3：已关闭 默认为0
      */
     @Column(nullable = false)
@@ -86,11 +79,19 @@ public class UserOrder implements Serializable {
      */
     @Column(nullable = false)
     private BigDecimal totalPrice;
+
     /**
      * 相关用户
      */
-    @ManyToOne
+    @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
     @JsonIgnoreProperties
     private User user;
+
+    /**
+     * 相关商品
+     */
+    @ManyToOne(targetEntity = Item.class)
+    @JoinColumn(name = "item_id", referencedColumnName = "id", updatable = false)
+    private Item item;
 }
