@@ -144,13 +144,13 @@ public class Item implements Serializable {
      */
     @ManyToOne(targetEntity = Collection.class, cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "collection_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @JsonIgnoreProperties
+    @JsonIgnoreProperties(value = "items")
     private Collection collection;
 
     /**
      * 商品评论列表
      */
     @OneToMany(mappedBy = "item", cascade = {CascadeType.REMOVE, CascadeType.MERGE})
-    @JsonIgnoreProperties
+    @JsonIgnoreProperties(value = "item")
     private List<ItemComment> itemComments;
 }

@@ -84,11 +84,11 @@ public class Collection  implements Serializable {
      */
     @OneToMany(mappedBy = "collection", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JsonIgnoreProperties(value = "collection")
-    private List<Item> Items;
+    private List<Item> items;
 
     public Collection(User user) {
         this.user = user;
-        this.Items = new ArrayList<>();
+        this.items = new ArrayList<>();
     }
 
 }

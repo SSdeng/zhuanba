@@ -1,21 +1,14 @@
 package com.zb.service.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zb.entity.*;
 import com.zb.exception.MyException;
 import com.zb.repository.CollectionRepository;
 import com.zb.repository.ItemRepository;
 import com.zb.repository.UserRepository;
 import com.zb.service.CollectionService;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.io.IOException;
-import java.util.Objects;
 
 /**
  * 收藏服务实现类
