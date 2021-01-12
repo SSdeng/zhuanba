@@ -76,7 +76,6 @@ public class CartOrder implements Serializable {
      */
     @ManyToOne(targetEntity = Item.class, cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "item_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @ToStringExclude
     private Item item;
 
     /**
