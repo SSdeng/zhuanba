@@ -24,15 +24,6 @@ public class CollectionServiceImpl implements CollectionService {
     @Resource
     private CollectionRepository collectionRepository;
 
-    /**
-     * 通过收藏夹名称查询
-     * @param collectionName
-     * @return
-     */
-    @Override
-    public Collection findByName(String collectionName) {
-        return collectionRepository.findByName(collectionName);
-    }
 
     /**
      * 分页显示所有收藏夹

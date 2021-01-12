@@ -30,12 +30,7 @@ public interface CollectionService {
      */
     Collection findById(Long id);
 
-    /**
-     * 根据收藏夹名称获取收藏夹
-     * @param collectionName
-     * @return
-     */
-    Collection findByName(String collectionName);
+
 
     /**
      * 按照id删除收藏夹
