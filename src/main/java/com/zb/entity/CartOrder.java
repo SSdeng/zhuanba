@@ -8,6 +8,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.*;
 
 import lombok.AllArgsConstructor;
@@ -78,6 +79,7 @@ public class CartOrder implements Serializable {
      */
     @ManyToOne(targetEntity = Cart.class, cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "cart_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JsonIgnoreProperties(value = "orderList")
     private Cart cart;
 
     public CartOrder(long itemId, int cnt) {

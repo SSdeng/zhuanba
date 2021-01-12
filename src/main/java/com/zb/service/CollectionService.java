@@ -9,18 +9,7 @@ import org.springframework.data.domain.Page;
  * 2021/1/11
  */
 public interface CollectionService {
-    /**
-     * 分页展示所有收藏夹
-     * @return
-     */
-    Page<Collection> getAllCollections(int pageNo,int pageSize);
 
-    /**
-     * 添加收藏夹
-     * @param newCollection
-     * @return
-     */
-    Collection addCollection(Collection newCollection);
 
 
     /**
@@ -30,22 +19,22 @@ public interface CollectionService {
      */
     Collection findById(Long id);
 
-
-
     /**
-     * 按照id删除收藏夹
-     * @param id
+     * 添加商品到收藏夹
+     * @param userId
+     * @param itemId
      * @return
      */
-    boolean deleteById(Long id);
+    Collection addItem(Long userId, Long itemId);
 
     /**
-     * 更新收藏夹
-     * @param JSONCollection
-     * @param CollectionId
-     * @return
+     * 从收藏夹移除商品
+     * @param collectionId
+     * @param itemId
      */
-    Collection UpdateCollection(String JSONCollection,Long CollectionId);
+    Collection removeItem(Long collectionId , Long itemId);
+
+
 
 
 }
