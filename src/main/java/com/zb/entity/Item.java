@@ -133,15 +133,11 @@ public class Item implements Serializable {
     private List<Category> categories;
 
     /**
-     * 商品所有的收藏，负责维护外键
+     * 所属收藏
      */
-    @ManyToMany(targetEntity = Collection.class, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "sys_item_collection",
-            // 当前对象在中间表的外键
-            joinColumns = {@JoinColumn(name = "item_id", referencedColumnName = "id")},
-            // 对方对象在中间表的外键
-            inverseJoinColumns = {@JoinColumn(name = "collection_id", referencedColumnName = "id")})
-    private List<Category> collections;
+    @ManyToOne(targetEntity = Collection.class, cascade = {CascadeType.REFRESH})
+    @JoinColumn(name = "collection_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Collection collection;
 
     /**
      * 商品评论列表

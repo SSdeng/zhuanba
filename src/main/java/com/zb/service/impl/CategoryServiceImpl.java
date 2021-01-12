@@ -1,20 +1,18 @@
 package com.zb.service.impl;
 
-import javax.annotation.Resource;
-
-import com.zb.entity.User;
+import com.zb.entity.Category;
+import com.zb.entity.Item;
+import com.zb.repository.CategoryRepository;
+import com.zb.repository.ItemRepository;
+import com.zb.service.CategoryService;
+import com.zb.util.PaginationSupport;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import com.zb.entity.Category;
-import com.zb.entity.Item;
-import com.zb.repository.CategoryRepository;
-import com.zb.service.CategoryService;
-import org.springframework.stereotype.Service;
-
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,6 +24,9 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
     @Resource
     private CategoryRepository categoryRepository;
+
+    @Resource
+    private ItemRepository itemRepository;
 
     /**
      * 增加商品分类
@@ -133,7 +134,28 @@ public class CategoryServiceImpl implements CategoryService {
      * @param id category_id
      * @return category对象 不存在返回null
      */
-    private Category getById(Long id) {
+    public Category getById(Long id) {
         return id == null ? null : categoryRepository.findById(id).orElse(null);
+    }
+
+    /**
+     * 分页返回指定分类下的商品
+     *
+     * @param categoryId
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public PaginationSupport<Item> getSpecificCategoryItems(int categoryId, int pageNo, int pageSize){
+        int totalCount = itemRepository.getSpecificCategoryItemsCount(categoryId);
+        int startIndex = PaginationSupport.convertFromPageToStartIndex(pageNo, pageSize);
+        if (totalCount < 1) {
+            return new PaginationSupport<Item>(new ArrayList<Item>(0), 0);
+        }
+        List<Item> items = itemRepository.getSpecificCategoryItems(categoryId, pageSize, startIndex);
+        PaginationSupport<Item> ps = new PaginationSupport<Item>(items, totalCount, pageSize, startIndex);
+
+        return ps;
     }
 }

@@ -28,28 +28,33 @@ import java.util.List;
 @SQLDelete(sql = "update sys_collection set deleted = 1 where id = ?")
 @Where(clause = "deleted = 0")
 public class Collection  implements Serializable {
+
+    private static final long serialVersionUID = -8790089710781789422L;
+
     /**
      * 主键，自增
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // 主键，自增
+    private Long id;
+
     /**
-     * 收藏名称,不可为空
+     * 用于逻辑删除，0为未删除，1为已删除
      */
-    @Column(name = "collection_name",nullable = false)
-    private String collectionName;
+    private Integer deleted = 0;
+
     /**
      * 所属用户，设置外键user_id，参照sys_user的id字段
      */
-    @ManyToOne(targetEntity = User.class, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "user_Id", referencedColumnName = "id")
+    @OneToOne(targetEntity = User.class)
+    @JoinColumn(name = "user_Id", referencedColumnName = "id",insertable = false, updatable = false)
     private User user;
+
     /**
-     * 收藏列表，放弃维护权
+     * 拥有商品表
      */
-    @ManyToMany(mappedBy = "collections", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<Item> items;
+    @OneToMany(mappedBy = "collection", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    private List<Item> Items;
 
 
 }
