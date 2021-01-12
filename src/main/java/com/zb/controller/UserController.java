@@ -11,6 +11,7 @@ import com.zb.entity.User;
 import com.zb.enums.ResultEnum;
 import com.zb.service.UserService;
 import com.zb.util.Result;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 用户控制器
@@ -30,11 +31,17 @@ public class UserController {
      * 
      * @param userId
      *            用户id
-     * @return 用户实体
+     * @return 视图
      */
     @GetMapping("/info")
-    public User getUserInfo(@RequestParam("userId") long userId) {
-        return userService.findById(userId);
+    public ModelAndView getUserInfo(@RequestParam("userId") long userId) {
+        ModelAndView modelAndView = new ModelAndView("info");
+        User user = userService.findById(userId);
+        modelAndView.addObject("user", user);
+        modelAndView.addObject("collections", user.getCollection());
+        modelAndView.addObject("wants", user.getWants());
+        modelAndView.addObject("orders", user.getUserOrders());
+        return modelAndView;
     }
 
     /**
