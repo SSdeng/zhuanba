@@ -1,108 +1,111 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>商品发布</title>
-    
+
     <link rel="stylesheet" type="text/css" href="/css/release.css">
     <link rel="stylesheet" type="text/css" href="/css/header.css">
 <body>
-    <div class="dingbu">
-        <div class="denglu-font">
-            <a href="#" id="dingbuhome"><img src="../images/logo.jpg"></a>
+<div class="dingbu">
+    <div class="denglu-font">
+        <a href="#" id="dingbuhome"><img src="../images/logo.jpg"></a>
 
-            <div class="denglu-font2">
-                <a href="#" id="uname">...</a>
-                <a href="login.html" id="login_logout">登录</a>
+        <div class="denglu-font2">
+            <a href="#" id="uname">...</a>
+            <a href="login.html" id="login_logout">登录</a>
 
-            </div>
         </div>
     </div>
+</div>
 
-    <div class="list-1">
-        <ul class="list-ul-2" style="position: relative;right: 190px;">
-            <div class="img"><img src="/images/logo1.jpg" width="55px" height="55px" class="img-logo" /></div>
-            <li><a href="login.html">全部商品分类</a></li>
-            <li><a href="#" class="click1">小米手机</a></li>
-            <li><a href="#">红米</a></li>
-            <li><a href="tv4c.html">电视</a></li>
-            <li><a href="bijibenmenu.html">笔记本</a></li>
-            <li><a href="#">空调</a></li>
-            <li><a href="#">新品</a></li>
-            <li><a href="#">路由器</a></li>
-            <li><a href="#">智能硬件</a></li>
-            <li><a href="#">服务</a></li>
-            <li><a href="#">社区</a></li>
-        </ul>
-    </div>
-    
-    <div id="app"><br><br>
-        <div class="header">
+<div class="list-1">
+    <ul class="list-ul-2" style="position: relative;right: 190px;">
+        <div class="img"><img src="../static/images/logo1.jpg" width="55px" height="55px" class="img-logo"/></div>
+        <li><a href="login.html">全部商品分类</a></li>
+        <li><a href="#" class="click1">小米手机</a></li>
+        <li><a href="#">红米</a></li>
+        <li><a href="tv4c.html">电视</a></li>
+        <li><a href="bijibenmenu.html">笔记本</a></li>
+        <li><a href="#">空调</a></li>
+        <li><a href="#">新品</a></li>
+        <li><a href="#">路由器</a></li>
+        <li><a href="#">智能硬件</a></li>
+        <li><a href="#">服务</a></li>
+        <li><a href="#">社区</a></li>
+    </ul>
+</div>
+
+<div id="app"><br><br>
+    <div class="header">
             <span>
                 <h2 style="position: relative;left: 150px;">商品发布</h2>
             </span>
-        </div>
-        <br><br>
-        <div class="content">
-            <table>
-                <form id="form1" enctype="multipart/form-data">
-                    <tr>
-                        <td class="text-right">请选择商品图片</td>
-                        <td class="content_right">
-                            <a href="javascript:;" class="file">
-                                <input id="chooseimage" type="file" accept="image/png,image/gif,image/jpg,image/jpeg">
-                                <img id="showimage" class="showimage" src="../images/addimage.png">
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-right">商品名称</td>
-                        <td class="content_right"><input class="itemname" id="itemname" placeholder="请输入商品名称" required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-right">商品分类</td>
-                        <td class="content_right">
-                            <select class="category" id="category" title="请选择商品分类">
-                                <option th:each="catagory:${catagories}" th:id="${category.id}" th:text="${category.name}"></option>
-                                <option id="1">数码</option>
-                                <option id="2">家居</option>
-                                <option id="3">服饰</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-right">商品描述</td>
-                        <td class="content_right"><textarea class="description" rows="5" id="description" type="text"
-                                placeholder="请输入商品描述"></textarea>
-                            <!-- <input class="description" id="password" type="text" placeholder="请输入商品描述"></td> -->
-                    </tr>
-                    <tr>
-                        <td class="text-right">新旧程度</td>
-                        <td class="content_right"><input class="level" id="level" type="range" min="1" max="10"
-                                value="10" title="10" oninput="changelabel()" width="200px">
-                            <p id="levellabel">全新</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-right">价格</td>
-                        <td class="content_right"><input class="price" id="price" type="number" required></td>
-                    </tr>
-                    <tr>
-                        <td class="text-right">剩余数量</td>
-                        <td class="content_right"><input class="price" id="count" type="number" required></td>
-                    </tr>
-
-                    <tr>
-                        <td></td>
-                        <td class="content_right"><button class="btn btn-info" id="submit">立即提交</button></td>
-                    </tr>
-                </form>
-            </table>
-        </div>
     </div>
+    <br><br>
+    <div class="content">
+        <table>
+            <form id="form1" enctype="multipart/form-data">
+                <tr>
+                    <td class="text-right">请选择商品图片</td>
+                    <td class="content_right">
+                        <a href="javascript:;" class="file">
+                            <input id="chooseimage" type="file" accept="image/png,image/gif,image/jpg,image/jpeg">
+                            <img id="showimage" class="showimage" src="../images/addimage.png">
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-right">商品名称</td>
+                    <td class="content_right"><input class="itemname" id="itemname" placeholder="请输入商品名称" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-right">商品分类</td>
+                    <td class="content_right">
+                        <select class="category" id="category" title="请选择商品分类">
+                            <option th:each="catagory:${catagories}" th:id="${category.id}"
+                                    th:text="${category.name}"></option>
+                            <option id="1">数码</option>
+                            <option id="2">家居</option>
+                            <option id="3">服饰</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-right">商品描述</td>
+                    <td class="content_right"><textarea class="description" rows="5" id="description" type="text"
+                                                        placeholder="请输入商品描述"></textarea>
+                        <!-- <input class="description" id="password" type="text" placeholder="请输入商品描述"></td> -->
+                </tr>
+                <tr>
+                    <td class="text-right">新旧程度</td>
+                    <td class="content_right"><input class="level" id="level" type="range" min="1" max="10"
+                                                     value="10" title="10" oninput="changelabel()" width="200px">
+                        <p id="levellabel">全新</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-right">价格</td>
+                    <td class="content_right"><input class="price" id="price" type="number" required></td>
+                </tr>
+                <tr>
+                    <td class="text-right">剩余数量</td>
+                    <td class="content_right"><input class="price" id="count" type="number" required></td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td class="content_right">
+                        <input type="button" class="btn btn-info" id="submit" value="立即提交">
+                    </td>
+                </tr>
+            </form>
+        </table>
+    </div>
+</div>
 </body>
 <script src="/jquery/jquery2.1.4.js"></script>
 <script src="/layer/layer.js"></script>
@@ -111,6 +114,9 @@
     $(function () {
 
         $("#chooseimage").change(function () {
+            if (checkFile() == false) {
+                return;
+            }
             var file = document.getElementById("chooseimage");
             $("#showimage").attr("src", getObjectURL($("#chooseimage")[0].files[0]));
         });
@@ -128,64 +134,82 @@
                 $(this).val("");
             }
         });
-        $("#category").change(function(){
+        $("#category").change(function () {
             console.log($($(this).find('option:selected')).attr('id'))
             console.log($(this).val());
         });
 
         $("#submit").click(function () {
-            var itemId = 0;
+            var itemId = -1;
             var userId = localStorage.getItem("userId");
+            userId = 1;
             var itemname = $("#itemname").val();
             var categoryId = $($("#category").find('option:selected')).attr('id');
             var description = $("#description").val();
             var level = $("#level").val();
             var price = $("#price").val();
             var count = $("#count").val();
-            var formdata = new FormData($("#chooseimage")[0]);
+            // var formdata = new FormData($("#chooseimage")[0]);
 
-            if (checkName() && checkPrice() && checkCount) {
+
+            if (checkFile() != false && checkName() != false && checkPrice() != false && checkCount != false) {
                 $.ajax({
+                    url: "/api/item/release",
                     type: "POST",
                     dataType: "json",
-                    url: "/api/item/release",
-                    data: {
+                    contentType: "application/json",
+                    traditional: true,
+                    data: JSON.stringify({
                         "userId": userId,
-                        "itemname": itemname,
-                        "categoryId": categoryId,
+                        "itemName": itemname,
                         "description": description,
                         "level": level,
                         "price": price,
                         "count": count
-                    },
+                    }),
                     success: function (data) {
                         if (data.code == 0) {
                             itemId = data.data.itemId;
+                            console.log(itemId)
                         } else {
-                            alert(data.msg);
+                            layer.msg("fail!" + data.msg);
                         }
                     },
-                    error: function() {
+                    error: function () {
 
                     }
 
 
                 });
 
+                console.log("start transferring image")
+                var type = "image";
+                var formData = new FormData();
+                formData.append(type, $("#chooseimage")[0].files[0]);
                 $.ajax({
-                    url: "/api/item/upload?itemId=" + itemId,
+                    url: "/api/item/upload?itemId=" + 1,
                     type: 'POST',
                     data: formData,
                     async: false,
-                    success: function (data) {
-
-                    },
                     cache: false,
                     contentType: false,
-                    processData: false
+                    processData: false,
+                    success: function (data) {
+                        if (data.code == 0) {
+                            layer.msg("商品发布成功！")
+                        } else {
+                            layer.msg("图片未能上传!" + data.msg)
+                        }
+
+                    },
+                    error:function (e){
+                        var res = $.parseJSON(e.responseText);
+                        layer.msg(res.msg);
+                    }
                 });
-            }
-            else {
+
+            } else {
+                layer.msg("商品发布失败！");
                 return;
             }
 
@@ -247,9 +271,26 @@
         // });
 
 
-
-
     });
+
+    function checkFile() {
+        var $file1 = $("#chooseimage").val();
+        if ($file1 == "") {
+            layer.msg("请选择上传的目标文件! ")
+            return false;
+        }
+        var fileName1 = $file1.substring($file1.lastIndexOf(".") + 1).toLowerCase();
+        if (fileName1 != "png" && fileName1 != "jpg" && fileName1 != "gif" && fileName1 != "jpeg") {
+            layer.msg("请选择上传图片! ")
+            return false;
+        }
+        var size1 = $("#chooseimage")[0].files[0].size;
+        if (size1 > 10485760) {
+            alert("上传文件不能大于10M!");
+            return false;
+        }
+        return true;
+    }
 
     function changelabel() {
         var level = $("#level").val();
@@ -259,6 +300,7 @@
             $("#levellabel").text(level + "成新");
         }
     };
+
     function checkName() {
         var itemName = $("#itemname").val();
         if (itemName.length < 2) {
@@ -272,8 +314,7 @@
         var price = $("#price").val() * 1;
         if (price == null || price == "" || price <= 0) {
             return false;
-        }
-        else {
+        } else {
             $("#price").val(price.toFixed(2));
         }
     }
@@ -300,11 +341,11 @@
 
     function getObjectURL(file) {
         var url = null
-        if (window.createObjectURL != undefined) { // basic    
+        if (window.createObjectURL != undefined) { // basic
             url = window.createObjectURL(file)
-        } else if (window.URL != undefined) { // mozilla(firefox)    
+        } else if (window.URL != undefined) { // mozilla(firefox)
             url = window.URL.createObjectURL(file)
-        } else if (window.webkitURL != undefined) { // webkit or chrome    
+        } else if (window.webkitURL != undefined) { // webkit or chrome
             url = window.webkitURL.createObjectURL(file)
         }
         return url;
