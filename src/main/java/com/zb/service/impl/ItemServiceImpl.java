@@ -3,8 +3,10 @@ package com.zb.service.impl;
 import javax.annotation.Resource;
 import javax.annotation.Resources;
 
+import com.zb.entity.Category;
 import com.zb.entity.vo.ItemVO;
 import com.zb.exception.MyException;
+import com.zb.repository.CategoryRepository;
 import com.zb.repository.UserRepository;
 import com.zb.util.JsonTransfer;
 import org.springframework.beans.BeanUtils;
@@ -28,6 +30,8 @@ public class ItemServiceImpl implements ItemService {
     private ItemRepository itemRepository;
     @Resource
     private UserRepository userRepository;
+    @Resource
+    private CategoryRepository categoryRepository;
 
     /**
      * 发布商品
@@ -39,6 +43,7 @@ public class ItemServiceImpl implements ItemService {
     public Item insertSelective(ItemVO itemVO) {
         Item newItem = new Item();
         newItem.setUser(userRepository.getOne(itemVO.getUserId()));
+        newItem.setCategories(categoryRepository.findByIdIn(itemVO.getCategoryIds()));
         BeanUtils.copyProperties(itemVO, newItem);
         return itemRepository.saveAndFlush(newItem);
     }
