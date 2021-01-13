@@ -173,7 +173,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Page<Item> getSpecificCategoryItemsByNamingParameters(Long categoryId, int pageNo, int pageSize){
 
-        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Pageable pageable = PageRequest.of(pageNo-1, pageSize);
         Page<Item> items = itemRepository.findItemsByCategories_id(categoryId, pageable);
 
         return items;
