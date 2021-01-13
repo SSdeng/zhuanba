@@ -14,7 +14,7 @@ import java.util.UUID;
 public class FileUtil {
 
     // 上传文件的目录
-    private static final String FileDirectoryPATH = "";
+    private static final String FileDirectoryPATH = "/uploads";
 
     public static String uploadFile(MultipartFile multipartFile) throws IOException {
 

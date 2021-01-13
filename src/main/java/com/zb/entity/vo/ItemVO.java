@@ -20,6 +20,10 @@ public class ItemVO {
      */
     private Long userId;
     /**
+     * 商品所属分类id
+     */
+    private Long categoryId;
+    /**
      * 商品名
      */
     private String itemName;
