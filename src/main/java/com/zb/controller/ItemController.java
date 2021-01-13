@@ -93,13 +93,13 @@ public class ItemController {
      * @return 接收后商品
      */
     @PostMapping("/upload")
-    public ModelAndView uploadPicture(@RequestBody String json, @RequestParam("itemId") long itemId, @RequestParam("image") MultipartFile image) throws IOException {
+    public ModelAndView uploadPicture(@RequestParam("itemId") long itemId, @RequestParam("image") MultipartFile image) throws IOException {
         ModelAndView modelAndView = new ModelAndView("item");
         // 使用图片上传工具类，接受文件后，返回文件的新名称
         String itemPictureName = FileUtil.uploadFile(image);
         Item item = itemService.findById(itemId);
         item.setImage(itemPictureName);
-        item = itemService.updateItemInfo(json, item);
+        item = itemService.updateItemInfo("", item);
         modelAndView.addObject("item",item);
         return modelAndView;
     }

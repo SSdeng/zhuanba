@@ -30,7 +30,7 @@ class ZhuanbaApplicationTests {
     @Test
     @Transactional
     void contextLoads() {
-        Page<Item> items = itemRepository.findByCategories_id(1l, PageRequest.of(0, 1));
+        Page<Item> items = itemRepository.findItemsByCategories_id(1l, PageRequest.of(0, 1));
         List<Item> content = items.getContent();
         for (Item item : content) {
             System.out.println(item);
@@ -40,7 +40,7 @@ class ZhuanbaApplicationTests {
     @Test
     @Transactional
     void test1() {
-        List<Item> items = itemRepository.findItemsBy();
+        List<Item> items = itemRepository.findAll();
         for (Item item : items) {
             List<Category> categories = item.getCategories();
             categories.get(0).toString();
