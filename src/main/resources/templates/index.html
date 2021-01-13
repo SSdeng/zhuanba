@@ -5,94 +5,94 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>首页</title>
-    <link href="/static/css/index.css" rel="stylesheet">
-    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/index.css" rel="stylesheet">
+    <link href="../static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
 
 <body>
-<div class="dingbu">
-    <div class="denglu-font top">
-        <a href="#" id="dingbuhome"><img src="../images/logo.jpg"></a>
+    <div class="dingbu">
+        <div class="denglu-font top">
+            <a href="#" id="dingbuhome"><img src="../images/logo.jpg"></a>
 
-        <div id="so" style="position: relative; left: 350px;top:8px;width: 100px; float: left;" class="top">
-            <div class="input-group">
-                <input type="text" class="form-control" id="searchText" style="width: 380px;">
-                <span class="input-group-addon" id="search" onclick="search()"><i class="glyphicon glyphicon-search"
-                                                                                  style="color: #0055aa;"> <span>搜索
+            <div id="so" style="position: relative; left: 350px;top:8px;width: 100px; float: left;" class="top">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="searchText" style="width: 380px;" >
+                    <span class="input-group-addon" id="search" onclick="search()"><i class="glyphicon glyphicon-search" style="color: #0055aa;"> <span>搜索
                                 </span></i></span>
+                </div>
+            </div>
+            <div class="denglu-font2 top">
+                <a href="#" id="uname" >zyl</a>
+                <a href="login.html" id="login_logout">登录</a>
+
             </div>
         </div>
-        <div class="denglu-font2 top">
-            <a href="#" id="uname">zyl</a>
-            <a href="login.html" id="login_logout">登录</a>
 
-        </div>
     </div>
 
-</div>
+    <div class="list-1">
+        <ul class="list-ul-2" style="position: relative;right: 190px;">
+            <div class="img"><img src="../images/logo1.jpg" width="55px" height="55px" class="img-logo" /></div>
 
-<div class="list-1">
-    <ul class="list-ul-2" style="position: relative;right: 190px;">
-        <div class="img"><img src="../images/logo1.jpg" width="55px" height="55px" class="img-logo"/></div>
-
-        <li th:each="catagory:${catagories}">
-            <a href="login.html" th:text="catagory.name">123</a>
-        </li>
-
-    </ul>
-</div>
-
-
-<div class="pro3">
-    <div class="pro3_c">
-        <ul class="pub_pro">
-            <li th:each="item:${items}" th:object="${item}">
-                <a href="#">
-                    <img th:src="'/static/images/img'+*{id}" alt="">
-                    <div class="cont">
-                        <h3 th:text="*{itemName}">简约时尚水泥花瓶</h3>
-                        <span th:text="'￥' + *{price}">￥450</span>
-                    </div>
-                </a>
-                <div class="mask">
-                    <a href="#" class="btn">
-                        查看详情
-                    </a>
-                </div>
+            <li th:each="catagory:${catagories}">
+                <a href="login.html" th:text="catagory.name">123</a>
             </li>
 
         </ul>
-        <div class="pages">
-            <a th:href="/">首页</a>
+    </div>
 
-            <a th:href="@{/(pageNo=${items.prePage}==0?1:${items.prePage})}">上一页</a>
 
-            <a th:href="@{/(pageNo=${items.nextPage}==0?${items.pages}:${items.nextPage}">下一页</a>
 
-            <a th:href="@{/(pageNo=${items.pages}">尾页</a>
+    <div class="pro3">
+        <div class="pro3_c">
+            <ul class="pub_pro">
+                <li th:each="item:${items}" th:object="${item}">
+                    <a href="#">
+                        <img th:src="'/static/images/img'+*{id}" alt="">
+                        <div class="cont">
+                            <h3 th:text="*{itemName}">简约时尚水泥花瓶</h3>
+                            <span th:text="'￥' + *{price}">￥450</span>
+                        </div>
+                    </a>
+                    <div class="mask">
+                        <a href="#" class="btn">
+                            查看详情
+                        </a>
+                    </div>
+                </li>
 
-            总页数:<span th:text="${items.pages}">1</span>
+            </ul>
+            <div class="pages">
+                <a th:href="@{/}">首页</a>
+                
+                <a th:href="@{/(pageNo=${items.prePage}==0?1:${items.prePage})}">上一页</a>
 
-            总条数:<span th:text="${items.total}">1</span>
+                <a th:href="@{/(pageNo=${items.nextPage}==0?${items.pages}:${items.nextPage}">下一页</a>
+
+                <a th:href="@{/(pageNo=${items.pages}">尾页</a>
+
+                总页数:<span th:text="${items.pages}">1</span>
+
+                总条数:<span th:text="${items.total}">1</span>
+            </div>
         </div>
     </div>
-</div>
 
 </body>
-<script src="../jquery/jquery2.1.4.js"></script>
-<script src="../layer/layer.js"></script>
+<script src="../static/jquery/jquery2.1.4.js"></script>
+<script src="../static/layer/layer.js"></script>
 <script>
-    function search() {
+    function search(){
         console.log($("#searchText").val());
-        var data = {"searchInfo": $("#searchText").val()};
+        var data = {"searchInfo":$("#searchText").val()};
         $.ajax({
-            url: "/api/item/search",
-            data: JSON.stringify(data),
-            type: "POST",
-            contentType: "application/json",
-            dataType: "json",
-            traditional: true
+            url:"/api/item/search",
+            data:JSON.stringify(data),
+            type:"POST",
+            contentType:"application/json",
+            dataType:"json",
+            traditional:true
         })
     }
 
@@ -159,7 +159,6 @@
 <script>
     //设置顶部栏的登录/退出按钮和用户名显示
     var login_logout = $("#login_logout");
-
     function load_data() {
         var theme = localStorage.getItem("username");
         var userId = localStorage.getItem("userId");
@@ -169,9 +168,10 @@
         } else {
             login_logout.innerText = "退出"
             $("#uname").text(theme);
-            $("#uname").attr("href", "/api/user/info?userId=" + userId);
+            $("#uname").attr("href","/api/user/info?userId="+userId);
         }
     }
+
 </script>
 
 </html>
