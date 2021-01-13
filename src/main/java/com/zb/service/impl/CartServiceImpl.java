@@ -2,12 +2,14 @@ package com.zb.service.impl;
 
 import com.zb.entity.Cart;
 import com.zb.entity.CartOrder;
+import com.zb.entity.vo.CartOrderVO;
 import com.zb.exception.MyException;
 import com.zb.repository.CartRepository;
 import com.zb.service.CartService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -104,13 +106,17 @@ public class CartServiceImpl implements CartService {
     }
 
     /**
-     * 清空购物车
+     * 获取购物车订单表
      *
      * @param cartId 购物车id
      */
     @Override
-    public List<CartOrder> emptyCart(long cartId) {
+    public List<CartOrderVO> getCartOrderVoList(long cartId) {
         Cart cart = findCartById(cartId);
-        return cart.getOrderList();
+        List<CartOrderVO> list = new ArrayList<>();
+        for (CartOrder cartOrder : cart.getOrderList()) {
+            list.add(new CartOrderVO(cartOrder));
+        }
+        return list;
     }
 }

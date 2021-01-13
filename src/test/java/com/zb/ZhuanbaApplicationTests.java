@@ -86,6 +86,13 @@ class ZhuanbaApplicationTests {
     }
 
     @Test
+    void addCategory() {
+        Category category = new Category();
+        category.setName("服装");
+        categoryService.insertSelective(category);
+    }
+
+    @Test
     void paquItems() throws IOException {
         String key = "男装";
         List<Item> itemList = HtmlParseUtil.getItemsByJD(key,(long)1,(long)1);
