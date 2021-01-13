@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>首页</title>
-    <link href="../static/css/index.css" rel="stylesheet">
-    <link href="../static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/index.css" rel="stylesheet">
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
 
@@ -35,8 +35,8 @@
         <ul class="list-ul-2" style="position: relative;right: 190px;">
             <div class="img"><img src="../images/logo1.jpg" width="55px" height="55px" class="img-logo" /></div>
 
-            <li th:each="catagory:${catagories}">
-                <a href="login.html" th:text="catagory.name">123</a>
+            <li th:each="category:${categories}">
+                <a th:href="@{'/api/catagory/find?categoryId='+${category.id}" th:text="${category.name}">123</a>
             </li>
 
         </ul>
@@ -80,8 +80,8 @@
     </div>
 
 </body>
-<script src="../static/jquery/jquery2.1.4.js"></script>
-<script src="../static/layer/layer.js"></script>
+<script src="/jquery/jquery2.1.4.js"></script>
+<script src="/layer/layer.js"></script>
 <script>
     function search(){
         console.log($("#searchText").val());
