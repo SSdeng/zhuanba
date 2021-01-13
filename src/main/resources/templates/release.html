@@ -170,7 +170,34 @@
                     success: function (data) {
                         if (data.code == 0) {
                             itemId = data.data.itemId;
-                            console.log(itemId)
+                            console.log(itemId);
+                            if(itemId!=-1){
+                                console.log("start transferring image")
+                                var type = "image";
+                                var formData = new FormData();
+                                formData.append(type, $("#chooseimage")[0].files[0]);
+                                $.ajax({
+                                    url: "/api/item/upload?itemId=" + itemId,
+                                    type: 'POST',
+                                    data: formData,
+                                    async: false,
+                                    cache: false,
+                                    contentType: false,
+                                    processData: false,
+                                    success: function (data) {
+                                        if (data.code == 0) {
+                                            layer.msg("商品发布成功！")
+                                        } else {
+                                            layer.msg("图片未能上传!" + data.msg)
+                                        }
+
+                                    },
+                                    error:function (e){
+                                        var res = $.parseJSON(e.responseText);
+                                        layer.msg(res.msg);
+                                    }
+                                });
+                            }
                         } else {
                             layer.msg("fail!" + data.msg);
                         }
@@ -179,33 +206,6 @@
 
                     }
 
-
-                });
-
-                console.log("start transferring image")
-                var type = "image";
-                var formData = new FormData();
-                formData.append(type, $("#chooseimage")[0].files[0]);
-                $.ajax({
-                    url: "/api/item/upload?itemId=" + 1,
-                    type: 'POST',
-                    data: formData,
-                    async: false,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    success: function (data) {
-                        if (data.code == 0) {
-                            layer.msg("商品发布成功！")
-                        } else {
-                            layer.msg("图片未能上传!" + data.msg)
-                        }
-
-                    },
-                    error:function (e){
-                        var res = $.parseJSON(e.responseText);
-                        layer.msg(res.msg);
-                    }
                 });
 
             } else {
