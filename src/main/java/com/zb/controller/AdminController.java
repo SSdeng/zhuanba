@@ -33,7 +33,7 @@ public class AdminController {
     public String getUserList(Model model,
                               @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
                               @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-        model.addAttribute(adminService.getAllUsersByPage(pageNo, pageSize));
+        model.addAttribute("userList", adminService.getAllUsersByPage(pageNo, pageSize));
         return "userList";
     }
 
@@ -49,7 +49,7 @@ public class AdminController {
     public String getItemListModel(Model model,
                                    @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
                                    @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-        model.addAttribute(adminService.getAllItemsByPage(pageNo, pageSize));
+        model.addAttribute("itemList", adminService.getAllItemsByPage(pageNo, pageSize));
         return "itemList";
     }
 
