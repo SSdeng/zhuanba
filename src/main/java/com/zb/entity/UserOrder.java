@@ -88,7 +88,7 @@ public class UserOrder implements Serializable {
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
     @JsonIgnoreProperties(value = "userOrders")
-    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private User user;
 
     /**
@@ -97,6 +97,6 @@ public class UserOrder implements Serializable {
     @ManyToOne(targetEntity = Item.class)
     @JoinColumn(name = "item_id", referencedColumnName = "id", updatable = false)
     @JsonIgnoreProperties(value = "orderList")
-    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Item item;
 }

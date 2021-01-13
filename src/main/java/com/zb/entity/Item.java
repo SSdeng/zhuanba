@@ -131,7 +131,7 @@ public class Item implements Serializable {
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false, nullable = false)
     @JsonIgnoreProperties(value = "items")
-    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private User user;
 
     /**
@@ -139,7 +139,7 @@ public class Item implements Serializable {
      */
     @OneToMany(mappedBy = "item", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnoreProperties(value = "item")
-    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<UserOrder> orderList;
 
     /**
@@ -152,7 +152,7 @@ public class Item implements Serializable {
         // 对方对象在中间表的外键
         inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")})
     @JsonIgnoreProperties(value = "items")
-    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<Category> categories;
 
     /**
@@ -161,7 +161,7 @@ public class Item implements Serializable {
     @ManyToOne(targetEntity = Collection.class, cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "collection_id", referencedColumnName = "id", insertable = false, updatable = false)
     @JsonIgnoreProperties(value = "items")
-    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Collection collection;
 
     /**
@@ -169,6 +169,6 @@ public class Item implements Serializable {
      */
     @OneToMany(mappedBy = "item", cascade = {CascadeType.REMOVE, CascadeType.MERGE})
     @JsonIgnoreProperties(value = "item")
-    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<ItemComment> itemComments;
 }

@@ -75,6 +75,6 @@ public class Address implements Serializable {
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
     @JsonIgnoreProperties(value = "addresses")
-    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private User user;
 }

@@ -71,7 +71,7 @@ public class Cart implements Serializable {
     @OneToOne(targetEntity = User.class)
     @PrimaryKeyJoinColumn
     @JsonIgnoreProperties(value = "cart")
-    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private User user;
 
     /**
@@ -79,7 +79,7 @@ public class Cart implements Serializable {
      */
     @OneToMany(mappedBy = "cart", cascade = {CascadeType.ALL})
     @JsonIgnoreProperties(value = "cart")
-    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<CartOrder> orderList;
 
     public Cart(User user) {
