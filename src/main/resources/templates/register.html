@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>注册页面</title>
-    <link rel="stylesheet" type="text/css" href="../css/register.css">
+    <link rel="stylesheet" type="text/css" href="/css/register.css">
 </head>
 <body>
     <div id="app">
@@ -46,8 +46,8 @@
         </div>
     </div>
     </body>
-    <script src="../jquery/jquery2.1.4.js"></script>
-    <script src="../layer/layer.js"></script>
+    <script src="/jquery/jquery2.1.4.js"></script>
+    <script src="/layer/layer.js"></script>
     <script>
         function checkPassword(){
             var password1 = $("input:eq(1)").val();
@@ -92,25 +92,53 @@
                     layer.msg("请输入正确的学号");
                     return;
                 }
-                
+
                 var windowId = layer.load();
-                $.post("/api/use/register", {
-                    "name": name,
-                    "phone": phone,
-                    "code": code,
-                    "password": password
-                }, function (data) {
-                    layer.close(windowId);
-                    layer.msg(data.msg);
-                    if (data.code == 0) {
-                        //录入成功
-                        $("input").val("");
-                        location.assign("login.html");
-                    } else {
-                        //录入失败
-                        
+                var data = {
+                    "username":username,
+                    "realName": name,
+                    "phoneNumber": phone,
+                    "studentNumber": code,
+                    "password": password1
+                };
+                $.ajax({
+                    url: "/api/user/register",
+                    data: JSON.stringify(data),
+                    type: "POST",
+                    contentType: "application/json",
+                    dataType: "json",
+                    c
+                    success: function (data) {
+                        layer.close(windowId);
+                        layer.msg(data.msg);
+                        console.log(data.msg);
+                        if (data.code == 0) {
+                            //录入成功
+                            $("input").val("");
+                            location.assign("/login");
+                        } else {
+                            //录入失败
+
+                        }
                     }
-                });
+                })
+                // $.post("/api/user/register", {
+                //     "name": name,
+                //     "phone": phone,
+                //     "code": code,
+                //     "password": password1
+                // }, function (data) {
+                //     layer.close(windowId);
+                //     layer.msg(data.msg);
+                //     if (data.code == 0) {
+                //         //录入成功
+                //         $("input").val("");
+                //         location.assign("login.html");
+                //     } else {
+                //         //录入失败
+                //
+                //     }
+                // });
                 return;
             });
         });

@@ -7,12 +7,12 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.zb.entity.User;
 import com.zb.enums.ResultEnum;
 import com.zb.service.UserService;
 import com.zb.util.Result;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 用户控制器
@@ -78,7 +78,8 @@ public class UserController {
     /**
      * 用户注册
      *
-     * @param user 用户
+     * @param user
+     *            用户
      * @return 返回消息
      */
     @PostMapping("/register")
@@ -94,9 +95,8 @@ public class UserController {
      * @return Result
      */
     @RequestMapping("/un_auth")
-    @ResponseBody
-    public Result unAuth() {
-        return Result.build(ResultEnum.USER_NOT_LOGIN);
+    public String unAuth() {
+        return "register";
     }
 
     /**
@@ -105,7 +105,6 @@ public class UserController {
      * @return Result
      */
     @RequestMapping("/unauthorized")
-    @ResponseBody
     public Result unauthorized() {
         return Result.build(ResultEnum.USER_NOT_AUTH);
     }

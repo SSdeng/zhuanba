@@ -10,13 +10,18 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.*;
+import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * 商品实体
@@ -28,6 +33,7 @@ import lombok.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "sys_item")
+@Document(indexName = "item")
 @DynamicInsert // 动态插入，字段为空时不加入到insert语句
 @DynamicUpdate // 动态更新，仅更新改变字段
 @SQLDelete(sql = "update sys_item set deleted = 1 where id = ?")
@@ -40,12 +46,14 @@ public class Item implements Serializable {
      * 主键，自增
      */
     @Id
+    @org.springframework.data.annotation.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // 主键，自增
 
     /**
      * 用于逻辑删除，0为未删除，1为已删除
      */
+    @Field(type = FieldType.Integer)
     private Integer deleted = 0;
 
     /**
@@ -54,7 +62,8 @@ public class Item implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     @Column(name = "create_time", updatable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @Field(type = FieldType.Date)
     private Date createTime;
 
     /**
@@ -63,24 +72,27 @@ public class Item implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @UpdateTimestamp
     @Column(name = "update_time")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @Field(type = FieldType.Date)
     private Date updateTime;
 
     /**
      * 商品名称,不可为空
      */
     @Column(nullable = false)
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Text, analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
     private String itemName;
 
     /**
      * 商品描述
      */
+    @Field(type = FieldType.Text, analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
     private String description = "主人太懒了，没有描述";
 
     /**
      * 商品价格
      */
+    @Field(type = FieldType.Double)
     private BigDecimal price;
 
     /**
@@ -94,9 +106,14 @@ public class Item implements Serializable {
     private Integer count = 0;
 
     /**
-     * 商品审核状态，0为待审核，1为审核通过
+     * 商品审核状态，0为待审核，1为审核通过, -1为审核未通过
      */
     private Integer status = 0;
+
+    /**
+     * 审核者id
+     */
+    private Long auditId;
 
     /**
      * 商品销量
