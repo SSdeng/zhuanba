@@ -3,8 +3,10 @@ package com.zb;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.io.IOException;
+import java.util.List;
 
 import com.zb.entity.Cart;
+import com.zb.entity.Item;
 import com.zb.entity.User;
 import com.zb.service.ItemService;
 import com.zb.service.UserService;
@@ -13,12 +15,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.annotation.Rollback;
 
 import com.zb.repository.CategoryRepository;
 import com.zb.repository.ItemRepository;
 import com.zb.service.CategoryService;
 import com.zb.util.HtmlParseUtil;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 class ZhuanbaApplicationTests {
@@ -105,9 +110,5 @@ class ZhuanbaApplicationTests {
             System.out.println("商品：" + i);
         }
     }*/
-    @Test
-    @Rollback(value = false)
-    public void tes1() throws IOException {
-        itemRepository.saveAll(HtmlParseUtil.getItemsByJD("图书"));
-    }
+
 }
