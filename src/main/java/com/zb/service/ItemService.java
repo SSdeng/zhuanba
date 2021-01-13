@@ -14,7 +14,7 @@ public interface ItemService {
     /**
      * 发布商品
      *
-     * @param itemVOtem 新增Item对象
+     * @param itemVO 新增Item对象
      * @return 插入后Item对象
      */
     Item insertSelective(ItemVO itemVO);
@@ -30,10 +30,11 @@ public interface ItemService {
     /**
      * 更新商品信息
      *
+     * @param json json字符串
      * @param item 需更新Item对象
      * @return 更新后Item对象
      */
-    Item updateItemInfo(Item item);
+    Item updateItemInfo(String json, Item item);
 
     /**
      * 修改商品id对应商品的审核状态

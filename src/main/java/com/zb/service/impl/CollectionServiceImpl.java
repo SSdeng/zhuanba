@@ -13,6 +13,7 @@ import java.util.List;
 
 /**
  * 收藏服务实现类
+ *
  * @author whz
  * 2021/1/11
  */
@@ -24,11 +25,12 @@ public class CollectionServiceImpl implements CollectionService {
     private ItemRepository itemRepository;
     @Resource
     private UserRepository userRepository;
+
     /**
      * 添加商品到收藏
      *
-     * @param userId  用户id
-     * @param itemId  商品id
+     * @param userId 用户id
+     * @param itemId 商品id
      * @return 收藏
      */
 
@@ -42,6 +44,7 @@ public class CollectionServiceImpl implements CollectionService {
 
     /**
      * 从收藏夹移除商品
+     *
      * @param collectionId 收藏id
      * @param itemId 商品id
      */
@@ -67,6 +70,7 @@ public class CollectionServiceImpl implements CollectionService {
 
     /**
      * 通过Id获取收藏
+     *
      * @param id 收藏id
      * @return 收藏
      */

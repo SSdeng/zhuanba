@@ -1,10 +1,10 @@
 package com.zb.service.impl;
 
-import com.zb.entity.UserOrder;
 import com.zb.entity.Wants;
 import com.zb.exception.MyException;
 import com.zb.repository.WantsRepository;
 import com.zb.service.WantsService;
+import com.zb.util.JsonTransfer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -43,22 +43,37 @@ public class WantsServiceImpl implements WantsService {
      */
     @Override
     public boolean deleteById(Long wantsId) {
-        if(wantsRepository.existsById(wantsId)){
-            wantsRepository.deleteById(wantsId);
-            return true;
-        }
-        return false;
+        wantsRepository.deleteById(wantsId);
+        return true;
     }
 
-    /*
-     * 更新求购项
+    /**
+     * 更新求购信息
      *
-     * @param wants 待更新求购
-     * @return 更新后求购
+     * @param json json字符串
+     * @param wantsId 求购id
+     * @return 求购对象
      */
     @Override
-    public Wants updateWants(Wants wants) {
-        return wantsRepository.saveAndFlush(wants);
+    public Wants updateWants(String json, long wantsId) {
+        Wants wants = findById(wantsId);
+        wants = JsonTransfer.updateSelective(json, wants);
+        return wantsRepository.save(wants);
+
+    }
+
+    /**
+     * 更新求购信息
+     *
+     * @param json json字符串
+     * @param wants 求购对象
+     * @return 求购对象
+     */
+    @Override
+    public Wants updateWants(String json, Wants wants) {
+        wants = JsonTransfer.updateSelective(json, wants);
+        return wantsRepository.save(wants);
+
     }
 
     /**
@@ -70,7 +85,7 @@ public class WantsServiceImpl implements WantsService {
     @Override
     public Wants findById(Long wantsId) {
         Wants wants = wantsRepository.findById(wantsId).orElse(null);
-        if(wants == null){
+        if (wants == null) {
             throw new MyException("待查找求购项不存在");
         }
         return wants;

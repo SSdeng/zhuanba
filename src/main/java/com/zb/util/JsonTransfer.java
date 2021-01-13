@@ -14,14 +14,14 @@ public class JsonTransfer {
     private static ObjectMapper mapper;
 
     /**
-     * 非空值合并更新
+     * json非空值属性更新对象
      *
      * @param json json字符串
-     * @param object 要合并的对象
+     * @param object 待更新对象
      * @param <T> 对象类型
-     * @return 合并后对象
+     * @return 更新后
      */
-    public static <T> T transToObject(String json, T object){
+    public static <T> T updateSelective(String json, T object){
         mapper = new ObjectMapper();
         // 利用jackson相关API，实现非null值的合并更新
         T newObject = null;

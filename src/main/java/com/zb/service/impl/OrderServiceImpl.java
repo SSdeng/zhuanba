@@ -1,18 +1,17 @@
 package com.zb.service.impl;
 
-import com.alibaba.druid.sql.dialect.mysql.visitor.transform.OrderByResolve;
 import com.zb.entity.User;
 import com.zb.entity.UserOrder;
 import com.zb.exception.MyException;
 import com.zb.repository.OrderRepository;
 import com.zb.repository.UserRepository;
 import com.zb.service.OrderService;
+import com.zb.util.JsonTransfer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.nio.file.attribute.UserPrincipal;
 import java.util.List;
 
 /**
@@ -48,7 +47,7 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public boolean deleteById(Long orderId) {
-        if(orderRepository.existsById(orderId)){
+        if (orderRepository.existsById(orderId)) {
             orderRepository.deleteById(orderId);
             return true;
         }
@@ -58,11 +57,13 @@ public class OrderServiceImpl implements OrderService {
     /**
      * 更新订单
      *
+     * @param json  json字符串
      * @param order 待更新订单
      * @return 更新后订单
      */
-    public UserOrder updateOrder(UserOrder order){
-        return orderRepository.saveAndFlush(order);
+    public UserOrder updateOrder(String json, UserOrder order) {
+        order = JsonTransfer.updateSelective(json, order);
+        return orderRepository.save(order);
     }
 
     /**
@@ -74,7 +75,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public UserOrder getById(Long orderId) {
         UserOrder order = orderRepository.findById(orderId).orElse(null);
-        if(order == null){
+        if (order == null) {
             throw new MyException("待查找订单不存在");
         }
         return order;
@@ -83,14 +84,14 @@ public class OrderServiceImpl implements OrderService {
     /**
      * 更新订单状态
      *
-     * @param orderId 订单id
+     * @param orderId   订单id
      * @param newStatus 新状态
      * @return 更新后订单
      */
     @Override
     public UserOrder setOrderStatus(Long orderId, Integer newStatus) {
         UserOrder order = orderRepository.findById(orderId).orElse(null);
-        if(order == null){
+        if (order == null) {
             throw new MyException("目标订单不存在");
         }
         order.setStatus(newStatus);
@@ -100,19 +101,19 @@ public class OrderServiceImpl implements OrderService {
     /**
      * 通过状态分页获取订单
      *
-     * @param userId 用户id
-     * @param status 订单状态
-     * @param pageNo 起始页码
+     * @param userId   用户id
+     * @param status   订单状态
+     * @param pageNo   起始页码
      * @param pageSize 分页大小
      * @return 分页结果
      */
     @Override
     public Page<UserOrder> getPageByStatus(Long userId, Integer status, int pageNo, int pageSize) {
         User user = userRepository.findById(userId).orElse(null);
-        if(user == null){
+        if (user == null) {
             throw new MyException("目标用户不存在");
         }
-        return orderRepository.findByStatusAndUser(status,user,PageRequest.of(pageNo - 1, pageSize));
+        return orderRepository.findByStatusAndUser(status, user, PageRequest.of(pageNo - 1, pageSize));
     }
 
     /**

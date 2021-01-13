@@ -10,8 +10,6 @@ import com.zb.entity.Item;
  */
 public interface CollectionService {
 
-
-
     /**
      * 根据收藏夹id获取收藏夹
      * @param id 收藏id
@@ -20,9 +18,9 @@ public interface CollectionService {
     Collection findById(Long id);
 
     /**
-     * 通过商品Id获取商品
+     * 通过id获取商品
      * @param id 商品id
-     * @return Item
+     * @return 商品
      */
     Item findItemById(Long id);
 
@@ -41,8 +39,4 @@ public interface CollectionService {
      * @return Collection
      */
     Collection removeItem(Long collectionId , Long itemId);
-
-
-
-
 }
