@@ -92,25 +92,52 @@
                     layer.msg("请输入正确的学号");
                     return;
                 }
-                
+
                 var windowId = layer.load();
-                $.post("/api/use/register", {
+                var data = {
                     "name": name,
                     "phone": phone,
                     "code": code,
-                    "password": password
-                }, function (data) {
-                    layer.close(windowId);
-                    layer.msg(data.msg);
-                    if (data.code == 0) {
-                        //录入成功
-                        $("input").val("");
-                        location.assign("login.html");
-                    } else {
-                        //录入失败
-                        
+                    "password": password1
+                };
+                $.ajax({
+                    url: "/api/user/register",
+                    data: JSON.stringify(data),
+                    type: "POST",
+                    contentType: "application/json",
+                    dataType: "json",
+                    traditional: true,
+                    success: function (data) {
+                        layer.close(windowId);
+                        layer.msg(data.msg);
+                        console.log(data.msg);
+                        if (data.code == 0) {
+                            //录入成功
+                            $("input").val("");
+                            location.assign("login.html");
+                        } else {
+                            //录入失败
+
+                        }
                     }
-                });
+                })
+                // $.post("/api/user/register", {
+                //     "name": name,
+                //     "phone": phone,
+                //     "code": code,
+                //     "password": password1
+                // }, function (data) {
+                //     layer.close(windowId);
+                //     layer.msg(data.msg);
+                //     if (data.code == 0) {
+                //         //录入成功
+                //         $("input").val("");
+                //         location.assign("login.html");
+                //     } else {
+                //         //录入失败
+                //
+                //     }
+                // });
                 return;
             });
         });
