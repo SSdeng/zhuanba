@@ -81,7 +81,7 @@ public class CartOrder implements Serializable {
     @ManyToOne(targetEntity = Cart.class, cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "cart_id", referencedColumnName = "id", insertable = false, updatable = false)
     @JsonIgnoreProperties(value = "orderList")
-    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Cart cart;
 
     public CartOrder(long itemId, int cnt) {

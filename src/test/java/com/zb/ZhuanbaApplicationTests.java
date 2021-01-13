@@ -39,13 +39,12 @@ class ZhuanbaApplicationTests {
 
     User creatUser() {
         User user = new User();
-        user.setUsername("cha");
-        user.setPassword("cha");
+        user.setUsername("zhangsan");
+        user.setPassword("zhangsan");
         return user;
     }
 
     @Test
-    @Transactional
     void addUser() {
         User user = creatUser();
         userService.insertSelective(user);
@@ -61,8 +60,9 @@ class ZhuanbaApplicationTests {
         Item item = new Item();
         item.setItemName("ljc");
         item.setPrice(new BigDecimal(10.0));
-        User user = creatUser();
-        userService.insertSelective(user);
+        //User user = creatUser();
+        //userService.insertSelective(user);
+        User user = userService.findByUserName("zhangsan");
         item.setUser(user);
         itemService.insertSelective(item);
         System.out.println("\nitemInfo: " + item.toString() + "\n");
