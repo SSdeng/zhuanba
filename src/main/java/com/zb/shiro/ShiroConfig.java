@@ -60,20 +60,22 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/", "anon");
         filterChainDefinitionMap.put("/api/user/login", "anon");
         filterChainDefinitionMap.put("/api/user/register", "anon");
+        filterChainDefinitionMap.put("/bootstrap/**", "anon");
         filterChainDefinitionMap.put("/css/**", "anon");
-        filterChainDefinitionMap.put("/fonts/**", "anon");
-        filterChainDefinitionMap.put("/img/**", "anon");
-        filterChainDefinitionMap.put("/js/**", "anon");
-        filterChainDefinitionMap.put("/html/**", "anon");
+        filterChainDefinitionMap.put("/images/**", "anon");
+        filterChainDefinitionMap.put("/jquery/**", "anon");
+        filterChainDefinitionMap.put("/layer/**", "anon");
+        filterChainDefinitionMap.put("/favicon.ico", "anon");
         filterChainDefinitionMap.put("/druid/**", "anon");
+        // filterChainDefinitionMap.put("/register.html", "anon");
         // filterChainDefinitionMap.put("/api/**", "anon");
         // 所有url都必须认证通过才可以访问
-        filterChainDefinitionMap.put("/**", "authc");
+        // filterChainDefinitionMap.put("/**", "authc");
         // 配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了, 位置放在 anon、authc下面
         filterChainDefinitionMap.put("/api/user/logout", "logout");
 
         // 设置未授权路由，之后再返回json数据给前端
-        shiroFilterFactoryBean.setLoginUrl("/api/user/un_auth");
+        shiroFilterFactoryBean.setLoginUrl("/login");
 
         // 未授权界面, 对应LoginController中 unauthorized 请求
         shiroFilterFactoryBean.setUnauthorizedUrl("/api/user/unauthorized");

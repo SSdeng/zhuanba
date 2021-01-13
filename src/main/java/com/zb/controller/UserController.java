@@ -96,7 +96,7 @@ public class UserController {
      */
     @RequestMapping("/un_auth")
     public String unAuth() {
-        return "register";
+        return "login";
     }
 
     /**
