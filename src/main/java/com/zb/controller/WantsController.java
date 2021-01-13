@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -72,9 +73,9 @@ public class WantsController {
      * @return 求购信息
      */
     @PostMapping("/upload")
-    public ModelAndView uploadPicture(@RequestParam("wantsId") long wantsId, @RequestParam("file") MultipartFile file) throws IOException {
+    public ModelAndView uploadPicture(@RequestParam("wantsId") long wantsId, @RequestParam("file") MultipartFile file, HttpSession session) throws IOException {
         ModelAndView modelAndView = new ModelAndView("wants");
-        String fileName = FileUtil.uploadFile(file);
+        String fileName = FileUtil.uploadFile(file, session);
         Wants wants = wantsService.findById(wantsId);
         wants.setImage(fileName);
         wants = wantsService.updateWants("", wants);

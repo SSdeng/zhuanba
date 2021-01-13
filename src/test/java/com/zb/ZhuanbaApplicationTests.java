@@ -1,5 +1,6 @@
 package com.zb;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import com.zb.entity.Cart;
 import com.zb.entity.User;
 import com.zb.service.ItemService;
 import com.zb.service.UserService;
+import com.zb.util.HtmlParseUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
@@ -81,6 +83,12 @@ class ZhuanbaApplicationTests {
         }
     }
 
+    @Test
+    void paquItems() throws IOException {
+        String key = "服装";
+        List<Item> itemList = HtmlParseUtil.getItemsByJD(key,5,1);
+        itemRepository.saveAll(itemList);
+    }
     /*@Test
     @Transactional
     void test1() {

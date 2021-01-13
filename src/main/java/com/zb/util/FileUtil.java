@@ -2,6 +2,7 @@ package com.zb.util;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
@@ -14,10 +15,11 @@ import java.util.UUID;
 public class FileUtil {
 
     // 上传文件的目录
-    private static final String FileDirectoryPATH = "/uploads";
+    private static String FileDirectoryPATH;
 
-    public static String uploadFile(MultipartFile multipartFile) throws IOException {
+    public static String uploadFile(MultipartFile multipartFile, HttpSession session) throws IOException {
 
+        FileDirectoryPATH = session.getServletContext().getRealPath("/uploads");
         //文件夹目录
         File dir = new File(FileDirectoryPATH);
 
@@ -33,7 +35,7 @@ public class FileUtil {
         String newName = UUID.randomUUID() + suffix;
 
         File file = new File(FileDirectoryPATH + "/" + newName);
-        System.out.println(file.getAbsolutePath());
+        //System.out.println(file.getAbsolutePath());
         // 存储文件
         multipartFile.transferTo(file);
         return newName;

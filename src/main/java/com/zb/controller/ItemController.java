@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import com.zb.entity.vo.ItemVO;
 import org.springframework.data.domain.Page;
@@ -93,10 +94,10 @@ public class ItemController {
      * @return 接收后商品
      */
     @PostMapping("/upload")
-    public ModelAndView uploadPicture(@RequestParam("itemId") long itemId, @RequestParam("image") MultipartFile image) throws IOException {
+    public ModelAndView uploadPicture(@RequestParam("itemId") long itemId, @RequestParam("image") MultipartFile image, HttpSession session) throws IOException {
         ModelAndView modelAndView = new ModelAndView("item");
         // 使用图片上传工具类，接受文件后，返回文件的新名称
-        String itemPictureName = FileUtil.uploadFile(image);
+        String itemPictureName = FileUtil.uploadFile(image, session);
         Item item = itemService.findById(itemId);
         item.setImage(itemPictureName);
         item = itemService.updateItemInfo("", item);

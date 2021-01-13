@@ -6,6 +6,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.zb.entity.Category;
+import com.zb.service.CategoryService;
+import com.zb.service.UserService;
+import javassist.expr.NewArray;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -21,14 +25,17 @@ import com.zb.entity.Item;
  **/
 public class HtmlParseUtil {
 
-    public static List<Item> getItemsByJD(String keyword) throws IOException {
+    private static UserService userService;
+    private static CategoryService categoryService;
+
+    public static List<Item> getItemsByJD(String keyword, long userId, long categoryId) throws IOException {
         // 获取请求
         URL url = new URL("https://search.jd.com/Search?keyword=" + keyword + "&enc=utf-8");
         Document document = Jsoup.parse(url, 3000);
         Element goodsList = document.getElementById("J_goodsList");
         Elements elements = goodsList.getElementsByTag("li");
         ArrayList<Item> items = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             Element element = elements.get(i);
             String img = element.getElementsByTag("img").eq(0).attr("data-lazy-img");
             String price = element.getElementsByClass("p-price").eq(0).text();
@@ -41,6 +48,13 @@ public class HtmlParseUtil {
             item.setItemName(title);
             item.setPrice(BigDecimal.valueOf(Double.parseDouble(price.substring(1, 6))));
             item.setImage(img);
+            item.setCount(1);
+            item.setLevel(10);
+            List<Category> categoryList = new ArrayList<>();
+            categoryList.add(categoryService.findById(categoryId));
+            item.setCategories(categoryList);
+            item.setUser(userService.findById(userId));
+            items.add(item);
         }
         return items;
     }
