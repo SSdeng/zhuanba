@@ -83,13 +83,13 @@ public class Wants implements Serializable {
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
     @JsonIgnoreProperties(value = "wants")
-    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private User user;
     /**
      * 求购评论列表
      */
     @OneToMany(mappedBy = "wants", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     @JsonIgnoreProperties(value = "wants")
-    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<WantsComment> comments;
 }

@@ -1,11 +1,17 @@
 package com.zb;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
+import com.zb.entity.Cart;
+import com.zb.entity.User;
+import com.zb.service.ItemService;
+import com.zb.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,16 +32,54 @@ class ZhuanbaApplicationTests {
     private CategoryRepository categoryRepository;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private ItemService itemService;
+    @Autowired
+    private UserService userService;
 
-    /*@Test
+    User creatUser() {
+        User user = new User();
+        user.setUsername("zhangsan");
+        user.setPassword("zhangsan");
+        return user;
+    }
+
+    @Test
+    void addUser() {
+        User user = creatUser();
+        userService.insertSelective(user);
+        System.out.println("userId: " + user.getId());
+        Cart cart = user.getCart();
+        System.out.println("cartId: " + cart.getId());
+        System.out.println("cartUserId: " + cart.getUser().getId());
+    }
+
+    @Test
+    @Transactional
+    void addItem() {
+        Item item = new Item();
+        item.setItemName("ljc");
+        item.setPrice(new BigDecimal(10.0));
+        //User user = creatUser();
+        //userService.insertSelective(user);
+        User user = userService.findByUserName("zhangsan");
+        item.setUser(user);
+        itemService.insertSelective(item);
+        System.out.println("\nitemInfo: " + item.toString() + "\n");
+        System.out.println("\nitemUserInfo: " + item.getUser().toString() + "\n");
+    }
+
+
+    @Test
     @Transactional
     void contextLoads() {
         Page<Item> items = itemRepository.findItemsByCategories_id(1l, PageRequest.of(0, 1));
         List<Item> content = items.getContent();
+        System.out.println("items: " + content.size());
         for (Item item : content) {
             System.out.println(item);
         }
-    }*/
+    }
 
     /*@Test
     @Transactional
