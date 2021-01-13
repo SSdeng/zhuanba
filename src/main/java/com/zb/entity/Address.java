@@ -11,9 +11,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
  * 用户地址
@@ -31,7 +29,9 @@ import lombok.NoArgsConstructor;
 @SQLDelete(sql = "update sys_address set deleted = 1 where id = ?")
 @Where(clause = "deleted = 0")
 public class Address implements Serializable {
-    private static final long serialVersionUID = 1L;
+
+    private static final long serialVersionUID = 5700317368855600288L;
+
     /**
      * 主键，自增
      */
@@ -73,5 +73,6 @@ public class Address implements Serializable {
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
     @JsonIgnoreProperties(value = "addresses")
+    @ToString.Exclude
     private User user;
 }

@@ -29,7 +29,8 @@ import lombok.*;
 @SQLDelete(sql = "update sys_wcomment set deleted = 1 where id = ?")
 @Where(clause = "deleted = 0")
 public class WantsComment implements Serializable {
-    private static final long serialVersionUID = 1L;
+
+    private static final long serialVersionUID = -6056049233558744367L;
 
     /**
      * 主键，自增
@@ -73,6 +74,7 @@ public class WantsComment implements Serializable {
     @ManyToOne(targetEntity = Wants.class)
     @JoinColumn(name = "wants_id", referencedColumnName = "id", updatable = false)
     @JsonIgnoreProperties(value = "comments")
+    @ToString.Exclude
     private Wants wants;
     /**
      * 发表用户
@@ -80,6 +82,7 @@ public class WantsComment implements Serializable {
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
     @JsonIgnoreProperties(value = "wantsComments")
+    @ToString.Exclude
     private User user;
 
 }

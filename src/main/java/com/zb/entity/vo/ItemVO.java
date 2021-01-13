@@ -1,7 +1,9 @@
 package com.zb.entity.vo;
 
 import com.zb.entity.Item;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
@@ -10,6 +12,8 @@ import java.math.BigDecimal;
  * @version 1.0
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ItemVO {
     /**
      * 创建用户的id
@@ -35,14 +39,5 @@ public class ItemVO {
      * 商品总量
      */
     private int count;
-
-    public ItemVO(Long userId, String itemName, String description, int level, BigDecimal price, int count){
-        this.userId = userId;
-        this.itemName = itemName;
-        this.description = description;
-        this.level = level;
-        this.price = price;
-        this.count = count;
-    }
 
 }

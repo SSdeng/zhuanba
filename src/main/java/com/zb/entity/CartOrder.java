@@ -12,9 +12,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
  * 购物车订单
@@ -83,6 +81,7 @@ public class CartOrder implements Serializable {
     @ManyToOne(targetEntity = Cart.class, cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "cart_id", referencedColumnName = "id", insertable = false, updatable = false)
     @JsonIgnoreProperties(value = "orderList")
+    @ToString.Exclude
     private Cart cart;
 
     public CartOrder(long itemId, int cnt) {

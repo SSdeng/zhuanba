@@ -43,7 +43,7 @@ public interface WantsService {
      * @param wantsId 目标求购id
      * @return 查找结果
      */
-    Wants getById(Long wantsId);
+    Wants findById(Long wantsId);
 
     /**
      * 获取所有求购

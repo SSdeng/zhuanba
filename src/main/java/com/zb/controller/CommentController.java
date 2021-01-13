@@ -1,11 +1,11 @@
 package com.zb.controller;
 
 import com.zb.entity.ItemComment;
-import com.zb.service.ItemCommentService;
-import com.zb.service.ItemService;
-import com.zb.service.UserService;
+import com.zb.entity.WantsComment;
+import com.zb.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -30,6 +30,12 @@ public class CommentController {
     @Resource
     ItemService itemService;
 
+    @Resource
+    private WantsService wantsService;
+
+    @Resource
+    private WantsCommentService wCommentService;
+
     /**
      * @return 增加商品评论
      */
@@ -48,5 +54,22 @@ public class CommentController {
 
         //response.sendRedirect("/api/item/details");
         return "/api/item/details";
+    }
+
+    /**
+     * 新增求购评论
+     *
+     * @param wantsId 求购id
+     * @param map 参数集合
+     * @return 求购详情页
+     */
+    public String addWantsComment(@RequestParam("wantsId") long wantsId, @RequestBody Map<String, Object> map){
+        long userId = (long)map.get("userId");
+        WantsComment newComment = new WantsComment();
+        newComment.setContent((String)map.get("content"));
+        newComment.setUser(userService.findById(userId));
+        newComment.setWants(wantsService.findById(wantsId));
+        wCommentService.insertSelective(newComment);
+        return "/api/wants/details";
     }
 }

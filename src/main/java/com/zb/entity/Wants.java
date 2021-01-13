@@ -13,9 +13,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
  * 求购信息
@@ -33,7 +31,8 @@ import lombok.NoArgsConstructor;
 @SQLDelete(sql = "update sys_user set deleted = 1 where id = ?")
 @Where(clause = "deleted = 0")
 public class Wants implements Serializable {
-    private static final long serialVersionUID = 1L;
+
+    private static final long serialVersionUID = -8037839931624232126L;
 
     /**
      * 主键，自增
@@ -84,11 +83,13 @@ public class Wants implements Serializable {
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
     @JsonIgnoreProperties(value = "wants")
+    @ToString.Exclude
     private User user;
     /**
      * 求购评论列表
      */
     @OneToMany(mappedBy = "wants", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     @JsonIgnoreProperties(value = "wants")
+    @ToString.Exclude
     private List<WantsComment> comments;
 }

@@ -1,6 +1,8 @@
 package com.zb.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -15,6 +17,7 @@ import com.zb.entity.Item;
 import com.zb.service.ItemService;
 import com.zb.util.FileUtil;
 import com.zb.util.Result;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 商品控制器
@@ -40,10 +43,9 @@ public class ItemController {
     @ResponseBody
     public Result releaseItem(@RequestBody ItemVO itemVO) {
         Item insert = itemService.insertSelective(itemVO);
-        if (insert == null) {
-            return Result.error(-1);
-        }
-        return Result.ok(insert.getId());
+        Map<String, Object> data = new HashMap<>();
+        data.put("itemId", insert.getId());
+        return Result.ok("发布成功", data);
     }
 
     /**
@@ -51,36 +53,16 @@ public class ItemController {
      *
      * @param itemId
      *            商品id
-     * @return 查看结果
+     * @return 商品信息
      */
     @GetMapping("/details")
-    @ResponseBody
-    public Result itemDetails(Model model, @RequestParam("itemId") int itemId) {
+    public ModelAndView itemDetails(@RequestParam("itemId") long itemId) {
+        ModelAndView modelAndView = new ModelAndView("item");
         Item item = itemService.findById(itemId);
-        if (item == null) {
-            return Result.error("Find no item");
-        }
-        model.addAttribute("item",item);
-        model.addAttribute("categories",item.getCategories());
-        model.addAttribute("comments",item.getItemComments());
-        return Result.ok();
-    }
-
-    /**
-     * 分页查找所有商品
-     *
-     * @param pageNo
-     *            起始页码
-     * @param pageSize
-     *            分页大小
-     * @return 分页后所有商品
-     */
-    @GetMapping("/all")
-    public Result itemAll(@RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
-        @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-        //TODO 转移至home“/”
-        Page<Item> items = itemService.findAllByPage(pageNo, pageSize);
-        return Result.ok("pageAll", items);
+        modelAndView.addObject("item", item);
+        modelAndView.addObject("comments", item.getItemComments());
+        modelAndView.addObject("categories", item.getCategories());
+        return modelAndView;
     }
 
     /**
@@ -95,6 +77,7 @@ public class ItemController {
      * @return 分页后搜索结果
      */
     @GetMapping("/search")
+    @ResponseBody
     public Result itemSearch(@RequestParam("searchInfo") String searchInfo,
         @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
         @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
@@ -106,26 +89,20 @@ public class ItemController {
     /**
      * 接受文件图片
      *
-     * @param itemId
-     * @param image
+     * @param itemId 商品id
+     * @param image 图片对象
+     * @return 接收后商品
      */
     @PostMapping("/upload")
-    @ResponseBody
-    public Result uploadPicture(Model model, @RequestParam("itemId") int itemId, @RequestParam("image") MultipartFile image) throws IOException {
-
+    public ModelAndView uploadPicture(@RequestParam("itemId") long itemId, @RequestParam("image") MultipartFile image) throws IOException {
+        ModelAndView modelAndView = new ModelAndView("item");
         // 使用图片上传工具类，接受文件后，返回文件的新名称
         String itemPictureName = FileUtil.uploadFile(image);
-
         Item item = itemService.findById(itemId);
-
         item.setImage(itemPictureName);
-
         item = itemService.updateItemInfo(item);
-
-        model.addAttribute("item",item);
-
-        return Result.ok();
-
+        modelAndView.addObject("item",item);
+        return modelAndView;
     }
 
     /**
@@ -136,15 +113,12 @@ public class ItemController {
      * @return 商品id，数量（1），价格
      */
     @PostMapping("/buy")
-    @ResponseBody
-    public Result bugItem(Model model, @RequestParam("itemId") Long itemId){
+    public ModelAndView bugItem(@RequestParam("itemId") long itemId){
+        ModelAndView modelAndView = new ModelAndView("buy");
         Item item = itemService.findById(itemId);
-        if (item == null) {
-            return Result.error();
-        }
-        model.addAttribute("itemId",item.getId());
-        model.addAttribute("number",1);
-        model.addAttribute("cost",item.getPrice());
-        return Result.ok();
+        modelAndView.addObject("itemId", item.getId());
+        modelAndView.addObject("cost",item.getPrice());
+        modelAndView.addObject("number", 1);
+        return modelAndView;
     }
 }

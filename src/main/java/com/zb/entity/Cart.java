@@ -10,14 +10,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.*;
+import lombok.*;
 import org.hibernate.annotations.*;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * 购物车
@@ -74,6 +69,7 @@ public class Cart implements Serializable {
     @OneToOne(targetEntity = User.class)
     @PrimaryKeyJoinColumn
     @JsonIgnoreProperties(value = "cart")
+    @ToString.Exclude
     private User user;
 
     /**
@@ -81,6 +77,7 @@ public class Cart implements Serializable {
      */
     @OneToMany(mappedBy = "cart", cascade = {CascadeType.ALL})
     @JsonIgnoreProperties(value = "cart")
+    @ToString.Exclude
     private List<CartOrder> orderList;
 
     public Cart(User user) {
