@@ -1,0 +1,316 @@
+ * {
+     margin: 0;
+     padding: 0;
+     font-family: Microsoft YaHei, Arial, Helvetica, sans-serif;
+     list-style: none;
+ }
+
+ .board {
+     width: 100%;
+     height: 600px;
+ }
+
+ .itemimage {
+     width: 500px;
+     height: 500px;
+     position: relative;
+     top: auto;
+     left: 250px;
+     transition: all 0.5s ease-in-out;
+ }
+
+ .level{
+     position: relative;
+     left:280px;
+     top:18px;
+     font-size: 45px;
+     font-family: '隶书';
+     color: orange;
+ }
+ .itemname {
+     position: relative;
+     top: 150px;
+     left: 0px;
+     color: black;
+ }
+
+ .sellInfo {
+    position: relative;
+    top: 170px;
+    left: 0px;
+     font-size: 14px;
+     color: #000000;
+     opacity: 0.5;
+ }
+
+ .sellerName {
+    position: relative;
+    top: 190px;
+    left: 0px;
+     font-size: 16px;
+     color: darkorange;
+ }
+
+ .price {
+     font-size: 35px;
+     color: red;
+     position: relative;
+     top: 230px;
+     left: 0px;
+ }
+
+ .buybutton {
+     width: 250px;
+     height: 50px;
+     background-color: #FF6700;
+     font-size: 25px;
+     color:#FFFF;
+     border: #FFFF;
+     position: relative;
+     top: 230px;
+     left: 0px;
+ }
+
+ .board2{
+     position: relative;
+     left: auto;
+     width:1000px;
+     height:auto;
+ }
+
+ .itemdescription{
+     position:absolute;
+     left: 250px;
+     font-size: 30px;
+ }
+
+ .line{
+     position: absolute;
+     left: 250px;
+     color:#6d757a;
+     width: auto;
+ }
+
+ .description{
+     position: absolute;
+     left: 250px;
+     bottom: 100px;
+ }
+
+ .cls {
+     clear: both;
+ }
+
+ .container {
+     width: 1700px;
+     min-height: 10px;
+     left: 200px;
+     margin: 50px auto;
+     /* border: 1px solid #dfdfdf; */
+ }
+
+ .comment {
+     min-height: 60px;
+     /* border: 1px solid red; */
+ }
+
+ .comment-avatar img {
+     margin: 20px 0 0 20px;
+     width: 48px;
+     height: 48px;
+     border-radius: 50%;
+ }
+
+ .comment-content {
+     /* float: right; */
+     width: 685px;
+     padding-top: 15px;
+     border-top: 1px solid #dfdfdf;
+ }
+
+ .comment-bottom>.comment-content {
+     border-bottom: 1px solid #dfdfdf;
+ }
+
+ .comment-content-name {
+     color: #6d757a;
+     font-size: 12px;
+     margin-bottom: 5px;
+ }
+
+ .comment-content-article {
+     font-size: 14px;
+     margin-bottom: 10px;
+ }
+
+ .comment-content-footer {
+     color: #6d757a;
+     font-size: 12px;
+     margin-bottom: 15px;
+ }
+
+ .comment-content-footer span {
+     margin-right: 10px;
+ }
+
+ .comment-send {
+     position: relative;
+     margin-bottom: 30px;
+ }
+
+ .comment-send-input {
+     outline: none;
+     box-sizing: border-box;
+     -moz-box-sizing: border-box;
+     transition: all 0.3s;
+     position: absolute;
+     top: 15px;
+     left: 95px;
+     resize: none;
+     width: 1500px;
+     height: 65px;
+     padding: 10px;
+     border-radius: 4px;
+     background: #f4f5f7;
+     border: 1px solid #e5e9ef;
+ }
+
+ .comment-send-input:hover, .comment-send-input:active {
+     background: #fff;
+     color: #555;
+ }
+
+ .comment-send-button {
+     border: none;
+     cursor: pointer;
+     user-select: none;
+     -moz-user-select: none;
+     transition: all 0.3s;
+     position: absolute;
+     top: 15px;
+     right: 0px;
+     width: 65px;
+     height: 65px;
+     border-radius: 4px;
+     background: #1aa2d4;
+     color: #fff;
+     font-size: 14px;
+     text-align: center;
+ }
+
+ .comment-send-button:hover {
+     background: #1eb6e3;
+ }
+
+ .t1 img {
+    width: 1226px;
+    height: 460px;
+}
+.dingbu {
+    background: #0055aa;
+    line-height: 50px;
+}
+
+.dingbu a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    opacity: 1;
+    padding: 6px;
+}
+#dingbuhome img{
+    height: 40px;
+    position: relative;
+    top: 8px;
+}
+
+.dingbu a:hover {
+    opacity: 0.5;
+}
+#dingbuhome img:hover{
+    opacity:1.0;
+}
+.denglu-font {
+    position: relative;
+    left: 160px;
+}
+.list-1 {
+    position: relative;
+    left: 200px;
+}
+.denglu-font2 {
+    position: relative;
+    display: inline;
+    left: 1200px;
+}
+
+.s6 {
+    position: relative;
+    top: 100px;
+    
+}
+
+.s6 div {
+    display: inline-block;
+    position: relative;
+    left: 250px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.s6 div:hover {
+    box-shadow: #000000 1px 1px 5px;
+}
+
+.s6-2-1, .s6-2-2, .s6-2-3, .s6-2-4 {
+    position: relative;
+    top: auto;
+}
+.list-1 .img{
+    display: inline;
+}
+.img-logo{
+    position: relative;
+    left: 350px;
+    top: 10px;
+    display: inline;
+}
+.list-1{
+    background-color: #D1EBFF;
+    position: relative;
+    top: auto;
+    left: auto;
+    height: 75px;
+}
+.list-ul-2 li{
+    display: inline;
+    margin-left: 40px;
+    position: relative;
+    left: 200px;
+}
+.list-ul-2 li a{
+    color:black;
+    text-decoration: none;
+    font-size: 18px;
+}
+.list-1 a{
+    color: white;
+    text-decoration: none;
+    position: relative;
+    opacity: 1;
+    left:150px;
+    padding:6px;
+    top: auto;
+}
+.list-ul-2 li a:hover{
+    color: coral;
+}
+.imge{
+    display: inline;
+    width: 50%;
+    float: left;
+}
+.details{
+    width: 50%;
+    float: left;
+}

@@ -29,7 +29,7 @@ import java.util.List;
 @DynamicUpdate // 动态更新，字段为空时不加入到update语句
 @SQLDelete(sql = "update sys_collection set deleted = 1 where id = ?")
 @Where(clause = "deleted = 0")
-public class Collection  implements Serializable {
+public class Collection implements Serializable {
 
     private static final long serialVersionUID = -8790089710781789422L;
 
@@ -51,7 +51,7 @@ public class Collection  implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     @Column(name = "create_time", updatable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
     /**
@@ -60,13 +60,13 @@ public class Collection  implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @UpdateTimestamp
     @Column(name = "update_time")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updateTime;
 
     /**
      * 收藏名称,不可为空
      */
-    @Column(name = "collection_name",nullable = false)
+    @Column(name = "collection_name", nullable = false)
     private String collectionName;
 
     /**

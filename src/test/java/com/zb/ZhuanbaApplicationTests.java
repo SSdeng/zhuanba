@@ -1,16 +1,21 @@
 package com.zb;
 
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
+import com.zb.entity.Category;
 import com.zb.entity.Item;
 import com.zb.repository.CategoryRepository;
 import com.zb.repository.ItemRepository;
 import com.zb.service.CategoryService;
 import com.zb.util.PaginationSupport;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-
-import javax.transaction.Transactional;
-import java.util.List;
 
 @SpringBootTest
 class ZhuanbaApplicationTests {
@@ -23,21 +28,34 @@ class ZhuanbaApplicationTests {
     private CategoryService categoryService;
 
     @Test
+    @Transactional
     void contextLoads() {
-        // User user = userMapper.selectByPrimaryKey(1);
-        // System.out.println(user);
-        //Category item = categoryRepository.selectByPrimaryKey(1);
-        //System.out.println(item);
+        Page<Item> items = itemRepository.findByCategories_id(1l, PageRequest.of(0, 1));
+        List<Item> content = items.getContent();
+        for (Item item : content) {
+            System.out.println(item);
+        }
     }
 
     @Test
     @Transactional
-    public void testGetSpecificCategoryItems(){
+    void test1() {
+        List<Item> items = itemRepository.findItemsBy();
+        for (Item item : items) {
+            List<Category> categories = item.getCategories();
+            categories.get(0).toString();
+            System.out.println(item);
+        }
+    }
 
-        PaginationSupport<Item> page = categoryService.getSpecificCategoryItems(1,1,2);
+    @Test
+    @Transactional
+    public void testGetSpecificCategoryItems() {
+
+        PaginationSupport<Item> page = categoryService.getSpecificCategoryItems(1, 1, 2);
         List<Item> items = page.getItems();
-        for(Item i : items){
-            System.out.println("商品："+i);
+        for (Item i : items) {
+            System.out.println("商品：" + i);
         }
     }
 }

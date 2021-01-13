@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>购物车</title>
+
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/cart.css">
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
+</head>
+
+<body>
+
+    <div class="dingbu">
+        <div class="denglu-font">
+            <a href="#" id="dingbuhome"><img src="../images/logo.jpg"></a>
+
+            <div class="denglu-font2">
+                <a href="#" id="uname">...</a>
+                <a href="login.html" id="login_logout">登录</a>
+
+            </div>
+        </div>
+    </div>
+    <div class="list-1">
+        <ul class="list-ul-2" style="position: relative;right: 190px;">
+            <div class="img"><img src="../images/logo1.jpg" width="55px" height="55px" class="img-logo" />
+            </div>
+
+            <li th:each="catagory:${catagories}">
+                <a href="login.html" th:text="catagory.name">123</a>
+            </li>
+
+        </ul>
+    </div>
+
+    <div>
+
+    </div>
+
+    <div class="shopping-car-container">
+        <div class="car-headers-menu">
+            <div class="row">
+                <div class="col-md-1 car-menu">
+                    <label><input type="checkbox" id="check-goods-all" /><span id="checkAll">全选</span></label>
+                </div>
+                <div class="col-md-3 car-menu">商品名称</div>
+                <div class="col-md-3 car-menu">商品新旧程度</div>
+                <div class="col-md-1 car-menu">单价</div>
+                <div class="col-md-1 car-menu">数量</div>
+                <div class="col-md-1 car-menu">金额</div>
+                <div class="col-md-2 car-menu">操作</div>
+            </div>
+        </div>
+        <div class="goods-content">
+            <!-- <div class="goods-item">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="col-md-1 car-goods-info">
+                            <label><input type="checkbox" class="goods-list-item" /></label>
+                        </div>
+                        <div class="col-md-3 car-goods-info goods-image-column">
+                            <img class="goods-image" src=" item.imgUrl + " style="width: 100px; height: 100px;" />
+                            <span id="goods-info">
+                                很好吃的酸辣粉
+                            </span>
+                        </div>
+                        <div class="col-md-3 car-goods-info goods-params"> 酸辣粉 </div>
+                        <div class="col-md-1 car-goods-info goods-price"><span>￥</span><span class="single-price">
+                                199 </span></div>
+                        <div class="col-md-1 car-goods-info goods-counts">
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default car-decrease">-</button>
+                                </div>
+                                <input type="text" class="form-control goods-count" value="1">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default car-add">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1 car-goods-info goods-money-count"><span>￥</span><span class="single-total">
+                                199</span></div>
+                        <div class="col-md-2 car-goods-info goods-operate">
+                            <button type="button" class="btn btn-danger item-delete">删除</button>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+
+            <div th:each="cart:${carts}" th:object="${cart}" class="goods-item">
+                <div class="panel panel-default" th:id="${cart.id}">
+                    <div class="panel-body">
+                        <div class="col-md-1 car-goods-info">
+                            <label><input type="checkbox" class="goods-list-item" /></label>
+                        </div>
+                        <div class="col-md-3 car-goods-info goods-image-column">
+                            <img class="goods-image" th:src="${cart.image}" style="width: 100px; height: 100px;" />
+                            <span id="goods-info">
+                            </span>
+                        </div>
+                        <div class="col-md-3 car-goods-info goods-params" th:text="${cart.level}"> </div>
+                        <div class="col-md-1 car-goods-info goods-price">
+                            <span>￥</span>
+                            <span class="single-price" th:price="${cart.price}">
+                            </span>
+                        </div>
+                        <div class="col-md-1 car-goods-info goods-counts">
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default car-decrease">-</button>
+                                </div>
+                                <input type="text" class="form-control goods-count" value="1">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default car-add">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1 car-goods-info goods-money-count"><span>￥</span><span class="single-total"
+                                th:text="${cart.price}"> </span></div>
+                        <div class="col-md-2 car-goods-info goods-operate">
+                            <button type="button" class="btn btn-danger item-delete">删除</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-body bottom-menu-include">
+                <div class="col-md-1 check-all-bottom bottom-menu">
+                    <label>
+                        <input type="checkbox" id="checked-all-bottom" />
+                        <span id="checkAllBottom">全选</span>
+                    </label>
+                </div>
+                <div class="col-md-1 bottom-menu">
+                    <span id="deleteMulty">
+                        删除
+                    </span>
+                </div>
+                <div class="col-md-6 bottom-menu">
+
+                </div>
+                <div class="col-md-2 bottom-menu">
+                    <span>已选商品 <span id="selectGoodsCount">0</span> 件</span>
+                </div>
+                <div class="col-md-1 bottom-menu">
+                    <span>合计：<span id="selectGoodsMoney">0.00</span></span>
+                </div>
+                <div class="col-md-1 bottom-menu submitData submitDis" id="submit">
+                    结算
+                </div>
+            </div>
+        </div>
+        <!--删除确认弹框-->
+        <div class="modal fade" tabindex="-1" role="dialog" id="deleteItemTip" aria-labelledby="gridSystemModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="gridSystemModalLabel">提示</h4>
+                    </div>
+                    <div class="modal-body">
+                        确认删除此商品？
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary deleteSure">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--是否勾选商品提示-->
+        <div class="modal fade" tabindex="-1" role="dialog" id="selectItemTip" aria-labelledby="gridSystemModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="gridSystemModalLabel">提示</h4>
+                    </div>
+                    <div class="modal-body">
+                        请选择要删除的商品！
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--批量删除商品-->
+        <div class="modal fade" tabindex="-1" role="dialog" id="deleteMultyTip" aria-labelledby="gridSystemModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="gridSystemModalLabel">提示</h4>
+                    </div>
+                    <div class="modal-body">
+                        确认删除选择的商品！
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary deleteMultySure">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--购买商品弹窗-->
+        <div class="modal fade" tabindex="-1" role="dialog" id="buyitems" aria-labelledby="gridSystemModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="gridSystemModalLabel">提示</h4>
+                    </div>
+                    <div class="modal-body">
+                        确认购买？
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary buyitems" id="buySure">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../jquery/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" th:inline="javascript">
+        // var goodsList = [{
+        // 		id: 1234564876,
+        // 		imgUrl: 'img/1.png',
+        // 		goodsInfo: '号地块健身房回复的科技示范户快速坚实的看了看大家发快递了很费劲的开始放假',
+        // 		goodsParams: '四季度后付款的酸辣粉',
+        // 		price: 199,
+        // 		goodsCount: 1,
+        // 		singleGoodsMoney: 199
+        // 	},
+        // 	{
+        // 		id: 1234564876,
+        // 		imgUrl: 'img/2.png',
+        // 		goodsInfo: '号地块健身房回复的科技示范户快速坚实的看了看大家发快递了很费劲的开始放假',
+        // 		goodsParams: '四季度后付款的酸辣粉',
+        // 		price: 299,
+        // 		goodsCount: 2,
+        // 		singleGoodsMoney: 598
+        // 	},
+        // 	{
+        // 		id: 1234564876,
+        // 		imgUrl: 'img/3.png',
+        // 		goodsInfo: '号地块健身房回复的科技示范户快速坚实的看了看大家发快递了很费劲的开始放假',
+        // 		goodsParams: '四季度后付款的酸辣粉',
+        // 		price: 399,
+        // 		goodsCount: 1,
+        // 		singleGoodsMoney: 399
+        // 	},
+        // 	{
+        // 		id: 1234564876,
+        // 		imgUrl: 'img/3.png',
+        // 		goodsInfo: '号地块健身房回复的科技示范户快速坚实的看了看大家发快递了很费劲的开始放假',
+        // 		goodsParams: '四季度后付款的酸辣粉',
+        // 		price: 399,
+        // 		goodsCount: 1,
+        // 		singleGoodsMoney: 399
+        // 	}
+        // ]
+        // var goosList = [[${ cart }]];
+        var deleteGoods = null
+        // loadGoods()
+
+        // function loadGoods() {
+        // 	$.each(cart, function(i, item) {
+        // 		var goodsHtml = '<div class="goods-item">' +
+        // 			'<div class="panel panel-default">' +
+        // 			'<div class="panel-body">' +
+        // 			'<div class="col-md-1 car-goods-info">' +
+        // 			'<label><input type="checkbox" class="goods-list-item"/></label>' +
+        // 			'</div>' +
+        // 			'<div class="col-md-3 car-goods-info goods-image-column">' +
+        // 			'<img class="goods-image" src="' + item.image + '" style="width: 100px; height: 100px;" />' +
+        // 			'<span id="goods-info">' +
+        // 			item.name +
+        // 			'</span>' +
+        // 			'</div>' +
+        // 			'<div class="col-md-3 car-goods-info goods-params">' + item.level + '</div>' +
+        // 			'<div class="col-md-1 car-goods-info goods-price"><span>￥</span><span class="single-price">' + item.price + '</span></div>' +
+        // 			'<div class="col-md-1 car-goods-info goods-counts">' +
+        // 			'<div class="input-group">' +
+        // 			'<div class="input-group-btn">' +
+        // 			'<button type="button" class="btn btn-default car-decrease">-</button>' +
+        // 			'</div>' +
+        // 			'<input type="text" class="form-control goods-count" value="' + item.count + '">' +
+        // 			'<div class="input-group-btn">' +
+        // 			'<button type="button" class="btn btn-default car-add">+</button>' +
+        // 			'</div>' +
+        // 			'</div>' +
+        // 			'</div>' +
+        // 			'<div class="col-md-1 car-goods-info goods-money-count"><span>￥</span><span class="single-total">' + item.price * item.count + '</span></div>' +
+        // 			'<div class="col-md-2 car-goods-info goods-operate">' +
+        // 			'<button type="button" class="btn btn-danger item-delete">删除</button>' +
+        // 			'</div>' +
+        // 			'</div>' +
+        // 			'</div>' +
+        // 			'</div>'
+        // 		$('.goods-content').append(goodsHtml)
+        // 	})
+        // }
+        buyitem = null;
+        function ShoppingCarObserver(elInput, isAdd) {
+            this.elInput = elInput
+            this.parents = this.elInput.parents('.goods-item')
+            this.count = parseInt(this.elInput.val())
+            this.isAdd = isAdd
+            this.singlePrice = parseFloat(this.parents.find('.single-price').text())
+            this.computeGoodsMoney = function () {
+                var moneyCount = this.count * this.singlePrice
+                var singleTotalEl = this.parents.find('.single-total')
+                console.log(moneyCount)
+                singleTotalEl.empty().append(moneyCount)
+            }
+            this.showCount = function () {
+                var isChecked = this.parents.find('.goods-list-item')[0].checked
+                var GoodsTotalMoney = parseFloat($('#selectGoodsMoney').text())
+                var goodsTotalCount = parseInt($('#selectGoodsCount').text())
+                if (this.elInput) {
+                    if (this.isAdd) {
+                        ++this.count
+                        if (isChecked) {
+                            $('#selectGoodsMoney').empty().append(GoodsTotalMoney + this.singlePrice)
+                            $('#selectGoodsCount').empty().append(goodsTotalCount + 1)
+                        }
+                    } else {
+                        if (parseInt(this.count) <= 1) {
+                            return
+                        } else {
+                            --this.count
+                            if (isChecked) {
+                                $('#selectGoodsMoney').empty().append(GoodsTotalMoney - this.singlePrice)
+                                $('#selectGoodsCount').empty().append(goodsTotalCount - 1)
+                            }
+                        }
+                    }
+                    this.elInput.val(this.count)
+                }
+            }
+            this.checkIsAll = function () {
+                var checkLen = $('.goods-list-item:checked').length
+                if (checkLen > 0) {
+                    $('.submitData').removeClass('submitDis')
+                } else {
+                    $('.submitData').addClass('submitDis')
+                }
+                if ($('.goods-item').length === checkLen) {
+                    $('#checked-all-bottom, #check-goods-all').prop('checked', true)
+                } else {
+                    $('#checked-all-bottom, #check-goods-all').prop('checked', false)
+                }
+            }
+            this.checkedChange = function (isChecked) {
+                if (isChecked === undefined) {
+                    var isChecked = this.parents.find('.goods-list-item')[0].checked
+                }
+                var itemTotalMoney = parseFloat(this.parents.find('.single-total').text())
+                var GoodsTotalMoney = parseFloat($('#selectGoodsMoney').text())
+                var itemCount = parseInt(this.parents.find('.goods-count').val())
+                var goodsTotalCount = parseInt($('#selectGoodsCount').text())
+                if (isChecked) {
+                    $('#selectGoodsMoney').empty().append(itemTotalMoney + GoodsTotalMoney)
+                    $('#selectGoodsCount').empty().append(itemCount + goodsTotalCount)
+                } else {
+                    if (GoodsTotalMoney - itemTotalMoney === 0) {
+                        $('#selectGoodsMoney').empty().append('0.00')
+                        if (!$('.submitData').hasClass('submitDis')) {
+                            $('.submitData').addClass('submitDis')
+                        }
+                    } else {
+                        $('#selectGoodsMoney').empty().append(GoodsTotalMoney - itemTotalMoney)
+                    }
+                    $('#selectGoodsCount').empty().append(goodsTotalCount - itemCount)
+                }
+            }
+            this.deleteGoods = function () {
+                var isChecked = this.parents.find('.goods-list-item')[0].checked
+                if (isChecked) {
+                    this.checkedChange(false)
+                }
+                this.parents.remove()
+                this.checkOptions()
+            }
+            this.checkOptions = function () {
+                if ($('#check-goods-all')[0].checked) {
+                    if ($('.goods-list-item').length <= 0) {
+                        $('#checked-all-bottom, #check-goods-all').prop('checked', false)
+                    }
+                }
+            }
+            this.buygoods = function () {
+                var isChecked = this.parents.find('.goods-list-item')[0].checked
+                if (isChecked) {
+                    this.checkedChange(false)
+                }
+                var itemId = $(this.parents.find('.panel-default')[0]).attr('id')
+                var value = $(this.parents.find('.goods-count')[0]).val()
+                // var value = 10
+                buyitems += "{\"itemId\":" + itemId + ",\"value\":" + value + "}"
+                this.parents.remove()
+                this.checkOptions()
+            }
+        }
+        function checkedAll(_this) {
+            if ($('.goods-item').length <= 0) {
+                $('.submitData').addClass('submitDis')
+            } else {
+                $('.submitData').removeClass('submitDis')
+            }
+            for (var i = 0; i < $('.goods-item').length; i++) {
+                var elInput = $('.goods-item').eq(i).find('.goods-list-item')
+                var isChecked = $('.goods-item').eq(i).find('.goods-list-item')[0].checked
+                var checkAllEvent = new ShoppingCarObserver(elInput, null)
+                if (_this.checked) {
+                    if (!isChecked) {
+                        elInput.prop('checked', true)
+                        checkAllEvent.checkedChange(true)
+                    }
+                } else {
+                    if (!$('.submitData').hasClass('submitDis')) {
+                        $('.submitData').addClass('submitDis')
+                    }
+                    if (isChecked) {
+                        elInput.prop('checked', false)
+                        checkAllEvent.checkedChange(false)
+                    }
+                }
+            }
+        }
+        $('#check-goods-all').on('change', function () {
+            if (this.checked) {
+                $('#checked-all-bottom').prop('checked', true)
+            } else {
+                $('#checked-all-bottom').prop('checked', false)
+            }
+            checkedAll(this)
+        })
+        $('#checked-all-bottom').on('change', function () {
+            if (this.checked) {
+                $('#check-goods-all').prop('checked', true)
+            } else {
+                $('#check-goods-all').prop('checked', false)
+            }
+            checkedAll(this)
+        })
+        $('.goods-list-item').on('change', function () {
+            var tmpCheckEl = $(this)
+            var checkEvent = new ShoppingCarObserver(tmpCheckEl, null)
+            checkEvent.checkedChange()
+            checkEvent.checkIsAll()
+        })
+        $('.goods-content').on('click', '.car-decrease', function () {
+            var goodsInput = $(this).parents('.input-group').find('.goods-count')
+            var decreaseCount = new ShoppingCarObserver(goodsInput, false)
+            decreaseCount.showCount()
+            decreaseCount.computeGoodsMoney()
+        })
+        $('.goods-content').on('click', '.car-add', function () {
+            var goodsInput = $(this).parents('.input-group').find('.goods-count')
+            var addCount = new ShoppingCarObserver(goodsInput, true)
+            addCount.showCount()
+            addCount.computeGoodsMoney()
+        })
+        $('.goods-content').on('click', '.item-delete', function () {
+            var goodsInput = $(this).parents('.goods-item').find('.goods-list-item')
+            deleteGoods = new ShoppingCarObserver(goodsInput, null)
+            $('#deleteItemTip').modal('show')
+        })
+        $('.deleteSure').on('click', function () {
+            if (deleteGoods !== null) {
+                deleteGoods.deleteGoods()
+            }
+            $('#deleteItemTip').modal('hide')
+        })
+        $('#deleteMulty').on('click', function () {
+            if ($('.goods-list-item:checked').length <= 0) {
+                $('#selectItemTip').modal('show')
+            } else {
+                $('#deleteMultyTip').modal('show')
+            }
+        })
+        $('.deleteMultySure').on('click', function () {
+            for (var i = 0; i < $('.goods-list-item:checked').length; i++) {
+                var multyDelete = new ShoppingCarObserver($('.goods-list-item:checked').eq(i), null)
+                multyDelete.deleteGoods()
+                i--
+            }
+            multyDelete.checkOptions()
+            $('#deleteMultyTip').modal('hide')
+        })
+
+        $("#submit").on('click', function () {
+            if ($('.goods-list-item:checked').length <= 0) {
+                $('#selectItemTip').modal('show')
+            } else {
+                var totalCount = $("#selectGoodsCount").text();
+                var totalPrice = $("#selectGoodsMoney").text();
+                $('#buyitems').find('.modal-body').text("共选" + totalCount + "件商品，共计" + totalPrice + "元")
+                $('#buyitems').modal('show')
+            }
+        })
+
+        $('#buySure').on('click', function () {
+            buyitems = "["
+            for (var i = 0; i < $('.goods-list-item:checked').length; i++) {
+                var buy = new ShoppingCarObserver($('.goods-list-item:checked').eq(i), null)
+                buy.buygoods()
+                i--
+                if ($('.goods-list-item:checked').length >= 1) {
+                    buyitems += ","
+                }
+            }
+            buyitems += "]"
+            console.log(buyitems)
+            $('#buyitems').modal('hide')
+        })   
+    </script>
+</body>
+
+</html>

@@ -66,7 +66,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/html/**", "anon");
         filterChainDefinitionMap.put("/druid/**", "anon");
-        //filterChainDefinitionMap.put("/api/**", "anon");
+        // filterChainDefinitionMap.put("/api/**", "anon");
         // 所有url都必须认证通过才可以访问
         filterChainDefinitionMap.put("/**", "authc");
         // 配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了, 位置放在 anon、authc下面
@@ -74,9 +74,6 @@ public class ShiroConfig {
 
         // 设置未授权路由，之后再返回json数据给前端
         shiroFilterFactoryBean.setLoginUrl("/api/user/un_auth");
-
-        // 登录成功后要跳转的链接, 此项目是前后端分离，故此行注释掉，登录成功之后返回用户基本信息及token给前端
-        // shiroFilterFactoryBean.setSuccessUrl("/index");
 
         // 未授权界面, 对应LoginController中 unauthorized 请求
         shiroFilterFactoryBean.setUnauthorizedUrl("/api/user/unauthorized");
@@ -166,7 +163,7 @@ public class ShiroConfig {
      * @return RedisCacheManager
      */
     @Bean
-    public RedisCacheManager cacheManager() {
+    public RedisCacheManager shiroCacheManager() {
         RedisCacheManager redisCacheManager = new RedisCacheManager();
         redisCacheManager.setRedisManager(redisManager());
         // 必须要设置主键名称，shiro-redis 插件用过这个缓存用户信息

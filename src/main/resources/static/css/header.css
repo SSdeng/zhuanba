@@ -1,0 +1,90 @@
+* {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.dingbu {
+    background: #0055aa;
+    line-height: 50px;
+}
+
+.dingbu a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    opacity: 1;
+    padding: 6px;
+}
+#dingbuhome img{
+    height: 40px;
+    position: relative;
+    top: 0px;
+}
+
+.dingbu a:hover {
+    opacity: 0.5;
+}
+#dingbuhome img:hover{
+    opacity:1.0;
+}
+.denglu-font {
+    width: 1000px;
+    position: relative;
+    left: 160px;
+}
+.list-1 {
+    position: relative;
+    left: 200px;
+}
+.denglu-font2 {
+    position: relative;
+    display: inline;
+    left: 1050px;
+}
+.list-1{
+    background-color: #D1EBFF;
+    position: relative;
+    top: auto;
+    left: auto;
+    height: 75px;
+}
+.list-1 .img{
+    display: inline;
+}
+.img-logo{
+    position: relative;
+    left: 350px;
+    top: 10px;
+    display: inline;
+}
+.list-1{
+    background-color: #D1EBFF;
+    position: relative;
+    top: auto;
+    left: auto;
+    height: 75px;
+}
+.list-ul-2 li{
+    display: inline;
+    margin-left: 40px;
+    position: relative;
+    left: 200px;
+}
+.list-ul-2 li a{
+    color:black;
+    text-decoration: none;
+    font-size: 18px;
+}
+.list-1 a{
+    color: white;
+    text-decoration: none;
+    position: relative;
+    opacity: 1;
+    left:150px;
+    padding:6px;
+    top: auto;
+}
+.list-ul-2 li a:hover{
+    color: coral;
+}

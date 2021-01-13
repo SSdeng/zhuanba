@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../jquery/jquery2.1.4.js"></script>
+    <script src="../layer/layer.js"></script>
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <link href="../css/header.css" rel="stylesheet">
+</head>
+
+<body style="background-color: #ecf0f5;">
+    <div class="dingbu">
+        <div class="denglu-font top">
+            <a href="#" id="dingbuhome"><img src="../images/logo.jpg"></a>
+
+            <div id="so" style="position: relative; left: 350px;top:8px;width: 100px; float: left;" class="top">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="searchText" style="width: 400px;">
+                    <span class="input-group-addon" id="search" onclick="search()"><i class="glyphicon glyphicon-search"
+                            style="color: #0055aa;"> <span>搜索
+                            </span></i></span>
+                </div>
+            </div>
+            <div class="denglu-font2 top">
+                <a href="#" id="uname">admin</a>
+                <a href="login.html" id="login_logout">退出</a>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="container-fluid">
+        <div class="row" style="margin-top: 70px">
+            <!--左边部分 -->
+
+            <div class="col-md-10 col-md-offset-1" style="top: -20px;">
+                <div class="row tzgl admin-h1" style="display: block;">
+                    <h1>商品审核<span class="text-primary" id="article_total"></span></h1>
+                    <div class="col-md-12" style="background-color: #fff; border-top: 3px solid #00a65a; top: 8px;">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>发布人</th>
+                                    <th>商品图片</th>
+                                    <th>商品名称</th>
+                                    <th>商品分类</th>
+                                    <th>商品描述</th>
+                                    <th>新旧程度</th>
+                                    <th>当前状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <!-- 用户列表 - 模板 -->
+                            <tbody id="listArticle_hide">
+                                <tr>
+                                    <!-- 发布人 -->
+                                    <td width="50px" id="articleNum">
+                                        <div style="width:50px;word-wrap:break-word;">张一隆</div>
+                                    </td>
+                                    <!-- 商品图片 -->
+                                    <td width="100px" id="articleTitles">
+                                        <div style="width:150px;word-wrap:break-word;" >
+                                            <img src="../images/img49.png" style="width:80px;" class="mid" onclick="fun(this)">
+                                        </div>
+                                    </td>
+                                    <!-- 商品名称 -->
+                                    <td id="articleUsername">简约时尚水泥花瓶4</td>
+                                    <!-- 商品分类 -->
+                                    <td id="articleBname">数码电子</td>
+                                    <!-- 商品描述 -->
+                                    <td id="articleCreateTime">这是一款很好吃的酸辣粉</td>
+                                    <!-- 新旧程度 -->
+                                    <td id="articleUpdateTime">九成新</td>
+                                    <!-- 当前状态 -->
+                                    <td id="status">
+                                        <button type="button" disabled="disabled"
+                                            class="btn btn-info btn-sm">123</button>
+                                    </td>
+                                    <!-- 操作 -->
+                                    <td id="listArticle_caozuo">
+
+                                        <!-- 通过 -->
+                                        <form method="put" id="pass" style="display: inline">
+                                            <input type="button" class="btn btn-info btn-sm" value="通过" />
+                                        </form>
+                                        <!-- 拒绝 -->
+                                        <form method="put" id="refuse" style="display: inline">
+                                            <input type="button" class="btn btn-danger btn-sm" value="拒绝" />
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <!-- 发布人 -->
+                                    <td width="50px" id="articleNum">
+                                        <div style="width:50px;word-wrap:break-word;">张一隆</div>
+                                    </td>
+                                    <!-- 商品图片 -->
+                                    <td width="100px" id="articleTitles">
+                                        <div style="width:150px;word-wrap:break-word;">
+                                            <img src="../images/img47.png" style="width:80px;" class="mid">
+                                        </div>
+                                    </td>
+                                    <!-- 商品名称 -->
+                                    <td id="articleUsername">简约时尚水泥花瓶4</td>
+                                    <!-- 商品分类 -->
+                                    <td id="articleBname">数码电子</td>
+                                    <!-- 商品描述 -->
+                                    <td id="articleCreateTime">这是一款很好吃的酸辣粉</td>
+                                    <!-- 新旧程度 -->
+                                    <td id="articleUpdateTime">九成新</td>
+                                    <!-- 当前状态 -->
+                                    <td id="status">
+                                        <button type="button" disabled="disabled"
+                                            class="btn btn-info btn-sm">123</button>
+                                    </td>
+                                    <!-- 操作 -->
+                                    <td id="listArticle_caozuo">
+
+                                        <!-- 通过 -->
+                                        <form method="put" id="pass" style="display: inline">
+                                            <input type="button" class="btn btn-info btn-sm" value="通过" />
+                                        </form>
+                                        <!-- 拒绝 -->
+                                        <form method="put" id="refuse" style="display: inline">
+                                            <input type="button" class="btn btn-danger btn-sm" value="拒绝" />
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    $("#refuse").hide();
+</script>
+<script>
+    fun = function(){
+        console.log($(this).src);
+        layer.open({
+            type: 1,
+            title: false,
+            closeBtn: 0,
+            area: ['auto'],
+            skin: 'layui-layer-nobg', //没有背景色
+            shadeClose: true,
+            anim:1,
+            content: $(this).src
+        });
+    }
+    
+</script>
+
+</html>
