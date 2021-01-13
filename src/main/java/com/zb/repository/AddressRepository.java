@@ -21,6 +21,5 @@ public interface AddressRepository extends JpaRepository<Address, Long>, JpaSpec
      * @param userId 用户id
      * @return 地址列表
      */
-    @Query("select address from Address address join address.user user where user.id = ?1")
-    List<Address> findAllByUser(Long userId);
+    List<Address> findAllByUser_Id(Long userId);
 }

@@ -82,6 +82,6 @@ public class AddressServiceImpl implements AddressService {
      */
     @Override
     public List<Address> getAllByUserId(Long userId) {
-        return addressRepository.findAllByUser(userId);
+        return addressRepository.findAllByUser_Id(userId);
     }
 }

@@ -69,7 +69,7 @@ public class WantsCommentServiceImpl implements WantsCommentService {
      */
     @Override
     public Page<WantsComment> getAllByUser(Long userId, int pageNo, int pageSize) {
-        return wantsCommentRepository.findAllByUser(userId, PageRequest.of(pageNo - 1, pageSize));
+        return wantsCommentRepository.findAllByUser_Id(userId, PageRequest.of(pageNo - 1, pageSize));
     }
 
     /**
@@ -82,7 +82,7 @@ public class WantsCommentServiceImpl implements WantsCommentService {
      */
     @Override
     public Page<WantsComment> getAllByWants(Long wantsId, int pageNo, int pageSize) {
-        return wantsCommentRepository.findAllByWants(wantsId, PageRequest.of(pageNo - 1, pageSize));
+        return wantsCommentRepository.findAllByWants_Id(wantsId, PageRequest.of(pageNo - 1, pageSize));
     }
 
 }

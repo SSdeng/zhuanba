@@ -108,7 +108,7 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public Page<UserOrder> getPageByUser(Long userId, int pageNo, int pageSize) {
-        return orderRepository.findAllByUser(userId, PageRequest.of(pageNo - 1, pageSize));
+        return orderRepository.findAllByUser_Id(userId, PageRequest.of(pageNo - 1, pageSize));
     }
 
     /**
@@ -126,7 +126,7 @@ public class OrderServiceImpl implements OrderService {
         if (user == null) {
             throw new MyException("目标用户不存在");
         }
-        return orderRepository.findAllByStatusAndUser(user.getId(), status, PageRequest.of(pageNo - 1, pageSize));
+        return orderRepository.findAllByUser_IdAndStatus(user.getId(), status, PageRequest.of(pageNo - 1, pageSize));
     }
 
     /**

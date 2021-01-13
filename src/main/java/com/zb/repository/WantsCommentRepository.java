@@ -22,8 +22,7 @@ public interface WantsCommentRepository extends JpaRepository<WantsComment, Long
      * @param pageable 分页请求
      * @return 分页评论表
      */
-    @Query("select wc from WantsComment wc join wc.user u where u.id = ?1")
-    Page<WantsComment> findAllByUser(Long userId, Pageable pageable);
+    Page<WantsComment> findAllByUser_Id(Long userId, Pageable pageable);
 
     /**
      * 分页查找求购下的所有评论
@@ -32,6 +31,5 @@ public interface WantsCommentRepository extends JpaRepository<WantsComment, Long
      * @param pageable 分页请求
      * @return 分页评论表
      */
-    @Query("select wc from WantsComment wc join wc.wants w where w.id = ?1")
-    Page<WantsComment> findAllByWants(Long wantsId, Pageable pageable);
+    Page<WantsComment> findAllByWants_Id(Long wantsId, Pageable pageable);
 }

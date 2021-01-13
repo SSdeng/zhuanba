@@ -24,8 +24,7 @@ public interface UserOrderRepository extends JpaRepository<UserOrder, Long>, Jpa
      * @param pageable 分页请求
      * @return 分页结果
      */
-    @Query("select order from UserOrder order join order.user user where user.id = ?1 ")
-    Page<UserOrder> findAllByUser(Long userId, Pageable pageable);
+    Page<UserOrder> findAllByUser_Id(Long userId, Pageable pageable);
 
     /**
      * 分页查询对应用户特定状态的所有订单
@@ -35,6 +34,5 @@ public interface UserOrderRepository extends JpaRepository<UserOrder, Long>, Jpa
      * @param pageable 分页请求
      * @return 分页结果
      */
-    @Query("select order from UserOrder order join order.user user where user.id = ?1 and order.status = ?2")
-    Page<UserOrder> findAllByStatusAndUser(Long userId, int status, Pageable pageable);
+    Page<UserOrder> findAllByUser_IdAndStatus(Long userId, int status, Pageable pageable);
 }
