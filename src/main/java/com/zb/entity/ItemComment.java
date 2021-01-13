@@ -75,13 +75,13 @@ public class ItemComment implements Serializable {
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonIgnoreProperties(value = "itemComments")
-    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private User user;
 
     @ManyToOne(targetEntity = Item.class)
     @JoinColumn(name = "item_id", referencedColumnName = "id")
     @JsonIgnoreProperties(value = "itemComments")
-    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Item item;
 
 }

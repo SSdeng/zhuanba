@@ -20,6 +20,14 @@ public interface ItemService {
     Item insertSelective(ItemVO itemVO);
 
     /**
+     * 发布商品
+     *
+     * @param item 新增Item对象
+     * @return 插入后Item对象
+     */
+    Item insertSelective(Item item);
+
+    /**
      * 根据商品id删除商品
      *
      * @param item_id 商品id

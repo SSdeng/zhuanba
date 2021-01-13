@@ -88,8 +88,9 @@ public class Item implements Serializable {
     private String description = "主人太懒了，没有描述";
 
     /**
-     * 商品价格
+     * 商品价格, 不可为空
      */
+    @Column(nullable = false)
     @Field(type = FieldType.Double)
     private BigDecimal price;
 
@@ -101,7 +102,7 @@ public class Item implements Serializable {
     /**
      * 商品数量
      */
-    private Integer count = 0;
+    private Integer count = 1;
 
     /**
      * 商品审核状态，0为待审核，1为审核通过, -1为审核未通过
@@ -125,11 +126,12 @@ public class Item implements Serializable {
 
     /**
      * 所属用户，设置外键user_id，参照sys_user的id字段
+     * 不可为空
      */
     @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false, nullable = false)
     @JsonIgnoreProperties(value = "items")
-    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private User user;
 
     /**
@@ -137,7 +139,7 @@ public class Item implements Serializable {
      */
     @OneToMany(mappedBy = "item", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnoreProperties(value = "item")
-    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<UserOrder> orderList;
 
     /**
@@ -150,7 +152,7 @@ public class Item implements Serializable {
         // 对方对象在中间表的外键
         inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")})
     @JsonIgnoreProperties(value = "items")
-    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<Category> categories;
 
     /**
@@ -159,7 +161,7 @@ public class Item implements Serializable {
     @ManyToOne(targetEntity = Collection.class, cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "collection_id", referencedColumnName = "id", insertable = false, updatable = false)
     @JsonIgnoreProperties(value = "items")
-    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Collection collection;
 
     /**
@@ -167,6 +169,6 @@ public class Item implements Serializable {
      */
     @OneToMany(mappedBy = "item", cascade = {CascadeType.REMOVE, CascadeType.MERGE})
     @JsonIgnoreProperties(value = "item")
-    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<ItemComment> itemComments;
 }

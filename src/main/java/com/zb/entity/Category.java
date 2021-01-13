@@ -77,7 +77,7 @@ public class Category implements Serializable {
      */
     @ManyToMany(mappedBy = "categories", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnoreProperties(value = "categories")
-    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<Item> items;
 
 }

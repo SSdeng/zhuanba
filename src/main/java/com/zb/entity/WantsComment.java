@@ -76,7 +76,7 @@ public class WantsComment implements Serializable {
     @ManyToOne(targetEntity = Wants.class)
     @JoinColumn(name = "wants_id", referencedColumnName = "id", updatable = false)
     @JsonIgnoreProperties(value = "comments")
-    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Wants wants;
     /**
      * 发表用户
@@ -84,7 +84,7 @@ public class WantsComment implements Serializable {
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
     @JsonIgnoreProperties(value = "wantsComments")
-    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private User user;
 
 }
