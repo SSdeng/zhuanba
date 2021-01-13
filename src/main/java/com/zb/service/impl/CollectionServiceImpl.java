@@ -9,6 +9,7 @@ import com.zb.service.CollectionService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 收藏服务实现类
@@ -47,8 +48,21 @@ public class CollectionServiceImpl implements CollectionService {
     @Override
     public Collection removeItem(Long collectionId, Long itemId) {
         Collection collection = findById(collectionId);
-        collection.getItems().remove(getItemById(itemId));
-        return collectionRepository.save(collection);
+        List<Item> list = collection.getItems();
+        boolean flag = false;
+        for (Item item : list) {
+            if (item.getId().equals(itemId)) {
+                list.remove(item);
+                flag = true;
+                break;
+            }
+        }
+        if (flag) {
+            return collectionRepository.save(collection);
+        } else {
+            throw new MyException("商品不存在");
+        }
+
     }
 
     /**
