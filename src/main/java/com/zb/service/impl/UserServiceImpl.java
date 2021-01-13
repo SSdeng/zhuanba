@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import javax.annotation.Resource;
 
-import com.zb.util.JsonTransfer;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.Md5Hash;
@@ -15,9 +14,11 @@ import org.springframework.stereotype.Service;
 
 import com.zb.entity.Cart;
 import com.zb.entity.User;
+import com.zb.entity.vo.LoginUserVO;
 import com.zb.exception.MyException;
 import com.zb.repository.UserRepository;
 import com.zb.service.UserService;
+import com.zb.util.JsonTransfer;
 
 /**
  * 用户服务实现类
@@ -69,7 +70,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUserInfo(String JSONUser, long userId) {
         User dataUser = findById(userId);
-        User newUser = JsonTransfer.updateSelective(JSONUser,dataUser);
+        User newUser = JsonTransfer.updateSelective(JSONUser, dataUser);
         return userRepository.save(newUser);
     }
 
@@ -80,14 +81,14 @@ public class UserServiceImpl implements UserService {
      *            用户名
      * @param password
      *            密码
-     * @return 用户名密码匹配则返回对应User对象; 否则返回null
+     * @return 返回loginUserVO
      */
     @Override
-    public User login(String userName, String password) {
+    public LoginUserVO login(String userName, String password) {
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
         subject.login(token);
-        return (User)subject.getPrincipals().getPrimaryPrincipal();
+        return (LoginUserVO)subject.getPrincipals().getPrimaryPrincipal();
     }
 
     /**

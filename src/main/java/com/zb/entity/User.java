@@ -9,10 +9,15 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.*;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.*;
-import org.hibernate.annotations.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * 用户实体
@@ -53,7 +58,7 @@ public class User implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     @Column(name = "create_time", updatable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
     /**
@@ -62,7 +67,7 @@ public class User implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @UpdateTimestamp
     @Column(name = "update_time")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updateTime;
     /**
      * 用户名 唯一，不可为空
@@ -109,7 +114,7 @@ public class User implements Serializable {
     /**
      * 用户购物车
      */
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
     @JsonIgnoreProperties(value = "user")
     @EqualsAndHashCode.Exclude
@@ -117,8 +122,9 @@ public class User implements Serializable {
     /**
      * 用户收藏夹
      */
-    @OneToOne(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
-    @JoinColumn(name = "collection_id", referencedColumnName = "id",insertable = false, updatable = false )
+    @OneToOne(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE},
+        fetch = FetchType.LAZY)
+    @JoinColumn(name = "collection_id", referencedColumnName = "id", insertable = false, updatable = false)
     @JsonIgnoreProperties(value = "user")
     @EqualsAndHashCode.Exclude
     private Collection collection;

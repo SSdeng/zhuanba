@@ -13,6 +13,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 
 import com.zb.entity.User;
+import com.zb.entity.vo.LoginUserVO;
 import com.zb.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -41,8 +42,8 @@ public class MyShiroRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         // 如果身份认证的时候没有传入User对象，这里只能取到userName
         // 也就是SimpleAuthenticationInfo构造的时候第一个参数传递需要User对象
-        User user = (User)principals.getPrimaryPrincipal();
-        authorizationInfo.addRole(user.getRole());
+        LoginUserVO loginUser = (LoginUserVO)principals.getPrimaryPrincipal();
+        authorizationInfo.addRole(loginUser.getRole());
         return authorizationInfo;
     }
 
@@ -63,7 +64,9 @@ public class MyShiroRealm extends AuthorizingRealm {
         if (user == null) {
             return null;
         }
-        return new SimpleAuthenticationInfo(user, user.getPassword(), ByteSource.Util.bytes(userName), getName());
+        LoginUserVO loginUser = LoginUserVO.asVO(user);
+        return new SimpleAuthenticationInfo(loginUser, loginUser.getPassword(), ByteSource.Util.bytes(userName),
+            getName());
     }
 
 }

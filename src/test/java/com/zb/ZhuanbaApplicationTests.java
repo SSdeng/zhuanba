@@ -1,9 +1,7 @@
 package com.zb;
 
 import java.math.BigDecimal;
-import java.util.List;
-
-import javax.transaction.Transactional;
+import java.io.IOException;
 
 import com.zb.entity.Cart;
 import com.zb.entity.User;
@@ -13,15 +11,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.test.annotation.Rollback;
 
-import com.zb.entity.Category;
-import com.zb.entity.Item;
 import com.zb.repository.CategoryRepository;
 import com.zb.repository.ItemRepository;
 import com.zb.service.CategoryService;
-import com.zb.util.PaginationSupport;
+import com.zb.util.HtmlParseUtil;
 
 @SpringBootTest
 class ZhuanbaApplicationTests {
@@ -95,11 +90,16 @@ class ZhuanbaApplicationTests {
     /*@Test
     @Transactional
     public void testGetSpecificCategoryItems() {
-
+    
         PaginationSupport<Item> page = categoryService.getSpecificCategoryItems(1, 1, 2);
         List<Item> items = page.getItems();
         for (Item i : items) {
             System.out.println("商品：" + i);
         }
     }*/
+    @Test
+    @Rollback(value = false)
+    public void tes1() throws IOException {
+        itemRepository.saveAll(HtmlParseUtil.getItemsByJD("图书"));
+    }
 }

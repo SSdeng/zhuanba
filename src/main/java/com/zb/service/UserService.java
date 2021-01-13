@@ -1,5 +1,6 @@
 package com.zb.service;
 
+import com.zb.entity.vo.LoginUserVO;
 import org.springframework.data.domain.Page;
 
 import com.zb.entity.User;
@@ -48,7 +49,7 @@ public interface UserService {
      *            密码
      * @return 用户名密码匹配则返回对应User对象; 否则返回null
      */
-    User login(String userName, String password);
+    LoginUserVO login(String userName, String password);
 
     /**
      * 返回用户总数
