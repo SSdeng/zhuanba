@@ -40,7 +40,7 @@ class ZhuanbaApplicationTests {
     /*@Test
     @Transactional
     void test1() {
-        List<Item> items = itemRepository.findItemsBy();
+        List<Item> items = itemRepository.findAll();
         for (Item item : items) {
             List<Category> categories = item.getCategories();
             categories.get(0).toString();
