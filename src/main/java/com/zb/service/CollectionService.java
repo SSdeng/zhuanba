@@ -1,6 +1,7 @@
 package com.zb.service;
 
 import com.zb.entity.Collection;
+import com.zb.entity.Item;
 
 /**
  * 收藏接口服务
@@ -15,6 +16,14 @@ public interface CollectionService {
      * @return Collection
      */
     Collection findById(Long id);
+
+    /**
+     * 通过id获取商品
+     * @param id 商品id
+     * @return 商品
+     */
+    Item findItemById(Long id);
+
     /**
      * 添加商品到收藏夹
      * @param userId 用户id
