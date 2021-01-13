@@ -44,6 +44,17 @@ public class ItemServiceImpl implements ItemService {
     }
 
     /**
+     * 发布商品
+     *
+     * @param item 新增Item对象
+     * @return 插入后Item对象
+     */
+    @Override
+    public Item insertSelective(Item item) {
+        return itemRepository.save(item);
+    }
+
+    /**
      * 根据商品id删除商品
      *
      * @param itemId 商品id

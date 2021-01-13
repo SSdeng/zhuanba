@@ -12,6 +12,7 @@ import com.zb.entity.User;
 public interface UserService {
     /**
      * 注册新用户
+     * 同时创建对应购物车
      *
      * @param newUser
      *            新增User对象
