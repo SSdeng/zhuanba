@@ -33,7 +33,7 @@ public class FileUtil {
         String newName = UUID.randomUUID() + suffix;
 
         File file = new File(FileDirectoryPATH + "/" + newName);
-
+        System.out.println(file.getAbsolutePath());
         // 存储文件
         multipartFile.transferTo(file);
         return newName;

@@ -40,7 +40,7 @@ public class CommentController {
      * @return 增加商品评论
      */
     @PostMapping("/item")
-    public String addItemComment(@RequestParam("itemId") int itemId, Map<String, Object> map) {
+    public String addItemComment(@RequestParam("itemId") long itemId, Map<String, Object> map) {
 
         int userId = (int) map.get("userId");
         String content = (String) map.get("content");
@@ -63,6 +63,7 @@ public class CommentController {
      * @param map 参数集合
      * @return 求购详情页
      */
+    @PostMapping("/wants")
     public String addWantsComment(@RequestParam("wantsId") long wantsId, @RequestBody Map<String, Object> map){
         long userId = (long)map.get("userId");
         WantsComment newComment = new WantsComment();

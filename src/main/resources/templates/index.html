@@ -48,7 +48,7 @@
             <ul class="pub_pro">
                 <li th:each="item:${items}" th:object="${item}">
                     <a href="#">
-                        <img th:src="'/static/images/img'+*{id}" alt="">
+                        <img th:src="*{image}" alt="">
                         <div class="cont">
                             <h3 th:text="*{itemName}">简约时尚水泥花瓶</h3>
                             <span th:text="'￥' + *{price}">￥450</span>
