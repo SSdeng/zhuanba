@@ -3,7 +3,7 @@ package com.zb.service.impl;
 import com.zb.entity.User;
 import com.zb.entity.UserOrder;
 import com.zb.exception.MyException;
-import com.zb.repository.OrderRepository;
+import com.zb.repository.UserOrderRepository;
 import com.zb.repository.UserRepository;
 import com.zb.service.OrderService;
 import com.zb.util.JsonTransfer;
@@ -24,7 +24,7 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
 
     @Resource
-    private OrderRepository orderRepository;
+    private UserOrderRepository orderRepository;
     @Resource
     private UserRepository userRepository;
 
@@ -99,6 +99,19 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
+     * 获取指定用户所有订单
+     *
+     * @param userId
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public Page<UserOrder> getPageByUser(Long userId, int pageNo, int pageSize) {
+        return orderRepository.findAllByUser(userId, PageRequest.of(pageNo - 1, pageSize));
+    }
+
+    /**
      * 通过状态分页获取订单
      *
      * @param userId   用户id
@@ -113,7 +126,7 @@ public class OrderServiceImpl implements OrderService {
         if (user == null) {
             throw new MyException("目标用户不存在");
         }
-        return orderRepository.findByStatusAndUser(status, user, PageRequest.of(pageNo - 1, pageSize));
+        return orderRepository.findAllByStatusAndUser(user.getId(), status, PageRequest.of(pageNo - 1, pageSize));
     }
 
     /**
