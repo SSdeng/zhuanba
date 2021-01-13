@@ -1,7 +1,7 @@
 package com.zb.service;
 
 import com.zb.entity.Cart;
-import com.zb.entity.CartOrder;
+import com.zb.entity.vo.CartOrderVO;
 
 import java.util.List;
 
@@ -50,9 +50,10 @@ public interface CartService {
     Cart updateOrder(long cartId, long itemId, int count);
 
     /**
-     * 清空购物车
+     * 获取购物车订单表
      *
      * @param cartId 购物车id
      */
-    List<CartOrder> emptyCart(long cartId);
+    List<CartOrderVO> getCartOrderVoList(long cartId);
+
 }

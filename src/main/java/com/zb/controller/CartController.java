@@ -1,17 +1,21 @@
 package com.zb.controller;
 
+import com.zb.entity.vo.CartOrderVO;
 import com.zb.service.CartService;
 import com.zb.util.Result;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 购物车控制器
  *
  * @author YeFeng
  */
-@RestController
+@Controller
 @RequestMapping("/api/cart")
 public class CartController {
 
@@ -26,8 +30,9 @@ public class CartController {
      * @return 返回信息
      */
     @GetMapping("all")
-    public Result getUserCart(@RequestParam("userId") long userId) {
-        return Result.ok(cartService.findCartById(userId));
+    public String getUserCart(Model model, @RequestParam("userId") long userId) {
+        model.addAttribute(cartService.findCartById(userId));
+        return "cart";
     }
 
     /**
@@ -39,8 +44,10 @@ public class CartController {
      * @return 返回信息
      */
     @PostMapping("add")
+    @ResponseBody
     public Result addOrder(@RequestParam("userId") long userId, @RequestParam("userId") long itemId, @RequestParam("count") int count) {
-        return Result.ok(cartService.addOrder(userId, itemId, count));
+        cartService.addOrder(userId, itemId, count);
+        return Result.ok();
     }
 
     /**
@@ -51,8 +58,10 @@ public class CartController {
      * @return 返回信息
      */
     @PostMapping("remove")
+    @ResponseBody
     public Result removeOrder(@RequestParam("userId") long userId, @RequestParam("userId") long itemId) {
-        return Result.ok(cartService.removeOrder(userId, itemId));
+        cartService.removeOrder(userId, itemId);
+        return Result.ok();
     }
 
     /**
@@ -64,8 +73,10 @@ public class CartController {
      * @return 返回信息
      */
     @PostMapping("changevalue")
+    @ResponseBody
     public Result changeValue(@RequestParam("cartId") long cartId, @RequestParam("userId") long itemId, @RequestParam("count") int count) {
-        return Result.ok(cartService.updateOrder(cartId, itemId, count));
+        cartService.updateOrder(cartId, itemId, count);
+        return Result.ok();
     }
 
     /**
@@ -75,7 +86,8 @@ public class CartController {
      * @return 返回信息
      */
     @PostMapping("buy")
-    public Result emptyCart(@RequestParam("cartId") long cartId) {
-        return Result.ok(cartService.emptyCart(cartId));
+    public String emptyCart(Model model, @RequestParam("cartId") long cartId) {
+        model.addAllAttributes(cartService.getCartOrderVoList(cartId));
+        return "buy";
     }
 }
