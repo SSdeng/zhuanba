@@ -25,7 +25,7 @@ public interface CartService {
      *
      * @param userId 用户id
      * @param itemId 商品id
-     * @param cnt 数量
+     * @param count 数量
      * @return 购物车
      */
     Cart addOrder(long userId, long itemId, int count);
