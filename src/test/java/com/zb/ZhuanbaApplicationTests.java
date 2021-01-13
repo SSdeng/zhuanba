@@ -87,7 +87,7 @@ class ZhuanbaApplicationTests {
 
     @Test
     void paquItems() throws IOException {
-        String key = "服装";
+        String key = "男装";
         List<Item> itemList = HtmlParseUtil.getItemsByJD(key,(long)1,(long)1);
         itemRepository.saveAll(itemList);
     }
@@ -96,7 +96,7 @@ class ZhuanbaApplicationTests {
     void categoryTest(){
         List<Category> list = new ArrayList<>();
         list.add(categoryService.findById((long)1));
-        log.info(list.get(0).toString());
+        log.info(list.get(0).toString().substring(1));
         Item item = new Item();
         item.setCategories(list);
         log.info(item.getCategories().get(0).toString());

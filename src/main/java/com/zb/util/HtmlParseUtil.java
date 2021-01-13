@@ -17,6 +17,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.zb.entity.Item;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
@@ -26,12 +29,20 @@ import javax.annotation.Resource;
  * @author dengzhijian
  * @version 1.0
  **/
+@Component
 public class HtmlParseUtil {
 
-    @Resource
     private static UserService userService;
-    @Resource
     private static CategoryService categoryService;
+
+    @Resource
+    public void setUserService(UserService userService){
+        HtmlParseUtil.userService = userService;
+    }
+    @Resource
+    public void setCategoryService(CategoryService categoryService){
+        HtmlParseUtil.categoryService = categoryService;
+    }
 
     public static List<Item> getItemsByJD(String keyword, long userId, long categoryId) throws IOException {
         // 获取请求
@@ -46,16 +57,22 @@ public class HtmlParseUtil {
             String price = element.getElementsByClass("p-price").eq(0).text();
             String title = element.getElementsByClass("p-name").eq(0).text();
             System.out.println("------------");
-            System.out.println("img" + img);
-            System.out.println("price" + price.substring(1, 6));
-            System.out.println("title" + title);
+            System.out.println(img.length() + "||" + price.length() + "||" + title.length());
+            System.out.println("img " + img);
+            System.out.println("price " + price);
+            System.out.println("title " + title);
             Item item = new Item();
             item.setItemName(title);
-            item.setPrice(BigDecimal.valueOf(Double.parseDouble(price.substring(1, 6))));
+            item.setPrice(BigDecimal.valueOf(Double.parseDouble(price.substring(1))));
             item.setImage(img);
             item.setCount(1);
             item.setLevel(10);
-            item.setUser(userService.findById(userId));
+            User user = userService.findById(userId);
+            System.out.println(user.getUsername());
+            if(user == null){
+                System.out.println("NULL________________NULL");
+            }
+            item.setUser(user);
             List<Category> categoryList = new ArrayList<>();
             categoryList.add(categoryService.findById(categoryId));
             item.setCategories(categoryList);
