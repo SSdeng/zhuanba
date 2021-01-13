@@ -10,6 +10,7 @@ import com.zb.util.PaginationSupport;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -158,22 +159,22 @@ public class CategoryServiceImpl implements CategoryService {
         return ps;
     }
 
-//    /**
-//     * 分页返回指定分类下的商品
-//     * 实现方式：JPA命名规则
-//     *
-//     * @param categoryId
-//     * @param pageNo
-//     * @param pageSize
-//     * @return
-//     */
-//    @Override
-//    public Page<Item> getSpecificCategoryItemsByNamingParameters(Long categoryId, int pageNo, int pageSize){
-//
-//        Pageable pageable = PageRequest.of(pageNo, pageSize);
-//        Page<Item> items = itemRepository.findItemsByCategories_id(categoryId, pageable);
-//
-//        return items;
-//    }
+    /**
+     * 分页返回指定分类下的商品
+     * 实现方式：JPA命名规则
+     *
+     * @param categoryId
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public Page<Item> getSpecificCategoryItemsByNamingParameters(Long categoryId, int pageNo, int pageSize){
+
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<Item> items = itemRepository.findItemsByCategories_id(categoryId, pageable);
+
+        return items;
+    }
 
 }

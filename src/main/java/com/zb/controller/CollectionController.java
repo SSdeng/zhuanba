@@ -3,9 +3,7 @@ package com.zb.controller;
 
 import com.zb.entity.User;
 import com.zb.service.CollectionService;
-import com.zb.service.UserService;
 import com.zb.util.Result;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,7 +31,7 @@ public class CollectionController {
      * @return Result
      */
     @PostMapping("/add")
-    public Result AddItem(@RequestParam("userId")Long  userId, @RequestParam("itemId") Long itemId){
+    public Result addItem(@RequestParam("userId")Long  userId, @RequestParam("itemId") Long itemId){
         return Result.ok(collectionService.addItem(userId,itemId));
 
     }
@@ -45,7 +43,7 @@ public class CollectionController {
      * @return String
      */
     @PostMapping("/remove")
-    public String RemoveItem(@RequestParam("collectionId")Long collectionId
+    public String removeItem(@RequestParam("collectionId")Long collectionId
             , @RequestParam("itemId") Long itemId){
         User user = collectionService.findById(collectionId).getUser();
         collectionService.removeItem(collectionId,itemId);
