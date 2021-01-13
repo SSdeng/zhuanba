@@ -14,6 +14,8 @@ import org.jsoup.select.Elements;
 import com.zb.entity.Item;
 
 /**
+ * 爬取京东数据
+ * 
  * @author dengzhijian
  * @version 1.0
  **/
