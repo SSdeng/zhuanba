@@ -124,11 +124,11 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User findById(long user_id) {
-        Optional<User> user = userRepository.findById(user_id);
-        if (!user.isPresent()) {
+        User user = userRepository.findById(user_id).orElse(null);
+        if (user == null) {
             throw new MyException("用户未找到");
         }
-        return user.get();
+        return user;
     }
 
     /**

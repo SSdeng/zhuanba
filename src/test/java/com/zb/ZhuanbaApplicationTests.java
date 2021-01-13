@@ -3,14 +3,17 @@ package com.zb;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.zb.entity.Cart;
+import com.zb.entity.Category;
 import com.zb.entity.Item;
 import com.zb.entity.User;
 import com.zb.service.ItemService;
 import com.zb.service.UserService;
 import com.zb.util.HtmlParseUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
@@ -25,13 +28,12 @@ import com.zb.service.CategoryService;
 import com.zb.util.HtmlParseUtil;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @SpringBootTest
 class ZhuanbaApplicationTests {
 
     @Autowired
     private ItemRepository itemRepository;
-    @Autowired
-    private CategoryRepository categoryRepository;
     @Autowired
     private CategoryService categoryService;
     @Autowired
@@ -86,8 +88,18 @@ class ZhuanbaApplicationTests {
     @Test
     void paquItems() throws IOException {
         String key = "服装";
-        List<Item> itemList = HtmlParseUtil.getItemsByJD(key,5,1);
+        List<Item> itemList = HtmlParseUtil.getItemsByJD(key,(long)1,(long)1);
         itemRepository.saveAll(itemList);
+    }
+
+    @Test
+    void categoryTest(){
+        List<Category> list = new ArrayList<>();
+        list.add(categoryService.findById((long)1));
+        log.info(list.get(0).toString());
+        Item item = new Item();
+        item.setCategories(list);
+        log.info(item.getCategories().get(0).toString());
     }
     /*@Test
     @Transactional

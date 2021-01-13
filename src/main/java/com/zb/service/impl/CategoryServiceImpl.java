@@ -2,6 +2,7 @@ package com.zb.service.impl;
 
 import com.zb.entity.Category;
 import com.zb.entity.Item;
+import com.zb.exception.MyException;
 import com.zb.repository.CategoryRepository;
 import com.zb.repository.ItemRepository;
 import com.zb.service.CategoryService;
@@ -78,7 +79,11 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public Category findById(long categoryId) {
-        return categoryRepository.getOne((long) categoryId);
+        Category category = categoryRepository.findById(categoryId).orElse(null);
+        if(category == null){
+            throw new MyException("待查找分类不存在");
+        }
+        return category;
     }
 
     /**

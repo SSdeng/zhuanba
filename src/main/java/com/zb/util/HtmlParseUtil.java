@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.zb.entity.Category;
+import com.zb.entity.User;
 import com.zb.service.CategoryService;
 import com.zb.service.UserService;
 import javassist.expr.NewArray;
@@ -17,6 +18,8 @@ import org.jsoup.select.Elements;
 
 import com.zb.entity.Item;
 
+import javax.annotation.Resource;
+
 /**
  * 爬取京东数据
  * 
@@ -25,7 +28,9 @@ import com.zb.entity.Item;
  **/
 public class HtmlParseUtil {
 
+    @Resource
     private static UserService userService;
+    @Resource
     private static CategoryService categoryService;
 
     public static List<Item> getItemsByJD(String keyword, long userId, long categoryId) throws IOException {
@@ -50,10 +55,10 @@ public class HtmlParseUtil {
             item.setImage(img);
             item.setCount(1);
             item.setLevel(10);
+            item.setUser(userService.findById(userId));
             List<Category> categoryList = new ArrayList<>();
             categoryList.add(categoryService.findById(categoryId));
             item.setCategories(categoryList);
-            item.setUser(userService.findById(userId));
             items.add(item);
         }
         return items;
