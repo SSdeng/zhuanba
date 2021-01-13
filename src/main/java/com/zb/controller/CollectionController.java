@@ -6,31 +6,25 @@ import com.zb.service.CollectionService;
 import com.zb.service.UserService;
 import com.zb.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
+
 /**
  * 收藏controller
+ * @author whz
+ * 2021/1/11
  */
 
 @RestController
 @RequestMapping("/api/collection")
 public class CollectionController {
-    CollectionService collectionService;
-    UserService userService;
+    @Resource
+    private CollectionService collectionService;
 
-    /**
-     * 构造器依赖注入
-     *
-     * @param collectionService 收藏服务
-     */
-    @Autowired
-    public CollectionController(CollectionService collectionService) {
-        this.collectionService=collectionService;
-    }
 
     /**
      * 向收藏中添加商品
