@@ -39,13 +39,13 @@ public interface ItemService {
     /**
      * 修改商品id对应商品的审核状态
      *
-     * @param item_id    商品id
-     * @param manager_id 管理员id
-     * @param status     新审核状态
+     * @param itemId  商品id
+     * @param adminId 管理员id
+     * @param status  新审核状态
      * @return 修改后的Item对象
      * @see com.zb.entity.Item
      */
-    Item setAuditStatus(long item_id, long manager_id, int status);
+    Item setAuditStatus(long itemId, long adminId, int status);
 
     /**
      * 分页查询
@@ -68,8 +68,8 @@ public interface ItemService {
      * 按条件分页查找
      *
      * @param searchInfo 搜索信息
-     * @param pageNo 起始页码
-     * @param pageSize 分页大小
+     * @param pageNo     起始页码
+     * @param pageSize   分页大小
      * @return 查询结果
      */
     Page<Item> searchByPage(String searchInfo, int pageNo, int pageSize);
