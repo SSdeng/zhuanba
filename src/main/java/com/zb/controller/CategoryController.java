@@ -49,6 +49,7 @@ public class CategoryController {
 
         //获取指定分类下的商品列表分页
         PaginationSupport<Item> page = categoryService.getSpecificCategoryItems(categoryId,pageNo,pageSize);
+        //Page<Item> page = categoryService.getSpecificCategoryItemsByNamingParameters(categoryId,pageNo,pageSize);
         //List<Item> items = page.getItems();
         //获取所有分类
         List<Category> categories = categoryService.getAllCategories();

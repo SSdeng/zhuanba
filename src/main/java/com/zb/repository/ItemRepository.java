@@ -1,6 +1,8 @@
 package com.zb.repository;
 
 import com.zb.entity.Item;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -35,12 +37,12 @@ public interface ItemRepository extends JpaRepository<Item, Long>, JpaSpecificat
     @Query(value = "SELECT count(item_id) FROM sys_item_category WHERE category_id = ?1", nativeQuery = true)
     public int getSpecificCategoryItemsCount(int categoryId);
 
-//    /**
-//     * 返回指定分类下的商品数量
-//     * 方式：JPA的命名规则方法
-//     *
-//     * @param id
-//     * @return
-//     */
-//    public Page<Item> findItemsByCategories_id(Long id, Pageable pageable);
+    /**
+     * 返回指定分类下的商品数量
+     * 方式：JPA的命名规则方法
+     *
+     * @param id
+     * @return
+     */
+    public Page<Item> findItemsByCategories_id(Long id, Pageable pageable);
 }

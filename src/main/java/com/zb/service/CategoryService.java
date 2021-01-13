@@ -95,5 +95,13 @@ public interface CategoryService {
      */
     PaginationSupport<Item> getSpecificCategoryItems(int categoryId, int pageNo, int pageSize);
 
-//    Page<Item> getSpecificCategoryItemsByNamingParameters(Long categoryId, int pageNo, int pageSize);
+    /**
+     * 分页返回指定分类下的商品,通过命名规则
+     *
+     * @param categoryId
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    Page<Item> getSpecificCategoryItemsByNamingParameters(Long categoryId, int pageNo, int pageSize);
 }
