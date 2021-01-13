@@ -27,7 +27,7 @@ class ZhuanbaApplicationTests {
     @Autowired
     private CategoryService categoryService;
 
-    @Test
+    /*@Test
     @Transactional
     void contextLoads() {
         Page<Item> items = itemRepository.findItemsByCategories_id(1l, PageRequest.of(0, 1));
@@ -35,20 +35,20 @@ class ZhuanbaApplicationTests {
         for (Item item : content) {
             System.out.println(item);
         }
-    }
+    }*/
 
-    @Test
+    /*@Test
     @Transactional
     void test1() {
-        /*List<Item> items = itemRepository.findItemsBy();
+        List<Item> items = itemRepository.findItemsBy();
         for (Item item : items) {
             List<Category> categories = item.getCategories();
             categories.get(0).toString();
             System.out.println(item);
-        }*/
-    }
+        }
+    }*/
 
-    @Test
+    /*@Test
     @Transactional
     public void testGetSpecificCategoryItems() {
 
@@ -57,5 +57,5 @@ class ZhuanbaApplicationTests {
         for (Item i : items) {
             System.out.println("商品：" + i);
         }
-    }
+    }*/
 }

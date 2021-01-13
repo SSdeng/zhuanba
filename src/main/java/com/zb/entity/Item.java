@@ -106,9 +106,14 @@ public class Item implements Serializable {
     private Integer count = 0;
 
     /**
-     * 商品审核状态，0为待审核，1为审核通过
+     * 商品审核状态，0为待审核，1为审核通过, -1为审核未通过
      */
     private Integer status = 0;
+
+    /**
+     * 审核者id
+     */
+    private Long auditId;
 
     /**
      * 商品销量

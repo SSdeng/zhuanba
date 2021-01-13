@@ -46,12 +46,12 @@ public class ItemServiceImpl implements ItemService {
     /**
      * 根据商品id删除商品
      *
-     * @param item_id 商品id
+     * @param itemId 商品id
      * @return 删除结果
      */
     @Override
-    public boolean deleteById(long item_id) {
-        itemRepository.deleteById(item_id);
+    public boolean deleteById(long itemId) {
+        itemRepository.deleteById(itemId);
         return true;
     }
 
@@ -71,16 +71,18 @@ public class ItemServiceImpl implements ItemService {
     /**
      * 修改商品id对应商品的审核状态
      *
-     * @param item_id    商品id
-     * @param manager_id 管理员id
+     * @param itemId    商品id
+     * @param adminId 管理员id
      * @param status     新审核状态
      * @return 修改后的Item对象
      * @see com.zb.entity.Item
      */
     @Override
-    public Item setAuditStatus(long item_id, long manager_id, int status) {
-        // TODO
-        return null;
+    public Item setAuditStatus(long itemId, long adminId, int status) {
+        Item item = findById(itemId);
+        item.setAuditId(adminId);
+        item.setStatus(status);
+        return itemRepository.save(item);
     }
 
     /**
