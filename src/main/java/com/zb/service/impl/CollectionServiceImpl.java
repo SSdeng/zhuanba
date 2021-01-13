@@ -19,7 +19,9 @@ import javax.annotation.Resource;
 public class CollectionServiceImpl implements CollectionService {
     @Resource
     private CollectionRepository collectionRepository;
+    @Resource
     private ItemRepository itemRepository;
+    @Resource
     private UserRepository userRepository;
     /**
      * 添加商品到收藏
@@ -39,8 +41,8 @@ public class CollectionServiceImpl implements CollectionService {
 
     /**
      * 从收藏夹移除商品
-     * @param collectionId
-     * @param itemId
+     * @param collectionId 收藏id
+     * @param itemId 商品id
      */
     @Override
     public Collection removeItem(Long collectionId, Long itemId) {
@@ -51,23 +53,37 @@ public class CollectionServiceImpl implements CollectionService {
 
     /**
      * 通过Id获取收藏
-     * @param id
-     * @return
+     * @param id 收藏id
+     * @return 收藏
      */
     @Override
     public Collection findById(Long id) {
         Collection collection = getById(id);
         if (collection == null) {
-            throw new MyException("商品未找到");
+            throw new MyException("收藏未找到");
         }
         return collection;
     }
 
     /**
+     * 通过id获取商品
+     * @param id 商品id
+     * @return 商品
+     */
+    @Override
+    public Item findItemById(Long id) {
+        Item item = getItemById(id);
+        if(item == null ){
+            throw new MyException("商品未找到");
+        }
+        return item;
+    }
+
+    /**
      * 获取id对应收藏
      *
-     * @param id collection_id
-     * @return item对象 不存在时返回null
+     * @param id 收藏id
+     * @return collection 对象 不存在时返回null
      */
     private Collection getById(Long id) {
         return id == null ? null : collectionRepository.findById(id).orElse(null);
@@ -76,8 +92,8 @@ public class CollectionServiceImpl implements CollectionService {
     /**
      * 获取id对应item
      *
-     * @param id item_id
-     * @return item对象 不存在时返回null
+     * @param id 商品id
+     * @return item 对象 不存在时返回null
      */
     private Item getItemById(Long id) {
         return id == null ? null : itemRepository.findById(id).orElse(null);

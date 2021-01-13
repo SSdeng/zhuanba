@@ -2,7 +2,6 @@ package com.zb.service;
 
 import com.zb.entity.Collection;
 import com.zb.entity.Item;
-import org.springframework.data.domain.Page;
 
 /**
  * 收藏接口服务
