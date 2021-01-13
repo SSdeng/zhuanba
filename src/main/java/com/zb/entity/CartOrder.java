@@ -19,7 +19,9 @@ import lombok.*;
  *
  * @author YeFeng
  */
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity

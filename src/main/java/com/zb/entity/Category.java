@@ -21,7 +21,9 @@ import lombok.*;
  * @author shenmanjie
  *
  */
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity

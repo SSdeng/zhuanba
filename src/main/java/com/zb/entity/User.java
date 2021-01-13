@@ -20,7 +20,9 @@ import org.hibernate.annotations.*;
  * @author dengzhijian
  * @version 1.1
  */
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity

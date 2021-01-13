@@ -21,7 +21,9 @@ import lombok.*;
  * @author lijiacheng
  * @version 1.0
  */
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity

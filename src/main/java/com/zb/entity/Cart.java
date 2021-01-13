@@ -20,7 +20,9 @@ import org.hibernate.annotations.*;
  * @author YeFeng
  * @version 1.0
  **/
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
