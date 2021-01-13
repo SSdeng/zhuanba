@@ -21,6 +21,7 @@
     </div>
 </div>
 
+
 <div class="list-1">
     <ul class="list-ul-2" style="position: relative;right: 190px;">
         <div class="img"><img src="../static/images/logo1.jpg" width="55px" height="55px" class="img-logo"/></div>
@@ -171,7 +172,7 @@
                         if (data.code == 0) {
                             itemId = data.data.itemId;
                             console.log(itemId);
-                            if(itemId!=-1){
+                            if (itemId != -1) {
                                 console.log("start transferring image")
                                 var type = "image";
                                 var formData = new FormData();
@@ -192,7 +193,7 @@
                                         }
 
                                     },
-                                    error:function (e){
+                                    error: function (e) {
                                         var res = $.parseJSON(e.responseText);
                                         layer.msg(res.msg);
                                     }

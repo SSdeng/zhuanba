@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    
+
     <title>登录界面</title>
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/login.css" rel="stylesheet">
@@ -30,7 +30,7 @@
             </div>
             <button type="button" class="login-button">登录<i class="ai ai-enter"></i></button>
             <p class="text-muted text-center">
-                <a href="register.html"><small style="position: relative;left: 20px;">注册一个新账号</small></a>
+                <a href="/register"><small style="position: relative;left: 20px;">注册一个新账号</small></a>
             </p>
         </form>
     </div>
@@ -44,7 +44,7 @@
         console.log($("#admin:checked").val());
         var username = $("#username").val();
         var role = $("#admin:checked").val()==1?"admin":"user";
-        var locatione = $("#admin:checked").val()==1?"/admin":"/index";
+        var locatione = $("#admin:checked").val()==1?"/admin":"/";
         console.log(role);
         //编写校验过程
         if (username.length < 3) {
@@ -78,8 +78,8 @@
                 if (data.code == 0) {
                     //把用户名密码存储在session里面，首页显示用户名称
                     localStorage.setItem("username", username);
-                    localStorage.setItem("userId", data.userId);
-                    console.log("id"+data.userId);
+                    localStorage.setItem("userId", data.data.userId);
+
                     //跳转到主页
                     location.assign(locatione);
                 } else {
