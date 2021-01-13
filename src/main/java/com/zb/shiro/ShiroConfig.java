@@ -70,9 +70,8 @@ public class ShiroConfig {
         // filterChainDefinitionMap.put("/register.html", "anon");
         // filterChainDefinitionMap.put("/api/**", "anon");
         // 所有url都必须认证通过才可以访问
-        // filterChainDefinitionMap.put("/**", "authc");
+        filterChainDefinitionMap.put("/**", "authc");
         // 配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了, 位置放在 anon、authc下面
-        filterChainDefinitionMap.put("/logout", "logout");
 
         // 设置未授权路由，之后再返回json数据给前端
         shiroFilterFactoryBean.setLoginUrl("/login");
@@ -143,6 +142,7 @@ public class ShiroConfig {
     public SessionManager sessionManager(RedisSessionDAO redisSessionDAO) {
         MySessionManager mySessionManager = new MySessionManager();
         mySessionManager.setSessionDAO(redisSessionDAO);
+        mySessionManager.setSessionIdUrlRewritingEnabled(false);
         return mySessionManager;
     }
 
@@ -152,11 +152,7 @@ public class ShiroConfig {
      * @return RedisManager
      */
     private RedisManager redisManager() {
-        RedisManager redisManager = new RedisManager();
-        redisManager.setHost(host);
-        redisManager.setPort(port);
-        redisManager.setTimeout((int)timeout.toMillis());
-        return redisManager;
+        return new RedisManager();
     }
 
     /**
@@ -210,7 +206,7 @@ public class ShiroConfig {
     }
 
     @Bean
-    public SimpleCookie cookie() {
+    public SimpleCookie RememberMeCookie() {
         // cookie的name,对应的默认是 JSESSIONID
         SimpleCookie cookie = new SimpleCookie("SHARE_JSESSIONID");
         cookie.setHttpOnly(true);
