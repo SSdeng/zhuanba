@@ -20,7 +20,9 @@ import org.hibernate.annotations.*;
  * @author dengzhijian
  * @version 1.1
  */
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -51,7 +53,7 @@ public class User implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     @Column(name = "create_time", updatable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
     /**
@@ -60,7 +62,7 @@ public class User implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @UpdateTimestamp
     @Column(name = "update_time")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updateTime;
     /**
      * 用户名 唯一，不可为空
@@ -110,50 +112,50 @@ public class User implements Serializable {
     @OneToOne(cascade = {CascadeType.ALL})
     @PrimaryKeyJoinColumn
     @JsonIgnoreProperties(value = "user")
-    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Cart cart;
     /**
      * 用户收藏夹
      */
     @OneToOne(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
-    @JoinColumn(name = "collection_id", referencedColumnName = "id",insertable = false, updatable = false )
+    @JoinColumn(name = "collection_id", referencedColumnName = "id", insertable = false, updatable = false)
     @JsonIgnoreProperties(value = "user")
-    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Collection collection;
     /**
      * 用户地址表
      */
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     @JsonIgnoreProperties(value = "user")
-    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<Address> addresses;
     /**
      * 用户发布商品列表
      */
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     @JsonIgnoreProperties(value = "user")
-    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<Item> items; // 一对多关系，所有全部级联操作都开启，放弃维护权，由item维护外键,
     /**
      * 用户订单列表
      */
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     @JsonIgnoreProperties(value = "user")
-    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<UserOrder> userOrders;
     /**
      * 用户求购项列表
      */
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     @JsonIgnoreProperties(value = "user")
-    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<Wants> wants;
     /**
      * 用户求购评论列表
      */
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     @JsonIgnoreProperties(value = "user")
-    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<WantsComment> wantsComments;
 
     /**
@@ -161,6 +163,6 @@ public class User implements Serializable {
      */
     @OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE, CascadeType.MERGE})
     @JsonIgnoreProperties(value = "user")
-    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<ItemComment> itemComments;
 }

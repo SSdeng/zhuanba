@@ -19,7 +19,9 @@ import lombok.*;
  * @author lijiacheng
  * @version 1.0
  */
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -74,7 +76,7 @@ public class WantsComment implements Serializable {
     @ManyToOne(targetEntity = Wants.class)
     @JoinColumn(name = "wants_id", referencedColumnName = "id", updatable = false)
     @JsonIgnoreProperties(value = "comments")
-    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Wants wants;
     /**
      * 发表用户
@@ -82,7 +84,7 @@ public class WantsComment implements Serializable {
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
     @JsonIgnoreProperties(value = "wantsComments")
-    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private User user;
 
 }

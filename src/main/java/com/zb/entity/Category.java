@@ -21,7 +21,9 @@ import lombok.*;
  * @author shenmanjie
  *
  */
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -75,7 +77,7 @@ public class Category implements Serializable {
      */
     @ManyToMany(mappedBy = "categories", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnoreProperties(value = "categories")
-    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<Item> items;
 
 }

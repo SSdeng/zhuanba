@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.zb.entity.User;
+import com.zb.entity.vo.LoginUserVO;
 import com.zb.enums.ResultEnum;
 import com.zb.service.UserService;
 import com.zb.util.Result;
@@ -69,9 +70,9 @@ public class UserController {
     public Result login(@RequestBody Map<String, Object> map) {
         String username = (String)map.get("username");
         String password = (String)map.get("password");
-        User user = userService.login(username, password);
+        LoginUserVO loginUser = userService.login(username, password);
         Map<String, Object> data = new HashMap<>();
-        data.put("userId", user.getId());
+        data.put("userId", loginUser.getId());
         return Result.ok("登录成功", data);
     }
 

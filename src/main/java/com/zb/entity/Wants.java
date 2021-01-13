@@ -21,7 +21,9 @@ import lombok.*;
  * @author lijiacheng
  * @version 1.0
  */
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -83,13 +85,13 @@ public class Wants implements Serializable {
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
     @JsonIgnoreProperties(value = "wants")
-    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private User user;
     /**
      * 求购评论列表
      */
     @OneToMany(mappedBy = "wants", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     @JsonIgnoreProperties(value = "wants")
-    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<WantsComment> comments;
 }

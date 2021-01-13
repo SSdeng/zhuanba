@@ -72,7 +72,7 @@ public class ShiroConfig {
         // 所有url都必须认证通过才可以访问
         // filterChainDefinitionMap.put("/**", "authc");
         // 配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了, 位置放在 anon、authc下面
-        filterChainDefinitionMap.put("/api/user/logout", "logout");
+        filterChainDefinitionMap.put("/logout", "logout");
 
         // 设置未授权路由，之后再返回json数据给前端
         shiroFilterFactoryBean.setLoginUrl("/login");
@@ -169,7 +169,7 @@ public class ShiroConfig {
         RedisCacheManager redisCacheManager = new RedisCacheManager();
         redisCacheManager.setRedisManager(redisManager());
         // 必须要设置主键名称，shiro-redis 插件用过这个缓存用户信息
-        redisCacheManager.setPrincipalIdFieldName("userId");
+        redisCacheManager.setPrincipalIdFieldName("id");
         return redisCacheManager;
     }
 
