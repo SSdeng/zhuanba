@@ -68,12 +68,12 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/druid/**", "anon");
         // filterChainDefinitionMap.put("/api/**", "anon");
         // 所有url都必须认证通过才可以访问
-        /*filterChainDefinitionMap.put("/**", "authc");
+        filterChainDefinitionMap.put("/**", "authc");
         // 配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了, 位置放在 anon、authc下面
         filterChainDefinitionMap.put("/api/user/logout", "logout");
 
         // 设置未授权路由，之后再返回json数据给前端
-        shiroFilterFactoryBean.setLoginUrl("/api/user/un_auth");*/
+        shiroFilterFactoryBean.setLoginUrl("/api/user/un_auth");
 
         // 未授权界面, 对应LoginController中 unauthorized 请求
         shiroFilterFactoryBean.setUnauthorizedUrl("/api/user/unauthorized");
