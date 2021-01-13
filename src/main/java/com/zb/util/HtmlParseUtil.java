@@ -41,6 +41,7 @@ public class HtmlParseUtil {
             item.setItemName(title);
             item.setPrice(BigDecimal.valueOf(Double.parseDouble(price.substring(1, 6))));
             item.setImage(img);
+            items.add(item);
         }
         return items;
     }
