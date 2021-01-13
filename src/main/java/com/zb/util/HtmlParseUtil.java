@@ -5,9 +5,12 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.zb.entity.Category;
 import com.zb.entity.User;
+import com.zb.entity.vo.ItemVO;
+import com.zb.repository.CategoryRepository;
 import com.zb.service.CategoryService;
 import com.zb.service.UserService;
 import javassist.expr.NewArray;
@@ -33,18 +36,18 @@ import javax.annotation.Resource;
 public class HtmlParseUtil {
 
     private static UserService userService;
-    private static CategoryService categoryService;
+    private static CategoryRepository categoryRepository;
 
     @Resource
     public void setUserService(UserService userService){
         HtmlParseUtil.userService = userService;
     }
     @Resource
-    public void setCategoryService(CategoryService categoryService){
-        HtmlParseUtil.categoryService = categoryService;
+    public void setCategoryService(CategoryRepository categoryRepository){
+        HtmlParseUtil.categoryRepository = categoryRepository;
     }
 
-    public static List<Item> getItemsByJD(String keyword, long userId, long categoryId) throws IOException {
+    public static List<Item> getItemsByJD(String keyword, Long userId, Long[] categoryIds) throws IOException {
         // 获取请求
         URL url = new URL("https://search.jd.com/Search?keyword=" + keyword + "&enc=utf-8");
         Document document = Jsoup.parse(url, 3000);
@@ -61,6 +64,7 @@ public class HtmlParseUtil {
             System.out.println("img " + img);
             System.out.println("price " + price);
             System.out.println("title " + title);
+
             Item item = new Item();
             item.setItemName(title);
             item.setPrice(BigDecimal.valueOf(Double.parseDouble(price.substring(1))));
@@ -73,8 +77,7 @@ public class HtmlParseUtil {
                 System.out.println("NULL________________NULL");
             }
             item.setUser(user);
-            List<Category> categoryList = new ArrayList<>();
-            categoryList.add(categoryService.findById(categoryId));
+            List<Category> categoryList = categoryRepository.findByIdIn(categoryIds);
             item.setCategories(categoryList);
             items.add(item);
         }

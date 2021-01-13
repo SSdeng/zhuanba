@@ -10,6 +10,7 @@ import com.zb.entity.Cart;
 import com.zb.entity.Category;
 import com.zb.entity.Item;
 import com.zb.entity.User;
+import com.zb.entity.vo.ItemVO;
 import com.zb.service.ItemService;
 import com.zb.service.UserService;
 import com.zb.util.HtmlParseUtil;
@@ -86,17 +87,14 @@ class ZhuanbaApplicationTests {
     }
 
     @Test
-    void addCategory() {
-        Category category = new Category();
-        category.setName("服装");
-        categoryService.insertSelective(category);
-    }
-
-    @Test
+    @Transactional
+    @Rollback(false)
     void paquItems() throws IOException {
-        String key = "男装";
-        List<Item> itemList = HtmlParseUtil.getItemsByJD(key,(long)1,(long)1);
-        itemRepository.saveAll(itemList);
+        String key = "笔记本电脑";
+        Long uId = (long)2;
+        Long[] cIds = {(long)2};
+        List<Item> items = HtmlParseUtil.getItemsByJD(key, uId, cIds);
+        itemRepository.saveAll(items);
     }
 
     @Test

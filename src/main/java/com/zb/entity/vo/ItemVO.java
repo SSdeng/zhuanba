@@ -4,6 +4,7 @@ import com.zb.entity.Item;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 
 import java.math.BigDecimal;
 
@@ -22,7 +23,7 @@ public class ItemVO {
     /**
      * 商品所属分类id
      */
-    private Long categoryId;
+    private Long[] categoryIds;
     /**
      * 商品名
      */
