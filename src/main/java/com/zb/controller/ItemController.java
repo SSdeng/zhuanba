@@ -9,7 +9,6 @@ import javax.annotation.Resource;
 import com.zb.entity.vo.ItemVO;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,7 +34,7 @@ public class ItemController {
     /**
      * 发布商品处理
      *
-     * @param item
+     * @param itemVO
      *            新的商品
      * @return 发布结果
      */
@@ -94,13 +93,13 @@ public class ItemController {
      * @return 接收后商品
      */
     @PostMapping("/upload")
-    public ModelAndView uploadPicture(@RequestParam("itemId") long itemId, @RequestParam("image") MultipartFile image) throws IOException {
+    public ModelAndView uploadPicture(@RequestBody String json, @RequestParam("itemId") long itemId, @RequestParam("image") MultipartFile image) throws IOException {
         ModelAndView modelAndView = new ModelAndView("item");
         // 使用图片上传工具类，接受文件后，返回文件的新名称
         String itemPictureName = FileUtil.uploadFile(image);
         Item item = itemService.findById(itemId);
         item.setImage(itemPictureName);
-        item = itemService.updateItemInfo(item);
+        item = itemService.updateItemInfo(json, item);
         modelAndView.addObject("item",item);
         return modelAndView;
     }
@@ -108,7 +107,6 @@ public class ItemController {
     /**
      * 进入购买商品
      *
-     * @param model
      * @param itemId 商品id
      * @return 商品id，数量（1），价格
      */

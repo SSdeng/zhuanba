@@ -5,6 +5,7 @@ import com.zb.entity.Item;
 import com.zb.repository.CategoryRepository;
 import com.zb.repository.ItemRepository;
 import com.zb.service.CategoryService;
+import com.zb.util.JsonTransfer;
 import com.zb.util.PaginationSupport;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -31,8 +32,7 @@ public class CategoryServiceImpl implements CategoryService {
     /**
      * 增加商品分类
      *
-     * @param newCategory
-     *            新增Category对象
+     * @param newCategory 新增Category对象
      * @return 插入后Category对象
      */
     @Override
@@ -46,8 +46,7 @@ public class CategoryServiceImpl implements CategoryService {
     /**
      * 根据类别id删除类别
      *
-     * @param category_id
-     *            类别id
+     * @param category_id 类别id
      * @return 删除结果
      */
     @Override
@@ -57,15 +56,17 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     /**
-     * 更新类别信息
-     *
-     * @param category
-     *            待更新对象
-     * @return 更新后对象
+     * 更新分类信息
+     * 
+     * @param json json字符串
+     * @param categoryId 分类id
+     * @return 分类对象
      */
     @Override
-    public Category updateCategory(Category category) {
-        return categoryRepository.save(category);
+    public Category updateCategory(String json, long categoryId) {
+        Category category = findById(categoryId);
+        category = JsonTransfer.updateSelective(json, category);
+        return categoryRepository.saveAndFlush(category);
     }
 
     /**
@@ -75,15 +76,14 @@ public class CategoryServiceImpl implements CategoryService {
      * @return 分类
      */
     @Override
-    public Category findById(long categoryId){
+    public Category findById(long categoryId) {
         return categoryRepository.getOne((long) categoryId);
     }
 
     /**
      * 根据类别名查找类别
      *
-     * @param categoryName
-     *            类别名
+     * @param categoryName 类别名
      * @return 类别对象
      */
     @Override
@@ -108,7 +108,7 @@ public class CategoryServiceImpl implements CategoryService {
      * @return
      */
     @Override
-    public List<Item> getSpecificCategoryItems(long categoryId){
+    public List<Item> getSpecificCategoryItems(long categoryId) {
         Category one = categoryRepository.getOne((long) categoryId);
         List<Item> items = one.getItems();
         return items;
@@ -117,10 +117,8 @@ public class CategoryServiceImpl implements CategoryService {
     /**
      * 分页查询分类
      *
-     * @param pageNo
-     *            起始页码
-     * @param pageSize
-     *            分页大小
+     * @param pageNo   起始页码
+     * @param pageSize 分页大小
      * @return 商品列表
      */
     @Override
@@ -148,7 +146,7 @@ public class CategoryServiceImpl implements CategoryService {
      * @return
      */
     @Override
-    public PaginationSupport<Item> getSpecificCategoryItems(int categoryId, int pageNo, int pageSize){
+    public PaginationSupport<Item> getSpecificCategoryItems(int categoryId, int pageNo, int pageSize) {
         int totalCount = itemRepository.getSpecificCategoryItemsCount(categoryId);
         int startIndex = PaginationSupport.convertFromPageToStartIndex(pageNo, pageSize);
         if (totalCount < 1) {

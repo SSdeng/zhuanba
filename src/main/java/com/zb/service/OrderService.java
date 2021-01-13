@@ -32,10 +32,11 @@ public interface OrderService {
     /**
      * 更新订单
      *
+     * @param json json字符串
      * @param order 待更新订单
      * @return 更新后订单
      */
-    UserOrder updateOrder(UserOrder order);
+    UserOrder updateOrder(String json, UserOrder order);
 
     /**
      * 通过id查找订单

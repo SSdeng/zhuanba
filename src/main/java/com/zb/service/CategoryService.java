@@ -35,11 +35,11 @@ public interface CategoryService {
     /**
      * 更新分类信息
      *
-     * @param category
-     *            待更新对象
-     * @return 更新后对象
+     * @param json json字符串
+     * @param categoryId 分类id
+     * @return 分类对象
      */
-    Category updateCategory(Category category);
+    Category updateCategory(String json, long categoryId);
 
     /**
      * 根据分类Id查找分类

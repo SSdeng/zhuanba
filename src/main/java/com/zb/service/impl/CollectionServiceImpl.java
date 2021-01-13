@@ -12,6 +12,7 @@ import javax.annotation.Resource;
 
 /**
  * 收藏服务实现类
+ *
  * @author whz
  * 2021/1/11
  */
@@ -19,16 +20,18 @@ import javax.annotation.Resource;
 public class CollectionServiceImpl implements CollectionService {
     @Resource
     private CollectionRepository collectionRepository;
+    @Resource
     private ItemRepository itemRepository;
+    @Resource
     private UserRepository userRepository;
+
     /**
      * 添加商品到收藏
      *
-     * @param userId  用户id
-     * @param itemId  商品id
+     * @param userId 用户id
+     * @param itemId 商品id
      * @return 收藏
      */
-
     @Override
     public Collection addItem(Long userId, Long itemId) {
         User user = userRepository.getOne(userId);
@@ -39,8 +42,9 @@ public class CollectionServiceImpl implements CollectionService {
 
     /**
      * 从收藏夹移除商品
-     * @param collectionId
-     * @param itemId
+     *
+     * @param collectionId 收藏id
+     * @param itemId 商品id
      */
     @Override
     public Collection removeItem(Long collectionId, Long itemId) {
@@ -51,8 +55,9 @@ public class CollectionServiceImpl implements CollectionService {
 
     /**
      * 通过Id获取收藏
-     * @param id
-     * @return
+     *
+     * @param id 收藏id
+     * @return 收藏
      */
     @Override
     public Collection findById(Long id) {

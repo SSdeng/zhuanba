@@ -13,8 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zb.entity.Cart;
 import com.zb.entity.User;
 import com.zb.exception.MyException;
@@ -70,7 +68,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUserInfo(String JSONUser, long userId) {
         User dataUser = findById(userId);
-        User newUser = JsonTransfer.transToObject(JSONUser,dataUser);
+        User newUser = JsonTransfer.updateSelective(JSONUser,dataUser);
         return userRepository.save(newUser);
     }
 

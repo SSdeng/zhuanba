@@ -30,12 +30,22 @@ public interface WantsService {
     boolean deleteById(Long wantsId);
 
     /**
-     * 更新求购项
+     * 更新求购信息
      *
-     * @param wants 待更新求购
-     * @return 更新后求购
+     * @param json json字符串
+     * @param wantsId 求购id
+     * @return 求购对象
      */
-    Wants updateWants(Wants wants);
+    Wants updateWants(String json, long wantsId);
+
+    /**
+     * 更新求购信息
+     *
+     * @param json json字符串
+     * @param wants 求购对象
+     * @return 求购对象
+     */
+    Wants updateWants(String json, Wants wants);
 
     /**
      * 通过id查找求购项

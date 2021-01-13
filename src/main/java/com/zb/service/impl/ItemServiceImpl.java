@@ -6,6 +6,7 @@ import javax.annotation.Resources;
 import com.zb.entity.vo.ItemVO;
 import com.zb.exception.MyException;
 import com.zb.repository.UserRepository;
+import com.zb.util.JsonTransfer;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -31,7 +32,7 @@ public class ItemServiceImpl implements ItemService {
     /**
      * 发布商品
      *
-     * @param itemVOtem 新增Item对象
+     * @param itemVO 新增Item对象
      * @return 插入后Item对象
      */
     @Override
@@ -57,12 +58,13 @@ public class ItemServiceImpl implements ItemService {
     /**
      * 更新商品信息
      *
+     * @param json json字符串
      * @param item 需更新Item对象
      * @return 更新后Item对象
      */
     @Override
-    public Item updateItemInfo(Item item) {
-        // TODO
+    public Item updateItemInfo(String json, Item item) {
+        item = JsonTransfer.updateSelective(json, item);
         return itemRepository.save(item);
     }
 
