@@ -44,7 +44,7 @@
         console.log($("#admin:checked").val());
         var username = $("#username").val();
         var role = $("#admin:checked").val()==1?"admin":"user";
-        var location = $("#admin:checked").val()==1?"admin.html":"index.html";
+        var locatione = $("#admin:checked").val()==1?"/admin":"/index";
         console.log(role);
         //编写校验过程
         if (username.length < 3) {
@@ -81,7 +81,7 @@
                     localStorage.setItem("userId", data.userId);
                     console.log("id"+data.userId);
                     //跳转到主页
-                    location.assign(location);
+                    location.assign(locatione);
                 } else {
                     console.log(data.msg);
                     $("#password").val("");

@@ -95,9 +95,10 @@
 
                 var windowId = layer.load();
                 var data = {
-                    "name": name,
-                    "phone": phone,
-                    "code": code,
+                    "username":username,
+                    "realName": name,
+                    "phoneNumber": phone,
+                    "studentNumber": code,
                     "password": password1
                 };
                 $.ajax({
@@ -114,7 +115,7 @@
                         if (data.code == 0) {
                             //录入成功
                             $("input").val("");
-                            location.assign("login.html");
+                            location.assign("/login");
                         } else {
                             //录入失败
 
