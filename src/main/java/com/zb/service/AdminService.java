@@ -54,4 +54,18 @@ public interface AdminService {
      * @return 分页用户表
      */
     Page<User> getAllUsersByPage(int pageNo, int pageSize);
+
+    /**
+     * 增加管理员
+     *
+     * @param newAdmin 管理员
+     */
+    User addAdmin(User newAdmin);
+
+    /**
+     * 删除管理员
+     *
+     * @param adminId 管理员id
+     */
+    void deleteAdmin(long adminId);
 }

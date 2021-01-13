@@ -112,7 +112,7 @@ public class ItemController {
      * @return 商品id，数量（1），价格
      */
     @PostMapping("/buy")
-    public ModelAndView bugItem(@RequestParam("itemId") long itemId){
+    public ModelAndView buyItem(@RequestParam("itemId") long itemId){
         ModelAndView modelAndView = new ModelAndView("buy");
         Item item = itemService.findById(itemId);
         modelAndView.addObject("itemId", item.getId());

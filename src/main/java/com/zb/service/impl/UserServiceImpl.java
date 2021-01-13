@@ -50,12 +50,16 @@ public class UserServiceImpl implements UserService {
     /**
      * 根据用户id删除用户
      *
-     * @param user_id
+     * @param userId
      *            用户id
      */
     @Override
-    public void deleteById(long user_id) {
-        userRepository.deleteById(user_id);
+    public void deleteUserById(long userId) {
+        if (findById(userId).getRole().equals("user")) {
+            userRepository.deleteById(userId);
+        } else {
+            throw new MyException("无权删除管理员");
+        }
     }
 
     /**
