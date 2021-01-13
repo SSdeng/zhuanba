@@ -72,12 +72,12 @@ public class WantsController {
      * @return 求购信息
      */
     @PostMapping("/upload")
-    public ModelAndView uploadPicture(@RequestBody String json, @RequestParam("wantsId") long wantsId, @RequestParam("file") MultipartFile file) throws IOException {
+    public ModelAndView uploadPicture(@RequestParam("wantsId") long wantsId, @RequestParam("file") MultipartFile file) throws IOException {
         ModelAndView modelAndView = new ModelAndView("wants");
         String fileName = FileUtil.uploadFile(file);
         Wants wants = wantsService.findById(wantsId);
         wants.setImage(fileName);
-        wants = wantsService.updateWants(json, wants);
+        wants = wantsService.updateWants("", wants);
         modelAndView.addObject("wants", wants);
         return modelAndView;
     }
