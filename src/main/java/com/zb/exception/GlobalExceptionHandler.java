@@ -29,6 +29,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = MyException.class)
     public Result customerExceptionHandler(MyException e) {
+        e.printStackTrace();
         log.error("发生异常！原因是:{}", e.getMessage());
         return Result.build(e.getCode(), e.getMsg(), null);
     }
@@ -41,6 +42,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(DataIntegrityViolationException.class)
     public Result DaoExceptionHandler(DataIntegrityViolationException e) {
+        e.printStackTrace();
         log.error("发生异常！原因是:{}", e.getMessage());
         return Result.error("含有重复字段", null);
     }
@@ -53,6 +55,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(AuthenticationException.class)
     public Result authExceptionHandler(AuthenticationException e) {
+        e.printStackTrace();
         log.error("发生异常！原因是:{}", e.getMessage());
         if (e instanceof UnknownAccountException) {
             return Result.error("用户名不存在", null);
@@ -64,8 +67,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public Result otherExceptionHandler(Exception e) {
-        log.error("发生异常！原因是:{}", e.getMessage());
         e.printStackTrace();
+        log.error("发生异常！原因是:{}", e.getMessage());
         return Result.error("其他异常", null);
     }
 }
