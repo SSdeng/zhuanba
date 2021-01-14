@@ -56,7 +56,14 @@
         <div th:if="${item.level} ne 10">
             <h1 class="level" th:text="${item.level} + '成新'">全新！</h1>
         </div>
-        <input type="button" class="buybutton" value="加入购物车">
+        <div th:if="${inCart} eq false">
+            <input type="button" class="buybutton" value="加入购物车">
+        </div>
+
+        <div th:if="${inCart} eq true">
+            <input type="button" class="incartbutton" value="已在购物车中国" disabled>
+        </div>
+
     </div>
 
 </div>
