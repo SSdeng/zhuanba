@@ -5,10 +5,8 @@ import com.zb.service.CartService;
 import com.zb.service.OrderService;
 import com.zb.util.Result;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -67,10 +65,12 @@ public class OrderController {
      */
     @PostMapping("/addcart")
     @ResponseBody
-    public Result addMultipleOrder(@RequestParam("userId") long userId, @RequestParam("items") List<Map<String,String>> items){
-        for(Map<String,String> map:items){
-            cartService.removeOrder(userId, Long.parseLong(map.get("itemId")));
-            UserOrder order = orderService.addOrder(userId, Long.parseLong(map.get("itemId")), Integer.parseInt(map.get("value")));
+    @Transactional
+    public Result addMultipleOrder(@RequestParam("userId") long userId, @RequestBody Map<String, Object>[] items){
+
+        for(Map<String,Object> map : items){
+            cartService.removeOrder(userId, (long) map.get("itemId"));
+            UserOrder order = orderService.addOrder(userId, (long) map.get("itemId"), (int) map.get("value"));
         }
         return Result.ok("结算成功", null);
     }

@@ -83,6 +83,7 @@ public class CartServiceImpl implements CartService {
         } else {
             throw new MyException("商品订单不存在");
         }
+        cart.setOrderList(list);
         return cartRepository.save(cart);
     }
 
