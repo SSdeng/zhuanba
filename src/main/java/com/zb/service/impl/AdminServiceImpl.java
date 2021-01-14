@@ -7,6 +7,7 @@ import com.zb.service.AdminService;
 import com.zb.service.ItemService;
 import com.zb.service.UserService;
 import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
@@ -15,6 +16,7 @@ import javax.annotation.Resource;
  *
  * @author YeFeng
  */
+@Service
 public class AdminServiceImpl implements AdminService {
 
     @Resource
