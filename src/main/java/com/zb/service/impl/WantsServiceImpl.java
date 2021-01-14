@@ -92,6 +92,20 @@ public class WantsServiceImpl implements WantsService {
     }
 
     /**
+     * 根据id设置求购图片
+     *
+     * @param wantsId 求购id
+     * @param image 图片名
+     * @return 更新后求购
+     */
+    @Override
+    public Wants setImageById(Long wantsId, String image) {
+        Wants wants = findById(wantsId);
+        wants.setImage(image);
+        return wantsRepository.save(wants);
+    }
+
+    /**
      * 获取所有求购
      *
      * @return 求购列表

@@ -76,9 +76,7 @@ public class WantsController {
     public ModelAndView uploadPicture(@RequestParam("wantsId") long wantsId, @RequestParam("file") MultipartFile file, HttpSession session) throws IOException {
         ModelAndView modelAndView = new ModelAndView("wants");
         String fileName = FileUtil.uploadFile(file, session);
-        Wants wants = wantsService.findById(wantsId);
-        wants.setImage(fileName);
-        wants = wantsService.updateWants("", wants);
+        Wants wants = wantsService.setImageById(wantsId, fileName);
         modelAndView.addObject("wants", wants);
         return modelAndView;
     }

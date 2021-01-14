@@ -45,6 +45,15 @@ public interface ItemService {
     Item updateItemInfo(String json, Item item);
 
     /**
+     * 根据商品id设置图片名
+     *
+     * @param itemId 商品id
+     * @param image 图片名
+     * @return 设置后Item对象
+     */
+    Item setImageById(long itemId, String image);
+
+    /**
      * 修改商品id对应商品的审核状态
      *
      * @param itemId  商品id

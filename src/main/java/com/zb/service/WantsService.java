@@ -56,6 +56,15 @@ public interface WantsService {
     Wants findById(Long wantsId);
 
     /**
+     * 根据id设置求购图片
+     *
+     * @param wantsId 求购id
+     * @param image 图片名
+     * @return 更新后求购
+     */
+    Wants setImageById(Long wantsId, String image);
+
+    /**
      * 获取所有求购
      *
      * @return 求购列表

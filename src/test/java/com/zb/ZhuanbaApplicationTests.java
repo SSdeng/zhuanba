@@ -90,9 +90,9 @@ class ZhuanbaApplicationTests {
     @Transactional
     @Rollback(false)
     void paquItems() throws IOException {
-        String key = "笔记本电脑";
-        Long uId = (long)2;
-        Long[] cIds = {(long)2};
+        String key = "西服";
+        Long uId = (long)3;
+        Long[] cIds = {(long)1};
         List<Item> items = HtmlParseUtil.getItemsByJD(key, uId, cIds);
         itemRepository.saveAll(items);
     }

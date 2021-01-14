@@ -4,7 +4,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.UUID;
 
 /**
@@ -19,7 +21,8 @@ public class FileUtil {
 
     public static String uploadFile(MultipartFile multipartFile, HttpSession session) throws IOException {
 
-        FileDirectoryPATH = session.getServletContext().getRealPath("/uploads");
+        FileDirectoryPATH = session.getServletContext().getRealPath("/upload");
+        //FileDirectoryPATH = "static/images/upload/";
         //文件夹目录
         File dir = new File(FileDirectoryPATH);
 
@@ -35,7 +38,7 @@ public class FileUtil {
         String newName = UUID.randomUUID() + suffix;
 
         File file = new File(FileDirectoryPATH + "/" + newName);
-        //System.out.println(file.getAbsolutePath());
+        System.out.println(file.getAbsolutePath());
         // 存储文件
         multipartFile.transferTo(file);
         return newName;
@@ -44,4 +47,5 @@ public class FileUtil {
     public static String getFileDirectoryPATH(){
         return FileDirectoryPATH;
     }
+
 }

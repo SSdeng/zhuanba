@@ -85,6 +85,20 @@ public class ItemServiceImpl implements ItemService {
     }
 
     /**
+     * 根据商品id设置图片名
+     *
+     * @param itemId 商品id
+     * @param image  图片名
+     * @return 设置后Item对象
+     */
+    @Override
+    public Item setImageById(long itemId, String image) {
+        Item item = findById(itemId);
+        item.setImage(image);
+        return itemRepository.save(item);
+    }
+
+    /**
      * 修改商品id对应商品的审核状态
      *
      * @param itemId    商品id
