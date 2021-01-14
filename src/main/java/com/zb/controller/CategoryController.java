@@ -47,6 +47,7 @@ public class CategoryController {
 
         model.addAttribute("items", page);
         model.addAttribute("categories", categories);
+        model.addAttribute("b",true);
 
         return "index";
     }

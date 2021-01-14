@@ -91,6 +91,7 @@ public class ItemController {
         //TODO
         Page<Item> items = itemService.searchByPage(searchInfo, pageNo, pageSize);
         model.addAttribute("itemList", items);
+        model.addAttribute("b",false);
         return "index";
     }
 

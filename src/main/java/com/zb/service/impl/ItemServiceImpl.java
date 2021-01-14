@@ -125,7 +125,7 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     public Page<Item> findAllPageByStatus(int status, int pageNo, int pageSize) {
-        return null;
+        return itemRepository.findAllByStatus(status, PageRequest.of(pageNo - 1, pageSize));
     }
 
     /**
