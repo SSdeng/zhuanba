@@ -98,7 +98,7 @@ public class Item implements Serializable {
      * 商品图片url地址
      */
     @Field(type = FieldType.Text)
-    private String image;
+    private String image = "/images/logo2.png";
 
     /**
      * 商品数量

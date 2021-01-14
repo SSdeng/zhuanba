@@ -78,7 +78,7 @@ public class Wants implements Serializable {
     /**
      * 求购图片地址
      */
-    private String image;
+    private String image = "/images/logo2.png";
     /**
      * 求购所属用户
      */
