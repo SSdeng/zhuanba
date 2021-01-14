@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>用户管理</title>
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <script src="/jquery/jquery2.1.4.js"></script>
     <script src="/layer/layer.js"></script>
@@ -36,7 +36,7 @@
         <div class="img"><img src="/images/logo1.jpg" width="55px" height="55px" class="img-logo"/></div>
 
         <li>
-            <a href="/api/admin/adminList" class="index_click">管理admin</a>
+            <a href="/api/root/adminList" class="index_click">管理admin</a>
         </li>
 
         <li>
@@ -91,21 +91,29 @@
                             <td id="articleUpdateTime" th:text="*{studentNumber}">九成新</td>
                             <!-- 当前状态 -->
                             <td id="status">
-                                <button type="button" disabled="disabled"
-                                        class="btn btn-info btn-sm status">正常</button>
+                                <button th:if="${user.deleted} eq 0" type="button" disabled="disabled"
+                                        class="btn btn-info btn-sm status">正常
+                                </button>
+                                <button th:if="${user.deleted} eq 1" type="button" disabled="disabled"
+                                        class="btn btn-danger btn-sm status">封禁
+                                </button>
                             </td>
                             <!-- 操作 -->
                             <td id="listArticle_caozuo">
 
                                 <!-- 通过 -->
                                 <form method="put" id="pass" style="display: inline">
-                                    <input th:if="${user.deleted} eq 0" type="button" class="btn btn-info btn-sm disban" value="解封" disabled/>
-                                    <input th:if="${user.deleted} eq 1" type="button" class="btn btn-info btn-sm disban" value="解封" />
+                                    <input th:if="${user.deleted} eq 0" type="button" class="btn btn-info btn-sm disban"
+                                           value="解封" disabled/>
+                                    <input th:if="${user.deleted} eq 1" type="button" class="btn btn-info btn-sm disban"
+                                           value="解封"/>
                                 </form>
                                 <!-- 拒绝 -->
                                 <form method="put" id="refuse" style="display: inline">
-                                    <input th:if="${user.deleted} eq 0" type="button" class="btn btn-danger btn-sm ban" value="封禁" />
-                                    <input th:if="${user.deleted} eq 1" type="button" class="btn btn-danger btn-sm ban" value="封禁" disabled />
+                                    <input th:if="${user.deleted} eq 0" type="button" class="btn btn-danger btn-sm ban"
+                                           value="封禁"/>
+                                    <input th:if="${user.deleted} eq 1" type="button" class="btn btn-danger btn-sm ban"
+                                           value="封禁" disabled/>
                                 </form>
                             </td>
                         </tr>
@@ -119,11 +127,14 @@
 </div>
 </body>
 <script>
-  $(".disban").on('click',function (){
+  $(".disban").on('click', function () {
     var parent = $(this).parents('.usertable');
     var status = $(parent).find('.status');
     var userId = $($(parent).find('.name')).attr('id');
+    var disban = this;
+    var ban = $(parent).find('.ban');
     console.log(userId);
+    console.log($(status).text());
     $.ajax({
       type: 'POST',
       url: '/api/admin/unbanUser?userId=' + userId,
@@ -133,8 +144,11 @@
         layer.msg(data.msg)
         console.log(data.code);
         if (data.code == 0) {
-          $(status).attr("style","btn btn-danger btn-sm status");
-          $(status).text("封禁");
+          $(status).removeClass("btn btn-danger btn-sm status");
+          $(status).addClass("btn btn-info btn-sm status");
+          $(status).text("正常");
+          $(disban).attr('disabled',true);
+          $(ban).attr('disabled',false);
         }
       },
       error: function (data) {
@@ -142,11 +156,14 @@
     });
   })
 
-  $(".ban").on('click',function (){
+  $(".ban").on('click', function () {
     var parent = $(this).parents('.usertable');
     var status = $(parent).find('.status');
     var userId = $($(parent).find('.name')).attr('id');
+    var disban = $(parent).find('.disban');
+    var ban = this;
     console.log(userId);
+    console.log($(status).text());
     $.ajax({
       type: 'POST',
       url: '/api/admin/banUser?userId=' + userId,
@@ -156,8 +173,11 @@
         layer.msg(data.msg);
         console.log(data.code);
         if (data.code == 0) {
-          $(status).attr("style","btn btn-info btn-sm status");
-          $(status).text("正常");
+          $(status).removeClass("btn btn-info btn-sm status");
+          $(status).addClass("btn btn-danger btn-sm status");
+          $(status).text("封禁");
+          $(disban).attr('disabled',false);
+          $(ban).attr('disabled',true);
         }
       },
       error: function (data) {

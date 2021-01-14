@@ -152,7 +152,7 @@ public class AdminController {
     @PostMapping("/root/unbanAdmin")
     @ResponseBody
     public Result unbanAdmin(@RequestParam("adminId") long adminId) {
-        adminService.unbanUser(adminId);
+        adminService.unbanAdmin(adminId);
         return Result.ok();
     }
 

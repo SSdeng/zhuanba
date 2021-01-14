@@ -17,13 +17,6 @@
     <div class="denglu-font top">
         <a href="#" id="dingbuhome"><img src="/images/logo.jpg"></a>
 
-        <div id="so" style="position: relative; left: 350px;top:8px;width: 100px; float: left;" class="top">
-            <div class="input-group">
-                <input type="text" class="form-control" id="searchText" style="width: 400px;">
-                <span class="input-group-addon" id="search" onclick="search()"><i class="glyphicon glyphicon-search"
-                                                                                  style="color: #0055aa;"> <span>搜索</span></i></span>
-            </div>
-        </div>
         <div class="denglu-font2 top">
             <a href="#" id="uname">admin</a>
             <a href="/" id="login_logout">退出</a>
@@ -65,18 +58,27 @@
                             <div class="modal-body">
 
                                 <div class="form-group">
+                                    <label for="username">用户名</label>
+                                    <input type="text" class="form-control" id="username" placeholder="请输入姓名">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">密码</label>
+                                    <input type="password" class="form-control" id="password" placeholder="请输入姓名">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password1">确认密码</label>
+                                    <input type="password" class="form-control" id="password1" placeholder="请输入姓名">
+                                </div>
+                                <div class="form-group">
                                     <label for="modifyname">姓名</label>
                                     <input type="text" class="form-control" id="modifyname" placeholder="请输入姓名">
                                 </div>
                                 <div class="form-group">
                                     <label for="modifyphone">手机号</label>
                                     <input type="text" name="txt_parentdepartment" class="form-control" id="modifyphone"
-                                           placeholder="手机号">
+                                           placeholder="请输入手机号">
                                 </div>
-                                <div class="form-group">
-                                    <label for="modifyemail">邮箱</label>
-                                    <input type="email" class="form-control" id="modifyemail" placeholder="请输入邮箱">
-                                </div>
+
                                 <div class="form-group">
                                     <label for="modifyacademy">学院</label>
                                     <input type="email" class="form-control" id="modifyacademy" placeholder="请输入学院">
@@ -84,11 +86,6 @@
                                 <div class="form-group">
                                     <label for="modifycode">学号</label>
                                     <input type="email" class="form-control" id="modifycode" placeholder="请输入学号">
-                                </div>
-                                <div class="form-group">
-                                    性别<br>
-                                    <input id="male" type="radio" name="sex" value="male" checked>男<br>
-                                    <input id="female" type="radio" name="sex" value="female">女
                                 </div>
 
                             </div>
@@ -180,6 +177,77 @@
 <script>
   $(".btn-warning").click(function () {
     $('#modifyinfo').modal('show');
+  })
+
+  $("#btn_submit2").click(function () {
+    var username = $("input:eq(1)").val();
+    var password1 = $("input:eq(2)").val();
+    var password2 = $("input:eq(3)").val();
+    var name = $("input:eq(4)").val();
+    var phone = $("input:eq(5)").val();
+    var academy = $("input:eq(6)").val();
+    var code = $("input:eq(7)").val();
+    console.log(username)
+    console.log(password1)
+    console.log(name)
+    console.log(phone)
+    console.log(academy)
+    console.log(code)
+    if (username.match(/^\w{5,18}$/) == null) {
+      layer.msg("请输入5-18位正确字符作为用户名");
+      return;
+    }
+    if (password1.match(/^\w{6,18}$/) == null) {
+      layer.msg("请输入6-18位正确字符作为密码");
+      return;
+    }
+    if (password1 != password2) {
+      layer.msg("两次输入密码不相同");
+      return;
+    }
+    if (name.length < 1) {
+      layer.msg("姓名不能为空");
+      return;
+    }
+    if (phone.match(/(^1[3|4|5|7|8]\d{9}$)|(^09\d{8}$)/) == null) {
+      layer.msg("请输入正确的手机号");
+      return;
+    }
+    if (code.length < 1) {
+      layer.msg("请输入正确的学号");
+      return;
+    }
+
+    var windowId = layer.load();
+    var data = {
+      "username": username,
+      "realName": name,
+      "phoneNumber": phone,
+      "academy":academy,
+      "studentNumber": code,
+      "password": password1
+    };
+    $.ajax({
+      url: "/api/root/addAdmin",
+      data: JSON.stringify(data),
+      type: "POST",
+      contentType: "application/json",
+      dataType: "json",
+      success: function (data) {
+        layer.close(windowId);
+        layer.msg(data.msg);
+        console.log(data.msg);
+        if (data.code == 0) {
+          //录入成功
+          $("input").val("");
+          $('#modifyinfo').modal('hide');
+          location.reload();
+        } else {
+          //录入失败
+
+        }
+      }
+    })
   })
 
   $(function (){
