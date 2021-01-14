@@ -1,13 +1,22 @@
 package com.zb.controller;
 
+import com.zb.entity.vo.CategoryVO;
+import com.zb.service.CategoryService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 @Controller
 public class PageController {
+
+    @Resource
+    private CategoryService categoryService;
 
     // @RequestMapping("/")
     // public String getIndex1(){
@@ -35,13 +44,21 @@ public class PageController {
     }
 
     @RequestMapping("/release")
-    public String getRelease() {
-        return "release";
+    public ModelAndView getRelease() {
+        ModelAndView modelAndView = new ModelAndView("release");
+        List<CategoryVO> categories = categoryService.getAllCategories();
+        modelAndView.addObject("categories",categories);
+        return modelAndView;
     }
 
     @RequestMapping("/admin")
     public String getAdmin() {
         return "admin";
+    }
+
+    @RequestMapping("/wantsrelease")
+    public String getWantsRelease() {
+        return "wantsrelease";
     }
 
     @GetMapping("/logout")
@@ -50,4 +67,7 @@ public class PageController {
         subject.logout();
         return "login";
     }
+
+
+
 }
