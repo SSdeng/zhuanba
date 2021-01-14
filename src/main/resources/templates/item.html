@@ -14,6 +14,11 @@
         <a href="#" id="dingbuhome"><img src="/images/logo.jpg"></a>
 
         <div id="so" style="position: relative; left: 350px;top:8px;width: 100px; float: left;" class="top">
+            <div class="input-group">
+                <input type="text" class="form-control" id="searchText" style="width: 380px;" >
+                <span class="input-group-addon" id="search" onclick="search()"><i class="glyphicon glyphicon-search" style="color: #0055aa;"> <span>搜索
+                                </span></i></span>
+            </div>
         </div>
         <div class="denglu-font2 top">
             <a href="#" id="uname" >zyl</a>
@@ -35,7 +40,7 @@
 </div>
 <div id="itemboard" class="board">
     <div class="imge">
-        <img th:src="*{item.image}" class="itemimage">
+        <img th:src="${item.image}" class="itemimage">
     </div>
 
     <div id="details" class="details">
