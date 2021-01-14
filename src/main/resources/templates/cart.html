@@ -13,27 +13,28 @@
 <body>
 
 <div class="dingbu">
-    <div class="denglu-font">
-        <a href="#" id="dingbuhome"><img src="../images/logo.jpg"></a>
+    <div class="denglu-font top">
+        <a href="/" id="dingbuhome"><img src="/images/logo.jpg"></a>
 
-        <div class="denglu-font2">
-            <a href="#" id="uname">...</a>
-            <a href="/login" id="login_logout">登录</a>
+        <div id="so" style="position: relative; left: 350px;top:8px;width: 100px; float: left;" class="top">
+            <div class="input-group">
+                <input type="text" class="form-control" id="searchText" style="width: 380px;">
+                <span class="input-group-addon" id="search" onclick="search()"><i class="glyphicon glyphicon-search"
+                                                                                  style="color: #0055aa;"> <span>搜索
+                                </span></i></span>
+            </div>
+        </div>
+        <div class="denglu-font2 top">
+            <a href="/" id="wants">发布求购</a>
+            <a href="/" id="cart">我的购物车</a>
+            <a href="#" id="uname">zyl</a>
+            <a href="login" id="login_logout">登录</a>
 
         </div>
     </div>
-</div>
-<div class="list-1">
-    <ul class="list-ul-2" style="position: relative;right: 190px;">
-        <div class="img"><img src="../images/logo1.jpg" width="55px" height="55px" class="img-logo"/>
-        </div>
 
-        <!--            <li th:each="catagory:${catagories}">-->
-        <!--                <a href="login.html" th:text="catagory.name">123</a>-->
-        <!--            </li>-->
-
-    </ul>
 </div>
+
 
 <!--    <div>-->
 
@@ -103,7 +104,7 @@
                 <div class="col-md-3 car-goods-info goods-params" th:text="${cartOrder.item.level}"></div>
                 <div class="col-md-1 car-goods-info goods-price">
                     <span>￥</span>
-                    <span class="single-price" th:price="${cartOrder.item.price}">
+                    <span class="single-price" th:text="${cartOrder.item.price}">
                             </span>
                 </div>
                 <div class="col-md-1 car-goods-info goods-counts">
@@ -112,7 +113,7 @@
                             <button type="button" class="btn btn-default car-decrease">-</button>
                         </div>
                         <input type="text" class="form-control goods-count" th:value="${cartOrder.itemCount}"
-                               th:max="${cartOrder.item.count}">
+                               th:max="${cartOrder.item.count}" disabled>
                         <div class="input-group-btn">
                             <button type="button" class="btn btn-default car-add">+</button>
                         </div>
@@ -235,15 +236,18 @@
 </div>
 <script src="/jquery/jquery.min.js"></script>
 <script src="/bootstrap/js/bootstrap.min.js"></script>
-<script>
+<script src="/layer/layer.js"></script>
+<script th:inline="javascript">
     var deleteGoods = null;
     var userId = localStorage.getItem("userId");
+    var cartId = [[${cart.id}]]
     var items = [];
     buyitem = null;
 
     function ShoppingCarObserver(elInput, isAdd) {
         this.elInput = elInput
         this.parents = this.elInput.parents('.goods-item')
+        this.itemId = this.elInput.parents('.panel-default').attr('id');
         this.count = parseInt(this.elInput.val())
         this.isAdd = isAdd
         this.singlePrice = parseFloat(this.parents.find('.single-price').text())
@@ -251,7 +255,7 @@
             var moneyCount = this.count * this.singlePrice
             var singleTotalEl = this.parents.find('.single-total')
             console.log(moneyCount)
-            singleTotalEl.empty().append(moneyCount)
+            singleTotalEl.empty().append(moneyCount.toFixed(2))
         }
         this.showCount = function () {
             var isChecked = this.parents.find('.goods-list-item')[0].checked
@@ -261,7 +265,7 @@
                 if (this.isAdd) {
                     ++this.count
                     if (isChecked) {
-                        $('#selectGoodsMoney').empty().append(GoodsTotalMoney + this.singlePrice)
+                        $('#selectGoodsMoney').empty().append((GoodsTotalMoney + this.singlePrice).toFixed(2))
                         $('#selectGoodsCount').empty().append(goodsTotalCount + 1)
                     }
                 } else {
@@ -270,11 +274,19 @@
                     } else {
                         --this.count
                         if (isChecked) {
-                            $('#selectGoodsMoney').empty().append(GoodsTotalMoney - this.singlePrice)
+                            $('#selectGoodsMoney').empty().append((GoodsTotalMoney - this.singlePrice).toFixed(2))
                             $('#selectGoodsCount').empty().append(goodsTotalCount - 1)
                         }
                     }
                 }
+                $.ajax({
+                    url: '/api/cart/changevalue?cartId=' + cartId + "&itemId=" + this.itemId + "&count=" + this.count,
+                    data: "",
+                    type: 'POST',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    traditional: true
+                })
                 this.elInput.val(this.count)
             }
         }
@@ -300,7 +312,7 @@
             var itemCount = parseInt(this.parents.find('.goods-count').val())
             var goodsTotalCount = parseInt($('#selectGoodsCount').text())
             if (isChecked) {
-                $('#selectGoodsMoney').empty().append(itemTotalMoney + GoodsTotalMoney)
+                $('#selectGoodsMoney').empty().append((itemTotalMoney + GoodsTotalMoney).toFixed(2))
                 $('#selectGoodsCount').empty().append(itemCount + goodsTotalCount)
             } else {
                 if (GoodsTotalMoney - itemTotalMoney === 0) {
@@ -309,9 +321,9 @@
                         $('.submitData').addClass('submitDis')
                     }
                 } else {
-                    $('#selectGoodsMoney').empty().append(GoodsTotalMoney - itemTotalMoney)
+                    $('#selectGoodsMoney').empty().append((GoodsTotalMoney - itemTotalMoney).toFixed(2))
                 }
-                $('#selectGoodsCount').empty().append(goodsTotalCount - itemCount)
+                $('#selectGoodsCount').empty().append((goodsTotalCount - itemCount).toFixed(2))
             }
         }
         this.deleteGoods = function () {
@@ -319,6 +331,23 @@
             if (isChecked) {
                 this.checkedChange(false)
             }
+            var itemId = $(this.parents.find('.panel-default')[0]).attr('id')
+            $.ajax({
+                url: "/api/cart/remove?userId=" + userId + "&itemId=" + itemId,
+                type: "POST",
+                contentType: "application/json",
+                dataType: "json",
+                data: "",
+                traditional: true,
+                success: function (data) {
+                    if (data.code == 0) {
+                        layer.msg("删除成功");
+                        location.reload();
+                    } else {
+                        layer.msg(data.msg);
+                    }
+                }
+            });
             this.parents.remove()
             this.checkOptions()
         }
@@ -338,7 +367,7 @@
             var value = $(this.parents.find('.goods-count')[0]).val()
             // var value = 10
             buyitems += "{\"itemId\":" + itemId + ",\"value\":" + value + "}"
-            items[items.length] = {"itemId":itemId,"value":value};
+            items[items.length] = {"itemId": itemId, "value": value};
             this.parents.remove()
             this.checkOptions()
         }
@@ -393,19 +422,57 @@
         checkEvent.checkedChange()
         checkEvent.checkIsAll()
     })
-    $('.goods-content').on('click', '.car-decrease', function () {
+    // $('.goods-content').on('click', '.car-decrease', function () {
+    //     var goodsInput = $(this).parents('.input-group').find('.goods-count')
+    //     var decreaseCount = new ShoppingCarObserver(goodsInput, false)
+    //     decreaseCount.showCount()
+    //     decreaseCount.computeGoodsMoney()
+    // })
+    // $('.goods-content').on('click', '.car-add', function () {
+    //     var goodsInput = $(this).parents('.input-group').find('.goods-count')
+    //     var addCount = new ShoppingCarObserver(goodsInput, true)
+    //     addCount.showCount()
+    //     addCount.computeGoodsMoney()
+    // })
+    // $('.goods-content').on('click', '.item-delete', function () {
+    //     var goodsInput = $(this).parents('.goods-item').find('.goods-list-item')
+    //     deleteGoods = new ShoppingCarObserver(goodsInput, null)
+    //     $('#deleteItemTip').modal('show')
+    // })
+
+    $('.car-decrease').on('click', function () {
         var goodsInput = $(this).parents('.input-group').find('.goods-count')
         var decreaseCount = new ShoppingCarObserver(goodsInput, false)
         decreaseCount.showCount()
         decreaseCount.computeGoodsMoney()
     })
-    $('.goods-content').on('click', '.car-add', function () {
+    $('.car-add').on('click', function () {
         var goodsInput = $(this).parents('.input-group').find('.goods-count')
         var addCount = new ShoppingCarObserver(goodsInput, true)
         addCount.showCount()
         addCount.computeGoodsMoney()
     })
-    $('.goods-content').on('click', '.item-delete', function () {
+    // $('.goods-count').change(function(){
+    //     var value = $(this).val();
+    //     var parent = $(this).parents('.panel-default');
+    //     var totalprice = parent.find('.single-total');
+    //     var singleprice = $(parent.find('.single-price')).val();
+    //     if(checkValue(count) == false){
+    //         $(this).val(1);
+    //     }else{
+    //         count = Math.trunc(count);
+    //         if(count == 0){
+    //             count++;
+    //         }
+    //         $(this).val(count)
+    //     }
+    //     $(totalprice).val(($(this).val() * singleprice).toFixed(2));
+    // })
+    // $('.single-total').change(function(){
+    //     var totalprice = $(this).val();
+    //     $(this).val(totalprice.toFixed(2));
+    // })
+    $('.item-delete').on('click', function () {
         var goodsInput = $(this).parents('.goods-item').find('.goods-list-item')
         deleteGoods = new ShoppingCarObserver(goodsInput, null)
         $('#deleteItemTip').modal('show')
@@ -456,28 +523,66 @@
         }
         buyitems += "]"
         console.log(JSON.stringify(items));
-        if (userId == null || userId == ""){
+        if (userId == null || userId == "") {
             layer.msg("请登陆后再购买商品！");
             return;
         }
-            $.ajax({
-                url: "/api/order/addcart?userId=" + userId,
-                type: "POST",
-                contentType: "application/json",
-                dataType: "json",
-                data: JSON.stringify({"items":items}),
-                traditional: true,
-                success: function (data) {
-                    if (data.code == 0) {
-                        layer.msg("购买成功！");
-                        location.reload();
-                    } else {
-                        layer.msg(data.msg);
-                    }
+        $.ajax({
+            url: "/api/order/addcart?userId=" + userId,
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify({"items": items}),
+            traditional: true,
+            success: function (data) {
+                if (data.code == 0) {
+                    layer.msg("购买成功！");
+                    location.reload();
+                } else {
+                    layer.msg(data.msg);
                 }
-            });
+            }
+        });
         $('#buyitems').modal('hide')
     })
+
+    $(function () {
+        load_data()
+    })
+
+    //设置顶部栏的登录/退出按钮和用户名显示
+
+    function load_data () {
+        var theme = localStorage.getItem('username')
+        var userId = localStorage.getItem('userId')
+        console.log(localStorage.getItem('username'))
+        console.log(localStorage.getItem('userId'))
+        if (theme == null || theme == '') {
+            $('#login_logout').text('登录')
+            $('#uname').text('')
+            $('#wants').hide()
+            $('#cart').hide()
+        } else {
+            $('#login_logout').text('退出')
+            $('#login_logout').attr('href', '/logout')
+            $('#uname').text(theme)
+            $('#wants').show()
+            $('#wants').attr('href', '/api/wants?userId='+userId)
+            $('#cart').show()
+            $('#cart').attr('href', '/api/cart/all?userId='+userId)
+            $('#uname').attr('href', '/api/user/info?userId=' + userId)
+        }
+    }
+
+    function checkValue(count) {
+        if (count == null || count == "" || count <= 0) {
+            return false;
+        } else {
+            // $(e).val(Math.trunc(count));
+            return true;
+        }
+    }
+
 </script>
 </body>
 
