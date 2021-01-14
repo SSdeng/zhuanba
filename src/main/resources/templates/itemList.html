@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/jquery/jquery2.1.4.js"></script>
+    <script src="/layer/layer.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <link href="/css/header.css" rel="stylesheet">
+</head>
+
+<body style="background-color: #ecf0f5;">
+<div class="dingbu">
+    <div class="denglu-font top">
+        <a href="#" id="dingbuhome"><img src="/images/logo.jpg"></a>
+
+        <div id="so" style="position: relative; left: 350px;top:8px;width: 100px; float: left;" class="top">
+            <div class="input-group">
+                <input type="text" class="form-control" id="searchText" style="width: 400px;">
+                <span class="input-group-addon" id="search" onclick="search()"><i class="glyphicon glyphicon-search"
+                                                                                  style="color: #0055aa;"> <span>搜索</span></i></span>
+            </div>
+        </div>
+        <div class="denglu-font2 top">
+            <a href="#" id="uname">admin</a>
+            <a href="/" id="login_logout">退出</a>
+
+        </div>
+    </div>
+</div>
+<div class="list-1">
+    <ul class="list-ul-2" style="position: relative;right: 190px;">
+        <div class="img"><img src="/images/logo1.jpg" width="55px" height="55px" class="img-logo"/></div>
+
+        <li>
+            <a href="/api/admin/userList" class="index_click">管理用户</a>
+        </li>
+
+        <li>
+            <a href="/api/admin/itemList" class="index_click">审核商品</a>
+        </li>
+    </ul>
+</div>
+<div class="container-fluid">
+    <div class="row" style="margin-top: 70px">
+        <!--左边部分 -->
+        <div class="col-md-10 col-md-offset-1" style="top: -20px;">
+            <div class="row tzgl admin-h1" style="display: block;">
+                <h1><span class="text-primary" id="article_total">商品审核</span></h1>
+                <div class="col-md-12" style="background-color: #fff; border-top: 3px solid #00a65a; top: 8px;">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>发布人</th>
+                            <th>商品图片</th>
+                            <th>商品名称</th>
+                            <th>商品描述</th>
+                            <th>更新时间</th>
+                            <th>当前状态</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <!-- 用户列表 - 模板 -->
+                        <tbody id="listArticle_hide">
+                        <tr th:each="item:${itemList}" th:object="${item}">
+                            <!-- 发布人 -->
+                            <td id="articleNum">
+                                <div style="width:70px;word-wrap:break-word;" th:text="*{user.username}">张一隆</div>
+                            </td>
+                            <!-- 商品图片 -->
+                            <td id="articleTitles">
+                                <div style="width:100px;word-wrap:break-word;">
+                                    <img th:src="*{image}" style="width:80px;" class="mid" onclick="fun(this)">
+                                </div>
+                            </td>
+                            <!-- 商品名称 -->
+                            <td id="articleUsername" th:text="*{itemName}" style="word-wrap:break-word;">简约时尚水泥花瓶4</td>
+                            <!-- 商品描述 -->
+                            <td id="articleCreateTime" th:text="*{description}" style="word-wrap:break-word; width: 300px">
+                                这是一款很好吃的酸辣粉
+                            </td>
+                            <!-- 更新时间 -->
+                            <td id="articleUpdateTime" th:text="*{updateTime}" style="word-wrap:break-word;">九成新</td>
+                            <!-- 当前状态 -->
+                            <td id="status">
+                                <button type="button" disabled="disabled" th:id="'status'+*{id}" th:if="*{status==1}"
+                                        class="btn btn-info btn-sm">已通过
+                                </button>
+                                <button type="button" disabled="disabled" th:id="'status'+*{id}" th:if="*{status==0}"
+                                        class="btn btn-warning btn-sm">待审核
+                                </button>
+                                <button type="button" disabled="disabled" th:id="'status'+*{id}" th:if="*{status==-1}"
+                                        class="btn btn-danger btn-sm">未通过
+                                </button>
+
+                            </td>
+                            <!-- 操作 -->
+                            <td id="listArticle_caozuo">
+
+                                <!-- 通过 -->
+                                <form method="post" th:id="'pass'+*{id}" >
+                                    <div th:id="*{id}" class="div">
+                                    <input type="button" class="btn btn-info btn-sm check" value="通过"/>
+                                    </div>
+                                </form>
+                                <!-- 拒绝 -->
+                                <form method="post" th:id="'reject'+*{id}" >
+                                    <div th:id="*{id}" class="div">
+                                    <input type="button" class="btn btn-danger btn-sm reject"  value="拒绝"/>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+  $(function (){
+
+    $(".check").click(function () {
+      var adminId = localStorage.getItem('userId')
+      var itemId = $(this).parent().attr("id");
+      console.log(itemId)
+      $.ajax({
+        type: 'POST',
+        url: '/api/admin/checkItem?adminId=' + adminId + '&itemId=' + itemId + '&status=1',
+        contentType: 'application/json',
+        traditional: true,
+        success: function (data) {
+          layer.msg(data.msg)
+          if (data.code == 0) {
+            $('#pass' + itemId).css("display","none");
+            $('#reject' + itemId).css("display","block");
+            $('#status' + itemId).attr('class', 'btn btn-info btn-sm')
+            $('#status' + itemId).text('已通过')
+          }
+        },
+        error: function (data) {
+        }
+      })
+    })
+
+    $(".reject").click(function () {
+      var adminId = localStorage.getItem('userId')
+      var itemId = $(this).parent().attr("id");
+      console.log(itemId)
+      $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: '/api/admin/checkItem?adminId=' + adminId + '&itemId=' + itemId + '&status=-1',
+        contentType: 'application/json',
+        traditional: true,
+        success: function (data) {
+          layer.msg(data.msg)
+          if (data.code == 0) {
+            $('#pass' + itemId).css("display","block");
+            $('#reject' + itemId).css("display","none");
+            $('#status' + itemId).attr('class', 'btn btn-danger btn-sm')
+            $('#status' + itemId).text('未通过')
+          }
+        },
+        error: function (data) {
+        }
+      })
+    })
+
+  })
+
+</script>
+
+</html>

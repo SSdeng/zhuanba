@@ -30,15 +30,25 @@ public interface ItemEsRepository extends ElasticsearchRepository<Item, Long> {
      * @return 包含高亮的商品列表
      */
     @Highlight(fields = {@HighlightField(name = "itemName"), @HighlightField(name = "description")},
-        parameters = @HighlightParameters(preTags = "<strong><font style='color:red'>", postTags = "</strong>"))
+        parameters = @HighlightParameters(preTags = "<span style='color:red'>", postTags = "</span>"))
     SearchPage<Item> findAllByItemNameOrDescription(String itemName, String description, Pageable pageable);
 
     /**
      * 分页返回指定分类的所有商品
      * 
      * @param id
+     *            分类id
      * @param pageable
-     * @return
+     *            分页参数
+     * @return 分页商品列表
      */
     Page<Item> findAllByCategories_id(long id, Pageable pageable);
+
+    /**
+     * 从索引删除指定用户的所有商品
+     * 
+     * @param id
+     *            用户id
+     */
+    void deleteAllByUser_id(long id);
 }

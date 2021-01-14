@@ -1,4 +1,4 @@
-package com.zb.shiro;
+package com.zb.config;
 
 import java.time.Duration;
 import java.util.LinkedHashMap;
@@ -21,6 +21,9 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import com.zb.shiro.MySessionManager;
+import com.zb.shiro.MyShiroRealm;
 
 import lombok.Data;
 
@@ -68,9 +71,9 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/favicon.ico", "anon");
         filterChainDefinitionMap.put("/druid/**", "anon");
         // filterChainDefinitionMap.put("/register.html", "anon");
-        //filterChainDefinitionMap.put("/api/**", "anon");
+        // filterChainDefinitionMap.put("/api/**", "anon");
         // 所有url都必须认证通过才可以访问
-        //filterChainDefinitionMap.put("/**", "authc");
+        // filterChainDefinitionMap.put("/**", "authc");
         // 配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了, 位置放在 anon、authc下面
 
         // 设置未授权路由，之后再返回json数据给前端

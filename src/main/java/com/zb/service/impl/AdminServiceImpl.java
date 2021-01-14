@@ -1,5 +1,12 @@
 package com.zb.service.impl;
 
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
+
 import com.zb.elasticsearch.ItemEsRepository;
 import com.zb.entity.Item;
 import com.zb.entity.User;
@@ -35,7 +42,7 @@ public class AdminServiceImpl implements AdminService {
     private ItemEsRepository itemEsRepository;
 
     /**
-     * 修改商品审核状态
+     * 修改商品审核状态，放入索引库
      *
      * @param itemId 商品id
      * @param adminId 管理者id
@@ -50,14 +57,16 @@ public class AdminServiceImpl implements AdminService {
     }
 
     /**
-     * 删除商品
+     * 删除商品,同时从索引库删除
      *
      * @param itemId 商品id
      * @return 删除结果
      */
     @Override
     public boolean deleteItem(long itemId) {
-        return itemService.deleteById(itemId);
+        itemService.deleteById(itemId);
+        itemEsRepository.deleteById(itemId);
+        return true;
     }
 
     /**
@@ -80,6 +89,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void deleteUser(long userId) {
         userService.deleteUserById(userId);
+        itemEsRepository.deleteAllByUser_id(userId);
     }
 
     /**
@@ -137,7 +147,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void unbanUser(long userId) {
         User user = userRepository.findByUserIdFromAll(userId);
-        if (user.getRole() != "user") {
+        if (!user.getRole().equals("user")) {
             throw new MyException("非法操作！");
         }
         unban(user);
@@ -151,18 +161,20 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void unbanAdmin(long adminId) {
         User user = userRepository.findByUserIdFromAll(adminId);
-        if (user.getRole() != "admin") {
+        if (!user.getRole().equals("admin")) {
             throw new MyException("非法操作！");
         }
     }
 
     /**
-     * 解禁
+     * 解禁,同时恢复用户所有商品
      *
      * @param user 用户
      */
     private void unban(User user) {
         user.setDeleted(0);
         userRepository.save(user);
+        List<Item> list = user.getItems();
+        itemEsRepository.saveAll(list);
     }
 }
