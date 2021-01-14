@@ -143,4 +143,11 @@ class ZhuanbaApplicationTests {
         Item item = itemRepository.findById(2L).get();
         itemEsRepository.save(item);
     }
+
+    @Test
+    @Transactional
+    public void addData() {
+        List<Item> item = itemRepository.findAll();
+        itemEsRepository.saveAll(item);
+    }
 }
