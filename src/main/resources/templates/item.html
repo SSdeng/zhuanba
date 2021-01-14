@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>商品详情页</title>
-    <link href="/css/item.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/item.css">
+    <link rel="stylesheet" href="/css/index.css">
 </head>
 
 <body>
@@ -15,13 +16,14 @@
 
         <div id="so" style="position: relative; left: 350px;top:8px;width: 100px; float: left;" class="top">
             <div class="input-group">
-                <input type="text" class="form-control" id="searchText" style="width: 380px;" >
-                <span class="input-group-addon" id="search" onclick="search()"><i class="glyphicon glyphicon-search" style="color: #0055aa;"> <span>搜索
+                <input type="text" class="form-control" id="searchText" style="width: 380px;">
+                <span class="input-group-addon" id="search" onclick="search()"><i class="glyphicon glyphicon-search"
+                                                                                  style="color: #0055aa;"> <span>搜索
                                 </span></i></span>
             </div>
         </div>
         <div class="denglu-font2 top">
-            <a href="#" id="uname" >zyl</a>
+            <a href="#" id="uname">zyl</a>
             <a href="login" id="login_logout">登录</a>
 
         </div>
@@ -31,7 +33,7 @@
 
 <div class="list-1">
     <ul class="list-ul-2" style="position: relative;right: 190px;">
-        <div class="img"><img src="/images/logo1.jpg" width="55px" height="55px" class="img-logo" /></div>
+        <div class="img"><img src="/images/logo1.jpg" width="55px" height="55px" class="img-logo"/></div>
 
         <li th:each="category:${categories}">
             <a th:href="'/api/catagory/find?categoryId='+${category.id}" th:text="${category.name}">123</a>
@@ -45,10 +47,15 @@
 
     <div id="details" class="details">
         <h1 id="itemname" class="itemname" th:text="${item.itemName}"></h1>
-        <h3 class="sellInfo" th:text="${item.count}">暂无销售信息</h3>
-        <h3 class="sellerName" th:text="${item.user.username}"></h3>
-        <h1 class="price" th:text="${item.price}">￥9999</h1>
-        <h1 class="level" th:text="${item.level} + 成新">全新！</h1>
+        <h3 class="sellInfo" th:text="'已经销售：' + ${item.count} + '件商品，剩余' + ${item.sales} + '件商品'">暂无销售信息</h3>
+        <h3 class="sellerName" th:text="'卖家：' + ${item.user.username}"></h3>
+        <h1 class="price" th:text="'￥' + ${item.price}">￥9999</h1>
+        <div th:if="${item.level} eq 10">
+            <h1 class="level" th:text="${item.level} + '成新'">全新！</h1>
+        </div>
+        <div th:if="${item.level} ne 10">
+            <h1 class="level" th:text="${item.level} + '成新'">全新！</h1>
+        </div>
         <input type="button" class="buybutton" value="加入购物车">
     </div>
 
@@ -175,10 +182,10 @@
             $("#login_logout").text("登录")
             $("#uname").text('');
         } else {
-            $("#login_logout").text( "退出")
-            $("#login_logout").attr("href","/logout")
+            $("#login_logout").text("退出")
+            $("#login_logout").attr("href", "/logout")
             $("#uname").text(theme);
-            $("#uname").attr("href","/api/user/info?userId="+userId);
+            $("#uname").attr("href", "/api/user/info?userId=" + userId);
         }
     }
 </script>
