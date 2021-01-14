@@ -145,7 +145,7 @@ public class ItemServiceImpl implements ItemService {
     /**
      * 获取id对应item
      *
-     * @param id item_id
+     * @param id itemId
      * @return item对象 不存在时返回null
      */
     private Item getById(Long id) {
