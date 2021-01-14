@@ -37,6 +37,15 @@ public interface UserService {
     User updateUserInfo(String JSONUser, long userId);
 
     /**
+     * 修改用户密码
+     *
+     * @param password 新密码
+     * @param userId 用户id
+     * @return 更新后的用户
+     */
+    User updatePassword(String password, long userId);
+
+    /**
      * 登录
      *
      * @param userName 用户名

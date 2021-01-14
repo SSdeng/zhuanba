@@ -21,8 +21,8 @@ public class FileUtil {
 
     public static String uploadFile(MultipartFile multipartFile, HttpSession session) throws IOException {
 
-        FileDirectoryPATH = session.getServletContext().getRealPath("/upload");
-        //FileDirectoryPATH = "static/images/upload/";
+        FileDirectoryPATH = System.getProperty("user.dir") + "/src/main/resources/static/images/upload";
+
         //文件夹目录
         File dir = new File(FileDirectoryPATH);
 
@@ -41,6 +41,7 @@ public class FileUtil {
         System.out.println(file.getAbsolutePath());
         // 存储文件
         multipartFile.transferTo(file);
+        newName = "/images/upload/" + newName;
         return newName;
     }
 
