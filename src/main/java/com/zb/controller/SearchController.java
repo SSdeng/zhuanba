@@ -42,7 +42,7 @@ public class SearchController {
     @GetMapping("/search")
     public String search(@RequestParam("keyword") String keyword,
         @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
-        @RequestParam(value = "pageSize", defaultValue = "10") int pageSize, Model model) {
+        @RequestParam(value = "pageSize", defaultValue = "12") int pageSize, Model model) {
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
         SearchPage<Item> searchPage = repository.findAllByItemNameOrDescription(keyword, keyword, pageable);
         // 分页获得所有包含高亮命中和Item的SearchHits

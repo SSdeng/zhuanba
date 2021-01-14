@@ -40,7 +40,7 @@ public class HomeController {
      */
     @GetMapping("/")
     public String allItems(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
-        @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+        @RequestParam(value = "pageSize", defaultValue = "12") int pageSize) {
         // 首页只展示已经审核过的商品
         Page<Item> items = itemService.findAllPageByStatus(1, pageNo, pageSize);
         model.addAttribute("items", items);

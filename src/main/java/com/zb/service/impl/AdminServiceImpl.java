@@ -51,7 +51,9 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Item setAuditStatus(long itemId, long adminId, int status) {
         Item item = itemService.setAuditStatus(itemId, adminId, status);
-        itemEsRepository.save(item);
+        if(status == 1){
+            itemEsRepository.save(item);
+        }
         return item;
     }
 

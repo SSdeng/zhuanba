@@ -161,7 +161,8 @@ public class OrderServiceImpl implements OrderService {
         User user = userService.findById(userId);
         Item item = itemService.findById(itemId);
         UserOrder order = new UserOrder();
-        item.setCount(item.getCount()-count);
+        item.setCount(item.getCount() - count);
+        item.setSales(item.getSales() + count);
         order.setUser(user);
         order.setItem(item);
         order.setItemCount(count);
