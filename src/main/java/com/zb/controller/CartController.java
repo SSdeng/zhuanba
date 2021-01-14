@@ -75,7 +75,7 @@ public class CartController {
      */
     @PostMapping("changevalue")
     @ResponseBody
-    public Result changeValue(@RequestParam("cartId") long cartId, @RequestParam("userId") long itemId, @RequestParam("count") int count) {
+    public Result changeValue(@RequestParam("cartId") long cartId, @RequestParam("itemId") long itemId, @RequestParam("count") int count) {
         cartService.updateOrder(cartId, itemId, count);
         return Result.ok();
     }
