@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.zb.entity.Address;
+import com.zb.service.AddressService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,6 +29,8 @@ public class UserController {
 
     @Resource
     private UserService userService;
+    @Resource
+    private AddressService addressService;
 
     /**
      * 获取用户信息
@@ -41,6 +45,7 @@ public class UserController {
         User user = userService.findById(userId);
 
         modelAndView.addObject("user", user);
+        modelAndView.addObject("address", user.getAddresses());
         modelAndView.addObject("collections", user.getCollection().getItems());
         modelAndView.addObject("wants", user.getWants());
         modelAndView.addObject("orders", user.getUserOrders());
@@ -110,5 +115,34 @@ public class UserController {
     @RequestMapping("/unauthorized")
     public Result unauthorized() {
         return Result.build(ResultEnum.USER_NOT_AUTH);
+    }
+
+    /**
+     * 新增用户地址
+     *
+     * @param userId 用户id
+     * @param address 地址详情
+     * @return 个人主页
+     */
+    @PostMapping("/addAddress")
+    public String addAddress(@RequestParam("userId") long userId, @RequestBody String address){
+        Address newAddress = new Address();
+        newAddress.setDetail(address);
+        newAddress.setUser(userService.findById(userId));
+        addressService.insertSelective(newAddress);
+        return "redirect:/api/user/info";
+    }
+
+    /**
+     * 删除用户地址
+     *
+     * @param addressId 地址id
+     * @return 用户主页
+     */
+    @GetMapping("/delAddress")
+    @ResponseBody
+    public Result deleteAddress(@RequestParam("addressId") long addressId){
+        addressService.deleteById(addressId);
+        return Result.ok("删除地址成功", null);
     }
 }

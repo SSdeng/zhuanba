@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.zb.service.CartService;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,8 @@ class ZhuanbaApplicationTests {
     private ItemService itemService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private CartService cartService;
 
     User creatUser() {
         User user = new User();
@@ -86,24 +89,10 @@ class ZhuanbaApplicationTests {
     }
 
     @Test
-    @Transactional
-    @Rollback(false)
-    void paquItems() throws IOException {
-        String key = "笔记本电脑";
-        Long uId = (long)2;
-        Long[] cIds = {(long)2};
-        List<Item> items = HtmlParseUtil.getItemsByJD(key, uId, cIds);
-        itemRepository.saveAll(items);
-    }
-
-    @Test
-    void categoryTest() {
-        List<Category> list = new ArrayList<>();
-        list.add(categoryService.findById((long)1));
-        log.info(list.get(0).toString().substring(1));
-        Item item = new Item();
-        item.setCategories(list);
-        log.info(item.getCategories().get(0).toString());
+    void removeCartTest() {
+        long userId = 2;
+        long itemId = 32;
+        cartService.removeOrder(userId, itemId);
     }
 
     @Test
@@ -115,6 +104,18 @@ class ZhuanbaApplicationTests {
         user.setPassword(newPassword);
         log.info("New Password Is " + newPassword);
     }
+
+    /**@Test
+    @Transactional
+    @Rollback(false)
+    void paquItems() throws IOException {
+        String key = "笔记本电脑";
+        Long uId = (long)2;
+        Long[] cIds = {(long)2};
+        List<Item> items = HtmlParseUtil.getItemsByJD(key, uId, cIds);
+        itemRepository.saveAll(items);
+    }*/
+
     /*@Test
     @Transactional
     void test1() {

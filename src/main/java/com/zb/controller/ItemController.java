@@ -12,6 +12,7 @@ import com.zb.entity.vo.CategoryVO;
 import com.zb.entity.vo.ItemVO;
 import com.zb.service.CartService;
 import com.zb.service.CategoryService;
+import com.zb.service.OrderService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -130,5 +131,18 @@ public class ItemController {
         modelAndView.addObject("cost",item.getPrice());
         modelAndView.addObject("number", 1);
         return modelAndView;
+    }
+
+    /**
+     * 下架指定商品
+     *
+     * @param itemId 商品id
+     * @return
+     */
+    @GetMapping("/remove")
+    @ResponseBody
+    public Result deleteItem(@RequestParam("itemId") long itemId){
+        itemService.deleteById(itemId);
+        return Result.ok("下架商品成功", null);
     }
 }
