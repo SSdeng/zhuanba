@@ -131,7 +131,6 @@
     itemId = [[${item.id}]]
 
     var userId = localStorage.getItem('userId')
-    console.log(userId)
 
     $(function () {
         load_data();
@@ -204,7 +203,7 @@
         $("#btn_collect").click(function () {
             var classname = $("#btn_collect_icon").attr("class");
             console.log(classname)
-            if (classname == "glyphicon glyphicon-star-empty glyphicon-star" || classname == "glyphicon glyphicon-star-empty") {
+            if (classname == "glyphicon glyphicon-star-empty glyphicon-star" || classname == "glyphicon glyphicon-star-empty" || classname == "glyphicon-star-empty glyphicon") {
                 $.ajax({
                     type: 'POST',
                     dataType: 'json',
@@ -249,35 +248,38 @@
         });
     })
 
-  //设置顶部栏的登录/退出按钮和用户名显示
+    //设置顶部栏的登录/退出按钮和用户名显示
 
-  function load_data () {
-    var theme = localStorage.getItem('username')
-    var userId = localStorage.getItem('userId')
-    console.log(localStorage.getItem('username'))
-    console.log(localStorage.getItem('userId'))
-    if (theme == null || theme == '') {
-      $('#login_logout').text('登录')
-      $('#uname').text('')
-      $('#wants').hide()
-      $('#cart').hide()
-    } else {
-      $('#login_logout').text('退出')
-      $('#login_logout').attr('href', '/logout')
-      $('#uname').text(theme)
-      $('#wants').show()
-      $('#wants').attr('href', '/api/wants/release?userId='+userId)
-      $('#cart').show()
-      $('#cart').attr('href', '/api/cart/all?userId='+userId)
-      $('#uname').attr('href', '/api/user/info?userId=' + userId)
+    function load_data() {
+        var theme = localStorage.getItem('username')
+        var userId = localStorage.getItem('userId')
+        console.log(localStorage.getItem('username'))
+        console.log(localStorage.getItem('userId'))
+        if (theme == null || theme == '') {
+            $('#login_logout').text('登录')
+            $('#uname').text('')
+            $('#wants').hide()
+            $('#cart').hide()
+        } else {
+            $('#login_logout').text('退出')
+            $('#login_logout').attr('href', '/logout')
+            $('#uname').text(theme)
+            $('#wants').show()
+            $('#wants').attr('href', '/api/wants/release?userId=' + userId)
+            $('#cart').show()
+            $('#cart').attr('href', '/api/cart/all?userId=' + userId)
+            $('#uname').attr('href', '/api/user/info?userId=' + userId)
+        }
     }
 
     function load_collect() {
-        var isCollected = [[${collected}]]
-        if (isCollected == false) {
-            $("#btn_collect_icon").addClass("glyphicon glyphicon-star-empty");
-        } else {
+        var isCollected = [[${inCollection}]]
+        if (isCollected == true) {
+            $("#btn_collect_icon").removeClass("glyphicon-star-empty glyphicon-star");
             $("#btn_collect_icon").addClass("glyphicon glyphicon-star");
+        } else {
+            $("#btn_collect_icon").removeClass("glyphicon glyphicon-star");
+            $("#btn_collect_icon").addClass("glyphicon glyphicon-star-empty");
         }
     }
 </script>
