@@ -41,6 +41,11 @@ public class PageController {
         return "admin";
     }
 
+    @RequestMapping("/root")
+    public String getRoot() {
+        return "root";
+    }
+
     @RequestMapping("/wantsrelease")
     public String getWantsRelease() {
         return "wantsrelease";

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.zb.entity.Item;
+import com.zb.service.ItemService;
 import com.zb.util.FileUtil;
 import com.zb.util.Result;
 import org.springframework.web.servlet.ModelAndView;
