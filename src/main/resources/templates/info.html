@@ -157,10 +157,15 @@
                         <div class="myself_release_num">
                             <div class="row">
                                 <!-- 配图 -->
-                                <div class="col-xs-12 col-md-3" id="myself_release_photo" style="cursor:pointer;">
+                                <div class="col-xs-12 col-md-3" id="myself_release_photo" style="cursor:pointer; width: 250px;">
                                     <!-- 图片 -->
                                     <img th:src="*{image}" alt=""
                                          style="position: relative; height: 150px; border-radius: 3px;">
+                                </div>
+                                <div class="col-xs-12 col-md-3" id="myself_release_status" style="width: 200px; position: relative;top: auto;height: auto;">
+                                    <h3 th:if="${item.status} eq 0" style="color: #ffc400">审核中</h3>
+                                    <h3 th:if="${item.status} eq 1" style="color: #4cae4c">已通过</h3>
+                                    <h3 th:if="${item.status} eq -1" style="color: #c12e2a">未通过</h3>
                                 </div>
                                 <div class="col-xs-12 col-md-7">
                                     <!-- 名称 -->
@@ -270,7 +275,7 @@
                             <div class="col-xs-2 col-md-1" th:id="*{id}">
                                 <form>
                                     <button type="button" id="myself_order_del"
-                                            class="btn btn-danger btn-sm orderdel">删除
+                                            class="btn btn-danger btn-sm orderdel" disabled>删除
                                     </button>
                                 </form>
                             </div>
