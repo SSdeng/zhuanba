@@ -1,28 +1,32 @@
 package com.zb;
 
-import com.zb.elasticsearch.ItemEsRepository;
-import com.zb.entity.Cart;
-import com.zb.entity.CartOrder;
-import com.zb.entity.Item;
-import com.zb.entity.User;
-import com.zb.repository.CartRepository;
-import com.zb.repository.CategoryRepository;
-import com.zb.repository.ItemRepository;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.zb.service.CartService;
-import com.zb.service.CategoryService;
-import com.zb.service.ItemService;
-import com.zb.service.UserService;
-import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
-import javax.transaction.Transactional;
-import java.math.BigDecimal;
-import java.util.List;
+import com.zb.elasticsearch.ItemEsRepository;
+import com.zb.entity.Cart;
+import com.zb.entity.Category;
+import com.zb.entity.Item;
+import com.zb.entity.User;
+import com.zb.repository.ItemRepository;
+import com.zb.service.CategoryService;
+import com.zb.service.ItemService;
+import com.zb.service.UserService;
+import com.zb.util.HtmlParseUtil;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @SpringBootTest
@@ -31,38 +35,15 @@ class ZhuanbaApplicationTests {
     @Autowired
     private ItemRepository itemRepository;
     @Autowired
-    private CategoryRepository categoryRepository;
+    private ItemEsRepository itemEsRepository;
     @Autowired
     private CategoryService categoryService;
     @Autowired
     private ItemService itemService;
     @Autowired
     private UserService userService;
-    @Resource
+    @Autowired
     private CartService cartService;
-    @Resource
-    private CartRepository cartRepository;
-
-
-    @Test
-    @Transactional
-    void cartTest() {
-        Cart cart = cartService.findCartById((long)2);
-        List<CartOrder> list = cart.getOrderList();
-        System.out.println("firstTime\n\n");
-        for (CartOrder cartOrder : list) {
-            System.out.println(cartOrder.toString());
-        }
-        cartService.removeOrder((long)2, (long)1);
-        cartRepository.save(cart);
-        System.out.println("SecondTime\n\n");
-        cart = cartService.findCartById((long)2);
-        list = cart.getOrderList();
-        for (CartOrder cartOrder : list) {
-            System.out.println(cartOrder.toString());
-        }
-    }
-
 
     User creatUser() {
         User user = new User();
@@ -87,15 +68,14 @@ class ZhuanbaApplicationTests {
         Item item = new Item();
         item.setItemName("ljc");
         item.setPrice(new BigDecimal(10.0));
-        //User user = creatUser();
-        //userService.insertSelective(user);
+        // User user = creatUser();
+        // userService.insertSelective(user);
         User user = userService.findByUserName("zhangsan");
         item.setUser(user);
         itemService.insertSelective(item);
         System.out.println("\nitemInfo: " + item.toString() + "\n");
         System.out.println("\nitemUserInfo: " + item.getUser().toString() + "\n");
     }
-
 
     @Test
     @Transactional
@@ -107,6 +87,34 @@ class ZhuanbaApplicationTests {
             System.out.println(item);
         }
     }
+
+    @Test
+    void removeCartTest() {
+        long userId = 2;
+        long itemId = 32;
+        cartService.removeOrder(userId, itemId);
+    }
+
+    @Test
+    void passwordTest(){
+        User user = new User();
+        user.setUsername("admin1");
+        user.setPassword("admin1");
+        String newPassword = new Md5Hash(user.getPassword(), user.getUsername(), 2).toString();
+        user.setPassword(newPassword);
+        log.info("New Password Is " + newPassword);
+    }
+
+    /**@Test
+    @Transactional
+    @Rollback(false)
+    void paquItems() throws IOException {
+        String key = "笔记本电脑";
+        Long uId = (long)2;
+        Long[] cIds = {(long)2};
+        List<Item> items = HtmlParseUtil.getItemsByJD(key, uId, cIds);
+        itemRepository.saveAll(items);
+    }*/
 
     /*@Test
     @Transactional
@@ -129,18 +137,10 @@ class ZhuanbaApplicationTests {
             System.out.println("商品：" + i);
         }
     }*/
-/*    @Test
-    @Rollback(value = false)
-    public void tes1() throws IOException {
-        itemRepository.saveAll(HtmlParseUtil.getItemsByJD("图书"));
-    }*/
-
-    @Autowired
-    private ItemEsRepository repository;
     @Test
     @Transactional
-    public void saveAll(){
-        List<Item> all = itemRepository.findAll();
-        repository.saveAll(all);
+    public void search() {
+        Item item = itemRepository.findById(2L).get();
+        itemEsRepository.save(item);
     }
 }

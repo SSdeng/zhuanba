@@ -1,13 +1,16 @@
 package com.zb.controller;
 
 import com.zb.entity.UserOrder;
+import com.zb.entity.vo.CartOrderVO;
 import com.zb.service.CartService;
 import com.zb.service.OrderService;
 import com.zb.util.Result;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -49,26 +52,28 @@ public class OrderController {
      * @param orderId 订单id
      * @return 删除结果
      */
-    @PostMapping("/remove")
+    @GetMapping("/remove")
     @ResponseBody
-    public Result removeOrder(@RequestParam("orderId") Long orderId){
+    public Result removeOrder(@RequestParam("orderId") long orderId){
         orderService.deleteById(orderId);
-        return Result.ok("删除成功", null);
+        return Result.ok("删除订单成功", null);
     }
 
     /**
      * 购物车结算
      *
-     * @param
+     * @param userId
+     * @param maps
      * @return
      */
     @PostMapping("/addcart")
     @ResponseBody
+    @Transactional
     public Result addMultipleOrder(@RequestParam("userId") long userId, @RequestBody Map<String,Object> maps){
         List<Map<String,String>> items = (List<Map<String,String>>)maps.get("items");
         for(Map<String,String> map:items){
+            orderService.addOrder(userId, Long.parseLong(map.get("itemId")), Integer.parseInt(map.get("value")));
             cartService.removeOrder(userId, Long.parseLong(map.get("itemId")));
-            UserOrder order = orderService.addOrder(userId, Long.parseLong(map.get("itemId")), Integer.parseInt(map.get("value")));
         }
         return Result.ok("结算成功", null);
     }

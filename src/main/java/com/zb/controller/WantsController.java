@@ -77,6 +77,19 @@ public class WantsController {
     }
 
     /**
+     * 删除求购
+     *
+     * @param wantsId 求购id
+     * @return 删除结果
+     */
+    @GetMapping("/remove")
+    @ResponseBody
+    public Result removeWants(@RequestParam("wantsId") long wantsId){
+        wantsService.deleteById(wantsId);
+        return Result.ok("删除求购成功", null);
+    }
+
+    /**
      * 上传求购图片
      *
      * @param wantsId 求购id
