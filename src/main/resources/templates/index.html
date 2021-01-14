@@ -11,197 +11,149 @@
 </head>
 
 <body>
-    <div class="dingbu">
-        <div class="denglu-font top">
-            <a href="#" id="dingbuhome"><img src="/images/logo.jpg"></a>
+<div class="dingbu">
+    <div class="denglu-font top">
+        <a href="/" id="dingbuhome"><img src="/images/logo.jpg"></a>
 
-            <div id="so" style="position: relative; left: 350px;top:8px;width: 100px; float: left;" class="top">
-                <div class="input-group">
-                    <input type="text" class="form-control" id="searchText" style="width: 380px;" >
-                    <span class="input-group-addon" id="search" onclick="search()"><i class="glyphicon glyphicon-search" style="color: #0055aa;"> <span>搜索
+        <div id="so" style="position: relative; left: 350px;top:8px;width: 100px; float: left;" class="top">
+            <div class="input-group">
+                <input type="text" class="form-control" id="searchText" style="width: 380px;">
+                <span class="input-group-addon" id="search" onclick="search()"><i class="glyphicon glyphicon-search"
+                                                                                  style="color: #0055aa;"> <span>搜索
                                 </span></i></span>
-                </div>
-            </div>
-            <div class="denglu-font2 top">
-                <a href="#" id="uname" >zyl</a>
-                <a href="login" id="login_logout">登录</a>
-
             </div>
         </div>
+        <div class="denglu-font2 top">
+            <a href="/" id="wants">发布求购</a>
+            <a href="/" id="cart">我的购物车</a>
+            <a href="#" id="uname">zyl</a>
+            <a href="login" id="login_logout">登录</a>
 
+        </div>
     </div>
 
-    <div class="list-1">
-        <ul class="list-ul-2" style="position: relative;right: 190px;">
-            <div class="img"><img src="/images/logo1.jpg" width="55px" height="55px" class="img-logo" /></div>
+</div>
 
-            <li >
-                <a href="/" class="index_click">全部商品</a>
-            </li>
-            <li th:each="category:${categories}">
-                <a th:href="'/api/category/find?categoryId='+${category.id}" th:text="${category.name}" class="category_click">123</a>
+<div class="list-1">
+    <ul class="list-ul-2" style="position: relative;right: 190px;">
+        <div class="img"><img src="/images/logo1.jpg" width="55px" height="55px" class="img-logo"/></div>
+
+        <li>
+            <a href="/" class="index_click">全部商品</a>
+        </li>
+        <li th:each="category:${categories}">
+            <a th:href="'/api/category/find?categoryId='+${category.id}" th:text="${category.name}"
+               class="category_click">123</a>
+        </li>
+    </ul>
+</div>
+
+
+<div class="pro3">
+    <div class="pro3_c">
+        <ul class="pub_pro">
+            <li th:each="item:${items}" th:object="${item}">
+                <a href="#">
+                    <img th:src="*{image}" alt="">
+                    <div class="cont">
+                        <span th:text="*{itemName}" style="word-break: break-word;overflow: hidden;font-size: 16px">简约时尚水泥花瓶</span>
+                        <br>
+                        <p th:text="'￥' + *{price}">￥450</p>
+                    </div>
+                </a>
+                <div class="mask">
+                    <a th:href="'/api/item/details?itemId=' + *{id}" class="btn">
+                        查看详情
+                    </a>
+                </div>
             </li>
         </ul>
-    </div>
 
+        <div class="pages" id="index_pages" th:style="${b}?'display: none':'display: '">
+            <a th:href="@{/(pageNo=1)}">首页</a>
 
+            <a th:href="@{/(pageNo = ${items.hasPrevious()} ? ${items.getNumber()} : 1)}">上一页</a>
 
-    <div class="pro3">
-        <div class="pro3_c">
-            <ul class="pub_pro">
-                <li th:each="item:${items}" th:object="${item}">
-                    <a href="#">
-                        <img th:src="*{image}" alt="">
-                        <div class="cont">
-                            <span th:text="*{itemName}" style="word-break: break-word;overflow: hidden;font-size: 16px" >简约时尚水泥花瓶</span>
-                            <br><p th:text="'￥' + *{price}">￥450</p>
-                        </div>
-                    </a>
-                    <div class="mask">
-                        <a th:href="'/api/item/details?itemId=' + *{id}" class="btn">
-                            查看详情
-                        </a>
-                    </div>
-                </li>
-            </ul>
+            <a th:href="@{/(pageNo = ${items.hasNext()}?(${items.getNumber()}+2):${items.totalPages})}">下一页</a>
 
-            <div class="pages" id="index_pages" th:style="${b}?'display: none':'display: '">
-                <a th:href="@{/(pageNo=1)}">首页</a>
+            <a th:href="@{/(pageNo = ${items.totalPages})}">尾页</a>
 
-                <a th:href="@{/(pageNo = ${items.hasPrevious()} ? ${items.getNumber()} : 1)}">上一页</a>
+            当前页：<span th:text="${items.getNumber()}+1">1</span>
 
-                <a th:href="@{/(pageNo = ${items.hasNext()}?(${items.getNumber()}+2):${items.totalPages})}">下一页</a>
+            总页数:<span th:text="${items.totalPages}">1</span>
 
-                <a th:href="@{/(pageNo = ${items.totalPages})}">尾页</a>
+            总条数:<span th:text="${items.totalElements}">1</span>
+        </div>
+        <div class="pages" id="category_pages" style="display: none" th:style="${b}?'display: ':'display: none'">
+            <a th:href="@{#httpServletRequest.getRequestURL()+'&pageNo=1'}">首页123</a>
 
-                当前页：<span th:text="${items.getNumber()}+1">1</span>
+            <a th:href="@{#httpServletRequest.getRequestURL()+ ${items.hasPrevious()} ? ${items.getNumber()} : 1}">上一页</a>
 
-                总页数:<span th:text="${items.totalPages}">1</span>
+            <a th:href="@{#httpServletRequest.getRequestURL()+ ${items.hasNext()}?(${items.getNumber()}+2):${items.totalPages}}">下一页</a>
 
-                总条数:<span th:text="${items.totalElements}">1</span>
-            </div>
-            <div class="pages" id="category_pages" style="display: none" th:style="${b}?'display: ':'display: none'">
-                <a th:href="@{#httpServletRequest.getRequestURL()+'&pageNo=1'}">首页123</a>
+            <a th:href="@{#httpServletRequest.getRequestURL()+ ${items.totalPages}}">尾页</a>
 
-                <a th:href="@{#httpServletRequest.getRequestURL()+ ${items.hasPrevious()} ? ${items.getNumber()} : 1}">上一页</a>
+            当前页：<span th:text="${items.getNumber()}+1">1</span>
 
-                <a th:href="@{#httpServletRequest.getRequestURL()+ ${items.hasNext()}?(${items.getNumber()}+2):${items.totalPages}}">下一页</a>
+            总页数:<span th:text="${items.totalPages}">1</span>
 
-                <a th:href="@{#httpServletRequest.getRequestURL()+ ${items.totalPages}}">尾页</a>
-
-                当前页：<span th:text="${items.getNumber()}+1">1</span>
-
-                总页数:<span th:text="${items.totalPages}">1</span>
-
-                总条数:<span th:text="${items.totalElements}">1</span>
-            </div>
+            总条数:<span th:text="${items.totalElements}">1</span>
         </div>
     </div>
+</div>
 
 </body>
 <script src="/jquery/jquery2.1.4.js"></script>
 <script src="/layer/layer.js"></script>
 <script>
-    function search(){
-        console.log($("#searchText").val());
-        var data = $("#searchText").val();
-        $.ajax({
-            url:"/search?keyword="+data,
-            data:JSON.stringify(data),
-            type:"POST",
-            contentType:"application/json",
-            dataType:"json",
-            traditional:true
-        })
+  function search () {
+    console.log($('#searchText').val())
+    var data = $('#searchText').val()
+    $.ajax({
+      url: '/search?keyword=' + data,
+      data: JSON.stringify(data),
+      type: 'POST',
+      contentType: 'application/json',
+      dataType: 'json',
+      traditional: true
+    })
+  }
+
+</script>
+<script>
+  $('#login_logout').click(function () {
+    localStorage.clear()
+    location.href('login')
+  })
+</script>
+<script>
+  $(function () {
+    load_data()
+  })
+
+  //设置顶部栏的登录/退出按钮和用户名显示
+
+  function load_data () {
+    var theme = localStorage.getItem('username')
+    var userId = localStorage.getItem('userId')
+    console.log(localStorage.getItem('username'))
+    console.log(localStorage.getItem('userId'))
+    if (theme == null || theme == '') {
+      $('#login_logout').text('登录')
+      $('#uname').text('')
+      $('#wants').hide()
+      $('#cart').hide()
+    } else {
+      $('#login_logout').text('退出')
+      $('#login_logout').attr('href', '/logout')
+      $('#uname').text(theme)
+      $('#wants').show()
+      $('#wants').attr('href', '/api/wants?userId='+userId)
+      $('#cart').show()
+      $('#cart').attr('href', '/api/cart/all?userId='+userId)
+      $('#uname').attr('href', '/api/user/info?userId=' + userId)
     }
-
-</script>
-<script>
-    $("#login_logout").click(function () {
-      localStorage.clear();
-      location.href("login");
-    })
-</script>
-<!--<script>
-    $(".pages .num").append("<a href=\"#\" class = \"tol \">2</a>")
-    $("li").eq(0).children("a").text("123");
-    $(".pub_pro li").eq(0).find("h3").text("123");
-    $(".pub_pro li").eq(0).find("span").text("￥"+"123");
-    $(".pub_pro li").eq(0).find("img").attr("src","../images/logo.jpg");
-</script>-->
-
-<!--<script>
-    //获取所有分类
-    $(function(){
-        $.ajax({
-            url:"/api/category/get",
-            type:"GET",
-            dataType:"json",
-            traditional:true,
-            success:function (data){
-                console.log(data.data.size);
-                layer.msg(data.data.size);
-                if (data.code == 0) {
-                    //获取分类列表成功
-                    for(i=0;i<data.data.size;i++){
-                        $("li").eq(i).children("a").text(data.data[i].name);
-                    }
-                } else {
-                    console.log(data.msg);
-                    layer.msg(data.msg)
-                }
-            }
-        })
-    })
-</script>-->
-
-<script>
-    /*    //获取商品列表
-        $(function(){
-            $.ajax({
-                url:"/api/item/all",
-                type:"GET",
-                dataType:"json",
-                traditional:true,
-                success:function (data){
-                    console.log(data.data.size);
-                    layer.msg(data.data.size);
-                    if (data.code == 0) {
-                        //获取商品列表成功
-                        for(i=0;i< (total<pageNum?total:pageNum);i++){
-                            $(".pub_pro li").eq(i).find("h3").text(data.data.list[i].name);
-                            $(".pub_pro li").eq(i).find("span").text("￥"+data.data.list[i].price);
-                            $(".pub_pro li").eq(i).find("img").attr("src",data.data.list[i].image);
-                        }
-                    } else {
-                        console.log(data.msg);
-                        layer.msg(data.msg)
-                    }
-                }
-            })
-        })*/
-</script>
-<script>
-    $(function (){
-        load_data();
-    })
-    //设置顶部栏的登录/退出按钮和用户名显示
-
-    function load_data() {
-        var theme = localStorage.getItem("username");
-        var userId = localStorage.getItem("userId");
-        console.log(localStorage.getItem("username"))
-        console.log(localStorage.getItem("userId"))
-        if (theme == null || theme == "") {
-            $("#login_logout").text("登录")
-            $("#uname").text('');
-        } else {
-            $("#login_logout").text( "退出")
-            $("#login_logout").attr("href","/logout")
-            $("#uname").text(theme);
-            $("#uname").attr("href","/api/user/info?userId="+userId);
-        }
-    }
+  }
 
 
 </script>
