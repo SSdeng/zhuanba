@@ -11,9 +11,7 @@ import javax.servlet.http.HttpSession;
 import com.zb.entity.Collection;
 import com.zb.entity.vo.CategoryVO;
 import com.zb.entity.vo.ItemVO;
-import com.zb.service.CartService;
-import com.zb.service.CategoryService;
-import com.zb.service.OrderService;
+import com.zb.service.*;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.zb.entity.Item;
-import com.zb.service.ItemService;
 import com.zb.util.FileUtil;
 import com.zb.util.Result;
 import org.springframework.web.servlet.ModelAndView;
@@ -43,7 +40,7 @@ public class ItemController {
     @Resource
     private CartService cartService;
     @Resource
-    private Collection collection;
+    private CollectionService collectionService;
 
     /**
      * 发布商品处理
@@ -77,7 +74,7 @@ public class ItemController {
         modelAndView.addObject("comments", item.getItemComments());
         modelAndView.addObject("categories", categories);
         modelAndView.addObject("inCart", cartService.hasItem(userId,itemId));
-        modelAndView.addObject("inCollection", cartService.hasItem(userId, itemId));
+        modelAndView.addObject("inCollection", collectionService.hasItem(userId, itemId));
         return modelAndView;
     }
 
