@@ -199,7 +199,18 @@
 				<!--################################################### 发布商品-end ###################################################-->
 
 				<!--################################################### 我的订单 ###################################################-->
-				<div role="tabpanel" class="tab-pane" id="order" th:each="order:${orders}" th:object="${order}">
+				<div role="tabpanel" class="tab-pane" id="order" th:each="order:${orders}" th:object="${order}" th:if="#lists.size(${orders}) ne 0">
+					<div th:text="#lists.size(${orders})">kankan</div>
+					<div th:text="${order.item.itemName}">kankan</div>
+					<!-- 无订单 -->
+					<div id="order_null" th:if="#lists.size(${orders}) eq 0">
+						<br><br><br><br>
+						<div class="order_null">
+
+							<p style="color: #999999">没有订单</p>
+						</div>
+						<br><br><br><br>
+					</div>
 					<!-- 订单展示-循环 - 模板 -->
 					<div id="huifu_article_hide" style="display: block">
 						<div class="row">
@@ -211,19 +222,19 @@
 							</div>
 							<div class="col-xs-12 col-md-4">
 								<!-- 名称 -->
-								<div id=""
+								<div id="1"
 									 style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;color: #000000;">
 									<h3 th:text="*{item.itemName}" style="cursor:pointer; font-size:18px;">简约时尚水泥花瓶2
 									</h3>
 								</div>
 								<!-- 价格 -->
-								<div id=""
+								<div id="2"
 									 style="cursor:pointer;overflow: hidden;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;">
 										<span th:text="'单价：￥' + *{item.price}"
 											  style="word-break: break-word;line-height: 1.6;">单价：￥450</span>
 								</div>
 								<!-- 介绍 -->
-								<div id=""
+								<div id="3"
 									 style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;color: #000000;display: inline;">
 										<span th:text="*{item.description}"
 											  style="word-break: break-word;line-height: 1.6;">这是一款很好吃的酸辣粉</span>
@@ -231,19 +242,19 @@
 							</div>
 							<div class="col-xs-12 col-md-3">
 								<!-- 购买数量 -->
-								<div id=""
+								<div id="4"
 									 style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;color: #000000;"><br>
 									<span th:text="'购买数量:'+*{itemCount}" style="cursor:pointer;">购买数量：1
 										</span>
 								</div>
 								<!-- 总价格 -->
-								<div id=""
+								<div id="5"
 									 style="cursor:pointer;overflow: hidden;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;">
 										<span th:text="'订单金额：￥' + *{totalPrice}"
 											  style="word-break: break-word;line-height: 1.6;">订单金额：￥450</span>
 								</div>
 								<!-- 购买时间 -->
-								<div id=""
+								<div id="6"
 									 style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;color: #000000;display: inline;">
 										<span th:text="'购买时间：'+*{createTime}"
 											  style="word-break: break-word;line-height: 1.6;">购买时间：2020-1-1</span>
@@ -330,7 +341,7 @@
 				<!--################################################### 我的求购-end ###################################################-->
 
 				<!--################################################### 收藏 ###################################################-->
-				<div role="tabpanel" class="tab-pane" id="collect" th:each="collection:${collections.items}" th:object="${collection}">
+				<div role="tabpanel" class="tab-pane" id="collect" th:each="collection:${collections}" th:object="${collection}">
 
 					<div class="tab-content">
 						<div class="row">
@@ -342,19 +353,19 @@
 							</div>
 							<div class="col-xs-12 col-md-4">
 								<!-- 名称 -->
-								<div id=""
+								<div
 									 style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;color: #000000;">
 									<h3 th:text="*{itemName}" style="cursor:pointer; font-size:18px;">简约时尚水泥花瓶2
 									</h3>
 								</div>
 								<!-- 价格 -->
-								<div id=""
+								<div
 									 style="cursor:pointer;overflow: hidden;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;">
 										<span th:text="'单价：￥' + *{price}"
 											  style="word-break: break-word;line-height: 1.6;">单价：￥450</span>
 								</div>
 								<!-- 介绍 -->
-								<div id=""
+								<div
 									 style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;color: #000000;display: inline;">
 										<span th:text="*{description}"
 											  style="word-break: break-word;line-height: 1.6;">这是一款很好吃的酸辣粉</span>
@@ -483,9 +494,11 @@
 <script>
 	$(function () {
 		load_data();
+		console.log('size:'+ ${collections.size});
 	})
 	//设置顶部栏的登录/退出按钮和用户名显示
 	function load_data() {
+
 		var theme = localStorage.getItem("username");
 		var userId = localStorage.getItem("userId");
 		console.log(localStorage.getItem("username"))

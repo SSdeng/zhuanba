@@ -104,9 +104,9 @@
 <script>
     function search(){
         console.log($("#searchText").val());
-        var data = {"searchInfo":$("#searchText").val()};
+        var data = $("#searchText").val();
         $.ajax({
-            url:"/api/item/search",
+            url:"/search?keyword="+data,
             data:JSON.stringify(data),
             type:"POST",
             contentType:"application/json",
