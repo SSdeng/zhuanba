@@ -124,6 +124,6 @@ public class WantsServiceImpl implements WantsService {
      */
     @Override
     public Page<Wants> getAllByPage(int pageNo, int pageSize) {
-        return wantsRepository.findAll(PageRequest.of(pageNo, pageSize));
+        return wantsRepository.findAll(PageRequest.of(pageNo-1, pageSize));
     }
 }
