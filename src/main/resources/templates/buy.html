@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="../css/header.css" rel="stylesheet">
     <style>
-         * {
+        * {
             margin: 0;
             padding: 0;
             font-family: Microsoft YaHei, Arial, Helvetica, sans-serif;
@@ -17,18 +17,18 @@
         .board {
             height: 300px;
             width: 300px;
-            margin: 0,auto;
+            margin: 0, auto;
             text-align: center;
         }
 
-        .content{
+        .content {
             width: 500px;
             height: 300px;
             padding: 50%;
-            margin:0 auto
+            margin: 0 auto
         }
 
-        .username{
+        .username {
             position: relative;
             top: auto;
             left: 0px;
@@ -60,7 +60,7 @@
             height: 50px;
             background-color: #FF6700;
             font-size: 25px;
-            color:#FFFF;
+            color: #FFFF;
             border: #FFFF;
             position: relative;
             top: 10px;
@@ -69,32 +69,33 @@
     </style>
 </head>
 <body>
-    <div class="dingbu">
-        <div class="denglu-font">
-            <a href="#" id="dingbuhome"><img src="../images/logo.jpg"></a>
+<div class="dingbu">
+    <div class="denglu-font">
+        <a href="#" id="dingbuhome"><img src="../images/logo.jpg"></a>
 
-            <div class="denglu-font2">
-                <a href="#" id="uname">...</a>
-                <a href="login.html" id="login_logout">登录</a>
-                
-            </div>
+        <div class="denglu-font2">
+            <a href="#" id="uname">...</a>
+            <a href="login.html" id="login_logout">登录</a>
+
         </div>
     </div>
-    <div id="itemboard" class="board">
-        <div class="content">
-            <h1 class="username" >尊敬的xxx用户，请确认订单</h1>
-            <h1 id="itemnum" class="itemnum" >共x件</h1>
-            <h1 class="price">需支付x元</h1>
-            <input type="button" class="buybutton" value="确认">
-        </div>
+</div>
+<div id="itemboard" class="board">
+    <div class="content">
+        <h1 class="username">尊敬的xxx用户，请确认订单</h1>
+        <h1 id="itemnum" class="itemnum">共x件</h1>
+        <h1 class="price">需支付x元</h1>
+        <input type="button" class="buybutton" value="确认">
     </div>
+</div>
 
 </body>
 <script src="../jquery/jquery2.1.4.js"></script>
 <script src="../layer/layer.js"></script>
 <script>
     //设置顶部栏的登录/退出按钮和用户名显示
-    var login_logout =$("#login_logout");
+    var login_logout = $("#login_logout");
+
     function load_data() {
         var theme = localStorage.getItem("username");
         if (theme == null || theme == "") {

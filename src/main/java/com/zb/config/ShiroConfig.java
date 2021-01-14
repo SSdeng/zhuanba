@@ -81,6 +81,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/**", "authc");
         filterChainDefinitionMap.put("/api/user/**", "roles[user]");
         filterChainDefinitionMap.put("/api/wants/**", "roles[user]");
+        filterChainDefinitionMap.put("/api/wants/all", "anon");
         filterChainDefinitionMap.put("/api/order/**", "roles[user]");
         filterChainDefinitionMap.put("/api/item/**", "roles[user]");
         filterChainDefinitionMap.put("/api/comment/**", "roles[user]");
