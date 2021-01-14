@@ -61,12 +61,13 @@ public class CollectionController {
     }
 
     /**
+     * 从收藏中移除商品
      * 
      * @param userId
      *            用户Id
      * @param itemId
      *            商品Id
-     * @return
+     * @return 从收藏移除商品
      */
     @PostMapping("/delete")
     @ResponseBody

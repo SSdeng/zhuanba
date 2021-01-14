@@ -15,11 +15,6 @@ import com.zb.repository.UserRepository;
 import com.zb.service.AdminService;
 import com.zb.service.ItemService;
 import com.zb.service.UserService;
-import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * 管理员服务实现类
