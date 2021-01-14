@@ -90,4 +90,13 @@ public class PageController {
         return "login";
     }
 
+    /**
+     * 返回禁止访问页面
+     *
+     * @return 页面
+     */
+    @GetMapping("/accessDenied")
+    public String accessDenied() {
+        return "accessDenied";
+    }
 }

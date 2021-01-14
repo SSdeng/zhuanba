@@ -61,6 +61,10 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setFilters(filtersMap);
         // 过滤器链定义映射
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
+        // 错误页面
+        filterChainDefinitionMap.put("/accessDenied", "anon");
+        filterChainDefinitionMap.put("/itemNotAvailable", "anon");
+        filterChainDefinitionMap.put("/error", "anon");
         // 首页放行
         filterChainDefinitionMap.put("/", "anon");
         filterChainDefinitionMap.put("/search", "anon");
@@ -88,10 +92,10 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/api/admin/**", "roleOrFilter[root,admin]");
         filterChainDefinitionMap.put("/api/root/**", "roles[root]");
         filterChainDefinitionMap.put("/**", "authc");
-        // 设置未授权路由，之后再返回json数据给前端
+        // 设置未登录路由，之后再返回json数据给前端
         shiroFilterFactoryBean.setLoginUrl("/login");
         // 未授权界面, 对应LoginController中 unauthorized 请求
-        shiroFilterFactoryBean.setUnauthorizedUrl("/login");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/accessDenied");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }

@@ -122,7 +122,7 @@ public class UserController {
      */
     @RequestMapping("/unauthorized")
     public String unauthorized() {
-        return "login";
+        return "accessDenied";
     }
 
     /**
