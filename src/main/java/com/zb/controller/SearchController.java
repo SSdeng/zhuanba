@@ -15,8 +15,6 @@ import org.springframework.data.elasticsearch.core.SearchPage;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.zb.elasticsearch.ItemEsRepository;
@@ -69,6 +67,7 @@ public class SearchController {
         // 构建分页返回结果
         PageImpl<Item> items = new PageImpl<>(list, pageable, total);
         model.addAttribute("items", items);
+        model.addAttribute("keyword", keyword);
         return "search";
     }
 }
