@@ -23,18 +23,15 @@ import com.zb.service.*;
 @RequestMapping("/api/comment")
 public class CommentController {
 
-    @Resource
-    ItemCommentService itemCommentService;
 
     @Resource
     UserService userService;
-
     @Resource
     ItemService itemService;
-
     @Resource
     private WantsService wantsService;
-
+    @Resource
+    ItemCommentService itemCommentService;
     @Resource
     private WantsCommentService wCommentService;
 
@@ -53,7 +50,6 @@ public class CommentController {
         itemComment.setContent(content);
 
         itemCommentService.insertSelective(itemComment);
-
         return "redirect:/api/item/details";
     }
 
@@ -68,11 +64,14 @@ public class CommentController {
      */
     @PostMapping("/wants")
     public String addWantsComment(@RequestParam("wantsId") long wantsId, @RequestBody Map<String, String> map) {
+
         long userId = Long.parseLong(map.get("userId"));
+
         WantsComment newComment = new WantsComment();
         newComment.setContent(map.get("content"));
         newComment.setUser(userService.findById(userId));
         newComment.setWants(wantsService.findById(wantsId));
+
         wCommentService.insertSelective(newComment);
         return "redirect:/api/wants/details";
     }

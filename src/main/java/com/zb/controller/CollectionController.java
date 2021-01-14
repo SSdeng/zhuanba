@@ -39,12 +39,12 @@ public class CollectionController {
     @ResponseBody
     public Result addItem(@RequestParam("userId") Long userId, @RequestParam("itemId") Long itemId) {
         collectionService.addItem(userId, itemId);
-        return Result.ok();
+        return Result.ok("收藏成功", null);
 
     }
 
     /**
-     * 从收藏中移除商品
+     * 从收藏夹中移除商品
      * 
      * @param collectionId
      *            收藏id
@@ -57,24 +57,24 @@ public class CollectionController {
     public Result removeItem(@RequestParam("collectionId") Long collectionId, @RequestParam("itemId") Long itemId) {
         User user = collectionService.findById(collectionId).getUser();
         collectionService.removeItem(collectionId, itemId);
-        return Result.ok();
+        return Result.ok("收藏已移除", null);
     }
 
     /**
-     * 从收藏中移除商品
-     * 
+     * 详情页取消收藏商品
+     *
      * @param userId
      *            用户Id
      * @param itemId
      *            商品Id
-     * @return 从收藏移除商品
+     * @return Result
      */
     @PostMapping("/delete")
     @ResponseBody
     public Result deleteItem(@RequestParam("userId") Long userId, @RequestParam("itemId") Long itemId) {
         Collection collection = collectionService.findByUser(userId);
         collectionService.removeItem(collection.getId(), itemId);
-        return Result.ok();
+        return Result.ok("已取消收藏", null);
     }
 
 }

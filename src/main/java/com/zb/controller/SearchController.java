@@ -28,6 +28,7 @@ import com.zb.entity.Item;
  **/
 @Controller
 public class SearchController {
+
     @Resource
     private ItemEsRepository repository;
 

@@ -159,7 +159,6 @@ public class Item implements Serializable {
         inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")})
     @JsonIgnoreProperties(value = "items")
     @ToString.Exclude
-    // @org.springframework.data.annotation.Transient
     private List<Category> categories;
 
     /**

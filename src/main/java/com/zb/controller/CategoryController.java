@@ -30,8 +30,8 @@ public class CategoryController {
     /**
      * 返回指定分类下所有的Item
      *
-     * @param categoryId
-     * @return
+     * @param categoryId 分类id
+     * @return 该分类的商品信息
      */
     @GetMapping("/find")
     public String getSpecificCategoryItems(@RequestParam("categoryId") Long categoryId,
