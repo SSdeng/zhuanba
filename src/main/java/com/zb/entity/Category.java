@@ -1,19 +1,17 @@
 package com.zb.entity;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
+import org.hibernate.annotations.*;
 
-import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.*;
-
-import lombok.*;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 分类实体

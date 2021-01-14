@@ -1,7 +1,7 @@
 package com.zb.controller;
 
-import com.zb.entity.Category;
 import com.zb.entity.Item;
+import com.zb.entity.vo.CategoryVO;
 import com.zb.service.CategoryService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -42,7 +42,8 @@ public class CategoryController {
         Page<Item> page = categoryService.getSpecificCategoryItemsByNamingParameters(categoryId,pageNo,pageSize);
         //List<Item> items = page.getContent();
         //获取所有分类
-        List<Category> categories = categoryService.getAllCategories();
+        List<CategoryVO> categories = categoryService.getAllCategories();
+
 
         model.addAttribute("items", page);
         model.addAttribute("categories", categories);

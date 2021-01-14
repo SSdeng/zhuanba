@@ -2,6 +2,7 @@ package com.zb.service;
 
 import com.zb.entity.Category;
 import com.zb.entity.Item;
+import com.zb.entity.vo.CategoryVO;
 import com.zb.util.PaginationSupport;
 import org.springframework.data.domain.Page;
 
@@ -63,7 +64,7 @@ public interface CategoryService {
      *
      * @return 类别List
      */
-    List<Category> getAllCategories();
+    List<CategoryVO> getAllCategories();
 
 
     /**
