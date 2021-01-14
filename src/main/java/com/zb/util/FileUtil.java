@@ -21,7 +21,7 @@ public class FileUtil {
 
     public static String uploadFile(MultipartFile multipartFile, HttpSession session) throws IOException {
 
-        FileDirectoryPATH = System.getProperty("user.dir") + "/src/main/resources/static/images/upload";
+        FileDirectoryPATH = System.getProperty("user.dir") + "/target/classes/static/images/upload";
 
         //文件夹目录
         File dir = new File(FileDirectoryPATH);
@@ -36,11 +36,13 @@ public class FileUtil {
         String suffix = filename.substring(filename.lastIndexOf("."));
         // 存储的文件名
         String newName = UUID.randomUUID() + suffix;
-
-        File file = new File(FileDirectoryPATH + "/" + newName);
-        System.out.println(file.getAbsolutePath());
         // 存储文件
+        File file = new File(FileDirectoryPATH + "/" + newName);
         multipartFile.transferTo(file);
+        FileDirectoryPATH = System.getProperty("user.dir") + "/src/main/resources/static/images/upload";
+        file = new File(FileDirectoryPATH + "/" + newName);
+        multipartFile.transferTo(file);
+
         newName = "/images/upload/" + newName;
         return newName;
     }

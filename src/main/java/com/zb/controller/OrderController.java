@@ -53,10 +53,9 @@ public class OrderController {
      * @return 删除结果
      */
     @GetMapping("/remove")
-    @ResponseBody
-    public Result removeOrder(@RequestParam("orderId") long orderId){
+    public String removeOrder(@RequestParam("userId") long userId, @RequestParam("orderId") long orderId){
         orderService.deleteById(orderId);
-        return Result.ok("删除订单成功", null);
+        return "redirect:/api/user/info?userId" + userId;
     }
 
     /**

@@ -88,10 +88,9 @@ public class WantsController {
      * @return 删除结果
      */
     @GetMapping("/remove")
-    @ResponseBody
-    public Result removeWants(@RequestParam("wantsId") long wantsId) {
+    public String removeWants(@RequestParam("userId") long userId, @RequestParam("wantsId") long wantsId) {
         wantsService.deleteById(wantsId);
-        return Result.ok("删除求购成功", null);
+        return "redirect:/api/user/info?userId" + userId;
     }
 
     /**
