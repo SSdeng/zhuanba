@@ -132,10 +132,18 @@ class ZhuanbaApplicationTests {
         itemEsRepository.save(item);
     }
 
+    /**
+     * 上传所有已审核的商品
+     */
     @Test
     @Transactional
-    public void saveAllSearch() {
-        List<Item> all = itemRepository.findAll();
+    public void uploadAll() {
+        List<Item> all = itemRepository.findAllByStatus(1);
         itemEsRepository.saveAll(all);
+    }
+
+    @Test
+    public void deleteIndex() {
+        itemEsRepository.deleteAll();
     }
 }
