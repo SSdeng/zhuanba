@@ -117,8 +117,8 @@ public class User implements Serializable {
     /**
      * 用户收藏夹
      */
-    @OneToOne(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
-    @JoinColumn(name = "collection_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @OneToOne(mappedBy = "user", cascade = {CascadeType.ALL})
+    @PrimaryKeyJoinColumn
     @JsonIgnoreProperties(value = "user")
     @ToString.Exclude
     private Collection collection;

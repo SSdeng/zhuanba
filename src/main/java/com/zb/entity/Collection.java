@@ -66,16 +66,10 @@ public class Collection implements Serializable {
     private Date updateTime;
 
     /**
-     * 收藏名称,不可为空
-     */
-    @Column(name = "collection_name", nullable = false)
-    private String collectionName;
-
-    /**
      * 所属用户，设置外键user_id，参照sys_user的id字段
      */
     @OneToOne(targetEntity = User.class)
-    @JoinColumn(name = "user_Id", referencedColumnName = "id", updatable = false)
+    @PrimaryKeyJoinColumn
     @JsonIgnoreProperties(value = "collection")
     @ToString.Exclude
     private User user;

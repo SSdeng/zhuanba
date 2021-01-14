@@ -46,7 +46,7 @@ public class CartController {
      */
     @PostMapping("add")
     @ResponseBody
-    public Result addOrder(@RequestParam("userId") long userId, @RequestParam("userId") long itemId, @RequestParam("count") int count) {
+    public Result addOrder(@RequestParam("userId") long userId, @RequestParam("itemId") long itemId, @RequestParam("count") int count) {
         cartService.addOrder(userId, itemId, count);
         return Result.ok();
     }
