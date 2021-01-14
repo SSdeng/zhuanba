@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -60,21 +61,25 @@ public class ItemController {
     /**
      * 查看指定id商品详情
      *
+     * @param model
+     *            模型
      * @param itemId
      *            商品id
-     * @return 商品信息
+     * @return 视图
      */
     @GetMapping("/details")
-    public ModelAndView itemDetails(@RequestParam("userId") long userId, @RequestParam("itemId") long itemId) {
-        ModelAndView modelAndView = new ModelAndView("item");
+    public String itemDetails(Model model, @RequestParam("userId") long userId, @RequestParam("itemId") long itemId) {
         Item item = itemService.findById(itemId);
+        if (!item.getStatus().equals(1)) {
+            return "itemNotAvailable";
+        }
         List<CategoryVO> categories = categoryService.getAllCategories();
-        modelAndView.addObject("item", item);
-        modelAndView.addObject("comments", item.getItemComments());
-        modelAndView.addObject("categories", categories);
-        modelAndView.addObject("inCart", cartService.hasItem(userId, itemId));
-        modelAndView.addObject("inCollection", collectionService.hasItem(userId, itemId));
-        return modelAndView;
+        model.addAttribute("item", item);
+        model.addAttribute("comments", item.getItemComments());
+        model.addAttribute("categories", categories);
+        model.addAttribute("inCart", cartService.hasItem(userId, itemId));
+        model.addAttribute("inCollection", collectionService.hasItem(userId, itemId));
+        return "item";
     }
 
     /**

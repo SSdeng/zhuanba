@@ -121,8 +121,8 @@ public class UserController {
      * @return Result
      */
     @RequestMapping("/unauthorized")
-    public Result unauthorized() {
-        return Result.build(ResultEnum.USER_NOT_AUTH);
+    public String unauthorized() {
+        return "accessDenied";
     }
 
     /**

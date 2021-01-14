@@ -61,13 +61,16 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setFilters(filtersMap);
         // 过滤器链定义映射
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
+        // 错误页面
+        filterChainDefinitionMap.put("/accessDenied", "anon");
+        filterChainDefinitionMap.put("/itemNotAvailable", "anon");
+        filterChainDefinitionMap.put("/error", "anon");
         // 首页放行
         filterChainDefinitionMap.put("/", "anon");
         filterChainDefinitionMap.put("/search", "anon");
         filterChainDefinitionMap.put("/api/category/find", "anon");
         // 注册、登录放行
         filterChainDefinitionMap.put("/api/user/login", "anon");
-        filterChainDefinitionMap.put("/api/user/register", "anon");
         filterChainDefinitionMap.put("/register", "anon");
         // 静态资源放行
         filterChainDefinitionMap.put("/bootstrap/**", "anon");
@@ -76,23 +79,23 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/jquery/**", "anon");
         filterChainDefinitionMap.put("/layer/**", "anon");
         filterChainDefinitionMap.put("/favicon.ico", "anon");
+        filterChainDefinitionMap.put("/api/wants/all", "anon");
         // druid放行
         filterChainDefinitionMap.put("/druid/**", "anon");
         // 所有url都必须认证通过才可以访问
-        filterChainDefinitionMap.put("/**", "authc");
         filterChainDefinitionMap.put("/api/user/**", "roles[user]");
         filterChainDefinitionMap.put("/api/wants/**", "roles[user]");
-        filterChainDefinitionMap.put("/api/wants/all", "anon");
         filterChainDefinitionMap.put("/api/order/**", "roles[user]");
         filterChainDefinitionMap.put("/api/item/**", "roles[user]");
         filterChainDefinitionMap.put("/api/comment/**", "roles[user]");
         filterChainDefinitionMap.put("/api/collection/**", "roles[user]");
         filterChainDefinitionMap.put("/api/admin/**", "roleOrFilter[root,admin]");
         filterChainDefinitionMap.put("/api/root/**", "roles[root]");
-        // 设置未授权路由，之后再返回json数据给前端
+        filterChainDefinitionMap.put("/**", "authc");
+        // 设置未登录路由，之后再返回json数据给前端
         shiroFilterFactoryBean.setLoginUrl("/login");
         // 未授权界面, 对应LoginController中 unauthorized 请求
-        shiroFilterFactoryBean.setUnauthorizedUrl("/api/user/unauthorized");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/accessDenied");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }
