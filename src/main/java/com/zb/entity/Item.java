@@ -10,7 +10,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import lombok.*;
 import org.hibernate.annotations.*;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -19,6 +18,8 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import lombok.*;
+
 /**
  * 商品实体
  *
@@ -26,7 +27,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @Getter
 @Setter
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -97,41 +97,47 @@ public class Item implements Serializable {
     /**
      * 商品图片url地址
      */
+    @Field(type = FieldType.Text)
     private String image;
 
     /**
      * 商品数量
      */
+    @Field(type = FieldType.Integer)
     private Integer count = 1;
 
     /**
      * 商品审核状态，0为待审核，1为审核通过, -1为审核未通过
      */
+    @Field(type = FieldType.Integer)
     private Integer status = 0;
 
     /**
      * 审核者id
      */
+    @Field(type = FieldType.Long)
     private Long auditId;
 
     /**
      * 商品销量
      */
+    @Field(type = FieldType.Integer)
     private Integer sales = 0;
 
     /**
      * 商品新旧程度，10分制
      */
+    @Field(type = FieldType.Integer)
     private Integer level = 0;
 
     /**
-     * 所属用户，设置外键user_id，参照sys_user的id字段
-     * 不可为空
+     * 所属用户，设置外键user_id，参照sys_user的id字段 不可为空
      */
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false, nullable = false)
     @JsonIgnoreProperties(value = "items")
     @ToString.Exclude
+    @org.springframework.data.annotation.Transient
     private User user;
 
     /**
@@ -140,6 +146,7 @@ public class Item implements Serializable {
     @OneToMany(mappedBy = "item", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnoreProperties(value = "item")
     @ToString.Exclude
+    @org.springframework.data.annotation.Transient
     private List<UserOrder> orderList;
 
     /**
@@ -153,7 +160,18 @@ public class Item implements Serializable {
         inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")})
     @JsonIgnoreProperties(value = "items")
     @ToString.Exclude
+    // @org.springframework.data.annotation.Transient
     private List<Category> categories;
+
+    /**
+     * 所属收藏
+     */
+    @ManyToOne(targetEntity = Collection.class, cascade = {CascadeType.REFRESH})
+    @JoinColumn(name = "collection_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JsonIgnoreProperties(value = "items")
+    @ToString.Exclude
+    @org.springframework.data.annotation.Transient
+    private Collection collection;
 
     /**
      * 商品评论列表
@@ -161,5 +179,6 @@ public class Item implements Serializable {
     @OneToMany(mappedBy = "item", cascade = {CascadeType.REMOVE, CascadeType.MERGE})
     @JsonIgnoreProperties(value = "item")
     @ToString.Exclude
+    @org.springframework.data.annotation.Transient
     private List<ItemComment> itemComments;
 }
