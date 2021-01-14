@@ -159,12 +159,14 @@
 
 .comment-content-name {
     color: #6d757a;
-    font-size: 12px;
+    font-size: 16px;
     margin-bottom: 5px;
 }
 
 .comment-content-article {
-    font-size: 14px;
+    position: relative;
+    left: 10px;
+    font-size: 18px;
     margin-bottom: 10px;
 }
 
@@ -330,4 +332,9 @@
 .details{
     width: 50%;
     float: left;
+}
+.star {
+    position: relative;
+    top: 190px;
+    left: 250px;
 }

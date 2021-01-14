@@ -270,7 +270,7 @@
                             <div class="col-xs-2 col-md-1">
                                 <form>
                                     <button type="button" id="myself_order_del"
-                                            class="btn btn-danger btn-sm"><a th:href="'/api/order/order?orderId=' + *{id}" style="color: white;text-decoration: none;">删除</a>
+                                            class="btn btn-danger btn-sm"><a th:href="'/api/order/remove?orderId=' + *{id}" style="color: white;text-decoration: none;">删除</a>
                                     </button>
                                 </form>
                             </div>
@@ -378,10 +378,10 @@
                             <div class="col-xs-7 col-md-10"></div>
 
                             <!-- 删除 -->
-                            <div class="col-xs-2 col-md-1">
+                            <div class="col-xs-2 col-md-1" th:id="*{id}">
                                 <form>
                                     <button type="button" id="myself_collection_del"
-                                            class="btn btn-danger btn-sm">删除
+                                            class="btn btn-danger btn-sm" >删除
                                     </button>
                                 </form>
                             </div>
@@ -401,6 +401,15 @@
                 <!--################################################### 地址 ###################################################-->
                 <div role="tabpanel" class="tab-pane" id="address">
 
+                    <div class="row">
+                        <div class="col-xs-2 col-md-1">
+                            <form class="form_articleUpdate">
+                                <button id="form_addressUpdate_button" type="button"
+                                        class="btn btn-info btn-sm">新增
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                     <!-- 商品展示-循环 - 模板 -->
                     <div id="myself_address" style="display: block" th:each="add:${address}" th:object="${add}">
 
@@ -421,13 +430,7 @@
                             <div class="row">
                                 <div class="col-xs-7 col-md-10"></div>
                                 <!-- 修改 -->
-                                <div class="col-xs-2 col-md-1">
-                                    <form class="form_articleUpdate">
-                                        <button id="form_addressUpdate_button" type="button"
-                                                class="btn btn-info btn-sm">新增
-                                        </button>
-                                    </form>
-                                </div>
+
                                 <!-- 删除 -->
                                 <div class="col-xs-2 col-md-1">
                                     <form>
@@ -652,7 +655,7 @@
       gender = 0
     }
     console.log(gender);
-    var userId = localStorage.getItem("userId");
+    userId = localStorage.getItem("userId");
     var data = {
       "realName":realName,
       "phoneNumber":phoneNumber,
@@ -681,10 +684,11 @@
   })
 
 
-
   $("#myself_collection_del").click(function () {
+    var collectionId = $(this).parent("div").attr('id');
+    console.log(collectionId);
     $.ajax({
-      url: "/api/collection/remove?userId="+userId,
+      url: "/api/collection/remove?userId="+userId+"&collectionId"+collectionId,
       type: "POST",
       contentType: "application/json",
       dataType: "json",
@@ -692,6 +696,7 @@
       success: function (data) {
         layer.msg(data.msg);
         console.log(data.msg);
+        location.reload();
       }
     })
   })

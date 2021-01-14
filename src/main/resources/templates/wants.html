@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>商品详情页</title>
+    <title>求购详情页</title>
     <link rel="stylesheet" href="/css/item.css">
     <link rel="stylesheet" href="/css/index.css">
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -32,55 +32,26 @@
     </div>
 </div>
 
-<div class="list-1">
-    <ul class="list-ul-2" style="position: relative;right: 190px;">
-        <div class="img"><img src="/images/logo1.jpg" width="55px" height="55px" class="img-logo"/></div>
-
-        <li>
-            <a href="/" class="index_click">全部商品</a>
-        </li>
-        <li th:each="category:${categories}">
-            <a th:href="'/api/category/find?categoryId='+${category.id}" th:text="${category.name}"
-               class="category_click">123</a>
-        </li>
-    </ul>
-</div>
 <div id="itemboard" class="board">
     <div class="imge">
-        <img th:src="${item.image}" class="itemimage">
+        <img th:src="${wants.image}" class="itemimage" >
     </div>
 
     <div id="details" class="details">
-        <h1 id="itemname" class="itemname" th:text="${item.itemName}"></h1>
-        <h3 class="sellInfo" th:text="'已经销售：' + ${item.sales} + '件商品，剩余' + ${item.count} + '件商品'">暂无销售信息</h3>
-        <h3 class="sellerName" th:text="'卖家：' + ${item.user.username}"></h3>
-        <h1 class="price" th:text="'￥' + ${item.price}">￥9999</h1>
-        <div th:if="${item.level} eq 10">
-            <h1 class="level" th:text="${item.level} + '成新'">全新！</h1>
-        </div>
-        <div th:if="${item.level} ne 10">
-            <h1 class="level" th:text="${item.level} + '成新'">全新！</h1>
-        </div>
-        <div th:if="${inCart} eq false">
-            <input type="button" class="buybutton" value="加入购物车">
-        </div>
+        <h1 id="itemname" class="itemname" th:text="${wants.title}"></h1>
 
-        <div th:if="${inCart} eq true">
-            <input type="button" class="incartbutton" value="已在购物车中" disabled>
-        </div>
+        <h3 class="sellerName" th:text="'求购者：' + ${wants.user.username}"></h3>
+<!--        <div>-->
+<!--            <input type="button" class="buybutton" value="加入购物车">-->
+<!--        </div>-->
 
-        <div class="star">
-            <button type="button" class="btn btn-default" id="btn_collect">
-                <span class="glyphicon glyphicon-star-empty" id="btn_collect_icon" aria-hidden="true"></span>收藏
-            </button>
-        </div>
 
     </div>
 
 </div>
 <div class="container">
     <h2>商品描述</h2>
-    <span class="itemdescription" th:text="${item.description}">暂无商品的描述信息</span>
+    <span class="itemdescription" th:text="${wants.description}">暂无商品的描述信息</span>
 </div>
 
 <div class="container">
@@ -118,24 +89,22 @@
 </div>
 
 <script src="/jquery/jquery2.1.4.js"></script>
-<script src="/bootstrap/js/bootstrap.js"></script>
 <script src="/layer/layer.js"></script>
 <script th:inline="javascript">
-    function search() {
+    function search () {
         console.log($('#searchText').val())
         var data = $('#searchText').val()
         location.assign("/search?keyword=" + data);
     }
-
     var itemId = 0
-    itemId = [[${item.id}]]
+    itemId = [[${wants.id}]]
 
     var userId = localStorage.getItem('userId')
     console.log(userId)
 
     $(function () {
-        load_data();
-        load_collect();
+        load_data()
+
         $('.buybutton').on('click', function () {
             if (userId == null || userId == '') {
                 layer.msg('请先登录再添加购物车')
@@ -162,7 +131,7 @@
                 }
             })
             $(this).val("已在购物车中");
-            $(this).attr('disabled', true);
+            $(this).attr('disabled',true);
             $(this).css("background-color", "#6d757a");
         })
 
@@ -174,17 +143,17 @@
             } else if (itemId == null || itemId == '') {
                 layer.msg('暂无此商品信息，无法添加评论')
                 return
-            } else if (content == null || content == '') {
+            } else if (content == null || content == ''){
                 layer.msg('请输入评论内容')
                 return
             }
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
-                url: '/api/comment/item?itemId=' + itemId,
+                url: '/api/comment/wants?wantsId=' + itemId,
                 contentType: 'application/json',
                 traditional: true,
-                data: JSON.stringify({'userId': userId, 'content': content}),
+                data: JSON.stringify({ 'userId': userId, 'content': content }),
                 success: function (data) {
                     location.reload()
                     // location.href(data);
@@ -200,56 +169,11 @@
                 }
             })
         })
-
-        $("#btn_collect").click(function () {
-            var classname = $("#btn_collect_icon").attr("class");
-            $("#btn_collect_icon").removeClass("glyphicon-star-empty glyphicon-star");
-            if (classname == "glyphicon glyphicon-star-empty") {
-                $.ajax({
-                    type: 'POST',
-                    dataType: 'json',
-                    url: '/api/collection/add?userId=' + userId + '&itemId=' + itemId,
-                    contentType: 'application/json',
-                    traditional: true,
-                    data: JSON.stringify(''),
-                    success: function (data) {
-                        if (data.code == 0) {
-                            layer.msg('收藏成功！');
-                            $("#btn_collect_icon").addClass("glyphicon glyphicon-star");
-                        } else {
-                            layer.msg(data.msg)
-                        }
-                    },
-                    error: function (data) {
-                    }
-                })
-
-            } else {
-                $.ajax({
-                    type: 'POST',
-                    dataType: 'json',
-                    url: '/api/collection/remove?userId=' + userId + '&itemId=' + itemId,
-                    contentType: 'application/json',
-                    traditional: true,
-                    data: JSON.stringify(''),
-                    success: function (data) {
-                        if (data.code == 0) {
-                            layer.msg('取消收藏成功！');
-                            $("#btn_collect_icon").addClass("glyphicon glyphicon-star-empty");
-                        } else {
-                            layer.msg(data.msg)
-                        }
-                    },
-                    error: function (data) {
-                    }
-                })
-            }
-        });
     })
 
     //设置顶部栏的登录/退出按钮和用户名显示
 
-    function load_data() {
+    function load_data () {
         var theme = localStorage.getItem('username')
         var userId = localStorage.getItem('userId')
         console.log(localStorage.getItem('username'))
@@ -264,21 +188,11 @@
             $('#login_logout').attr('href', '/logout')
             $('#uname').text(theme)
             $('#wants').show()
-            $('#wants').attr('href', '/api/wants?userId=' + userId)
+            $('#wants').attr('href', '/api/wants?userId='+userId)
             $('#cart').show()
-            $('#cart').attr('href', '/api/cart/all?userId=' + userId)
+            $('#cart').attr('href', '/api/cart/all?userId='+userId)
             $('#uname').attr('href', '/api/user/info?userId=' + userId)
-        }
-    }
-
-    function load_collect() {
-        var isCollected = [[${collected}]]
-        if (isCollected == false) {
-            $("#btn_collect_icon").addClass("glyphicon glyphicon-star-empty");
-        } else {
-            $("#btn_collect_icon").addClass("glyphicon glyphicon-star");
         }
     }
 </script>
 </body>
-</html>

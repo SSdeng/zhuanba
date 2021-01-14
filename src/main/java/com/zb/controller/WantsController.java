@@ -122,6 +122,10 @@ public class WantsController {
         Page<Wants> wants = wantsService.getAllByPage(pageNo, pageSize);
         List<CategoryVO> categories = categoryService.getAllCategories();
         model.addAttribute("items", wants);
+        System.out.println(wants.getSize());
+        for(Wants w : wants){
+            System.out.println(w.getDescription());
+        }
         model.addAttribute("categories", categories);
         model.addAttribute("b",3);
         return "index";
