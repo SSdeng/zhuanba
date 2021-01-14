@@ -18,6 +18,14 @@ public interface CollectionService {
     Collection findById(Long id);
 
     /**
+     * 根据用户id获取收藏夹
+     *
+     * @param userId
+     * @return
+     */
+    Collection findByUser(Long userId);
+
+    /**
      * 添加商品到收藏夹
      * @param userId 用户id
      * @param itemId 商品id

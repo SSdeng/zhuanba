@@ -1,6 +1,7 @@
 package com.zb.controller;
 
 
+import com.zb.entity.Collection;
 import com.zb.entity.User;
 import com.zb.service.CollectionService;
 import com.zb.util.Result;
@@ -32,6 +33,7 @@ public class CollectionController {
      * @return Result
      */
     @PostMapping("/add")
+    @ResponseBody
     public Result addItem(@RequestParam("userId")Long  userId, @RequestParam("itemId") Long itemId){
         collectionService.addItem(userId,itemId);
         return Result.ok();
@@ -45,12 +47,11 @@ public class CollectionController {
      * @return String
      */
     @PostMapping("/remove")
-    @ResponseBody
-    public String removeItem(@RequestParam("collectionId")Long collectionId
+    public String removeItem(@RequestParam("userId")Long userId
             , @RequestParam("itemId") Long itemId){
-        User user = collectionService.findById(collectionId).getUser();
-        collectionService.removeItem(collectionId,itemId);
-        return "redirect:/api/user/info?userId"+user.getId();
+        Collection collection = collectionService.findByUser(userId);
+        collectionService.removeItem(collection.getId(), itemId);
+        return "redirect:/api/user/info?userId" + userId;
     }
 
 }
