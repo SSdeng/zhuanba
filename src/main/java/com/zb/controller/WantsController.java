@@ -2,11 +2,15 @@ package com.zb.controller;
 
 import com.zb.entity.Item;
 import com.zb.entity.Wants;
+import com.zb.entity.vo.CategoryVO;
+import com.zb.service.CategoryService;
 import com.zb.service.UserService;
 import com.zb.service.WantsService;
 import com.zb.util.FileUtil;
 import com.zb.util.Result;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,6 +19,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,7 +36,8 @@ public class WantsController {
     private WantsService wantsService;
     @Resource
     private UserService userService;
-
+    @Resource
+    private CategoryService categoryService;
 
     /**
      * 返回求购发布页
@@ -47,12 +53,12 @@ public class WantsController {
      * 发布新求购
      *
      * @param userId 发布用户id
-     * @param wants 求购信息
+     * @param wants  求购信息
      * @return 求购id
      */
     @PostMapping("/release")
     @ResponseBody
-    public Result releaseWants(@RequestParam("userId") Long userId, @RequestBody Wants wants){
+    public Result releaseWants(@RequestParam("userId") Long userId, @RequestBody Wants wants) {
         wants.setUser(userService.findById(userId));
         wants = wantsService.insertSelective(wants);
         Map<String, Object> data = new HashMap<>();
@@ -63,8 +69,7 @@ public class WantsController {
     /**
      * 查看指定id求购详情
      *
-     * @param wantsId
-     *            求购id
+     * @param wantsId 求购id
      * @return 求购信息
      */
     @GetMapping("/details")
@@ -84,7 +89,7 @@ public class WantsController {
      */
     @GetMapping("/remove")
     @ResponseBody
-    public Result removeWants(@RequestParam("wantsId") long wantsId){
+    public Result removeWants(@RequestParam("wantsId") long wantsId) {
         wantsService.deleteById(wantsId);
         return Result.ok("删除求购成功", null);
     }
@@ -93,7 +98,7 @@ public class WantsController {
      * 上传求购图片
      *
      * @param wantsId 求购id
-     * @param file 上传图片
+     * @param file    上传图片
      * @return 求购信息
      */
     @PostMapping("/upload")
@@ -103,5 +108,23 @@ public class WantsController {
         Wants wants = wantsService.setImageById(wantsId, fileName);
         modelAndView.addObject("wants", wants);
         return modelAndView;
+    }
+
+    /**
+     *
+     * @param model
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    @GetMapping("/all")
+    public String allWants(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+                           @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+        Page<Wants> wants = wantsService.getAllByPage(pageNo, pageSize);
+        List<CategoryVO> categories = categoryService.getAllCategories();
+        model.addAttribute("items", wants);
+        model.addAttribute("categories", categories);
+        model.addAttribute("b",3);
+        return "index";
     }
 }
