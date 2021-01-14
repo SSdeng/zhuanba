@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import com.zb.entity.Collection;
 import com.zb.entity.vo.CategoryVO;
 import com.zb.entity.vo.ItemVO;
 import com.zb.service.CartService;
@@ -41,6 +42,8 @@ public class ItemController {
     private CategoryService categoryService;
     @Resource
     private CartService cartService;
+    @Resource
+    private Collection collection;
 
     /**
      * 发布商品处理
@@ -74,6 +77,7 @@ public class ItemController {
         modelAndView.addObject("comments", item.getItemComments());
         modelAndView.addObject("categories", categories);
         modelAndView.addObject("inCart", cartService.hasItem(userId,itemId));
+        modelAndView.addObject("inCollection", cartService.hasItem(userId, itemId));
         return modelAndView;
     }
 

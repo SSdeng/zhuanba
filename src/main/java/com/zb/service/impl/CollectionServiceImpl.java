@@ -3,11 +3,8 @@ package com.zb.service.impl;
 import com.zb.entity.*;
 import com.zb.exception.MyException;
 import com.zb.repository.CollectionRepository;
-import com.zb.repository.ItemRepository;
-import com.zb.repository.UserRepository;
 import com.zb.service.CollectionService;
 import com.zb.service.ItemService;
-import com.zb.service.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,8 +22,17 @@ public class CollectionServiceImpl implements CollectionService {
     private CollectionRepository collectionRepository;
     @Resource
     private ItemService itemService;
-    @Resource
-    private UserService userService;
+
+    /**
+     * 检查收藏夹中是否已有商品
+     *
+     * @param itemId 商品id
+     * @return true表有 false表无
+     */
+    @Override
+    public boolean hasItem(long id, long itemId) {
+        return findItemByItemId(findById(id).getItems(), itemId) != null;
+    }
 
     /**
      * 添加商品到收藏
@@ -37,7 +43,10 @@ public class CollectionServiceImpl implements CollectionService {
      */
     @Override
     public Collection addItem(Long userId, Long itemId) {
-        Collection collection = userService.findById(userId).getCollection();
+        Collection collection = findById(userId);
+        if (hasItem(collection, itemId)) {
+            throw new MyException("商品已在收藏夹中！");
+        }
         collection.getItems().add(itemService.findById(itemId));
         return collectionRepository.save(collection);
     }
@@ -52,20 +61,29 @@ public class CollectionServiceImpl implements CollectionService {
     public Collection removeItem(Long collectionId, Long itemId) {
         Collection collection = findById(collectionId);
         List<Item> list = collection.getItems();
-        boolean flag = false;
-        for (Item item : list) {
-            if (item.getId().equals(itemId)) {
-                list.remove(item);
-                flag = true;
-                break;
-            }
-        }
-        if (flag) {
-            return collectionRepository.save(collection);
+        Item item = findItemByItemId(list, itemId);
+        if (item != null) {
+            list.remove(item);
         } else {
             throw new MyException("商品不存在");
         }
+        return collectionRepository.save(collection);
+    }
 
+    /**
+     * 按商品id查找购物车中订单
+     *
+     * @param list   购物车
+     * @param itemId 商品id
+     * @return 购物车订单 不存在返回null
+     */
+    private Item findItemByItemId(List<Item> list, long itemId) {
+        for (Item item : list) {
+            if (item.getId().equals(itemId)) {
+                return item;
+            }
+        }
+        return null;
     }
 
     /**
@@ -108,4 +126,14 @@ public class CollectionServiceImpl implements CollectionService {
         return id == null ? null : collectionRepository.findById(id).orElse(null);
     }
 
+
+    /**
+     * 检查收藏夹中是否已有商品
+     *
+     * @param itemId 商品id
+     * @return true表有 false表无
+     */
+    private boolean hasItem(Collection collection, long itemId) {
+        return findItemByItemId(collection.getItems(), itemId) != null;
+    }
 }

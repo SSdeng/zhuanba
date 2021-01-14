@@ -249,28 +249,27 @@
         });
     })
 
-    //设置顶部栏的登录/退出按钮和用户名显示
+  //设置顶部栏的登录/退出按钮和用户名显示
 
-    function load_data() {
-        var theme = localStorage.getItem('username')
-        var userId = localStorage.getItem('userId')
-        console.log(localStorage.getItem('username'))
-        console.log(localStorage.getItem('userId'))
-        if (theme == null || theme == '') {
-            $('#login_logout').text('登录')
-            $('#uname').text('')
-            $('#wants').hide()
-            $('#cart').hide()
-        } else {
-            $('#login_logout').text('退出')
-            $('#login_logout').attr('href', '/logout')
-            $('#uname').text(theme)
-            $('#wants').show()
-            $('#wants').attr('href', '/api/wants?userId=' + userId)
-            $('#cart').show()
-            $('#cart').attr('href', '/api/cart/all?userId=' + userId)
-            $('#uname').attr('href', '/api/user/info?userId=' + userId)
-        }
+  function load_data () {
+    var theme = localStorage.getItem('username')
+    var userId = localStorage.getItem('userId')
+    console.log(localStorage.getItem('username'))
+    console.log(localStorage.getItem('userId'))
+    if (theme == null || theme == '') {
+      $('#login_logout').text('登录')
+      $('#uname').text('')
+      $('#wants').hide()
+      $('#cart').hide()
+    } else {
+      $('#login_logout').text('退出')
+      $('#login_logout').attr('href', '/logout')
+      $('#uname').text(theme)
+      $('#wants').show()
+      $('#wants').attr('href', '/api/wants/release?userId='+userId)
+      $('#cart').show()
+      $('#cart').attr('href', '/api/cart/all?userId='+userId)
+      $('#uname').attr('href', '/api/user/info?userId=' + userId)
     }
 
     function load_collect() {
