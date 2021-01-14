@@ -40,7 +40,7 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView("info");
         User user = userService.findById(userId);
         modelAndView.addObject("user", user);
-
+        modelAndView.addObject("address",user.getAddresses());
         modelAndView.addObject("collections", user.getCollection().getItems());
         modelAndView.addObject("wants", user.getWants());
         modelAndView.addObject("orders", user.getUserOrders());

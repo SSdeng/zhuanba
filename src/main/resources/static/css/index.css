@@ -21,7 +21,7 @@
 #dingbuhome img {
     height: 40px;
     position: relative;
-    
+    top: 5px;
 }
 
 .dingbu a:hover {

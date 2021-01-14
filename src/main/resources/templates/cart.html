@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>购物车</title>
 
-    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="/css/cart.css">
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
 </head>
@@ -32,7 +32,6 @@
 
         </div>
     </div>
-
 </div>
 
 <!--<div>-->
@@ -241,350 +240,356 @@
 <script src="/bootstrap/js/bootstrap.min.js"></script>
 <script src="/layer/layer.js"></script>
 <script th:inline="javascript">
-    var deleteGoods = null;
-    var userId = localStorage.getItem("userId");
-    var cartId = [[${cart.id}]]
-    var items = [];
-    buyitem = null;
+  function search () {
+    console.log($('#searchText').val())
+    var data = $('#searchText').val()
+    location.assign('/search?keyword=' + data)
+  }
 
-    function ShoppingCarObserver(elInput, isAdd) {
-        this.elInput = elInput
-        this.parents = this.elInput.parents('.goods-item')
-        this.itemId = this.elInput.parents('.panel-default').attr('id');
-        this.count = parseInt(this.elInput.val())
-        this.isAdd = isAdd
-        this.singlePrice = parseFloat(this.parents.find('.single-price').text())
-        this.computeGoodsMoney = function () {
-            var moneyCount = this.count * this.singlePrice
-            var singleTotalEl = this.parents.find('.single-total')
-            console.log(moneyCount)
-            singleTotalEl.empty().append(moneyCount.toFixed(2))
-        }
-        this.showCount = function () {
-            var isChecked = this.parents.find('.goods-list-item')[0].checked
-            var GoodsTotalMoney = parseFloat($('#selectGoodsMoney').text())
-            var goodsTotalCount = parseInt($('#selectGoodsCount').text())
-            if (this.elInput) {
-                if (this.isAdd) {
-                    ++this.count
-                    if (isChecked) {
-                        $('#selectGoodsMoney').empty().append((GoodsTotalMoney + this.singlePrice).toFixed(2))
-                        $('#selectGoodsCount').empty().append(goodsTotalCount + 1)
-                    }
-                } else {
-                    if (parseInt(this.count) <= 1) {
-                        return
-                    } else {
-                        --this.count
-                        if (isChecked) {
-                            $('#selectGoodsMoney').empty().append((GoodsTotalMoney - this.singlePrice).toFixed(2))
-                            $('#selectGoodsCount').empty().append(goodsTotalCount - 1)
-                        }
-                    }
-                }
-                $.ajax({
-                    url: '/api/cart/changevalue?cartId=' + cartId + "&itemId=" + this.itemId + "&count=" + this.count,
-                    data: "",
-                    type: 'POST',
-                    contentType: 'application/json',
-                    dataType: 'json',
-                    traditional: true
-                })
-                this.elInput.val(this.count)
-            }
-        }
-        this.checkIsAll = function () {
-            var checkLen = $('.goods-list-item:checked').length
-            if (checkLen > 0) {
-                $('.submitData').removeClass('submitDis')
-            } else {
-                $('.submitData').addClass('submitDis')
-            }
-            if ($('.goods-item').length === checkLen) {
-                $('#checked-all-bottom, #check-goods-all').prop('checked', true)
-            } else {
-                $('#checked-all-bottom, #check-goods-all').prop('checked', false)
-            }
-        }
-        this.checkedChange = function (isChecked) {
-            if (isChecked === undefined) {
-                var isChecked = this.parents.find('.goods-list-item')[0].checked
-            }
-            var itemTotalMoney = parseFloat(this.parents.find('.single-total').text())
-            var GoodsTotalMoney = parseFloat($('#selectGoodsMoney').text())
-            var itemCount = parseInt(this.parents.find('.goods-count').val())
-            var goodsTotalCount = parseInt($('#selectGoodsCount').text())
-            if (isChecked) {
-                $('#selectGoodsMoney').empty().append((itemTotalMoney + GoodsTotalMoney).toFixed(2))
-                $('#selectGoodsCount').empty().append(itemCount + goodsTotalCount)
-            } else {
-                if (GoodsTotalMoney - itemTotalMoney === 0) {
-                    $('#selectGoodsMoney').empty().append('0.00')
-                    if (!$('.submitData').hasClass('submitDis')) {
-                        $('.submitData').addClass('submitDis')
-                    }
-                } else {
-                    $('#selectGoodsMoney').empty().append((GoodsTotalMoney - itemTotalMoney).toFixed(2))
-                }
-                $('#selectGoodsCount').empty().append((goodsTotalCount - itemCount).toFixed(2))
-            }
-        }
-        this.deleteGoods = function () {
-            var isChecked = this.parents.find('.goods-list-item')[0].checked
-            if (isChecked) {
-                this.checkedChange(false)
-            }
-            var itemId = $(this.parents.find('.panel-default')[0]).attr('id')
-            $.ajax({
-                url: "/api/cart/remove?userId=" + userId + "&itemId=" + itemId,
-                type: "POST",
-                contentType: "application/json",
-                dataType: "json",
-                data: "",
-                traditional: true,
-                success: function (data) {
-                    if (data.code == 0) {
-                        layer.msg("删除成功");
-                        location.reload();
-                    } else {
-                        layer.msg(data.msg);
-                    }
-                }
-            });
-            this.parents.remove()
-            this.checkOptions()
-        }
-        this.checkOptions = function () {
-            if ($('#check-goods-all')[0].checked) {
-                if ($('.goods-list-item').length <= 0) {
-                    $('#checked-all-bottom, #check-goods-all').prop('checked', false)
-                }
-            }
-        }
-        this.buygoods = function () {
-            var isChecked = this.parents.find('.goods-list-item')[0].checked
-            if (isChecked) {
-                this.checkedChange(false)
-            }
-            var itemId = $(this.parents.find('.panel-default')[0]).attr('id')
-            var value = $(this.parents.find('.goods-count')[0]).val()
-            // var value = 10
-            buyitems += "{\"itemId\":" + itemId + ",\"value\":" + value + "}"
-            items[items.length] = {"itemId": itemId, "value": value};
-            this.parents.remove()
-            this.checkOptions()
-        }
+  var deleteGoods = null
+  var userId = localStorage.getItem('userId')
+  var cartId = [[${cart.id}]]
+  var items = []
+  buyitem = null
+
+  function ShoppingCarObserver (elInput, isAdd) {
+    this.elInput = elInput
+    this.parents = this.elInput.parents('.goods-item')
+    this.itemId = this.elInput.parents('.panel-default').attr('id')
+    this.count = parseInt(this.elInput.val())
+    this.isAdd = isAdd
+    this.singlePrice = parseFloat(this.parents.find('.single-price').text())
+    this.computeGoodsMoney = function () {
+      var moneyCount = this.count * this.singlePrice
+      var singleTotalEl = this.parents.find('.single-total')
+      console.log(moneyCount)
+      singleTotalEl.empty().append(moneyCount.toFixed(2))
     }
-
-    function checkedAll(_this) {
-        if ($('.goods-item').length <= 0) {
-            $('.submitData').addClass('submitDis')
+    this.showCount = function () {
+      var isChecked = this.parents.find('.goods-list-item')[0].checked
+      var GoodsTotalMoney = parseFloat($('#selectGoodsMoney').text())
+      var goodsTotalCount = parseInt($('#selectGoodsCount').text())
+      if (this.elInput) {
+        if (this.isAdd) {
+          ++this.count
+          if (isChecked) {
+            $('#selectGoodsMoney').empty().append((GoodsTotalMoney + this.singlePrice).toFixed(2))
+            $('#selectGoodsCount').empty().append(goodsTotalCount + 1)
+          }
         } else {
-            $('.submitData').removeClass('submitDis')
-        }
-        for (var i = 0; i < $('.goods-item').length; i++) {
-            var elInput = $('.goods-item').eq(i).find('.goods-list-item')
-            var isChecked = $('.goods-item').eq(i).find('.goods-list-item')[0].checked
-            var checkAllEvent = new ShoppingCarObserver(elInput, null)
-            if (_this.checked) {
-                if (!isChecked) {
-                    elInput.prop('checked', true)
-                    checkAllEvent.checkedChange(true)
-                }
-            } else {
-                if (!$('.submitData').hasClass('submitDis')) {
-                    $('.submitData').addClass('submitDis')
-                }
-                if (isChecked) {
-                    elInput.prop('checked', false)
-                    checkAllEvent.checkedChange(false)
-                }
+          if (parseInt(this.count) <= 1) {
+            return
+          } else {
+            --this.count
+            if (isChecked) {
+              $('#selectGoodsMoney').empty().append((GoodsTotalMoney - this.singlePrice).toFixed(2))
+              $('#selectGoodsCount').empty().append(goodsTotalCount - 1)
             }
-        }
-    }
-
-    $('#check-goods-all').on('change', function () {
-        if (this.checked) {
-            $('#checked-all-bottom').prop('checked', true)
-        } else {
-            $('#checked-all-bottom').prop('checked', false)
-        }
-        checkedAll(this)
-    })
-    $('#checked-all-bottom').on('change', function () {
-        if (this.checked) {
-            $('#check-goods-all').prop('checked', true)
-        } else {
-            $('#check-goods-all').prop('checked', false)
-        }
-        checkedAll(this)
-    })
-    $('.goods-list-item').on('change', function () {
-        var tmpCheckEl = $(this)
-        var checkEvent = new ShoppingCarObserver(tmpCheckEl, null)
-        checkEvent.checkedChange()
-        checkEvent.checkIsAll()
-    })
-    // $('.goods-content').on('click', '.car-decrease', function () {
-    //     var goodsInput = $(this).parents('.input-group').find('.goods-count')
-    //     var decreaseCount = new ShoppingCarObserver(goodsInput, false)
-    //     decreaseCount.showCount()
-    //     decreaseCount.computeGoodsMoney()
-    // })
-    // $('.goods-content').on('click', '.car-add', function () {
-    //     var goodsInput = $(this).parents('.input-group').find('.goods-count')
-    //     var addCount = new ShoppingCarObserver(goodsInput, true)
-    //     addCount.showCount()
-    //     addCount.computeGoodsMoney()
-    // })
-    // $('.goods-content').on('click', '.item-delete', function () {
-    //     var goodsInput = $(this).parents('.goods-item').find('.goods-list-item')
-    //     deleteGoods = new ShoppingCarObserver(goodsInput, null)
-    //     $('#deleteItemTip').modal('show')
-    // })
-
-    $('.car-decrease').on('click', function () {
-        var goodsInput = $(this).parents('.input-group').find('.goods-count')
-        var decreaseCount = new ShoppingCarObserver(goodsInput, false)
-        decreaseCount.showCount()
-        decreaseCount.computeGoodsMoney()
-    })
-    $('.car-add').on('click', function () {
-        var goodsInput = $(this).parents('.input-group').find('.goods-count')
-        var addCount = new ShoppingCarObserver(goodsInput, true)
-        addCount.showCount()
-        addCount.computeGoodsMoney()
-    })
-    // $('.goods-count').change(function(){
-    //     var value = $(this).val();
-    //     var parent = $(this).parents('.panel-default');
-    //     var totalprice = parent.find('.single-total');
-    //     var singleprice = $(parent.find('.single-price')).val();
-    //     if(checkValue(count) == false){
-    //         $(this).val(1);
-    //     }else{
-    //         count = Math.trunc(count);
-    //         if(count == 0){
-    //             count++;
-    //         }
-    //         $(this).val(count)
-    //     }
-    //     $(totalprice).val(($(this).val() * singleprice).toFixed(2));
-    // })
-    // $('.single-total').change(function(){
-    //     var totalprice = $(this).val();
-    //     $(this).val(totalprice.toFixed(2));
-    // })
-    $('.item-delete').on('click', function () {
-        var goodsInput = $(this).parents('.goods-item').find('.goods-list-item')
-        deleteGoods = new ShoppingCarObserver(goodsInput, null)
-        $('#deleteItemTip').modal('show')
-    })
-    $('.deleteSure').on('click', function () {
-        if (deleteGoods !== null) {
-            deleteGoods.deleteGoods()
-        }
-        $('#deleteItemTip').modal('hide')
-    })
-    $('#deleteMulty').on('click', function () {
-        if ($('.goods-list-item:checked').length <= 0) {
-            $('#selectItemTip').modal('show')
-        } else {
-            $('#deleteMultyTip').modal('show')
-        }
-    })
-    $('.deleteMultySure').on('click', function () {
-        for (var i = 0; i < $('.goods-list-item:checked').length; i++) {
-            var multyDelete = new ShoppingCarObserver($('.goods-list-item:checked').eq(i), null)
-            multyDelete.deleteGoods()
-            i--
-        }
-        multyDelete.checkOptions()
-        $('#deleteMultyTip').modal('hide')
-    })
-
-    $("#submit").on('click', function () {
-        if ($('.goods-list-item:checked').length <= 0) {
-            $('#selectItemTip').modal('show')
-        } else {
-            var totalCount = $("#selectGoodsCount").text();
-            var totalPrice = $("#selectGoodsMoney").text();
-            $('#buyitems').find('.modal-body').text("共选" + totalCount + "件商品，共计" + totalPrice + "元")
-            $('#buyitems').modal('show')
-        }
-    })
-
-    $('#buySure').on('click', function () {
-        buyitems = "["
-        for (var i = 0; i < $('.goods-list-item:checked').length; i++) {
-            var buy = new ShoppingCarObserver($('.goods-list-item:checked').eq(i), null)
-            buy.buygoods()
-            i--
-            if ($('.goods-list-item:checked').length >= 1) {
-                buyitems += ","
-            }
-        }
-        buyitems += "]"
-        console.log(JSON.stringify(items));
-        if (userId == null || userId == "") {
-            layer.msg("请登陆后再购买商品！");
-            return;
+          }
         }
         $.ajax({
-            url: "/api/order/addcart?userId=" + userId,
-            type: "POST",
-            contentType: "application/json",
-            dataType: "json",
-            data: JSON.stringify({"items": items}),
-            traditional: true,
-            success: function (data) {
-                if (data.code == 0) {
-                    layer.msg("购买成功！");
-                    location.reload();
-                } else {
-                    layer.msg(data.msg);
-                }
-            }
-        });
-        $('#buyitems').modal('hide')
-    })
-
-    $(function () {
-        load_data()
-    })
-
-    //设置顶部栏的登录/退出按钮和用户名显示
-
-    function load_data () {
-        var theme = localStorage.getItem('username')
-        var userId = localStorage.getItem('userId')
-        console.log(localStorage.getItem('username'))
-        console.log(localStorage.getItem('userId'))
-        if (theme == null || theme == '') {
-            $('#login_logout').text('登录')
-            $('#uname').text('')
-            $('#wants').hide()
-            $('#cart').hide()
-        } else {
-            $('#login_logout').text('退出')
-            $('#login_logout').attr('href', '/logout')
-            $('#uname').text(theme)
-            $('#wants').show()
-            $('#wants').attr('href', '/api/wants?userId='+userId)
-            $('#cart').show()
-            $('#cart').attr('href', '/api/cart/all?userId='+userId)
-            $('#uname').attr('href', '/api/user/info?userId=' + userId)
-        }
+          url: '/api/cart/changevalue?cartId=' + cartId + '&itemId=' + this.itemId + '&count=' + this.count,
+          data: '',
+          type: 'POST',
+          contentType: 'application/json',
+          dataType: 'json',
+          traditional: true
+        })
+        this.elInput.val(this.count)
+      }
     }
-
-    function checkValue(count) {
-        if (count == null || count == "" || count <= 0) {
-            return false;
-        } else {
-            // $(e).val(Math.trunc(count));
-            return true;
-        }
+    this.checkIsAll = function () {
+      var checkLen = $('.goods-list-item:checked').length
+      if (checkLen > 0) {
+        $('.submitData').removeClass('submitDis')
+      } else {
+        $('.submitData').addClass('submitDis')
+      }
+      if ($('.goods-item').length === checkLen) {
+        $('#checked-all-bottom, #check-goods-all').prop('checked', true)
+      } else {
+        $('#checked-all-bottom, #check-goods-all').prop('checked', false)
+      }
     }
+    this.checkedChange = function (isChecked) {
+      if (isChecked === undefined) {
+        var isChecked = this.parents.find('.goods-list-item')[0].checked
+      }
+      var itemTotalMoney = parseFloat(this.parents.find('.single-total').text())
+      var GoodsTotalMoney = parseFloat($('#selectGoodsMoney').text())
+      var itemCount = parseInt(this.parents.find('.goods-count').val())
+      var goodsTotalCount = parseInt($('#selectGoodsCount').text())
+      if (isChecked) {
+        $('#selectGoodsMoney').empty().append((itemTotalMoney + GoodsTotalMoney).toFixed(2))
+        $('#selectGoodsCount').empty().append(itemCount + goodsTotalCount)
+      } else {
+        if (GoodsTotalMoney - itemTotalMoney === 0) {
+          $('#selectGoodsMoney').empty().append('0.00')
+          if (!$('.submitData').hasClass('submitDis')) {
+            $('.submitData').addClass('submitDis')
+          }
+        } else {
+          $('#selectGoodsMoney').empty().append((GoodsTotalMoney - itemTotalMoney).toFixed(2))
+        }
+        $('#selectGoodsCount').empty().append((goodsTotalCount - itemCount).toFixed(2))
+      }
+    }
+    this.deleteGoods = function () {
+      var isChecked = this.parents.find('.goods-list-item')[0].checked
+      if (isChecked) {
+        this.checkedChange(false)
+      }
+      var itemId = $(this.parents.find('.panel-default')[0]).attr('id')
+      $.ajax({
+        url: '/api/cart/remove?userId=' + userId + '&itemId=' + itemId,
+        type: 'POST',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: '',
+        traditional: true,
+        success: function (data) {
+          if (data.code == 0) {
+            layer.msg('删除成功')
+            location.reload()
+          } else {
+            layer.msg(data.msg)
+          }
+        }
+      })
+      this.parents.remove()
+      this.checkOptions()
+    }
+    this.checkOptions = function () {
+      if ($('#check-goods-all')[0].checked) {
+        if ($('.goods-list-item').length <= 0) {
+          $('#checked-all-bottom, #check-goods-all').prop('checked', false)
+        }
+      }
+    }
+    this.buygoods = function () {
+      var isChecked = this.parents.find('.goods-list-item')[0].checked
+      if (isChecked) {
+        this.checkedChange(false)
+      }
+      var itemId = $(this.parents.find('.panel-default')[0]).attr('id')
+      var value = $(this.parents.find('.goods-count')[0]).val()
+      // var value = 10
+      buyitems += '{"itemId":' + itemId + ',"value":' + value + '}'
+      items[items.length] = { 'itemId': itemId, 'value': value }
+      this.parents.remove()
+      this.checkOptions()
+    }
+  }
+
+  function checkedAll (_this) {
+    if ($('.goods-item').length <= 0) {
+      $('.submitData').addClass('submitDis')
+    } else {
+      $('.submitData').removeClass('submitDis')
+    }
+    for (var i = 0; i < $('.goods-item').length; i++) {
+      var elInput = $('.goods-item').eq(i).find('.goods-list-item')
+      var isChecked = $('.goods-item').eq(i).find('.goods-list-item')[0].checked
+      var checkAllEvent = new ShoppingCarObserver(elInput, null)
+      if (_this.checked) {
+        if (!isChecked) {
+          elInput.prop('checked', true)
+          checkAllEvent.checkedChange(true)
+        }
+      } else {
+        if (!$('.submitData').hasClass('submitDis')) {
+          $('.submitData').addClass('submitDis')
+        }
+        if (isChecked) {
+          elInput.prop('checked', false)
+          checkAllEvent.checkedChange(false)
+        }
+      }
+    }
+  }
+
+  $('#check-goods-all').on('change', function () {
+    if (this.checked) {
+      $('#checked-all-bottom').prop('checked', true)
+    } else {
+      $('#checked-all-bottom').prop('checked', false)
+    }
+    checkedAll(this)
+  })
+  $('#checked-all-bottom').on('change', function () {
+    if (this.checked) {
+      $('#check-goods-all').prop('checked', true)
+    } else {
+      $('#check-goods-all').prop('checked', false)
+    }
+    checkedAll(this)
+  })
+  $('.goods-list-item').on('change', function () {
+    var tmpCheckEl = $(this)
+    var checkEvent = new ShoppingCarObserver(tmpCheckEl, null)
+    checkEvent.checkedChange()
+    checkEvent.checkIsAll()
+  })
+  // $('.goods-content').on('click', '.car-decrease', function () {
+  //     var goodsInput = $(this).parents('.input-group').find('.goods-count')
+  //     var decreaseCount = new ShoppingCarObserver(goodsInput, false)
+  //     decreaseCount.showCount()
+  //     decreaseCount.computeGoodsMoney()
+  // })
+  // $('.goods-content').on('click', '.car-add', function () {
+  //     var goodsInput = $(this).parents('.input-group').find('.goods-count')
+  //     var addCount = new ShoppingCarObserver(goodsInput, true)
+  //     addCount.showCount()
+  //     addCount.computeGoodsMoney()
+  // })
+  // $('.goods-content').on('click', '.item-delete', function () {
+  //     var goodsInput = $(this).parents('.goods-item').find('.goods-list-item')
+  //     deleteGoods = new ShoppingCarObserver(goodsInput, null)
+  //     $('#deleteItemTip').modal('show')
+  // })
+
+  $('.car-decrease').on('click', function () {
+    var goodsInput = $(this).parents('.input-group').find('.goods-count')
+    var decreaseCount = new ShoppingCarObserver(goodsInput, false)
+    decreaseCount.showCount()
+    decreaseCount.computeGoodsMoney()
+  })
+  $('.car-add').on('click', function () {
+    var goodsInput = $(this).parents('.input-group').find('.goods-count')
+    var addCount = new ShoppingCarObserver(goodsInput, true)
+    addCount.showCount()
+    addCount.computeGoodsMoney()
+  })
+  // $('.goods-count').change(function(){
+  //     var value = $(this).val();
+  //     var parent = $(this).parents('.panel-default');
+  //     var totalprice = parent.find('.single-total');
+  //     var singleprice = $(parent.find('.single-price')).val();
+  //     if(checkValue(count) == false){
+  //         $(this).val(1);
+  //     }else{
+  //         count = Math.trunc(count);
+  //         if(count == 0){
+  //             count++;
+  //         }
+  //         $(this).val(count)
+  //     }
+  //     $(totalprice).val(($(this).val() * singleprice).toFixed(2));
+  // })
+  // $('.single-total').change(function(){
+  //     var totalprice = $(this).val();
+  //     $(this).val(totalprice.toFixed(2));
+  // })
+  $('.item-delete').on('click', function () {
+    var goodsInput = $(this).parents('.goods-item').find('.goods-list-item')
+    deleteGoods = new ShoppingCarObserver(goodsInput, null)
+    $('#deleteItemTip').modal('show')
+  })
+  $('.deleteSure').on('click', function () {
+    if (deleteGoods !== null) {
+      deleteGoods.deleteGoods()
+    }
+    $('#deleteItemTip').modal('hide')
+  })
+  $('#deleteMulty').on('click', function () {
+    if ($('.goods-list-item:checked').length <= 0) {
+      $('#selectItemTip').modal('show')
+    } else {
+      $('#deleteMultyTip').modal('show')
+    }
+  })
+  $('.deleteMultySure').on('click', function () {
+    for (var i = 0; i < $('.goods-list-item:checked').length; i++) {
+      var multyDelete = new ShoppingCarObserver($('.goods-list-item:checked').eq(i), null)
+      multyDelete.deleteGoods()
+      i--
+    }
+    multyDelete.checkOptions()
+    $('#deleteMultyTip').modal('hide')
+  })
+
+  $('#submit').on('click', function () {
+    if ($('.goods-list-item:checked').length <= 0) {
+      $('#selectItemTip').modal('show')
+    } else {
+      var totalCount = $('#selectGoodsCount').text()
+      var totalPrice = $('#selectGoodsMoney').text()
+      $('#buyitems').find('.modal-body').text('共选' + totalCount + '件商品，共计' + totalPrice + '元')
+      $('#buyitems').modal('show')
+    }
+  })
+
+  $('#buySure').on('click', function () {
+    buyitems = '['
+    for (var i = 0; i < $('.goods-list-item:checked').length; i++) {
+      var buy = new ShoppingCarObserver($('.goods-list-item:checked').eq(i), null)
+      buy.buygoods()
+      i--
+      if ($('.goods-list-item:checked').length >= 1) {
+        buyitems += ','
+      }
+    }
+    buyitems += ']'
+    console.log(JSON.stringify(items))
+    if (userId == null || userId == '') {
+      layer.msg('请登陆后再购买商品！')
+      return
+    }
+    $.ajax({
+      url: '/api/order/addcart?userId=' + userId,
+      type: 'POST',
+      contentType: 'application/json',
+      dataType: 'json',
+      data: JSON.stringify({ 'items': items }),
+      traditional: true,
+      success: function (data) {
+        if (data.code == 0) {
+          layer.msg('购买成功！')
+          location.reload()
+        } else {
+          layer.msg(data.msg)
+        }
+      }
+    })
+    $('#buyitems').modal('hide')
+  })
+
+  $(function () {
+    load_data()
+  })
+
+  //设置顶部栏的登录/退出按钮和用户名显示
+
+  function load_data () {
+    var theme = localStorage.getItem('username')
+    var userId = localStorage.getItem('userId')
+    console.log(localStorage.getItem('username'))
+    console.log(localStorage.getItem('userId'))
+    if (theme == null || theme == '') {
+      $('#login_logout').text('登录')
+      $('#uname').text('')
+      $('#wants').hide()
+      $('#cart').hide()
+    } else {
+      $('#login_logout').text('退出')
+      $('#login_logout').attr('href', '/logout')
+      $('#uname').text(theme)
+      $('#wants').show()
+      $('#wants').attr('href', '/api/wants?userId=' + userId)
+      $('#cart').show()
+      $('#cart').attr('href', '/api/cart/all?userId=' + userId)
+      $('#uname').attr('href', '/api/user/info?userId=' + userId)
+    }
+  }
+
+  function checkValue (count) {
+    if (count == null || count == '' || count <= 0) {
+      return false
+    } else {
+      // $(e).val(Math.trunc(count));
+      return true
+    }
+  }
 
 </script>
 </body>

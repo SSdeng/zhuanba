@@ -34,6 +34,16 @@ spring:
     host: localhost
     port: 6379
     timeout: 2000s
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1ms
+        max-idle: 8
+        min-idle: 0
+
+
+
+
   thymeleaf:
     cache: true # 关闭页面缓存
     encoding: UTF-8 # 模板编码
