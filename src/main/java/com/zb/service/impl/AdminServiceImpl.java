@@ -67,7 +67,7 @@ public class AdminServiceImpl implements AdminService {
      */
     @Override
     public Page<Item> getAllItemsByPage(int pageNo, int pageSize) {
-        return itemService.findAllByPage(pageNo, pageSize);
+        return itemService.findAllPage(pageNo, pageSize);
     }
 
     /**

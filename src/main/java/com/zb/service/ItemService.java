@@ -65,13 +65,23 @@ public interface ItemService {
     Item setAuditStatus(long itemId, long adminId, int status);
 
     /**
-     * 分页查询
+     * 根据状态分页查询所有商品
+     *
+     * @param status 审核装态
+     * @param pageNo 起始页码
+     * @param pageSize 分页大小
+     * @return 商品列表
+     */
+    Page<Item> findAllPageByStatus(int status, int pageNo, int pageSize);
+
+    /**
+     * 分页查询所有商品
      *
      * @param pageNo   起始页码
      * @param pageSize 分页大小
      * @return 商品列表
      */
-    Page<Item> findAllByPage(int pageNo, int pageSize);
+    Page<Item> findAllPage(int pageNo, int pageSize);
 
     /**
      * 根据商品id查找商品

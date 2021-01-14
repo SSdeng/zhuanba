@@ -44,7 +44,7 @@ public interface OrderService {
      * @param orderId 订单id
      * @return 得到的订单
      */
-    UserOrder findById(Long orderId);
+    UserOrder getById(Long orderId);
 
     /**
      * 更新订单状态
@@ -91,14 +91,4 @@ public interface OrderService {
      * @return 分页后订单
      */
     Page<UserOrder> getAllByPage(int pageNo, int pageSize);
-
-    /**
-     * 插入单个订单
-     *
-     * @param userId 用户id
-     * @param itemId 商品id
-     * @param count 商品数量
-     * @return 结果订单
-     */
-    UserOrder addOrder(long userId, long itemId, int count);
 }
