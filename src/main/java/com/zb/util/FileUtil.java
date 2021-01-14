@@ -19,7 +19,7 @@ public class FileUtil {
     // 上传文件的目录
     private static String FileDirectoryPATH;
 
-    public static String uploadFile(MultipartFile multipartFile, HttpSession session) throws IOException {
+    public static String uploadFile(MultipartFile multipartFile) throws IOException {
 
         FileDirectoryPATH = System.getProperty("user.dir") + "/src/main/resources/static/images/upload";
 

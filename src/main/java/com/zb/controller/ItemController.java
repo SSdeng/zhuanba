@@ -109,10 +109,10 @@ public class ItemController {
      * @return 接收后商品
      */
     @PostMapping("/upload")
-    public ModelAndView uploadPicture(@RequestParam("itemId") long itemId, @RequestParam("image") MultipartFile image, HttpSession session) throws IOException {
+    public ModelAndView uploadPicture(@RequestParam("itemId") long itemId, @RequestParam("image") MultipartFile image) throws IOException {
         ModelAndView modelAndView = new ModelAndView("item");
         // 使用图片上传工具类，接受文件后，返回文件的新名称
-        String itemPictureName = FileUtil.uploadFile(image, session);
+        String itemPictureName = FileUtil.uploadFile(image);
         Item item = itemService.setImageById(itemId, itemPictureName);
         modelAndView.addObject("item",item);
         return modelAndView;
