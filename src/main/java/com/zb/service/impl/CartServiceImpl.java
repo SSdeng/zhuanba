@@ -48,7 +48,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public Cart addOrder(long userId, long itemId, int count) {
         Cart cart = findCartById(userId);
-        cart.getOrderList().add(new CartOrder(itemId, count));
+        cart.getOrderList().add(new CartOrder(cart, itemId, count));
         return cartRepository.save(cart);
     }
 

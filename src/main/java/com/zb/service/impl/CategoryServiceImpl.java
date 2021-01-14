@@ -1,5 +1,17 @@
 package com.zb.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import com.zb.elasticsearch.ItemEsRepository;
 import com.zb.entity.Category;
 import com.zb.entity.Item;
 import com.zb.entity.vo.CategoryVO;
@@ -9,15 +21,6 @@ import com.zb.repository.ItemRepository;
 import com.zb.service.CategoryService;
 import com.zb.util.JsonTransfer;
 import com.zb.util.PaginationSupport;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 分类服务实现类
@@ -30,12 +33,16 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryRepository categoryRepository;
 
     @Resource
+    private ItemEsRepository itemEsRepository;
+
+    @Resource
     private ItemRepository itemRepository;
 
     /**
      * 增加商品分类
      *
-     * @param newCategory 新增Category对象
+     * @param newCategory
+     *            新增Category对象
      * @return 插入后Category对象
      */
     @Override
@@ -49,7 +56,8 @@ public class CategoryServiceImpl implements CategoryService {
     /**
      * 根据类别id删除类别
      *
-     * @param category_id 类别id
+     * @param category_id
+     *            类别id
      * @return 删除结果
      */
     @Override
@@ -61,8 +69,10 @@ public class CategoryServiceImpl implements CategoryService {
     /**
      * 更新分类信息
      * 
-     * @param json json字符串
-     * @param categoryId 分类id
+     * @param json
+     *            json字符串
+     * @param categoryId
+     *            分类id
      * @return 分类对象
      */
     @Override
@@ -81,7 +91,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category findById(long categoryId) {
         Category category = categoryRepository.findById(categoryId).orElse(null);
-        if(category == null){
+        if (category == null) {
             throw new MyException("待查找分类不存在");
         }
         return category;
@@ -90,7 +100,8 @@ public class CategoryServiceImpl implements CategoryService {
     /**
      * 根据类别名查找类别
      *
-     * @param categoryName 类别名
+     * @param categoryName
+     *            类别名
      * @return 类别对象
      */
     @Override
@@ -107,8 +118,8 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryVO> getAllCategories() {
         List<Category> categories = categoryRepository.findAll();
         List<CategoryVO> categoryVOList = new ArrayList<>(0);
-        for(Category category : categories){
-            CategoryVO categoryVO = new CategoryVO(category.getId(),category.getName());
+        for (Category category : categories) {
+            CategoryVO categoryVO = new CategoryVO(category.getId(), category.getName());
             categoryVOList.add(categoryVO);
         }
 
@@ -123,7 +134,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public List<Item> getSpecificCategoryItems(long categoryId) {
-        Category one = categoryRepository.getOne((long) categoryId);
+        Category one = categoryRepository.getOne((long)categoryId);
         List<Item> items = one.getItems();
         return items;
     }
@@ -131,8 +142,10 @@ public class CategoryServiceImpl implements CategoryService {
     /**
      * 分页查询分类
      *
-     * @param pageNo   起始页码
-     * @param pageSize 分页大小
+     * @param pageNo
+     *            起始页码
+     * @param pageSize
+     *            分页大小
      * @return 商品列表
      */
     @Override
@@ -143,7 +156,8 @@ public class CategoryServiceImpl implements CategoryService {
     /**
      * 获取id对应category
      *
-     * @param id category_id
+     * @param id
+     *            category_id
      * @return category对象 不存在返回null
      */
     public Category getById(Long id) {
@@ -151,8 +165,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     /**
-     * 分页返回指定分类下的商品
-     * 实现方式：sql语句查询
+     * 分页返回指定分类下的商品 实现方式：sql语句查询
      *
      * @param categoryId
      * @param pageNo
@@ -161,7 +174,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public PaginationSupport<Item> getSpecificCategoryItems(int categoryId, int pageNo, int pageSize) {
-        //TODO
+        // TODO
         int totalCount = itemRepository.getSpecificCategoryItemsCount(categoryId);
         int startIndex = PaginationSupport.convertFromPageToStartIndex(pageNo, pageSize);
         if (totalCount < 1) {
@@ -174,8 +187,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     /**
-     * 分页返回指定分类下的商品
-     * 实现方式：JPA命名规则
+     * 分页返回指定分类下的商品 实现方式：JPA命名规则
      *
      * @param categoryId
      * @param pageNo
@@ -183,11 +195,10 @@ public class CategoryServiceImpl implements CategoryService {
      * @return
      */
     @Override
-    public Page<Item> getSpecificCategoryItemsByNamingParameters(Long categoryId, int pageNo, int pageSize){
+    public Page<Item> getSpecificCategoryItemsByNamingParameters(Long categoryId, int pageNo, int pageSize) {
 
-        Pageable pageable = PageRequest.of(pageNo-1, pageSize);
-        Page<Item> items = itemRepository.findItemsByCategories_id(categoryId, pageable);
-
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+        Page<Item> items = itemEsRepository.findAllByCategories_id(categoryId, pageable);
         return items;
     }
 

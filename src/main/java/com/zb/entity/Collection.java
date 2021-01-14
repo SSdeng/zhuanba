@@ -77,7 +77,12 @@ public class Collection implements Serializable {
     /**
      * 拥有商品表
      */
-    @OneToMany(mappedBy = "collection", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @ManyToMany(targetEntity = Item.class)
+    @JoinTable(name = "sys_collection_item",
+            // 当前对象在中间表的外键
+            joinColumns = {@JoinColumn(name = "collection_id", referencedColumnName = "id")},
+            // 对方对象在中间表的外键
+            inverseJoinColumns = {@JoinColumn(name = "item_id", referencedColumnName = "id")})
     @JsonIgnoreProperties(value = "collection")
     @ToString.Exclude
     private List<Item> items;

@@ -6,6 +6,8 @@ import com.zb.repository.CollectionRepository;
 import com.zb.repository.ItemRepository;
 import com.zb.repository.UserRepository;
 import com.zb.service.CollectionService;
+import com.zb.service.ItemService;
+import com.zb.service.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -22,9 +24,9 @@ public class CollectionServiceImpl implements CollectionService {
     @Resource
     private CollectionRepository collectionRepository;
     @Resource
-    private ItemRepository itemRepository;
+    private ItemService itemService;
     @Resource
-    private UserRepository userRepository;
+    private UserService userService;
 
     /**
      * 添加商品到收藏
@@ -35,9 +37,8 @@ public class CollectionServiceImpl implements CollectionService {
      */
     @Override
     public Collection addItem(Long userId, Long itemId) {
-        User user = userRepository.getOne(userId);
-        Collection collection = user.getCollection();
-        collection.getItems().add(getItemById(itemId));
+        Collection collection = userService.findById(userId).getCollection();
+        collection.getItems().add(itemService.findById(itemId));
         return collectionRepository.save(collection);
     }
 
@@ -83,20 +84,6 @@ public class CollectionServiceImpl implements CollectionService {
     }
 
     /**
-     * 通过id获取商品
-     * @param id 商品id
-     * @return 商品
-     */
-    @Override
-    public Item findItemById(Long id) {
-        Item item = getItemById(id);
-        if(item == null ){
-            throw new MyException("商品未找到");
-        }
-        return item;
-    }
-
-    /**
      * 获取id对应收藏
      *
      * @param id 收藏id
@@ -106,13 +93,4 @@ public class CollectionServiceImpl implements CollectionService {
         return id == null ? null : collectionRepository.findById(id).orElse(null);
     }
 
-    /**
-     * 获取id对应item
-     *
-     * @param id 商品id
-     * @return item 对象 不存在时返回null
-     */
-    private Item getItemById(Long id) {
-        return id == null ? null : itemRepository.findById(id).orElse(null);
-    }
 }
