@@ -4,6 +4,8 @@ import java.time.Duration;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javax.servlet.Filter;
+
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.mgt.SecurityManager;
@@ -24,6 +26,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.zb.shiro.MySessionManager;
 import com.zb.shiro.MyShiroRealm;
+import com.zb.shiro.RoleOrFilter;
 
 import lombok.Data;
 
@@ -52,33 +55,42 @@ public class ShiroConfig {
 
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
-
+        // 添加自定义过滤器
+        LinkedHashMap<String, Filter> filtersMap = new LinkedHashMap<>();
+        filtersMap.put("roleOrFilter", new RoleOrFilter());
+        shiroFilterFactoryBean.setFilters(filtersMap);
         // 过滤器链定义映射
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-
-        /*
-         * anon:所有url都都可以匿名访问，authc:所有url都必须认证通过才可以访问;
-         * 过滤链定义，从上向下顺序执行，authc 应放在 anon 下面
-         * */
+        // 首页放行
         filterChainDefinitionMap.put("/", "anon");
+        filterChainDefinitionMap.put("/search", "anon");
+        filterChainDefinitionMap.put("/api/category/find", "anon");
+        // 注册、登录放行
         filterChainDefinitionMap.put("/api/user/login", "anon");
         filterChainDefinitionMap.put("/api/user/register", "anon");
+        // 静态资源放行
         filterChainDefinitionMap.put("/bootstrap/**", "anon");
         filterChainDefinitionMap.put("/css/**", "anon");
         filterChainDefinitionMap.put("/images/**", "anon");
         filterChainDefinitionMap.put("/jquery/**", "anon");
         filterChainDefinitionMap.put("/layer/**", "anon");
         filterChainDefinitionMap.put("/favicon.ico", "anon");
+        // druid放行
         filterChainDefinitionMap.put("/druid/**", "anon");
-        // filterChainDefinitionMap.put("/register.html", "anon");
-        // filterChainDefinitionMap.put("/api/**", "anon");
         // 所有url都必须认证通过才可以访问
-        // filterChainDefinitionMap.put("/**", "authc");
-        // 配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了, 位置放在 anon、authc下面
-
+        filterChainDefinitionMap.put("/**", "authc");
+        filterChainDefinitionMap.put("/api/user/**", "roles[user]");
+        filterChainDefinitionMap.put("/api/wants/**", "roles[user]");
+        filterChainDefinitionMap.put("/api/order/**", "roles[user]");
+        filterChainDefinitionMap.put("/api/item/**", "roles[user]");
+        filterChainDefinitionMap.put("/api/comment/**", "roles[user]");
+        filterChainDefinitionMap.put("/api/collection/**", "roles[user]");
+        filterChainDefinitionMap.put("/api/admin/**", "roleOrFilter[root,admin]");
+        filterChainDefinitionMap.put("/api/admin/banAdmin", "roles[root]");
+        filterChainDefinitionMap.put("/api/admin/addAdmin", "roles[root]");
+        filterChainDefinitionMap.put("/api/admin/unbanAdmin", "roles[root]");
         // 设置未授权路由，之后再返回json数据给前端
         shiroFilterFactoryBean.setLoginUrl("/login");
-
         // 未授权界面, 对应LoginController中 unauthorized 请求
         shiroFilterFactoryBean.setUnauthorizedUrl("/api/user/unauthorized");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
