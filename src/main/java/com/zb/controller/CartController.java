@@ -61,7 +61,6 @@ public class CartController {
     @PostMapping("remove")
     @ResponseBody
     public Result removeOrder(@RequestParam("userId") long userId, @RequestParam("itemId") long itemId) {
-        System.out.println(userId + "  " + itemId);
         cartService.removeOrder(userId, itemId);
         return Result.ok();
     }
