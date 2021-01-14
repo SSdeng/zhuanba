@@ -32,6 +32,17 @@ public class WantsController {
     @Resource
     private UserService userService;
 
+
+    /**
+     * 返回求购发布页
+     *
+     * @return 求购发布页
+     */
+    @GetMapping("release")
+    public String editWants() {
+        return "wantsrelease";
+    }
+
     /**
      * 发布新求购
      *

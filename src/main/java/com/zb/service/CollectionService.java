@@ -18,13 +18,6 @@ public interface CollectionService {
     Collection findById(Long id);
 
     /**
-     * 通过id获取商品
-     * @param id 商品id
-     * @return 商品
-     */
-    Item findItemById(Long id);
-
-    /**
      * 添加商品到收藏夹
      * @param userId 用户id
      * @param itemId 商品id
