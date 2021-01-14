@@ -21,7 +21,7 @@ import com.zb.elasticsearch.ItemEsRepository;
 import com.zb.entity.Item;
 
 /**
- * 检索控制器
+ * 全文检索控制器
  * 
  * @author dengzhijian
  * @version 1.0
@@ -35,7 +35,8 @@ public class SearchController {
      * 根据关键词进行全文检索
      *
      * @param keyword
-     * @return
+     *            关键词
+     * @return 搜索页面
      */
     @GetMapping("/search")
     public String search(@RequestParam("keyword") String keyword,

@@ -5,15 +5,15 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import com.zb.entity.Address;
-import com.zb.service.AddressService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.zb.entity.Address;
 import com.zb.entity.User;
 import com.zb.entity.vo.LoginUserVO;
 import com.zb.enums.ResultEnum;
+import com.zb.service.AddressService;
 import com.zb.service.UserService;
 import com.zb.util.Result;
 
@@ -128,12 +128,14 @@ public class UserController {
     /**
      * 新增用户地址
      *
-     * @param userId 用户id
-     * @param address 地址详情
+     * @param userId
+     *            用户id
+     * @param map
+     *            地址详情
      * @return 个人主页
      */
     @PostMapping("/addAddress")
-    public String addAddress(@RequestParam("userId") long userId, @RequestBody Map<String, String> map){
+    public String addAddress(@RequestParam("userId") long userId, @RequestBody Map<String, String> map) {
         Address newAddress = new Address();
         newAddress.setDetail(map.get("address"));
         newAddress.setUser(userService.findById(userId));
@@ -144,11 +146,12 @@ public class UserController {
     /**
      * 删除用户地址
      *
-     * @param addressId 地址id
+     * @param addressId
+     *            地址id
      * @return 用户主页
      */
     @GetMapping("/delAddress")
-    public String deleteAddress(@RequestParam("userId") long userId, @RequestParam("addressId") long addressId){
+    public String deleteAddress(@RequestParam("userId") long userId, @RequestParam("addressId") long addressId) {
         addressService.deleteById(addressId);
         return "redirect:/api/user/info?userId" + userId;
     }

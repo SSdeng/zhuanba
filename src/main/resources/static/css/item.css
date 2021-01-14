@@ -328,6 +328,8 @@
     display: inline;
     width: 50%;
     float: left;
+    position: relative;
+    top: 100px;
 }
 .details{
     width: 50%;

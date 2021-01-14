@@ -62,4 +62,9 @@ public class GlobalExceptionHandler {
         return Result.error("认证出错", null);
     }
 
+    @ExceptionHandler(Exception.class)
+    public Result otherExceptionHandler(Exception e) {
+        log.error("发生异常！原因是:{}", e.getMessage());
+        return Result.error("其他异常", null);
+    }
 }
