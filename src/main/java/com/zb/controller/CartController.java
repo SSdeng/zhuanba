@@ -60,7 +60,7 @@ public class CartController {
      */
     @PostMapping("remove")
     @ResponseBody
-    public Result removeOrder(@RequestParam("userId") long userId, @RequestParam("userId") long itemId) {
+    public Result removeOrder(@RequestParam("userId") long userId, @RequestParam("itemId") long itemId) {
         cartService.removeOrder(userId, itemId);
         return Result.ok();
     }
@@ -75,7 +75,7 @@ public class CartController {
      */
     @PostMapping("changevalue")
     @ResponseBody
-    public Result changeValue(@RequestParam("cartId") long cartId, @RequestParam("userId") long itemId, @RequestParam("count") int count) {
+    public Result changeValue(@RequestParam("cartId") long cartId, @RequestParam("itemId") long itemId, @RequestParam("count") int count) {
         cartService.updateOrder(cartId, itemId, count);
         return Result.ok();
     }

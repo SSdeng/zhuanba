@@ -1,16 +1,5 @@
 package com.zb.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
 import com.zb.elasticsearch.ItemEsRepository;
 import com.zb.entity.Category;
 import com.zb.entity.Item;
@@ -21,6 +10,16 @@ import com.zb.repository.ItemRepository;
 import com.zb.service.CategoryService;
 import com.zb.util.JsonTransfer;
 import com.zb.util.PaginationSupport;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 分类服务实现类
@@ -37,6 +36,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Resource
     private ItemRepository itemRepository;
+
+    @Resource
+    private RedisTemplate redisTemplate;
 
     /**
      * 增加商品分类
@@ -116,14 +118,22 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public List<CategoryVO> getAllCategories() {
-        List<Category> categories = categoryRepository.findAll();
-        List<CategoryVO> categoryVOList = new ArrayList<>(0);
-        for (Category category : categories) {
-            CategoryVO categoryVO = new CategoryVO(category.getId(), category.getName());
-            categoryVOList.add(categoryVO);
-        }
+        List<CategoryVO> categories_redis = (List<CategoryVO>) redisTemplate.opsForValue().get("categories");
+        if(categories_redis != null){
+            //缓存中有，直接返回
+            return categories_redis;
+        }else {
+            List<Category> categories = categoryRepository.findAll();
+            List<CategoryVO> categoryVOList = new ArrayList<>(0);
+            for (Category category : categories) {
+                CategoryVO categoryVO = new CategoryVO(category.getId(), category.getName());
+                categoryVOList.add(categoryVO);
+            }
+            //缓存进缓存
+            redisTemplate.opsForValue().set("categories",categoryVOList);
 
-        return categoryVOList;
+            return categoryVOList;
+        }
     }
 
     /**

@@ -67,11 +67,8 @@
                     <td class="text-right">商品分类</td>
                     <td class="content_right">
                         <select class="category" id="category" title="请选择商品分类">
-                            <option th:each="catagory:${catagories}" th:id="${category.id}"
-                                    th:text="${category.name}"></option>
-                            <option id="1">数码</option>
-                            <option id="2">家居</option>
-                            <option id="3">服饰</option>
+                            <option th:each="catagory:${categories}" th:id="${catagory.id}"
+                                    th:text="${catagory.name}"></option>
                         </select>
                     </td>
                 </tr>
@@ -142,10 +139,11 @@
 
         $("#submit").click(function () {
             var itemId = -1;
+            var categoryId = []
             var userId = localStorage.getItem("userId");
             userId = 1;
             var itemname = $("#itemname").val();
-            var categoryId = $($("#category").find('option:selected')).attr('id');
+            categoryId[0] = $($("#category").find('option:selected')).attr('id');
             var description = $("#description").val();
             var level = $("#level").val();
             var price = $("#price").val();
@@ -162,6 +160,7 @@
                     traditional: true,
                     data: JSON.stringify({
                         "userId": userId,
+                        "categoryIds": categoryId,
                         "itemName": itemname,
                         "description": description,
                         "level": level,
@@ -186,12 +185,7 @@
                                     contentType: false,
                                     processData: false,
                                     success: function (data) {
-                                        if (data.code == 0) {
-                                            layer.msg("商品发布成功！")
-                                        } else {
-                                            layer.msg("图片未能上传!" + data.msg)
-                                        }
-
+                                        location.assign("/api/item/details?itemId=" + itemId + "&userId=" + userId);
                                     },
                                     error: function (e) {
                                         var res = $.parseJSON(e.responseText);

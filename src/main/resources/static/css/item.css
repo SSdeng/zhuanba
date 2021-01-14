@@ -20,6 +20,7 @@
 }
 
 .level{
+    width: 200px;
     position: relative;
     left:200px;
     top:100px;
@@ -74,7 +75,7 @@
 .incartbutton{
     width: 200px;
     height: 50px;
-    background-color: #dd1c02;
+    background-color: #6d757a;
     font-size: 20px;
     color:#FFFF;
     border: #FFFF;
@@ -145,7 +146,7 @@
 
 .comment-content {
     /* float: right; */
-    width: 1500px;
+    width: 1200px;
     position: relative;
     left: 95px;
     padding-top: 15px;
@@ -191,7 +192,7 @@
     top: 15px;
     left: 95px;
     resize: none;
-    width: 1500px;
+    width: 1300px;
     height: 65px;
     padding: 10px;
     border-radius: 4px;
@@ -282,14 +283,6 @@
     cursor: pointer;
 }
 
-.s6 div:hover {
-    box-shadow: #000000 1px 1px 5px;
-}
-
-.s6-2-1, .s6-2-2, .s6-2-3, .s6-2-4 {
-    position: relative;
-    top: auto;
-}
 .list-1 .img{
     display: inline;
 }
