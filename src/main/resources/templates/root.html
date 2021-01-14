@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>管理admin</title>
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <script src="/jquery/jquery2.1.4.js"></script>
     <script src="/layer/layer.js"></script>
@@ -17,13 +17,6 @@
     <div class="denglu-font top">
         <a href="#" id="dingbuhome"><img src="/images/logo.jpg"></a>
 
-        <div id="so" style="position: relative; left: 350px;top:8px;width: 100px; float: left;" class="top">
-            <div class="input-group">
-                <input type="text" class="form-control" id="searchText" style="width: 400px;">
-                <span class="input-group-addon" id="search" onclick="search()"><i class="glyphicon glyphicon-search"
-                                                                                  style="color: #0055aa;"> <span>搜索</span></i></span>
-            </div>
-        </div>
         <div class="denglu-font2 top">
             <a href="#" id="uname">admin</a>
             <a href="/" id="login_logout">退出</a>
@@ -40,11 +33,11 @@
         </li>
 
         <li>
-            <a href="/api/admin/userList" class="index_click">管理用户</a>
+            <a href="/api/root/userList" class="index_click">管理用户</a>
         </li>
 
         <li>
-            <a href="/api/admin/itemList" class="index_click">审核商品</a>
+            <a href="/api/root/itemList" class="index_click">审核商品</a>
         </li>
     </ul>
 </div>
@@ -53,51 +46,102 @@
         <!--左边部分 -->
         <div class="col-md-10 col-md-offset-1" style="top: -20px;">
             <div class="row tzgl admin-h1" style="display: block;">
-                <h1><span class="text-primary" id="article_total">商品审核</span></h1>
+                <h1><span class="text-primary" id="article_total">管理admin&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="btn btn-warning btn-sm " value="新增管理员" /></span></h1>
+                <div class="modal fade" id="modifyinfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">×</span></button>
+                                <h4 class="modal-title" >修改</h4>
+                            </div>
+                            <div class="modal-body">
+
+                                <div class="form-group">
+                                    <label for="username">用户名</label>
+                                    <input type="text" class="form-control" id="username" placeholder="请输入姓名">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">密码</label>
+                                    <input type="password" class="form-control" id="password" placeholder="请输入姓名">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password1">确认密码</label>
+                                    <input type="password" class="form-control" id="password1" placeholder="请输入姓名">
+                                </div>
+                                <div class="form-group">
+                                    <label for="modifyname">姓名</label>
+                                    <input type="text" class="form-control" id="modifyname" placeholder="请输入姓名">
+                                </div>
+                                <div class="form-group">
+                                    <label for="modifyphone">手机号</label>
+                                    <input type="text" name="txt_parentdepartment" class="form-control" id="modifyphone"
+                                           placeholder="请输入手机号">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="modifyacademy">学院</label>
+                                    <input type="email" class="form-control" id="modifyacademy" placeholder="请输入学院">
+                                </div>
+                                <div class="form-group">
+                                    <label for="modifycode">学号</label>
+                                    <input type="email" class="form-control" id="modifycode" placeholder="请输入学号">
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal"><span
+                                        class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭
+                                </button>
+                                <button type="button" id="btn_submit2" class="btn btn-primary" data-dismiss="modal"><span
+                                        class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>保存
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-12" style="background-color: #fff; border-top: 3px solid #00a65a; top: 8px;">
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>发布人</th>
-                            <th>商品图片</th>
-                            <th>商品名称</th>
-                            <th>商品描述</th>
-                            <th>更新时间</th>
+                            <th>用户名</th>
+                            <th>真实姓名</th>
+                            <th>手机号码</th>
+                            <th>性别</th>
+                            <th>学院</th>
+                            <th>学号</th>
                             <th>当前状态</th>
                             <th>操作</th>
                         </tr>
                         </thead>
                         <!-- 用户列表 - 模板 -->
                         <tbody id="listArticle_hide">
-                        <tr th:each="item:${itemList}" th:object="${item}">
-                            <!-- 发布人 -->
-                            <td id="articleNum">
-                                <div style="width:70px;word-wrap:break-word;" th:text="*{user.username}">张一隆</div>
+                        <tr class="usertable" th:each="user:${adminList}" th:object="${user}">
+                            <!-- 用户名 -->
+                            <td class="name" th:id="${user.id}">
+                                <div style="width:70px;word-wrap:break-word;" th:text="*{username}">张一隆</div>
                             </td>
-                            <!-- 商品图片 -->
+                            <!-- 真实姓名 -->
                             <td id="articleTitles">
-                                <div style="width:100px;word-wrap:break-word;">
-                                    <img th:src="*{image}" style="width:80px;" class="mid" onclick="fun(this)">
+                                <div style="word-wrap:break-word;" th:text="*{realName}">
+                                    123
                                 </div>
                             </td>
-                            <!-- 商品名称 -->
-                            <td id="articleUsername" th:text="*{itemName}" style="word-wrap:break-word;">简约时尚水泥花瓶4</td>
-                            <!-- 商品描述 -->
-                            <td id="articleCreateTime" th:text="*{description}" style="word-wrap:break-word; width: 300px">
-                                这是一款很好吃的酸辣粉
-                            </td>
-                            <!-- 更新时间 -->
-                            <td id="articleUpdateTime" th:text="*{updateTime}" style="word-wrap:break-word;">九成新</td>
+                            <!-- 手机号码 -->
+                            <td id="articleUsername" th:text="*{phoneNumber}">简约时尚水泥花瓶4</td>
+                            <!-- 性别 -->
+                            <td id="articleBname" th:text="*{gender}==0?'男':'女'">数码电子</td>
+                            <!-- 学院 -->
+                            <td id="articleCreateTime" th:text="*{academy}">这是一款很好吃的酸辣粉</td>
+                            <!-- 学号 -->
+                            <td id="articleUpdateTime" th:text="*{studentNumber}">九成新</td>
                             <!-- 当前状态 -->
                             <td id="status">
-                                <button type="button" disabled="disabled" th:id="'status'+*{id}" th:if="*{status==1}"
-                                        class="btn btn-info btn-sm">已通过
+                                <button type="button" disabled="disabled" th:id="'status'+*{id}" th:if="*{deleted==1}"
+                                        class="btn btn-danger btn-sm">已封禁
                                 </button>
-                                <button type="button" disabled="disabled" th:id="'status'+*{id}" th:if="*{status==0}"
-                                        class="btn btn-warning btn-sm">待审核
-                                </button>
-                                <button type="button" disabled="disabled" th:id="'status'+*{id}" th:if="*{status==-1}"
-                                        class="btn btn-danger btn-sm">未通过
+                                <button type="button" disabled="disabled" th:id="'status'+*{id}" th:if="*{deleted==0}"
+                                        class="btn btn-info btn-sm">正常
                                 </button>
 
                             </td>
@@ -105,17 +149,20 @@
                             <td id="listArticle_caozuo">
 
                                 <!-- 通过 -->
-                                <form method="post" th:id="'pass'+*{id}" th:css="'display:' + (*{status}==1?'none':'')" >
+                                <form method="post"  th:if="*{deleted==0}">
                                     <div th:id="*{id}" class="div">
-                                        <input type="button" class="btn btn-info btn-sm check" value="通过"/>
+                                        <input th:id="'pass'+*{id}" type="button" class="btn btn-info btn-sm check" value="解封" style="display: none"/>
+                                        <input th:id="'reject'+*{id}" type="button" class="btn btn-danger btn-sm reject" value="封禁" />
                                     </div>
                                 </form>
                                 <!-- 拒绝 -->
-                                <form method="post" th:id="'reject'+*{id}" th:css="'display:' +(*{status}==-1?'none':'')">
+                                <form method="post" th:if="*{deleted==1}">
                                     <div th:id="*{id}" class="div">
-                                        <input type="button" class="btn btn-danger btn-sm reject"  value="拒绝"/>
+                                        <input  th:id="'pass'+*{id}" type="button" class="btn btn-info btn-sm check" value="解封"/>
+                                        <input  th:id="'reject'+*{id}" type="button" class="btn btn-danger btn-sm reject" value="封禁" style="display: none"/>
                                     </div>
                                 </form>
+
                             </td>
                         </tr>
 
@@ -128,23 +175,114 @@
 </div>
 </body>
 <script>
+  $(function () {
+    load_data()
+  })
+  function load_data() {
+    var theme = localStorage.getItem('username')
+    var userId = localStorage.getItem('userId')
+    console.log(localStorage.getItem('username'))
+    console.log(localStorage.getItem('userId'))
+    if (theme == null || theme == '') {
+      $('#login_logout').text('登录')
+      $('#uname').text('')
+    } else {
+      $('#login_logout').text('退出')
+      $('#login_logout').attr('href', '/logout')
+      $('#uname').text(theme)
+    }
+  }
+  $(".btn-warning").click(function () {
+    $('#modifyinfo').modal('show');
+  })
+
+  $("#btn_submit2").click(function () {
+    var username = $("input:eq(1)").val();
+    var password1 = $("input:eq(2)").val();
+    var password2 = $("input:eq(3)").val();
+    var name = $("input:eq(4)").val();
+    var phone = $("input:eq(5)").val();
+    var academy = $("input:eq(6)").val();
+    var code = $("input:eq(7)").val();
+    console.log(username)
+    console.log(password1)
+    console.log(name)
+    console.log(phone)
+    console.log(academy)
+    console.log(code)
+    if (username.match(/^\w{5,18}$/) == null) {
+      layer.msg("请输入5-18位正确字符作为用户名");
+      return;
+    }
+    if (password1.match(/^\w{6,18}$/) == null) {
+      layer.msg("请输入6-18位正确字符作为密码");
+      return;
+    }
+    if (password1 != password2) {
+      layer.msg("两次输入密码不相同");
+      return;
+    }
+    if (name.length < 1) {
+      layer.msg("姓名不能为空");
+      return;
+    }
+    if (phone.match(/(^1[3|4|5|7|8]\d{9}$)|(^09\d{8}$)/) == null) {
+      layer.msg("请输入正确的手机号");
+      return;
+    }
+    if (code.length < 1) {
+      layer.msg("请输入正确的学号");
+      return;
+    }
+
+    var windowId = layer.load();
+    var data = {
+      "username": username,
+      "realName": name,
+      "phoneNumber": phone,
+      "academy":academy,
+      "studentNumber": code,
+      "password": password1
+    };
+    $.ajax({
+      url: "/api/root/addAdmin",
+      data: JSON.stringify(data),
+      type: "POST",
+      contentType: "application/json",
+      dataType: "json",
+      success: function (data) {
+        layer.close(windowId);
+        layer.msg(data.msg);
+        console.log(data.msg);
+        if (data.code == 0) {
+          //录入成功
+          $("input").val("");
+          $('#modifyinfo').modal('hide');
+          location.reload();
+        } else {
+          //录入失败
+
+        }
+      }
+    })
+  })
+
   $(function (){
     $(".check").click(function () {
-      var adminId = localStorage.getItem('userId')
-      var itemId = $(this).parent().attr("id");
-      console.log(itemId)
+
+      var adminId = $(this).parent().attr("id");
       $.ajax({
         type: 'POST',
-        url: '/api/admin/checkItem?adminId=' + adminId + '&itemId=' + itemId + '&status=1',
+        url: '/api/root/unbanAdmin?adminId=' + adminId,
         contentType: 'application/json',
         traditional: true,
         success: function (data) {
           layer.msg(data.msg)
           if (data.code == 0) {
-            $('#pass' + itemId).css("display","none");
-            $('#reject' + itemId).css("display","block");
-            $('#status' + itemId).attr('class', 'btn btn-info btn-sm')
-            $('#status' + itemId).text('已通过')
+            $('#pass' + adminId).css("display","none");
+            $('#reject' + adminId).css("display","block");
+            $('#status' + adminId).attr('class', 'btn btn-info btn-sm')
+            $('#status' + adminId).text('正常')
           }
         },
         error: function (data) {
@@ -153,22 +291,21 @@
     })
 
     $(".reject").click(function () {
-      var adminId = localStorage.getItem('userId')
-      var itemId = $(this).parent().attr("id");
-      console.log(itemId)
+      var adminId = $(this).parent().attr("id");
+
       $.ajax({
         type: 'POST',
         dataType: 'json',
-        url: '/api/admin/checkItem?adminId=' + adminId + '&itemId=' + itemId + '&status=-1',
+        url: '/api/root/banAdmin?adminId=' + adminId ,
         contentType: 'application/json',
         traditional: true,
         success: function (data) {
           layer.msg(data.msg)
           if (data.code == 0) {
-            $('#pass' + itemId).css("display","block");
-            $('#reject' + itemId).css("display","none");
-            $('#status' + itemId).attr('class', 'btn btn-danger btn-sm')
-            $('#status' + itemId).text('未通过')
+            $('#pass' + adminId).css("display","block");
+            $('#reject' + adminId).css("display","none");
+            $('#status' + adminId).attr('class', 'btn btn-danger btn-sm')
+            $('#status' + adminId).text('已封禁')
           }
         },
         error: function (data) {

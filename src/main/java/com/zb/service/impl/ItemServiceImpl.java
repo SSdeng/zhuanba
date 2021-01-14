@@ -105,8 +105,8 @@ public class ItemServiceImpl implements ItemService {
     /**
      * 修改商品id对应商品的审核状态
      *
-     * @param itemId
-     *            商品id
+     * @param item
+     *            商品
      * @param adminId
      *            管理员id
      * @param status
@@ -115,8 +115,7 @@ public class ItemServiceImpl implements ItemService {
      * @see com.zb.entity.Item
      */
     @Override
-    public Item setAuditStatus(long itemId, long adminId, int status) {
-        Item item = findById(itemId);
+    public Item setAuditStatus(Item item, long adminId, int status) {
         item.setAuditId(adminId);
         item.setStatus(status);
         return itemRepository.save(item);

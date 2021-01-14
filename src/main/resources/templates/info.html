@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -28,6 +28,7 @@
         <div class="denglu-font2 top">
             <a href="/" id="want">发布求购</a>
             <a href="/" id="cart">我的购物车</a>
+            <a href="#" id="release1">发布商品</a>
             <a href="#" id="uname">zyl</a>
             <a href="login" id="login_logout">登录</a>
 
@@ -55,21 +56,24 @@
                 <div class="row">
                     <div class="col-md-12">
                         <!-- realName -->
-                        <b>姓名</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="myself_family" th:text="${user.realName}">张一隆</span>
+                        <b>姓名</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="myself_family"
+                                                                             th:text="${user.realName}">张一隆</span>
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <div class="col-md-12">
                         <!-- phoneNumber -->
-                        <b>手机号</b> &nbsp;&nbsp;&nbsp; <span id="myself_intro" th:text="${user.phoneNumber}">15109918030</span>
+                        <b>手机号</b> &nbsp;&nbsp;&nbsp; <span id="myself_intro"
+                                                            th:text="${user.phoneNumber}">15109918030</span>
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <div class="col-md-12">
                         <!-- email -->
-                        <b>邮箱</b> &nbsp;&nbsp;&nbsp; <span id="myself_email" th:text="${user.email}">976235949@qq.com</span>
+                        <b>邮箱</b> &nbsp;&nbsp;&nbsp; <span id="myself_email"
+                                                           th:text="${user.email}">976235949@qq.com</span>
                     </div>
                 </div>
                 <br>
@@ -101,7 +105,7 @@
                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#edit"
                             id="edituser">
                         <span class="glyphicon glyphicon-pencil"></span>编辑资料
-                        </button>
+                    </button>
                 </div>
 
                 <br>
@@ -157,12 +161,14 @@
                         <div class="myself_release_num">
                             <div class="row">
                                 <!-- 配图 -->
-                                <div class="col-xs-12 col-md-3" id="myself_release_photo" style="cursor:pointer; width: 250px;">
+                                <div class="col-xs-12 col-md-3" id="myself_release_photo"
+                                     style="cursor:pointer; width: 250px;">
                                     <!-- 图片 -->
                                     <img th:src="*{image}" alt=""
                                          style="position: relative; height: 150px; border-radius: 3px;">
                                 </div>
-                                <div class="col-xs-12 col-md-3" id="myself_release_status" style="width: 200px; position: relative;top: auto;height: auto;">
+                                <div class="col-xs-12 col-md-3" id="myself_release_status"
+                                     style="width: 200px; position: relative;top: auto;height: auto;">
                                     <h3 th:if="${item.status} eq 0" style="color: #ffc400">审核中</h3>
                                     <h3 th:if="${item.status} eq 1" style="color: #4cae4c">已通过</h3>
                                     <h3 th:if="${item.status} eq -1" style="color: #c12e2a">未通过</h3>
@@ -170,7 +176,8 @@
                                 <div class="col-xs-12 col-md-7">
                                     <!-- 名称 -->
                                     <div style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;color: #000000;">
-                                        <a th:href="'/api/item/details?itemId=' + *{id} + '&userId=' + ${user.id}" th:text="*{itemName}"
+                                        <a th:href="'/api/item/details?itemId=' + *{id} + '&userId=' + ${user.id}"
+                                           th:text="*{itemName}"
                                            style="cursor:pointer; font-size:18px;">简约时尚水泥花瓶1
                                         </a>
                                     </div>
@@ -180,7 +187,7 @@
                                                   style="word-break: break-word;line-height: 1.6;">单价：￥450</span>
                                     </div>
                                     <!-- 介绍 -->
-                                    <div >
+                                    <div>
                                         <p th:text="*{description}"
                                            style="word-break: break-word;line-height: 1.6;">这是一款很好吃的酸辣粉</p>
                                     </div>
@@ -331,7 +338,7 @@
                             <div class="col-xs-2 col-md-1" th:id="*{id}">
                                 <form>
                                     <button type="button" id="myself_wants_del"
-                                            class="btn btn-danger btn-sm wantsdel" >删除
+                                            class="btn btn-danger btn-sm wantsdel">删除
                                     </button>
                                 </form>
                             </div>
@@ -386,7 +393,7 @@
                             <div class="col-xs-2 col-md-1" th:id="*{id}">
                                 <form>
                                     <button type="button" id="myself_collection_del"
-                                            class="btn btn-danger btn-sm collectdel" >删除
+                                            class="btn btn-danger btn-sm collectdel">删除
                                     </button>
                                 </form>
                             </div>
@@ -426,7 +433,7 @@
                                     <div id=""
                                          style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;color: #000000;">
                                         <span th:text="*{detail}"
-                                           style="cursor:pointer; font-size:18px;">地址详情
+                                              style="cursor:pointer; font-size:18px;">地址详情
                                         </span>
                                     </div>
                                 </div>
@@ -440,7 +447,9 @@
                                 <div class="col-xs-2 col-md-1">
                                     <form>
                                         <button type="button" id="myself_address_del"
-                                                class="btn btn-danger btn-sm"><a th:href="'/api/user/delAddress?addressId=' + *{id}" style="color: white;text-decoration: none;">删除</a>
+                                                class="btn btn-danger btn-sm"><a
+                                                th:href="'/api/user/delAddress?addressId=' + *{id}"
+                                                style="color: white;text-decoration: none;">删除</a>
                                         </button>
                                     </form>
                                 </div>
@@ -470,7 +479,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
-                <h4 class="modal-title" >修改</h4>
+                <h4 class="modal-title">修改</h4>
             </div>
             <div class="modal-body">
 
@@ -548,237 +557,240 @@
 
 </body>
 <script>
-  function search () {
-    console.log($('#searchText').val())
-    var data = $('#searchText').val()
-    location.assign("/search?keyword=" + data);
-  }
-
-  $('#login_logout').click(function () {
-    localStorage.clear()
-
-  })
-  $(function () {
-    load_data()
-  })
-
-
-  //设置顶部栏的登录/退出按钮和用户名显示
-
-  function load_data () {
-    var theme = localStorage.getItem('username')
-    var userId = localStorage.getItem('userId')
-    console.log(localStorage.getItem('username'))
-    console.log(localStorage.getItem('userId'))
-    if (theme == null || theme == '') {
-      $('#login_logout').text('登录')
-      $('#uname').text('')
-      $('#want').hide()
-      $('#cart').hide()
-    } else {
-      $('#login_logout').text('退出')
-      $('#login_logout').attr('href', '/logout')
-      $('#uname').text(theme)
-      $('#want').show()
-      $('#want').attr('href', '/api/wants/release?userId='+userId)
-      $('#cart').show()
-      $('#cart').attr('href', '/api/cart/all?userId='+userId)
-      $('#uname').attr('href', '/api/user/info?userId=' + userId)
+    function search() {
+        console.log($('#searchText').val())
+        var data = $('#searchText').val()
+        location.assign("/search?keyword=" + data);
     }
-  }
 
-  $('#edituser').on('click', function () {
-    console.log('click')
-    var name = $('#myself_family').text()
-    var phone = $('#myself_intro').text()
-    var email = $('#myself_email').text()
-    var gender = $('#myself_sex_age').text()
-    var address = $('#myself_address').text()
-    var academy = $("#myself_student1").text();
-    var studentNumber = $("#myself_student2").text();
-    console.log(name + phone + email + address)
-    $('#modifyname').val(name)
-    $('#modifyphone').val(phone)
-    $('#modifyemail').val(email)
-    $('#modifyacademy').val(academy)
-    $('#modifycode').val(studentNumber)
+    $('#login_logout').click(function () {
+        localStorage.clear()
 
-    if (gender == '女') {
-      $('#female').prop('checked', 'checked')
-    }
-    $('#modifyinfo').modal('show')
-  })
-
-  $('#form_addressUpdate_button').on('click', function () {
-    $('#modifyadd').modal('show')
-  })
-
-  function changelabel () {
-    var level = $('#modifylevel').val()
-    if (level == 10) {
-      $('#levellabel').text('全新')
-    } else {
-      $('#levellabel').text(level + '成新')
-    }
-  }
-
-  $("#btn_submit1").click(function () {
-
-    var address = $('#modifyaddr').val()
-
-    console.log(address);
-
-    var userId = localStorage.getItem("userId");
-    var data = {
-      "address":address
-    }
-    $.ajax({
-      url: "/api/user/addAddress?userId="+userId,
-      data: JSON.stringify(data),
-      type: "POST",
-      contentType: "application/json",
-      dataType: "json",
-      traditional: true,
-      success: function (data) {
-        layer.msg(data.msg);
-        console.log(data.msg);
-      }
     })
-  })
+    $(function () {
+        load_data()
+    })
 
-  $("#btn_submit2").click(function () {
-    var realName = $('#modifyname').val()
-    var phoneNumber = $('#modifyphone').val()
-    var email = $('#modifyemail').val()
-    var academy = $('#modifyacademy').val()
-    var studentNumber = $('#modifycode').val()
-    var gender = $("#modifyinfo").find("input[type='radio']:checked").val();
-    console.log(gender);
-    if(gender=="female"){
-      gender = 1
-    } else {
-      gender = 0
-    }
-    console.log(gender);
-    userId = localStorage.getItem("userId");
-    var data = {
-      "realName":realName,
-      "phoneNumber":phoneNumber,
-      "email":email,
-      "academy":academy,
-      "studentNumber":studentNumber,
-      "gender":gender
-    }
-    $.ajax({
-      url: "/api/user/info?userId="+userId,
-      data: JSON.stringify(data),
-      type: "POST",
-      contentType: "application/json",
-      dataType: "json",
-      traditional: true,
-      success: function (data) {
-        layer.msg(data.msg);
-        console.log(data.msg);
-        if (data.code == 0) {
-          $('#modifyitem').modal('hide')
-            location.reload();
+
+    //设置顶部栏的登录/退出按钮和用户名显示
+
+    function load_data() {
+        var theme = localStorage.getItem('username')
+        var userId = localStorage.getItem('userId')
+        console.log(localStorage.getItem('username'))
+        console.log(localStorage.getItem('userId'))
+        if (theme == null || theme == '') {
+            $('#login_logout').text('登录')
+            $('#uname').text('')
+            $('#want').hide();
+            $("#release1").hide()
+            $('#cart').hide()
         } else {
-
+            $('#login_logout').text('退出')
+            $('#login_logout').attr('href', '/logout')
+            $('#uname').text(theme)
+            $('#want').show()
+            $('#want').attr('href', '/api/wants/release?userId=' + userId);
+            $('#release1').show();
+            $('#release1').attr('href', '/release')
+            $('#cart').show()
+            $('#cart').attr('href', '/api/cart/all?userId=' + userId)
+            $('#uname').attr('href', '/api/user/info?userId=' + userId)
         }
-      }
+    }
+
+    $('#edituser').on('click', function () {
+        console.log('click')
+        var name = $('#myself_family').text()
+        var phone = $('#myself_intro').text()
+        var email = $('#myself_email').text()
+        var gender = $('#myself_sex_age').text()
+        var address = $('#myself_address').text()
+        var academy = $("#myself_student1").text();
+        var studentNumber = $("#myself_student2").text();
+        console.log(name + phone + email + address)
+        $('#modifyname').val(name)
+        $('#modifyphone').val(phone)
+        $('#modifyemail').val(email)
+        $('#modifyacademy').val(academy)
+        $('#modifycode').val(studentNumber)
+
+        if (gender == '女') {
+            $('#female').prop('checked', 'checked')
+        }
+        $('#modifyinfo').modal('show')
     })
-  })
 
-
-  $(".collectdel").click(function () {
-    var itemId = $($(this).parents(".col-md-1")).attr('id');
-    var userId = localStorage.getItem("userId");
-    console.log(itemId);
-    $.ajax({
-      url: "/api/collection/remove?collectionId="+userId+"&itemId=" + itemId,
-      type: "POST",
-      contentType: "application/json",
-      dataType: "json",
-      traditional: true,
-      success: function (data) {
-          if(data.code==0){
-              console.log("success")
-              $(this).parents(".tab-content").remove();
-          }
-        layer.msg(data.msg);
-        console.log(data.msg);
-        location.reload();
-        //   $("#my_order").trigger('click');
-      }
+    $('#form_addressUpdate_button').on('click', function () {
+        $('#modifyadd').modal('show')
     })
-  })
 
-  $(".wantsdel").click(function () {
-      var itemId = $($(this).parents(".col-md-1")).attr('id');
-      var userId = localStorage.getItem("userId");
-      console.log(itemId);
-      $.ajax({
-          url: "/api/wants/remove?userId="+userId+"&wantsId=" + itemId,
-          type: "POST",
-          contentType: "application/json",
-          dataType: "json",
-          traditional: true,
-          success: function (data) {
-              if(data.code==0){
-                  console.log("success")
-                  $(this).parents(".tab-content").remove();
-              }
-              layer.msg(data.msg);
-              console.log(data.msg);
-              location.reload();
+    function changelabel() {
+        var level = $('#modifylevel').val()
+        if (level == 10) {
+            $('#levellabel').text('全新')
+        } else {
+            $('#levellabel').text(level + '成新')
+        }
+    }
 
-          }
-      })
-  })
+    $("#btn_submit1").click(function () {
 
-  $(".itemdel").click(function () {
-      var itemId = $($(this).parents(".col-md-1")).attr('id');
-      var userId = localStorage.getItem("userId");
-      console.log(itemId);
-      $.ajax({
-          url: "/api/item/remove?userId=" + userId + "&itemId=" + itemId,
-          type: "POST",
-          contentType: "application/json",
-          dataType: "json",
-          traditional: true,
-          success: function (data) {
-              // if(data.code==0){
-              //     console.log("success")
-              //     $($(this).parents(".tab-content")).remove();
-              // }
-              layer.msg(data.msg);
-              console.log(data.msg);
-              location.reload();
-          }
-      })
-  })
+        var address = $('#modifyaddr').val()
 
-  $(".orderdel").click(function () {
-      var orderId = $($(this).parents(".col-md-1")).attr('id');
-      var userId = localStorage.getItem("userId");
-      // console.log(itemId);
-      $.ajax({
-          url: "/api/order/remove?userId=" + userId + "&orderId=" + orderId,
-          type: "POST",
-          contentType: "application/json",
-          dataType: "json",
-          traditional: true,
-          success: function (data) {
-              // if(data.code==0){
-              //     console.log("success")
-              //     $($(this).parents(".tab-content")).remove();
-              // }
-              layer.msg(data.msg);
-              console.log(data.msg);
-              location.reload();
-          }
-      })
-  })
+        console.log(address);
+
+        var userId = localStorage.getItem("userId");
+        var data = {
+            "address": address
+        }
+        $.ajax({
+            url: "/api/user/addAddress?userId=" + userId,
+            data: JSON.stringify(data),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            traditional: true,
+            success: function (data) {
+                layer.msg(data.msg);
+                console.log(data.msg);
+            }
+        })
+    })
+
+    $("#btn_submit2").click(function () {
+        var realName = $('#modifyname').val()
+        var phoneNumber = $('#modifyphone').val()
+        var email = $('#modifyemail').val()
+        var academy = $('#modifyacademy').val()
+        var studentNumber = $('#modifycode').val()
+        var gender = $("#modifyinfo").find("input[type='radio']:checked").val();
+        console.log(gender);
+        if (gender == "female") {
+            gender = 1
+        } else {
+            gender = 0
+        }
+        console.log(gender);
+        userId = localStorage.getItem("userId");
+        var data = {
+            "realName": realName,
+            "phoneNumber": phoneNumber,
+            "email": email,
+            "academy": academy,
+            "studentNumber": studentNumber,
+            "gender": gender
+        }
+        $.ajax({
+            url: "/api/user/info?userId=" + userId,
+            data: JSON.stringify(data),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            traditional: true,
+            success: function (data) {
+                layer.msg(data.msg);
+                console.log(data.msg);
+                if (data.code == 0) {
+                    $('#modifyitem').modal('hide')
+                    location.reload();
+                } else {
+
+                }
+            }
+        })
+    })
+
+
+    $(".collectdel").click(function () {
+        var itemId = $($(this).parents(".col-md-1")).attr('id');
+        var userId = localStorage.getItem("userId");
+        console.log(itemId);
+        $.ajax({
+            url: "/api/collection/remove?collectionId=" + userId + "&itemId=" + itemId,
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            traditional: true,
+            success: function (data) {
+                if (data.code == 0) {
+                    console.log("success")
+                    $(this).parents(".tab-content").remove();
+                }
+                layer.msg(data.msg);
+                console.log(data.msg);
+                location.reload();
+                //   $("#my_order").trigger('click');
+            }
+        })
+    })
+
+    $(".wantsdel").click(function () {
+        var itemId = $($(this).parents(".col-md-1")).attr('id');
+        var userId = localStorage.getItem("userId");
+        console.log(itemId);
+        $.ajax({
+            url: "/api/wants/remove?userId=" + userId + "&wantsId=" + itemId,
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            traditional: true,
+            success: function (data) {
+                if (data.code == 0) {
+                    console.log("success")
+                    $(this).parents(".tab-content").remove();
+                }
+                layer.msg(data.msg);
+                console.log(data.msg);
+                location.reload();
+
+            }
+        })
+    })
+
+    $(".itemdel").click(function () {
+        var itemId = $($(this).parents(".col-md-1")).attr('id');
+        var userId = localStorage.getItem("userId");
+        console.log(itemId);
+        $.ajax({
+            url: "/api/item/remove?userId=" + userId + "&itemId=" + itemId,
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            traditional: true,
+            success: function (data) {
+                // if(data.code==0){
+                //     console.log("success")
+                //     $($(this).parents(".tab-content")).remove();
+                // }
+                layer.msg(data.msg);
+                console.log(data.msg);
+                location.reload();
+            }
+        })
+    })
+
+    $(".orderdel").click(function () {
+        var orderId = $($(this).parents(".col-md-1")).attr('id');
+        var userId = localStorage.getItem("userId");
+        // console.log(itemId);
+        $.ajax({
+            url: "/api/order/remove?userId=" + userId + "&orderId=" + orderId,
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            traditional: true,
+            success: function (data) {
+                // if(data.code==0){
+                //     console.log("success")
+                //     $($(this).parents(".tab-content")).remove();
+                // }
+                layer.msg(data.msg);
+                console.log(data.msg);
+                location.reload();
+            }
+        })
+    })
 </script>
 
 </html>

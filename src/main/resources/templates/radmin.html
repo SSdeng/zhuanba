@@ -30,11 +30,15 @@
         <div class="img"><img src="/images/logo1.jpg" width="55px" height="55px" class="img-logo"/></div>
 
         <li>
-            <a href="/api/admin/userList" class="index_click">管理用户</a>
+            <a href="/api/root/adminList" class="index_click">管理admin</a>
         </li>
 
         <li>
-            <a href="/api/admin/itemList" class="index_click">审核商品</a>
+            <a href="/api/root/userList" class="index_click">管理用户</a>
+        </li>
+
+        <li>
+            <a href="/api/root/itemList" class="index_click">审核商品</a>
         </li>
     </ul>
 </div>
@@ -134,63 +138,63 @@
       $('#uname').text(theme)
     }
   }
-    $(".disban").on('click', function () {
-        var parent = $(this).parents('.usertable');
-        var status = $(parent).find('.status');
-        var userId = $($(parent).find('.name')).attr('id');
-        var disban = this;
-        var ban = $(parent).find('.ban');
-        console.log(userId);
-        console.log($(status).text());
-        $.ajax({
-            type: 'POST',
-            url: '/api/admin/unbanUser?userId=' + userId,
-            contentType: 'application/json',
-            traditional: true,
-            success: function (data) {
-                layer.msg(data.msg)
-                console.log(data.code);
-                if (data.code == 0) {
-                    $(status).removeClass("btn btn-danger btn-sm status");
-                    $(status).addClass("btn btn-info btn-sm status");
-                    $(status).text("正常");
-                    $(disban).attr('disabled',true);
-                    $(ban).attr('disabled',false);
-                }
-            },
-            error: function (data) {
-            }
-        });
-    })
+  $(".disban").on('click', function () {
+    var parent = $(this).parents('.usertable');
+    var status = $(parent).find('.status');
+    var userId = $($(parent).find('.name')).attr('id');
+    var disban = this;
+    var ban = $(parent).find('.ban');
+    console.log(userId);
+    console.log($(status).text());
+    $.ajax({
+      type: 'POST',
+      url: '/api/admin/unbanUser?userId=' + userId,
+      contentType: 'application/json',
+      traditional: true,
+      success: function (data) {
+        layer.msg(data.msg)
+        console.log(data.code);
+        if (data.code == 0) {
+          $(status).removeClass("btn btn-danger btn-sm status");
+          $(status).addClass("btn btn-info btn-sm status");
+          $(status).text("正常");
+          $(disban).attr('disabled',true);
+          $(ban).attr('disabled',false);
+        }
+      },
+      error: function (data) {
+      }
+    });
+  })
 
-    $(".ban").on('click', function () {
-        var parent = $(this).parents('.usertable');
-        var status = $(parent).find('.status');
-        var userId = $($(parent).find('.name')).attr('id');
-        var disban = $(parent).find('.disban');
-        var ban = this;
-        console.log(userId);
-        console.log($(status).text());
-        $.ajax({
-            type: 'POST',
-            url: '/api/admin/banUser?userId=' + userId,
-            contentType: 'application/json',
-            traditional: true,
-            success: function (data) {
-                layer.msg(data.msg);
-                console.log(data.code);
-                if (data.code == 0) {
-                    $(status).removeClass("btn btn-info btn-sm status");
-                    $(status).addClass("btn btn-danger btn-sm status");
-                    $(status).text("封禁");
-                    $(disban).attr('disabled',false);
-                    $(ban).attr('disabled',true);
-                }
-            },
-            error: function (data) {
-            }
-        });
-    })
+  $(".ban").on('click', function () {
+    var parent = $(this).parents('.usertable');
+    var status = $(parent).find('.status');
+    var userId = $($(parent).find('.name')).attr('id');
+    var disban = $(parent).find('.disban');
+    var ban = this;
+    console.log(userId);
+    console.log($(status).text());
+    $.ajax({
+      type: 'POST',
+      url: '/api/admin/banUser?userId=' + userId,
+      contentType: 'application/json',
+      traditional: true,
+      success: function (data) {
+        layer.msg(data.msg);
+        console.log(data.code);
+        if (data.code == 0) {
+          $(status).removeClass("btn btn-info btn-sm status");
+          $(status).addClass("btn btn-danger btn-sm status");
+          $(status).text("封禁");
+          $(disban).attr('disabled',false);
+          $(ban).attr('disabled',true);
+        }
+      },
+      error: function (data) {
+      }
+    });
+  })
 </script>
 
 </html>
