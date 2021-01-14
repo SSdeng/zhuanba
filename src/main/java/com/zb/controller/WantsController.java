@@ -128,6 +128,6 @@ public class WantsController {
         }
         model.addAttribute("categories", categories);
         model.addAttribute("b",3);
-        return "index";
+        return "wantsall";
     }
 }
