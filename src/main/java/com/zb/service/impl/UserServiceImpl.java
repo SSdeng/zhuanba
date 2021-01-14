@@ -75,6 +75,8 @@ public class UserServiceImpl implements UserService {
     public User updateUserInfo(String JSONUser, long userId) {
         User dataUser = findById(userId);
         User newUser = JsonTransfer.updateSelective(JSONUser, dataUser);
+        String newPassword = new Md5Hash(newUser.getPassword(), newUser.getUsername(), 2).toString();
+        newUser.setPassword(newPassword);
         return userRepository.save(newUser);
     }
 

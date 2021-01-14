@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import com.zb.entity.Category;
+import com.zb.entity.vo.CategoryVO;
 import com.zb.entity.vo.ItemVO;
 import com.zb.service.CategoryService;
 import org.springframework.data.domain.Page;
@@ -65,7 +66,7 @@ public class ItemController {
     public ModelAndView itemDetails(@RequestParam("itemId") long itemId) {
         ModelAndView modelAndView = new ModelAndView("item");
         Item item = itemService.findById(itemId);
-        List<Category> categories = categoryService.getAllCategories();
+        List<CategoryVO> categories = categoryService.getAllCategories();
         modelAndView.addObject("item", item);
         modelAndView.addObject("comments", item.getItemComments());
         modelAndView.addObject("categories", categories);
