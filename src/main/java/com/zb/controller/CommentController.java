@@ -40,10 +40,10 @@ public class CommentController {
      * @return 增加商品评论
      */
     @PostMapping("/item")
-    public String addItemComment(@RequestParam("itemId") long itemId, Map<String, Object> map) {
+    public String addItemComment(@RequestParam("itemId") long itemId, @RequestBody Map<String, String> map) {
 
-        long userId = (long) map.get("userId");
-        String content = (String) map.get("content");
+        long userId = Long.parseLong(map.get("userId"));
+        String content = map.get("content");
 
         ItemComment itemComment = new ItemComment();
         itemComment.setUser(userService.findById(userId));
@@ -63,10 +63,10 @@ public class CommentController {
      * @return 求购详情页
      */
     @PostMapping("/wants")
-    public String addWantsComment(@RequestParam("wantsId") long wantsId, @RequestBody Map<String, Object> map){
-        long userId = (long)map.get("userId");
+    public String addWantsComment(@RequestParam("wantsId") long wantsId, @RequestBody Map<String, String> map){
+        long userId = Long.parseLong(map.get("userId"));
         WantsComment newComment = new WantsComment();
-        newComment.setContent((String)map.get("content"));
+        newComment.setContent(map.get("content"));
         newComment.setUser(userService.findById(userId));
         newComment.setWants(wantsService.findById(wantsId));
         wCommentService.insertSelective(newComment);
