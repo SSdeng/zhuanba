@@ -42,10 +42,11 @@ public interface CollectionService {
     Collection removeItem(Long collectionId , Long itemId);
 
     /**
-     * 检查收藏夹中是否已有商品
+     * 检查商品是否已收藏
      *
+     * @param id 收藏id
      * @param itemId 商品id
-     * @return true表有 false表无
+     * @return 是否已收藏
      */
-    boolean hasItem(long id, long itemId);
+    public boolean hasItem(long id, long itemId);
 }
