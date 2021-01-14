@@ -96,6 +96,11 @@ class ZhuanbaApplicationTests {
     }
 
     @Test
+    void deleteUserTest() {
+        userService.deleteUserById((long)6);
+    }
+
+    @Test
     void passwordTest(){
         User user = new User();
         user.setUsername("admin1");

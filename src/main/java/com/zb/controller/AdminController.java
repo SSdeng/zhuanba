@@ -74,7 +74,7 @@ public class AdminController {
      */
     @PostMapping("deleteAdmin")
     @ResponseBody
-    public Result deleteAdmin(@RequestParam("adminId") long adminId) {
+    public Result banAdmin(@RequestParam("adminId") long adminId) {
         adminService.deleteAdmin(adminId);
         return Result.ok();
     }
@@ -85,10 +85,23 @@ public class AdminController {
      * @param userId 用户id
      * @return 返回消息
      */
-    @PostMapping("deleteUser")
+    @PostMapping("banUser")
     @ResponseBody
-    public Result deleteUser(@RequestParam("userId") long userId) {
-        adminService.deleteAdmin(userId);
+    public Result banUser(@RequestParam("userId") long userId) {
+        adminService.deleteUser(userId);
+        return Result.ok();
+    }
+
+    /**
+     * 解禁用户/管理员
+     *
+     * @param userId 用户id
+     * @return 返回消息
+     */
+    @PostMapping("unban")
+    @ResponseBody
+    public Result unban(@RequestParam("userId") long userId) {
+        adminService.unban(userId);
         return Result.ok();
     }
 

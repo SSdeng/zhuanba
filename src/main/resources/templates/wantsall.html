@@ -139,7 +139,7 @@
     var userId = localStorage.getItem("userId");
     var itemId = $(this).attr('id');
     console.log(userId + " " + itemId)
-    location.assign("/api/item/details?itemId=" + itemId + "&userId=" + userId);
+    location.assign("/api/wants/details?wantsId=" + itemId);
   })
   $(function () {
     load_data()

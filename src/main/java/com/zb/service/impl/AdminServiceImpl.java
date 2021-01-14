@@ -112,4 +112,16 @@ public class AdminServiceImpl implements AdminService {
     public void deleteAdmin(long adminId) {
         userRepository.deleteById(adminId);
     }
+
+    /**
+     * 解禁用户/管理员
+     *
+     * @param userId 用户id
+     */
+    @Override
+    public void unban(long userId) {
+        User user = userRepository.findByUserIdFromAll(userId);
+        user.setDeleted(0);
+        userRepository.save(user);
+    }
 }
