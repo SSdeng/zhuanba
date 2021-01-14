@@ -101,13 +101,13 @@
                             <td id="listArticle_caozuo">
 
                                 <!-- 通过 -->
-                                <form method="post" th:id="'pass'+*{id}" th:if="*{status==-1||status==0}">
+                                <form method="post" th:id="'pass'+*{id}" >
                                     <div th:id="*{id}" class="div">
                                     <input type="button" class="btn btn-info btn-sm check" value="通过"/>
                                     </div>
                                 </form>
                                 <!-- 拒绝 -->
-                                <form method="post" th:id="'reject'+*{id}" th:if="*{status==1||status==0}">
+                                <form method="post" th:id="'reject'+*{id}" >
                                     <div th:id="*{id}" class="div">
                                     <input type="button" class="btn btn-danger btn-sm reject"  value="拒绝"/>
                                     </div>
@@ -125,6 +125,7 @@
 </body>
 <script>
   $(function (){
+
     $(".check").click(function () {
       var adminId = localStorage.getItem('userId')
       var itemId = $(this).parent().attr("id");
@@ -137,8 +138,8 @@
         success: function (data) {
           layer.msg(data.msg)
           if (data.code == 0) {
-            $('#pass' + itemId).hide()
-            $('#reject' + itemId).show()
+            $('#pass' + itemId).css("display","none");
+            $('#reject' + itemId).css("display","block");
             $('#status' + itemId).attr('class', 'btn btn-info btn-sm')
             $('#status' + itemId).text('已通过')
           }
@@ -161,8 +162,8 @@
         success: function (data) {
           layer.msg(data.msg)
           if (data.code == 0) {
-            $('#pass' + itemId).show()
-            $('#reject' + itemId).hide()
+            $('#pass' + itemId).css("display","block");
+            $('#reject' + itemId).css("display","none");
             $('#status' + itemId).attr('class', 'btn btn-danger btn-sm')
             $('#status' + itemId).text('未通过')
           }
