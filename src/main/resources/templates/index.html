@@ -35,8 +35,11 @@
         <ul class="list-ul-2" style="position: relative;right: 190px;">
             <div class="img"><img src="/images/logo1.jpg" width="55px" height="55px" class="img-logo" /></div>
 
+            <li >
+                <a href="/" class="index_click">全部商品</a>
+            </li>
             <li th:each="category:${categories}">
-                <a th:href="'/api/catagory/find?categoryId='+${category.id}" th:text="${category.name}">123</a>
+                <a th:href="'/api/category/find?categoryId='+${category.id}" th:text="${category.name}" class="category_click">123</a>
             </li>
         </ul>
     </div>
@@ -50,19 +53,19 @@
                     <a href="#">
                         <img th:src="*{image}" alt="">
                         <div class="cont">
-                            <h3 th:text="*{itemName}">简约时尚水泥花瓶</h3>
-                            <span th:text="'￥' + *{price}">￥450</span>
+                            <span th:text="*{itemName}" style="word-break: break-word;overflow: hidden;font-size: 16px" >简约时尚水泥花瓶</span>
+                            <br><p th:text="'￥' + *{price}">￥450</p>
                         </div>
                     </a>
                     <div class="mask">
-                        <a th:href="'/api/item/details?itemId='+*{id}" class="btn">
+                        <a th:href="'/api/item/details?itemId=' + *{id}" class="btn">
                             查看详情
                         </a>
                     </div>
                 </li>
             </ul>
 
-            <div class="pages">
+            <div class="pages" id="index_pages" th:style="${b}?'display: none':'display: '">
                 <a th:href="@{/(pageNo=1)}">首页</a>
 
                 <a th:href="@{/(pageNo = ${items.hasPrevious()} ? ${items.getNumber()} : 1)}">上一页</a>
@@ -70,6 +73,21 @@
                 <a th:href="@{/(pageNo = ${items.hasNext()}?(${items.getNumber()}+2):${items.totalPages})}">下一页</a>
 
                 <a th:href="@{/(pageNo = ${items.totalPages})}">尾页</a>
+
+                当前页：<span th:text="${items.getNumber()}+1">1</span>
+
+                总页数:<span th:text="${items.totalPages}">1</span>
+
+                总条数:<span th:text="${items.totalElements}">1</span>
+            </div>
+            <div class="pages" id="category_pages" style="display: none" th:style="${b}?'display: ':'display: none'">
+                <a th:href="@{#httpServletRequest.getRequestURL()+'&pageNo=1'}">首页123</a>
+
+                <a th:href="@{#httpServletRequest.getRequestURL()+ ${items.hasPrevious()} ? ${items.getNumber()} : 1}">上一页</a>
+
+                <a th:href="@{#httpServletRequest.getRequestURL()+ ${items.hasNext()}?(${items.getNumber()}+2):${items.totalPages}}">下一页</a>
+
+                <a th:href="@{#httpServletRequest.getRequestURL()+ ${items.totalPages}}">尾页</a>
 
                 当前页：<span th:text="${items.getNumber()}+1">1</span>
 
@@ -97,6 +115,12 @@
         })
     }
 
+</script>
+<script>
+    $("#login_logout").click(function () {
+      localStorage.clear();
+      location.href("login");
+    })
 </script>
 <!--<script>
     $(".pages .num").append("<a href=\"#\" class = \"tol \">2</a>")
@@ -178,6 +202,7 @@
             $("#uname").attr("href","/api/user/info?userId="+userId);
         }
     }
+
 
 </script>
 

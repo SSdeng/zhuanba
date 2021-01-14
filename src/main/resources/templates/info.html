@@ -13,218 +13,163 @@
 </head>
 
 <body>
-	<div class="dingbu">
-		<div class="denglu-font">
-			<a href="#" id="dingbuhome"><img src="../images/logo.jpg"></a>
+<div class="dingbu">
+	<div class="denglu-font">
+		<a href="#" id="dingbuhome"><img src="/images/logo.jpg"></a>
 
-			<div class="denglu-font2">
-				<a href="#" id="uname">...</a>
-				<a href="login.html" id="login_logout">登录</a>
+		<div class="denglu-font2">
+			<a href="#" id="uname">...</a>
+			<a href="login.html" id="login_logout">登录</a>
+
+		</div>
+	</div>
+</div>
+
+<div class="row" id="myHome_top">
+	<div class="col-md-10 col-md-offset-1" style="background-color: #ffffff; border-radius: 2px;">
+		<div class="row">
+			<div class="col-md-2">
+				<!-- 用户头像 -->
+				<img src="/images/logo4.png" style="width: 230px; position: relative;top: 50px;">
+			</div>
+			<div class="col-md-10 col-xs-12" style="position: relative;left: 50px;">
+				<br><br><br>
+				<div class="row">
+					<div class="col-md-10">
+						<!-- 用户名 -->
+						<b id="myself_name" style="font-size: 22px;" th:text="${user.username}">zyl</b>
+						&nbsp;&nbsp;&nbsp;
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="col-md-12">
+						<!-- realName -->
+						<b>姓名</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="myself_family"
+																			 th:text="${user.realName}">张一隆</span>
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="col-md-12">
+						<!-- phoneNumber -->
+						<b>手机号</b> &nbsp;&nbsp;&nbsp; <span id="myself_intro"
+															th:text="${user.phoneNumber}">15109918030</span>
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="col-md-12">
+						<!-- email -->
+						<b>邮箱</b> &nbsp;&nbsp;&nbsp; <span id="myself_email"
+														   th:text="${user.email}">976235949@qq.com</span>
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="col-md-12">
+						<!-- academy grade studentNumber -->
+						<b>学生认证</b> &nbsp;&nbsp;&nbsp; <span id="myself_student"
+															 th:text="${user.academy} +'  '+ ${studentNumber}">软件学院 2018303107</span>
+					</div>
+				</div>
+				<br>
+				<div class="row">
+
+					<div class="col-md-12">
+						<!-- gender -->
+						<b>性别</b> &nbsp;&nbsp;&nbsp; <span id="myself_sex"
+														   th:text="${user.gender}==0?'男':'女'">男</span>
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="col-md-6 col-xs-8" th:each="add:${addresses}">
+						<!-- addresses -->
+						<b>收货地址</b> &nbsp;&nbsp;&nbsp; <span id="myself_address"
+															 th:text="${add.detail}">星天苑C座</span>
+
+					</div>
+
+					<div class="col-md-3 col-xs-7">
+						<button type="button" class="btn btn-info" data-toggle="modal" data-target="#edit"
+								id="edituser">
+							<span class="glyphicon glyphicon-pencil"></span>编辑资料</button>
+					</div>
+
+				</div>
+				<br>
 
 			</div>
 		</div>
 	</div>
+</div>
 
-	<div class="row" id="myHome_top">
-		<div class="col-md-10 col-md-offset-1" style="background-color: #ffffff; border-radius: 2px;">
-			<div class="row">
-				<div>
-
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-2">
-					<!-- 用户头像 -->
-					<img src="../images/logo4.png" style="width: 230px; position: relative;top: 50px;">
-				</div>
-				<div class="col-md-10 col-xs-12" style="position: relative;left: 50px;">
-					<br><br><br>
-					<div class="row">
-						<div class="col-md-10">
-							<!-- 用户名 -->
-							<b id="myself_name" style="font-size: 22px;">zyl</b> &nbsp;&nbsp;&nbsp;
-						</div>
-					</div>
-					<br>
-					<div class="row">
-						<div class="col-md-12">
-							<!-- realName -->
-							<b>姓名</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="myself_family">张一隆</span>
-						</div>
-					</div>
-					<br>
-					<div class="row">
-						<div class="col-md-12">
-							<!-- phoneNumber -->
-							<b>手机号</b> &nbsp;&nbsp;&nbsp; <span id="myself_intro">15109918030</span>
-						</div>
-					</div>
-					<br>
-					<div class="row">
-						<div class="col-md-12">
-							<!-- email -->
-							<b>邮箱</b> &nbsp;&nbsp;&nbsp; <span id="myself_email">976235949@qq.com</span>
-						</div>
-					</div>
-					<br>
-					<div class="row">
-						<div class="col-md-12">
-							<!-- academy grade studentNumber -->
-							<b>学生认证</b> &nbsp;&nbsp;&nbsp; <span id="myself_student">软件学院 2018303107</span>
-						</div>
-					</div>
-					<br>
-					<div class="row">
-
-						<div class="col-md-12">
-							<!-- gender -->
-							<b>性别</b> &nbsp;&nbsp;&nbsp; <span id="myself_sex_age">男</span>
-						</div>
-					</div>
-					<br>
-					<div class="row">
-						<div class="col-md-6 col-xs-8">
-							<!-- addresses -->
-							<b>收货地址</b> &nbsp;&nbsp;&nbsp; <span id="myself_address">星天苑C座</span>
-
-						</div>
-
-						<div class="col-md-3 col-xs-7">
-							<button type="button" class="btn btn-info" data-toggle="modal" data-target="#edit" id="edituser"
-							>
-								<span class="glyphicon glyphicon-pencil"></span> 编辑资料</button>
-						</div>
-
-					</div>
-					<br>
-
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!--下半部分 -->
-	<div class="row" id="myHome_bottom" style="position: relative; top: 10px;">
-		<div class="col-md-10 col-md-offset-1" style="background-color: #ffffff; border-radius: 2px;">
-			<div>
-				<!-- Nav tabs -->
-				<ul class="nav nav-tabs" role="tablist">
-					<!-- 我的发布 -->
-					<li role="presentation" class="active" id="tab_dynamic">
-						<a href="#home" aria-controls="home" role="tab" data-toggle="tab">我的发布 <samp
-								id="count_Article"></samp></a>
-					</li>
-					<!-- 我的订单 -->
-					<li role="presentation" id="tab_answer">
-						<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">我的订单 <samp
-								id="count_Comment"></samp></a>
-					</li>
-					<!-- 我的求购 -->
-					<li role="presentation" id="tab_attention">
-						<a href="#attention" aria-controls="attention" role="tab" data-toggle="tab">我的求购 <samp
-								id="count_Attention"></samp></a>
-					</li>
-					<!-- 我的收藏 -->
-					<li role="presentation" id="tab_collect">
-						<a href="#collect" aria-controls="collect" role="tab" data-toggle="tab">我的收藏 <samp
-								id="count_Collect"></samp></a>
-					</li>
-				</ul>
+<!--下半部分 -->
+<div class="row" id="myHome_bottom" style="position: relative; top: 10px;">
+	<div class="col-md-10 col-md-offset-1" style="background-color: #ffffff; border-radius: 2px;">
+		<div>
+			<!-- Nav tabs -->
+			<ul class="nav nav-tabs" role="tablist">
+				<!-- 我的发布 -->
+				<li role="presentation" class="active" id="tab_dynamic">
+					<a href="#release" aria-controls="home" role="tab" data-toggle="tab">我的发布 <samp
+							id="my_release"></samp></a>
+				</li>
+				<!-- 我的订单 -->
+				<li role="presentation" id="tab_answer">
+					<a href="#order" aria-controls="profile" role="tab" data-toggle="tab">我的订单 <samp
+							id="my_order"></samp></a>
+				</li>
+				<!-- 我的求购 -->
+				<li role="presentation" id="tab_attention">
+					<a href="#wants" aria-controls="attention" role="tab" data-toggle="tab">我的求购 <samp
+							id="my_wants"></samp></a>
+				</li>
+				<!-- 我的收藏 -->
+				<li role="presentation" id="tab_collect">
+					<a href="#collect" aria-controls="collect" role="tab" data-toggle="tab">我的收藏 <samp
+							id="my_collect"></samp></a>
+				</li>
+			</ul>
 
 
 
-				<!-- Tab panes -->
-				<div class="tab-content">
-					<br>
-					<!--################################################### 发布的商品信息 ###################################################-->
-					<div role="tabpanel" class="tab-pane active" id="home">
+			<!-- Tab panes -->
+			<div class="tab-content">
+				<br>
+				<!--################################################### 发布的商品信息 ###################################################-->
+				<div role="tabpanel" class="tab-pane active" id="release">
 
-						<!-- 商品展示-循环 - 模板 -->
-						<div id="myself_article_hide" style="display: block">
-							<!-- 文章编号 -->
-							<div class="myself_article_num">
-								<div class="row">
-									<!-- 配图 -->
-									<div class="col-xs-12 col-md-3" id="myself_article_photo" style="cursor:pointer;">
-										<!-- 图片 -->
-										<img src="../images/img46.png" alt=""
-											style="position: relative; height: 150px; border-radius: 3px;">
-									</div>
-									<div class="col-xs-12 col-md-9">
-										<!-- 名称 -->
-										<div id=""
-											style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;color: #000000;">
-											<h3 th:text="*{itemName}" style="cursor:pointer; font-size:18px;">简约时尚水泥花瓶1
-											</h3>
-										</div>
-										<!-- 价格 -->
-										<div id=""
-											style="cursor:pointer;overflow: hidden;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;">
-											<span th:text="'￥' + *{price}"
-												style="word-break: break-word;line-height: 1.6;">￥450</span>
-										</div>
-										<!-- 介绍 -->
-										<div id=""
-											style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;color: #000000;display: inline;">
-											<span th:text="'￥' + *{price}"
-												style="word-break: break-word;line-height: 1.6;">这是一款很好吃的酸辣粉</span>
-										</div>
-									</div>
+					<!-- 商品展示-循环 - 模板 -->
+					<div id="myself_release" style="display: block" th:each="item:${user.items}" th:object="${item}">
 
-								</div>
-								<div class="row">
-									<div class="col-xs-7 col-md-10"></div>
-									<!-- 修改 -->
-									<div class="col-xs-2 col-md-1">
-										<form class="form_articleUpdate">
-											<button id="form_articleUpdate_button" type="button"
-												class="btn btn-info btn-sm">编辑</button>
-										</form>
-									</div>
-									<!-- 删除 -->
-									<div class="col-xs-2 col-md-1">
-										<form>
-											<button type="button" id="myself_article_del"
-												class="btn btn-danger btn-sm">删除</button>
-										</form>
-									</div>
-								</div>
-								<!-- 动态展示-循环-end -->
-								<hr style="height:1px;border:none;border-top:1px solid #bbbbbb;">
-							</div>
-						</div>
-					</div>
-					<!--################################################### 发布商品-end ###################################################-->
-
-					<!--################################################### 我的订单 ###################################################-->
-					<div role="tabpanel" class="tab-pane" id="profile">
-						<!-- 订单展示-循环 - 模板 -->
-						<div id="huifu_article_hide" style="display: block">
+						<div class="myself_release_num">
 							<div class="row">
 								<!-- 配图 -->
-								<div class="col-xs-12 col-md-3" id="myself_article_photo" style="cursor:pointer;">
+								<div class="col-xs-12 col-md-3" id="myself_release_photo" style="cursor:pointer;">
 									<!-- 图片 -->
-									<img src="../images/img46.png" alt=""
-										style="position: relative; height: 150px; border-radius: 3px;">
+									<img th:src="*{image}" alt=""
+										 style="position: relative; height: 150px; border-radius: 3px;">
 								</div>
 								<div class="col-xs-12 col-md-9">
 									<!-- 名称 -->
 									<div id=""
-										style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;color: #000000;">
-										<h3 th:text="*{itemName}" style="cursor:pointer; font-size:18px;">简约时尚水泥花瓶2
-										</h3>
+										 style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;color: #000000;">
+										<a th:href="'/api/item/details?itemId=' + *{id}" th:text="*{itemName}" style="cursor:pointer; font-size:18px;">简约时尚水泥花瓶1
+										</a>
 									</div>
 									<!-- 价格 -->
 									<div id=""
-										style="cursor:pointer;overflow: hidden;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;">
-										<span th:text="'￥' + *{price}"
-											style="word-break: break-word;line-height: 1.6;">￥450</span>
+										 style="cursor:pointer;overflow: hidden;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;">
+											<span th:text="'单价：￥' + *{price}"
+												  style="word-break: break-word;line-height: 1.6;">单价：￥450</span>
 									</div>
 									<!-- 介绍 -->
 									<div id=""
-										style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;color: #000000;display: inline;">
-										<span th:text="'￥' + *{price}"
-											style="word-break: break-word;line-height: 1.6;">这是一款很好吃的酸辣粉</span>
+										 style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;color: #000000;display: inline;">
+											<span th:text="*{description}"
+												  style="word-break: break-word;line-height: 1.6;">这是一款很好吃的酸辣粉</span>
 									</div>
 								</div>
 
@@ -234,244 +179,328 @@
 								<!-- 修改 -->
 								<div class="col-xs-2 col-md-1">
 									<form class="form_articleUpdate">
-										<button id="form_articleUpdate_button" type="button"
-											class="btn btn-info btn-sm">编辑</button>
+										<button id="form_releaseUpdate_button" type="button"
+												class="btn btn-info btn-sm">编辑</button>
 									</form>
 								</div>
 								<!-- 删除 -->
 								<div class="col-xs-2 col-md-1">
 									<form>
-										<button type="button" id="myself_article_del"
-											class="btn btn-danger btn-sm">删除</button>
+										<button type="button" id="myself_release_del"
+												class="btn btn-danger btn-sm">删除</button>
 									</form>
 								</div>
 							</div>
+							<!-- 商品展示-循环-end -->
 							<hr style="height:1px;border:none;border-top:1px solid #bbbbbb;">
 						</div>
 					</div>
-					<!--################################################### 我的订单-end ###################################################-->
+				</div>
+				<!--################################################### 发布商品-end ###################################################-->
 
-					<!--################################################### 我的求购 ###################################################-->
-					<div role="tabpanel" class="tab-pane" id="attention">
-
-						<div class="tab-content">
-							<div class="row">
-								<!-- 配图 -->
-								<div class="col-xs-12 col-md-3" id="myself_article_photo" style="cursor:pointer;">
-									<!-- 图片 -->
-									<img src="../images/img46.png" alt=""
-										style="position: relative; height: 150px; border-radius: 3px;">
-								</div>
-								<div class="col-xs-12 col-md-9">
-									<!-- 名称 -->
-									<div id=""
-										style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;color: #000000;">
-										<h3 th:text="*{itemName}" style="cursor:pointer; font-size:18px;">简约时尚水泥花瓶3
-										</h3>
-									</div>
-									<!-- 价格 -->
-									<div id=""
-										style="cursor:pointer;overflow: hidden;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;">
-										<span th:text="'￥' + *{price}"
-											style="word-break: break-word;line-height: 1.6;">￥450</span>
-									</div>
-									<!-- 介绍 -->
-									<div id=""
-										style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;color: #000000;display: inline;">
-										<span th:text="'￥' + *{price}"
-											style="word-break: break-word;line-height: 1.6;">这是一款很好吃的酸辣粉</span>
-									</div>
-								</div>
-
+				<!--################################################### 我的订单 ###################################################-->
+				<div role="tabpanel" class="tab-pane" id="order" th:each="order:${orders}" th:object="${order}">
+					<!-- 订单展示-循环 - 模板 -->
+					<div id="huifu_article_hide" style="display: block">
+						<div class="row">
+							<!-- 配图 -->
+							<div class="col-xs-12 col-md-3" id="myself_article_photo" style="cursor:pointer;">
+								<!-- 图片 -->
+								<img th:src="*{item.image}" alt=""
+									 style="position: relative; height: 150px; border-radius: 3px;">
 							</div>
-							<div class="row">
-								<div class="col-xs-7 col-md-10"></div>
-								<!-- 修改 -->
-								<div class="col-xs-2 col-md-1">
-									<form class="form_articleUpdate">
-										<button id="form_articleUpdate_button" type="button"
-											class="btn btn-info btn-sm">编辑</button>
-									</form>
+							<div class="col-xs-12 col-md-4">
+								<!-- 名称 -->
+								<div id=""
+									 style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;color: #000000;">
+									<h3 th:text="*{item.itemName}" style="cursor:pointer; font-size:18px;">简约时尚水泥花瓶2
+									</h3>
 								</div>
-								<!-- 删除 -->
-								<div class="col-xs-2 col-md-1">
-									<form>
-										<button type="button" id="myself_article_del"
-											class="btn btn-danger btn-sm">删除</button>
-									</form>
+								<!-- 价格 -->
+								<div id=""
+									 style="cursor:pointer;overflow: hidden;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;">
+										<span th:text="'单价：￥' + *{item.price}"
+											  style="word-break: break-word;line-height: 1.6;">单价：￥450</span>
+								</div>
+								<!-- 介绍 -->
+								<div id=""
+									 style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;color: #000000;display: inline;">
+										<span th:text="*{item.description}"
+											  style="word-break: break-word;line-height: 1.6;">这是一款很好吃的酸辣粉</span>
 								</div>
 							</div>
+							<div class="col-xs-12 col-md-3">
+								<!-- 购买数量 -->
+								<div id=""
+									 style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;color: #000000;"><br>
+									<span th:text="'购买数量:'+*{itemCount}" style="cursor:pointer;">购买数量：1
+										</span>
+								</div>
+								<!-- 总价格 -->
+								<div id=""
+									 style="cursor:pointer;overflow: hidden;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;">
+										<span th:text="'订单金额：￥' + *{totalPrice}"
+											  style="word-break: break-word;line-height: 1.6;">订单金额：￥450</span>
+								</div>
+								<!-- 购买时间 -->
+								<div id=""
+									 style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;color: #000000;display: inline;">
+										<span th:text="'购买时间：'+*{createTime}"
+											  style="word-break: break-word;line-height: 1.6;">购买时间：2020-1-1</span>
+								</div>
+							</div>
+
 						</div>
-						<hr style="height:1px;border:none;border-top:1px solid #bbbbbb;">
-					</div>
-
-					<!--################################################### 我的求购-end ###################################################-->
-
-					<!--################################################### 收藏 ###################################################-->
-					<div role="tabpanel" class="tab-pane" id="collect">
-
-						<div class="tab-content">
-							<div class="row">
-								<!-- 配图 -->
-								<div class="col-xs-12 col-md-3" id="myself_article_photo" style="cursor:pointer;">
-									<!-- 图片 -->
-									<img src="../images/img46.png" alt=""
-										style="position: relative; height: 150px; border-radius: 3px;">
-								</div>
-								<div class="col-xs-12 col-md-9">
-									<!-- 名称 -->
-									<div id=""
-										style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;color: #000000;">
-										<h3 th:text="*{itemName}" style="cursor:pointer; font-size:18px;">简约时尚水泥花瓶4
-										</h3>
-									</div>
-									<!-- 价格 -->
-									<div id=""
-										style="cursor:pointer;overflow: hidden;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;">
-										<span th:text="'￥' + *{price}"
-											style="word-break: break-word;line-height: 1.6;">￥450</span>
-									</div>
-									<!-- 介绍 -->
-									<div id=""
-										style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;color: #000000;display: inline;">
-										<span th:text="'￥' + *{price}"
-											style="word-break: break-word;line-height: 1.6;">这是一款很好吃的酸辣粉</span>
-									</div>
-								</div>
-
-							</div>
-							<div class="row">
-								<div class="col-xs-7 col-md-10"></div>
-								<!-- 修改 -->
-								<div class="col-xs-2 col-md-1">
-									<form class="form_articleUpdate">
-										<button id="form_articleUpdate_button" type="button"
+						<div class="row">
+							<div class="col-xs-7 col-md-10"></div>
+							<!-- 修改 -->
+							<div class="col-xs-2 col-md-1">
+								<form class="form_articleUpdate">
+									<button id="form_orderUpdate_button" type="button"
 											class="btn btn-info btn-sm">编辑</button>
-									</form>
-								</div>
-								<!-- 删除 -->
-								<div class="col-xs-2 col-md-1">
-									<form>
-										<button type="button" id="myself_article_del"
+								</form>
+							</div>
+							<!-- 删除 -->
+							<div class="col-xs-2 col-md-1">
+								<form>
+									<button type="button" id="myself_order_del"
 											class="btn btn-danger btn-sm">删除</button>
-									</form>
-								</div>
+								</form>
 							</div>
 						</div>
 						<hr style="height:1px;border:none;border-top:1px solid #bbbbbb;">
 					</div>
 				</div>
+				<!--################################################### 我的订单-end ###################################################-->
+
+				<!--################################################### 我的求购 ###################################################-->
+				<div role="tabpanel" class="tab-pane" id="wants" th:each="wants:${wants}" th:object="${wants}">
+
+					<div class="tab-content">
+						<div class="row">
+							<!-- 配图 -->
+							<div class="col-xs-12 col-md-3" id="myself_article_photo" style="cursor:pointer;">
+								<!-- 图片 -->
+								<img th:src="*{image}" alt=""
+									 style="position: relative; height: 150px; border-radius: 3px;">
+							</div>
+							<div class="col-xs-12 col-md-9">
+								<!-- 求购标题 -->
+								<div id=""
+									 style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;color: #000000;">
+									<a th:href="'/api/wants/details?wantsId=' + *{id}" th:text="'求购标题：'+*{title}" style="cursor:pointer; font-size:18px;">求购标题：花瓶
+									</a>
+								</div>
+								<!-- 价格 -->
+								<div id=""
+									 style="cursor:pointer;overflow: hidden;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;">
+										<span th:text="'求购时间：' + *{createTime}"
+											  style="word-break: break-word;line-height: 1.6;">求购时间：createTime</span>
+								</div>
+								<!-- 介绍 -->
+								<div id=""
+									 style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;color: #000000;display: inline;">
+										<span th:text="'求购描述：' + *{description}"
+											  style="word-break: break-word;line-height: 1.6;">求购描述：这是一款很好吃的酸辣粉</span>
+								</div>
+							</div>
+
+						</div>
+						<div class="row">
+							<div class="col-xs-7 col-md-10"></div>
+							<!-- 修改 -->
+							<div class="col-xs-2 col-md-1">
+								<form class="form_articleUpdate">
+									<button id="form_wantsUpdate_button" type="button"
+											class="btn btn-info btn-sm">编辑</button>
+								</form>
+							</div>
+							<!-- 删除 -->
+							<div class="col-xs-2 col-md-1">
+								<form>
+									<button type="button" id="myself_wants_del"
+											class="btn btn-danger btn-sm">删除</button>
+								</form>
+							</div>
+						</div>
+					</div>
+					<hr style="height:1px;border:none;border-top:1px solid #bbbbbb;">
+				</div>
+
+				<!--################################################### 我的求购-end ###################################################-->
+
+				<!--################################################### 收藏 ###################################################-->
+				<div role="tabpanel" class="tab-pane" id="collect" th:each="collection:${collections.items}" th:object="${collection}">
+
+					<div class="tab-content">
+						<div class="row">
+							<!-- 配图 -->
+							<div class="col-xs-12 col-md-3" id="myself_article_photo" style="cursor:pointer;">
+								<!-- 图片 -->
+								<img th:src="*{image}" alt=""
+									 style="position: relative; height: 150px; border-radius: 3px;">
+							</div>
+							<div class="col-xs-12 col-md-4">
+								<!-- 名称 -->
+								<div id=""
+									 style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;color: #000000;">
+									<h3 th:text="*{itemName}" style="cursor:pointer; font-size:18px;">简约时尚水泥花瓶2
+									</h3>
+								</div>
+								<!-- 价格 -->
+								<div id=""
+									 style="cursor:pointer;overflow: hidden;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;">
+										<span th:text="'单价：￥' + *{price}"
+											  style="word-break: break-word;line-height: 1.6;">单价：￥450</span>
+								</div>
+								<!-- 介绍 -->
+								<div id=""
+									 style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;color: #000000;display: inline;">
+										<span th:text="*{description}"
+											  style="word-break: break-word;line-height: 1.6;">这是一款很好吃的酸辣粉</span>
+								</div>
+							</div>
+
+						</div>
+						<div class="row">
+							<div class="col-xs-7 col-md-10"></div>
+							<!-- 修改 -->
+							<div class="col-xs-2 col-md-1">
+								<form class="form_articleUpdate">
+									<button id="form_collectionUpdate_button" type="button"
+											class="btn btn-info btn-sm">编辑</button>
+								</form>
+							</div>
+							<!-- 删除 -->
+							<div class="col-xs-2 col-md-1">
+								<form>
+									<button type="button" id="myself_collection_del"
+											class="btn btn-danger btn-sm">删除</button>
+								</form>
+							</div>
+						</div>
+					</div>
+					<hr style="height:1px;border:none;border-top:1px solid #bbbbbb;">
+				</div>
+				<!--################################################### 收藏-end ###################################################-->
 			</div>
-			<!--################################################### 收藏-end ###################################################-->
 		</div>
 	</div>
+</div>
 
-	<!--###################################################发布修改的弹窗-start###############################################-->
-	<div class="modal fade" id="modifyitem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-							aria-hidden="true">×</span></button>
-					<h4 class="modal-title" id="myModalLabel">修改发布商品</h4>
-				</div>
-				<div class="modal-body">
+<!--###################################################发布修改的弹窗-start###############################################-->
+<div class="modal fade" id="modifyitem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+						aria-hidden="true">×</span></button>
+				<h4 class="modal-title" id="myModalLabel2">修改发布商品</h4>
+			</div>
+			<div class="modal-body">
 
-					<div class="form-group">
-						<label for="txt_departmentname">商品名称</label>
-						<input type="text" class="form-control" id="modifyitemname" placeholder="请输入商品名称">
-					</div>
-					<div class="form-group">
-						<label for="txt_parentdepartment">商品描述</label>
-						<textarea id="modifydescription" class="form-control" rows="5" placeholder="请输入商品描述"></textarea>
-						<!-- <input type="text" name="txt_parentdepartment" class="form-control" id="txt_parentdepartment" placeholder="上级部门"> -->
-					</div>
-					<div class="form-group">
-						<label for="txt_departmentlevel">新旧程度</label>
-						<input type="range" class="form-control" id="modifylevel" type="range" min="1" max="10"
-							value="10" title="10" oninput="changelabel()" width="200px">
-						<label id="levellabel">全新</label>
-					</div>
-					<div class="form-group">
-						<label for="txt_statu">价格</label>
-						<input type="number" class="form-control" id="modifyprice" placeholder="0">
-					</div>
-					<div class="form-group">
-						<label for="txt_statu">剩余数量</label>
-						<input type="number" class="form-control" id="modifycount" placeholder="0">
-					</div>
+				<div class="form-group">
+					<label for="modifyitemname">商品名称</label>
+					<input type="text" class="form-control" id="modifyitemname" placeholder="请输入商品名称">
 				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal"><span
-							class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭</button>
-					<button type="button" id="btn_submit" class="btn btn-primary" data-dismiss="modal"><span
-							class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>保存</button>
+				<div class="form-group">
+					<label for="modifydescription">商品描述</label>
+					<textarea id="modifydescription" class="form-control" rows="5" placeholder="请输入商品描述"></textarea>
+					<!-- <input type="text" name="txt_parentdepartment" class="form-control" id="txt_parentdepartment" placeholder="上级部门"> -->
 				</div>
+				<div class="form-group">
+					<label for="modifylevel">新旧程度</label>
+					<input type="range" class="form-control" id="modifylevel"  min="1" max="10"
+						   value="10" title="10" oninput="changelabel()" width="200px">
+					<label id="levellabel">全新</label>
+				</div>
+				<div class="form-group">
+					<label for="modifyprice">价格</label>
+					<input type="number" class="form-control" id="modifyprice" placeholder="0">
+				</div>
+				<div class="form-group">
+					<label for="modifycount">剩余数量</label>
+					<input type="number" class="form-control" id="modifycount" placeholder="0">
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal"><span
+						class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭</button>
+				<button type="button" id="btn_submit1" class="btn btn-primary" data-dismiss="modal"><span
+						class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>保存</button>
 			</div>
 		</div>
 	</div>
-	<!--###################################################发布修改的弹窗-start###############################################-->
+</div>
+<!--###################################################发布修改的弹窗-start###############################################-->
 
 
-	<!--###################################################个人信息修改的弹窗-start###############################################-->
-	<div class="modal fade" id="modifyinfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-							aria-hidden="true">×</span></button>
-					<h4 class="modal-title" id="myModalLabel">新增</h4>
-				</div>
-				<div class="modal-body">
+<!--###################################################个人信息修改的弹窗-start###############################################-->
+<div class="modal fade" id="modifyinfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+						aria-hidden="true">×</span></button>
+				<h4 class="modal-title" id="myModalLabel">新增</h4>
+			</div>
+			<div class="modal-body">
 
-					<div class="form-group">
-						<label for="txt_departmentname">姓名</label>
-						<input type="text" class="form-control" id="modifyname" placeholder="请输入姓名">
-					</div>
-					<div class="form-group">
-						<label for="txt_parentdepartment">手机号</label>
-						<input type="text" name="txt_parentdepartment" class="form-control" id="modifyphone"
-							placeholder="手机号">
-					</div>
-					<div class="form-group">
-						<label for="txt_statu">邮箱</label>
-						<input type="email" class="form-control" id="modifyemail" placeholder="请输入邮箱">
-					</div>
-					<div class="form-group">
-						<label for="txt_statu">性别</label><br>
-						<input id="male" type="radio" name="sex" value="male" checked>男<br>
-						<input id="female" type="radio" name="sex" value="female">女
-					</div>
-					<div class="form-group">
-						<label for="txt_statu">收货地址</label>
-						<input type="text" class="form-control" id="modifyaddress" placeholder="请输入收货地址">
-					</div>
+				<div class="form-group">
+					<label for="modifyname">姓名</label>
+					<input type="text" class="form-control" id="modifyname" placeholder="请输入姓名">
 				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal"><span
-							class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭</button>
-					<button type="button" id="btn_submit" class="btn btn-primary" data-dismiss="modal"><span
-							class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>保存</button>
+				<div class="form-group">
+					<label for="modifyphone">手机号</label>
+					<input type="text" name="txt_parentdepartment" class="form-control" id="modifyphone"
+						   placeholder="手机号">
 				</div>
+				<div class="form-group">
+					<label for="modifyemail">邮箱</label>
+					<input type="email" class="form-control" id="modifyemail" placeholder="请输入邮箱">
+				</div>
+				<div class="form-group">
+					性别<br>
+					<input id="male" type="radio" name="sex" value="male" checked>男<br>
+					<input id="female" type="radio" name="sex" value="female">女
+				</div>
+				<div class="form-group">
+					<label for="modifyaddress">收货地址</label>
+					<input type="text" class="form-control" id="modifyaddress" placeholder="请输入收货地址">
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal"><span
+						class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭</button>
+				<button type="button" id="btn_submit2" class="btn btn-primary" data-dismiss="modal"><span
+						class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>保存</button>
 			</div>
 		</div>
 	</div>
-	<!--###################################################个人信息修改的弹窗-start###############################################-->
+</div>
+<!--###################################################个人信息修改的弹窗-start###############################################-->
 </body>
 <script>
+	$(function () {
+		load_data();
+	})
 	//设置顶部栏的登录/退出按钮和用户名显示
-	var login_logout = $("#login_logout");
 	function load_data() {
 		var theme = localStorage.getItem("username");
+		var userId = localStorage.getItem("userId");
+		console.log(localStorage.getItem("username"))
+		console.log(localStorage.getItem("userId"))
 		if (theme == null || theme == "") {
-			login_logout.innerText = "登录"
-			$("#uname").html('');
+			$("#login_logout").text("登录")
+			$("#uname").text('');
 		} else {
-			login_logout.innerText = "退出"
-			$("#uname").html(theme);
+			$("#login_logout").text("退出")
+			$("#login_logout").attr("href", "/logout")
+			$("#uname").text(theme);
+			$("#uname").attr("href", "/api/user/info?userId=" + userId);
 		}
 	}
-	$("#edituser").on('click',function(){
+	$("#edituser").on('click', function () {
 		console.log('click');
 		var name = $("#myself_family").text();
 		var phone = $("#myself_intro").text();
@@ -484,8 +513,8 @@
 		$("#modifyemail").val(email);
 		$("#modifyaddress").val(address);
 
-		if(gender=='女'){
-			$("#female").prop('checked','checked');
+		if (gender == '女') {
+			$("#female").prop('checked', 'checked');
 		}
 		$("#modifyinfo").modal('show');
 	});
