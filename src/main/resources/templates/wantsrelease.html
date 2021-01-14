@@ -54,7 +54,7 @@
                     <td class="content_right">
                         <a href="javascript:;" class="file">
                             <input id="chooseimage" type="file" accept="image/png,image/gif,image/jpg,image/jpeg">
-                            <img id="showimage" class="showimage" src="../images/addimage.png">
+                            <img id="showimage" class="showimage" src="/images/addimage.png">
                         </a>
                     </td>
                 </tr>
@@ -141,8 +141,8 @@
                                         location.assign("/api/wants/details?wantId=" + wantsId)
 
                                     },
-                                    error: function (e) {
-                                        var res = $.parseJSON(e.responseText);
+                                    error: function (data) {
+                                        var res = $.parseJSON(data.responseText);
                                         layer.msg(res.msg);
                                     }
                                 });
