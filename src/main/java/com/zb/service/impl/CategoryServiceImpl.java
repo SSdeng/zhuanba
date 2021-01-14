@@ -153,6 +153,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public PaginationSupport<Item> getSpecificCategoryItems(int categoryId, int pageNo, int pageSize) {
+        //TODO
         int totalCount = itemRepository.getSpecificCategoryItemsCount(categoryId);
         int startIndex = PaginationSupport.convertFromPageToStartIndex(pageNo, pageSize);
         if (totalCount < 1) {

@@ -33,7 +33,6 @@ public class CollectionServiceImpl implements CollectionService {
      * @param itemId 商品id
      * @return 收藏
      */
-
     @Override
     public Collection addItem(Long userId, Long itemId) {
         User user = userRepository.getOne(userId);
