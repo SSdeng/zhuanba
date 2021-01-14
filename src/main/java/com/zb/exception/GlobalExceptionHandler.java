@@ -1,5 +1,6 @@
 package com.zb.exception;
 
+import org.apache.shiro.ShiroException;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -53,7 +54,7 @@ public class GlobalExceptionHandler {
      * @param e
      * @return
      */
-    @ExceptionHandler(AuthenticationException.class)
+    @ExceptionHandler(ShiroException.class)
     public Result authExceptionHandler(AuthenticationException e) {
         e.printStackTrace();
         log.error("发生异常！原因是:{}", e.getMessage());
