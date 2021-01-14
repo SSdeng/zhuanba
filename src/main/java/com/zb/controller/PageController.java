@@ -18,21 +18,6 @@ public class PageController {
     @Resource
     private CategoryService categoryService;
 
-    // @RequestMapping("/")
-    // public String getIndex1(){
-    // return "index";
-    // }
-
-    @RequestMapping("/index")
-    public String getIndex() {
-        return "index";
-    }
-
-    // @RequestMapping("/item")
-    // public String getItem(){
-    // return "item";
-    // }
-
     @RequestMapping("/login")
     public String getLogin() {
         return "login";
