@@ -142,8 +142,8 @@ public class ItemController {
      */
     @PostMapping("/remove")
     @ResponseBody
-    public String deleteItem(@RequestParam("userId") long userId, @RequestParam("itemId") long itemId){
+    public Result deleteItem(@RequestParam("userId") long userId, @RequestParam("itemId") long itemId){
         itemService.deleteById(itemId);
-        return "redirect:/api/user/info?userId" + userId;
+        return Result.ok();
     }
 }

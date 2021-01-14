@@ -696,13 +696,14 @@
       dataType: "json",
       traditional: true,
       success: function (data) {
-          // if(data.code==0){
-          //     console.log("success")
-          //     $($(this).parents(".tab-content")).remove();
-          // }
+          if(data.code==0){
+              console.log("success")
+              $(this).parents(".tab-content").remove();
+          }
         layer.msg(data.msg);
         console.log(data.msg);
         location.reload();
+        //   $("#my_order").trigger('click');
       }
     })
   })
@@ -718,13 +719,14 @@
           dataType: "json",
           traditional: true,
           success: function (data) {
-              // if(data.code==0){
-              //     console.log("success")
-              //     $($(this).parents(".tab-content")).remove();
-              // }
+              if(data.code==0){
+                  console.log("success")
+                  $(this).parents(".tab-content").remove();
+              }
               layer.msg(data.msg);
               console.log(data.msg);
               location.reload();
+
           }
       })
   })
