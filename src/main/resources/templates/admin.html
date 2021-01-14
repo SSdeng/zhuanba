@@ -127,6 +127,7 @@
             traditional: true,
             success: function (data) {
                 layer.msg(data.msg)
+                console.log(data.code);
                 if (data.code == 0) {
                     $(status).attr("style","btn btn-danger btn-sm status");
                     $(status).text("封禁");
@@ -148,7 +149,8 @@
             contentType: 'application/json',
             traditional: true,
             success: function (data) {
-                layer.msg(data.msg)
+                layer.msg(data.msg);
+                console.log(data.code);
                 if (data.code == 0) {
                     $(status).attr("style","btn btn-info btn-sm status");
                     $(status).text("正常");
