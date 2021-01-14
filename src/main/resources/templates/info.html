@@ -279,13 +279,7 @@
                             <div class="col-xs-7 col-md-10"></div>
 
                             <!-- 删除 -->
-                            <div class="col-xs-2 col-md-1" th:id="*{id}">
-                                <form>
-                                    <button type="button" id="myself_order_del"
-                                            class="btn btn-danger btn-sm orderdel" disabled>删除
-                                    </button>
-                                </form>
-                            </div>
+
                             <hr style="height:1px;border:none;border-top:1px solid #bbbbbb;">
                         </div>
 
@@ -370,8 +364,10 @@
                             <div class="col-xs-12 col-md-7">
                                 <!-- 名称 -->
                                 <div style="overflow: hidden;white-space: nowrap;text-overflow:ellipsis;color: #000000;">
-                                    <h3 th:text="*{itemName}" style="cursor:pointer; font-size:18px;">简约时尚水泥花瓶2
-                                    </h3>
+                                    <a th:href="'/api/item/details?itemId=' + *{id} + '&userId=' + ${user.id}"
+                                       th:text="*{itemName}"
+                                       style="cursor:pointer; font-size:18px;">简约时尚水泥花瓶1
+                                    </a>
                                 </div>
                                 <!-- 价格 -->
                                 <div style="cursor:pointer;overflow: hidden;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;">
@@ -565,7 +561,6 @@
 
     $('#login_logout').click(function () {
         localStorage.clear()
-
     })
     $(function () {
         load_data()

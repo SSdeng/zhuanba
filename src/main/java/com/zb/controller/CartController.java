@@ -90,18 +90,5 @@ public class CartController {
         return Result.ok();
     }
 
-    /**
-     * 清空购物车
-     *
-     * @param model
-     *            模型
-     * @param cartId
-     *            购物车id
-     * @return 视图
-     */
-    @PostMapping("buy")
-    public String emptyCart(Model model, @RequestParam("cartId") long cartId) {
-        model.addAllAttributes(cartService.getCartOrderVoList(cartId));
-        return "buy";
-    }
+
 }

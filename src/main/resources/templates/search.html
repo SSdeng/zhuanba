@@ -52,9 +52,9 @@
 
         <div class="pages" id="wants_pages">
             <a href="/search">首页</a>
-            <a th:href="'/search?keyword'+${keyword}+'&pageNo='+(${items.hasPrevious()}?${items.getNumber()}:1)">上一页</a>
+            <a th:href="'/search?keyword='+${keyword}+'&pageNo='+(${items.hasPrevious()}?${items.getNumber()}:1)">上一页</a>
 
-            <a th:href="'/search?keyword'+${keyword}+'&pageNo='+(${items.hasNext()}?(${items.getNumber()}+2):${items.totalPages})">下一页</a>
+            <a th:href="'/search?keyword='+${keyword}+'&pageNo='+(${items.hasNext()}?(${items.getNumber()}+2):${items.totalPages})">下一页</a>
 
             <a th:href="@{#request.getContextPath()+${items.totalPages}}">尾页</a>
 

@@ -36,7 +36,7 @@ public class CategoryController {
     @GetMapping("/find")
     public String getSpecificCategoryItems(@RequestParam("categoryId") Long categoryId,
         @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
-        @RequestParam(value = "pageSize", defaultValue = "10") int pageSize, Model model) {
+        @RequestParam(value = "pageSize", defaultValue = "12") int pageSize, Model model) {
 
         // 获取指定分类下的商品列表分页
         Page<Item> page = categoryService.getSpecificCategoryItemsByNamingParameters(categoryId, pageNo, pageSize);
@@ -45,6 +45,7 @@ public class CategoryController {
 
         model.addAttribute("items", page);
         model.addAttribute("categories", categories);
+        model.addAttribute("categoryId",categoryId);
         model.addAttribute("b", 2);
 
         return "index";

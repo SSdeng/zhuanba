@@ -166,6 +166,9 @@
   $(function () {
     load_data()
   })
+  $('#login_logout').click(function () {
+      localStorage.clear()
+  })
   function load_data() {
     var theme = localStorage.getItem('username')
     var userId = localStorage.getItem('userId')

@@ -155,7 +155,9 @@
         })
 
     })
-
+    $('#login_logout').click(function () {
+        localStorage.clear()
+    })
     function checkFile() {
         var $file1 = $('#chooseimage').val()
         if ($file1 == '') {

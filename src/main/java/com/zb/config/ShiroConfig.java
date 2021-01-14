@@ -68,6 +68,7 @@ public class ShiroConfig {
         // 注册、登录放行
         filterChainDefinitionMap.put("/api/user/login", "anon");
         filterChainDefinitionMap.put("/api/user/register", "anon");
+        filterChainDefinitionMap.put("/register", "anon");
         // 静态资源放行
         filterChainDefinitionMap.put("/bootstrap/**", "anon");
         filterChainDefinitionMap.put("/css/**", "anon");

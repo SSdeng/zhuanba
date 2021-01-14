@@ -173,7 +173,9 @@
     })
 
     //设置顶部栏的登录/退出按钮和用户名显示
-
+    $('#login_logout').click(function () {
+        localStorage.clear()
+    })
     function load_data() {
         var theme = localStorage.getItem('username')
         var userId = localStorage.getItem('userId')

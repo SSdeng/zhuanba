@@ -102,22 +102,6 @@ public class ItemController {
         return modelAndView;
     }
 
-    /**
-     * 进入购买商品
-     *
-     * @param itemId
-     *            商品id
-     * @return 商品id，数量（1），价格
-     */
-    @PostMapping("/buy")
-    public ModelAndView buyItem(@RequestParam("itemId") long itemId) {
-        ModelAndView modelAndView = new ModelAndView("buy");
-        Item item = itemService.findById(itemId);
-        modelAndView.addObject("itemId", item.getId());
-        modelAndView.addObject("cost", item.getPrice());
-        modelAndView.addObject("number", 1);
-        return modelAndView;
-    }
 
     /**
      * 下架指定商品

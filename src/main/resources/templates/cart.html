@@ -259,6 +259,9 @@
 <script src="/bootstrap/js/bootstrap.min.js"></script>
 <script src="/layer/layer.js"></script>
 <script th:inline="javascript">
+    $('#login_logout').click(function () {
+        localStorage.clear()
+    })
     function search() {
         console.log($('#searchText').val())
         var data = $('#searchText').val()
