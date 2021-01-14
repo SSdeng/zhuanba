@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.io.IOException;
 import java.util.List;
 
+import com.zb.elasticsearch.ItemEsRepository;
 import com.zb.entity.Cart;
 import com.zb.entity.Item;
 import com.zb.entity.User;
@@ -108,4 +109,13 @@ class ZhuanbaApplicationTests {
     public void tes1() throws IOException {
         itemRepository.saveAll(HtmlParseUtil.getItemsByJD("图书"));
     }*/
+
+    @Autowired
+    private ItemEsRepository repository;
+    @Test
+    @Transactional
+    public void saveAll(){
+        List<Item> all = itemRepository.findAll();
+        repository.saveAll(all);
+    }
 }
