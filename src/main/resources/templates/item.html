@@ -47,7 +47,7 @@
 
     <div id="details" class="details">
         <h1 id="itemname" class="itemname" th:text="${item.itemName}"></h1>
-        <h3 class="sellInfo" th:text="'已经销售：' + ${item.count} + '件商品，剩余' + ${item.sales} + '件商品'">暂无销售信息</h3>
+        <h3 class="sellInfo" th:text="'已经销售：' + ${item.sales} + '件商品，剩余' + ${item.count} + '件商品'">暂无销售信息</h3>
         <h3 class="sellerName" th:text="'卖家：' + ${item.user.username}"></h3>
         <h1 class="price" th:text="'￥' + ${item.price}">￥9999</h1>
         <div th:if="${item.level} eq 10">
@@ -61,7 +61,7 @@
         </div>
 
         <div th:if="${inCart} eq true">
-            <input type="button" class="incartbutton" value="已在购物车中国" disabled>
+            <input type="button" class="incartbutton" value="已在购物车中" disabled>
         </div>
 
     </div>

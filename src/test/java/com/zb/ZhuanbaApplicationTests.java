@@ -1,8 +1,7 @@
 package com.zb;
 
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
 import com.zb.entity.*;
@@ -11,20 +10,18 @@ import com.zb.service.CartService;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.zb.elasticsearch.ItemEsRepository;
 import com.zb.repository.ItemRepository;
 import com.zb.service.CategoryService;
-import com.zb.service.ItemService;
-import com.zb.service.UserService;
 import com.zb.util.HtmlParseUtil;
 
-import lombok.extern.slf4j.Slf4j;
+import javax.transaction.Transactional;
 
 import javax.annotation.Resource;
 
@@ -35,7 +32,7 @@ class ZhuanbaApplicationTests {
     @Autowired
     private ItemRepository itemRepository;
     @Autowired
-    private ItemEsRepository itemEsRepository;
+    private CategoryRepository categoryRepository;
     @Autowired
     private CategoryService categoryService;
     @Autowired
@@ -91,14 +88,15 @@ class ZhuanbaApplicationTests {
         Item item = new Item();
         item.setItemName("ljc");
         item.setPrice(new BigDecimal(10.0));
-        // User user = creatUser();
-        // userService.insertSelective(user);
+        //User user = creatUser();
+        //userService.insertSelective(user);
         User user = userService.findByUserName("zhangsan");
         item.setUser(user);
         itemService.insertSelective(item);
         System.out.println("\nitemInfo: " + item.toString() + "\n");
         System.out.println("\nitemUserInfo: " + item.getUser().toString() + "\n");
     }
+
 
     @Test
     @Transactional
@@ -111,36 +109,6 @@ class ZhuanbaApplicationTests {
         }
     }
 
-    @Test
-    @Transactional
-    @Rollback(false)
-    void paquItems() throws IOException {
-        String key = "笔记本电脑";
-        Long uId = (long)2;
-        Long[] cIds = {(long)2};
-        List<Item> items = HtmlParseUtil.getItemsByJD(key, uId, cIds);
-        itemRepository.saveAll(items);
-    }
-
-    @Test
-    void categoryTest() {
-        List<Category> list = new ArrayList<>();
-        list.add(categoryService.findById((long)1));
-        log.info(list.get(0).toString().substring(1));
-        Item item = new Item();
-        item.setCategories(list);
-        log.info(item.getCategories().get(0).toString());
-    }
-
-    @Test
-    void passwordTest(){
-        User user = new User();
-        user.setUsername("admin1");
-        user.setPassword("admin1");
-        String newPassword = new Md5Hash(user.getPassword(), user.getUsername(), 2).toString();
-        user.setPassword(newPassword);
-        log.info("New Password Is " + newPassword);
-    }
     /*@Test
     @Transactional
     void test1() {
@@ -162,10 +130,18 @@ class ZhuanbaApplicationTests {
             System.out.println("商品：" + i);
         }
     }*/
+/*    @Test
+    @Rollback(value = false)
+    public void tes1() throws IOException {
+        itemRepository.saveAll(HtmlParseUtil.getItemsByJD("图书"));
+    }*/
+
+    @Autowired
+    private ItemEsRepository repository;
     @Test
     @Transactional
-    public void search() {
-        Item item = itemRepository.findById(2L).get();
-        itemEsRepository.save(item);
+    public void saveAll(){
+        List<Item> all = itemRepository.findAll();
+        repository.saveAll(all);
     }
 }
