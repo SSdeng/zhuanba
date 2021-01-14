@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import com.zb.entity.vo.ItemVO;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -78,12 +79,13 @@ public class ItemController {
      */
     @GetMapping("/search")
     @ResponseBody
-    public Result itemSearch(@RequestParam("searchInfo") String searchInfo,
-        @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
-        @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+    public String itemSearch(Model model, @RequestParam("searchInfo") String searchInfo,
+                             @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+                             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         //TODO
         Page<Item> items = itemService.searchByPage(searchInfo, pageNo, pageSize);
-        return Result.ok("searchResultPage", items);
+        model.addAttribute("itemList", items);
+        return "index";
     }
 
     /**
@@ -110,7 +112,7 @@ public class ItemController {
      * @return 商品id，数量（1），价格
      */
     @PostMapping("/buy")
-    public ModelAndView bugItem(@RequestParam("itemId") long itemId){
+    public ModelAndView buyItem(@RequestParam("itemId") long itemId){
         ModelAndView modelAndView = new ModelAndView("buy");
         Item item = itemService.findById(itemId);
         modelAndView.addObject("itemId", item.getId());

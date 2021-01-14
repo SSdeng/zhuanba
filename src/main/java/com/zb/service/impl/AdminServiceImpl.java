@@ -2,6 +2,7 @@ package com.zb.service.impl;
 
 import com.zb.entity.Item;
 import com.zb.entity.User;
+import com.zb.repository.UserRepository;
 import com.zb.service.AdminService;
 import com.zb.service.ItemService;
 import com.zb.service.UserService;
@@ -21,6 +22,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private UserRepository userRepository;
 
     /**
      * 修改商品审核状态
@@ -65,7 +69,7 @@ public class AdminServiceImpl implements AdminService {
      */
     @Override
     public void deleteUser(long userId) {
-        userService.deleteById(userId);
+        userService.deleteUserById(userId);
     }
 
     /**
@@ -78,5 +82,26 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Page<User> getAllUsersByPage(int pageNo, int pageSize) {
         return userService.findAllByPage(pageNo, pageSize);
+    }
+
+    /**
+     * 增加管理员
+     *
+     * @param newAdmin 管理员
+     */
+    @Override
+    public User addAdmin(User newAdmin) {
+        newAdmin.setRole("admin");
+        return userService.insertSelective(newAdmin);
+    }
+
+    /**
+     * 删除管理员
+     *
+     * @param adminId 管理员id
+     */
+    @Override
+    public void deleteAdmin(long adminId) {
+        userRepository.deleteById(adminId);
     }
 }

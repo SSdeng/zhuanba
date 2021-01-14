@@ -52,8 +52,7 @@ public class CommentController {
 
         itemCommentService.insertSelective(itemComment);
 
-        //response.sendRedirect("/api/item/details");
-        return "/api/item/details";
+        return "redirect:/api/item/details";
     }
 
     /**
@@ -71,6 +70,6 @@ public class CommentController {
         newComment.setUser(userService.findById(userId));
         newComment.setWants(wantsService.findById(wantsId));
         wCommentService.insertSelective(newComment);
-        return "/api/wants/details";
+        return "redirect:/api/wants/details";
     }
 }

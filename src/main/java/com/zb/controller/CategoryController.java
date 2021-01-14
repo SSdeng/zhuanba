@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -22,18 +23,8 @@ import java.util.List;
 @RequestMapping("/api/category")
 public class CategoryController {
 
+    @Resource
     CategoryService categoryService;
-
-    /**
-     * 构造器依赖注入
-     *
-     * @param categoryService 商品服务
-     */
-    @Autowired
-    public CategoryController(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
-
 
     /**
      * 返回指定分类下所有的Item

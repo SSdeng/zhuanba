@@ -26,8 +26,9 @@ public class CartController {
     /**
      * 获取用户购物车
      *
+     * @param model 模型
      * @param userId 用户id
-     * @return 返回信息
+     * @return 视图
      */
     @GetMapping("all")
     public String getUserCart(Model model, @RequestParam("userId") long userId) {
@@ -82,8 +83,9 @@ public class CartController {
     /**
      * 清空购物车
      *
+     * @param model 模型
      * @param cartId 购物车id
-     * @return 返回信息
+     * @return 视图
      */
     @PostMapping("buy")
     public String emptyCart(Model model, @RequestParam("cartId") long cartId) {
