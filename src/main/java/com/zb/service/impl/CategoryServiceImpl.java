@@ -2,6 +2,7 @@ package com.zb.service.impl;
 
 import com.zb.entity.Category;
 import com.zb.entity.Item;
+import com.zb.entity.vo.CategoryVO;
 import com.zb.exception.MyException;
 import com.zb.repository.CategoryRepository;
 import com.zb.repository.ItemRepository;
@@ -103,8 +104,15 @@ public class CategoryServiceImpl implements CategoryService {
      * @return 类别List
      */
     @Override
-    public List<Category> getAllCategories() {
-        return categoryRepository.findAll();
+    public List<CategoryVO> getAllCategories() {
+        List<Category> categories = categoryRepository.findAll();
+        List<CategoryVO> categoryVOList = new ArrayList<>(0);
+        for(Category category : categories){
+            CategoryVO categoryVO = new CategoryVO(category.getId(),category.getName());
+            categoryVOList.add(categoryVO);
+        }
+
+        return categoryVOList;
     }
 
     /**
