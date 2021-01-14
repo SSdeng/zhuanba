@@ -26,8 +26,9 @@
         </div>
         <div class="denglu-font2 top">
             <a href="/" id="wants">发布求购</a>
-            <a href="/" id="cart">我的购物车</a><a href="#" id="uname">zyl</a>
-            <a href="#" id="uname">zyl</a>
+            <a href="/" id="cart">我的购物车</a>
+            <a href="#" id="release">发布商品</a>
+            <a href="#" id="uname"></a>
             <a href="login" id="login_logout">登录</a>
 
         </div>
@@ -594,6 +595,8 @@
       $('#uname').text(theme)
       $('#wants').show()
       $('#wants').attr('href', '/api/wants/release?userId=' + userId)
+      $('#release').show();
+      $('#release').attr('href', '/release')
       $('#cart').show()
       $('#cart').attr('href', '/api/cart/all?userId=' + userId)
       $('#uname').attr('href', '/api/user/info?userId=' + userId)

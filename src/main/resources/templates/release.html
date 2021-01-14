@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" type="text/css" href="/css/release.css">
     <link rel="stylesheet" type="text/css" href="/css/header.css">
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <body>
 <div class="dingbu">
     <div class="denglu-font top">
@@ -119,6 +120,8 @@
 <script>
 
     $(function () {
+
+      load_data();
 
         $("#chooseimage").change(function () {
             if (checkFile() == false) {
@@ -277,6 +280,30 @@
 
     });
 
+    function load_data () {
+      var theme = localStorage.getItem('username')
+      var userId = localStorage.getItem('userId')
+      console.log(localStorage.getItem('username'))
+      console.log(localStorage.getItem('userId'))
+      if (theme == null || theme == '') {
+        $('#login_logout').text('登录')
+        $('#uname').text('')
+        $('#wants').hide()
+        $('release').hide()
+        $('#cart').hide()
+      } else {
+        $('#login_logout').text('退出')
+        $('#login_logout').attr('href', '/logout')
+        $('#uname').text(theme)
+        $('#wants').show()
+        $('#wants').attr('href', '/api/wants/release?userId=' + userId)
+        $('#release').show()
+        $('#release').attr('href', '/release')
+        $('#cart').show()
+        $('#cart').attr('href', '/api/cart/all?userId=' + userId)
+        $('#uname').attr('href', '/api/user/info?userId=' + userId)
+      }
+    }
     function checkFile() {
         var $file1 = $("#chooseimage").val();
         if ($file1 == "") {
