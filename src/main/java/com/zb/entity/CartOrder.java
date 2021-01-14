@@ -74,14 +74,14 @@ public class CartOrder implements Serializable {
      * 相关商品
      */
     @ManyToOne(targetEntity = Item.class, cascade = {CascadeType.REFRESH})
-    @JoinColumn(name = "item_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "item_id", referencedColumnName = "id", updatable = false)
     private Item item;
 
     /**
      * 所属购物车
      */
     @ManyToOne(targetEntity = Cart.class, cascade = {CascadeType.REFRESH})
-    @JoinColumn(name = "cart_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "cart_id", referencedColumnName = "id", updatable = false)
     @JsonIgnoreProperties(value = "orderList")
     @ToString.Exclude
     private Cart cart;
