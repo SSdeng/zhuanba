@@ -161,7 +161,7 @@ public class CartServiceImpl implements CartService {
      * @param itemId 商品id
      * @return true表有 false表无
      */
-    public boolean hasItem(Cart cart, long itemId) {
+    private boolean hasItem(Cart cart, long itemId) {
         return findCartOrderByItemId(cart.getOrderList(), itemId) != null;
     }
 }

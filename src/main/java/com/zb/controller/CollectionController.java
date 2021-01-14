@@ -6,10 +6,7 @@ import com.zb.entity.User;
 import com.zb.service.CollectionService;
 import com.zb.util.Result;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -47,11 +44,21 @@ public class CollectionController {
      * @return String
      */
     @PostMapping("/remove")
-    public String removeItem(@RequestParam("userId")Long userId
+    @ResponseBody
+    public String removeItem(@RequestParam("collectionId")Long collectionId
+            , @RequestParam("itemId") Long itemId){
+        User user = collectionService.findById(collectionId).getUser();
+        collectionService.removeItem(collectionId,itemId);
+        return "redirect:/api/user/info?userId"+user.getId();
+    }
+
+    @PostMapping("/delete")
+    @ResponseBody
+    public Result deleteItem(@RequestParam("userId")Long userId
             , @RequestParam("itemId") Long itemId){
         Collection collection = collectionService.findByUser(userId);
         collectionService.removeItem(collection.getId(), itemId);
-        return "redirect:/api/user/info?userId" + userId;
+        return Result.ok();
     }
 
 }
