@@ -1,14 +1,14 @@
 package com.zb.controller;
 
-import com.zb.entity.User;
-import com.zb.repository.UserRepository;
-import com.zb.service.AdminService;
-import com.zb.util.Result;
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
+import com.zb.entity.User;
+import com.zb.service.AdminService;
+import com.zb.util.Result;
 
 /**
  * 管理员控制器
@@ -21,21 +21,21 @@ public class AdminController {
 
     @Resource
     private AdminService adminService;
-    @Resource
-    private UserRepository userRepository;
 
     /**
      * 用户列表页
      *
-     * @param model    模型
-     * @param pageNo   起始页码
-     * @param pageSize 分页大小
+     * @param model
+     *            模型
+     * @param pageNo
+     *            起始页码
+     * @param pageSize
+     *            分页大小
      * @return 视图
      */
     @GetMapping("userList")
-    public String getUserList(Model model,
-                              @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
-                              @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+    public String getUserList(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+        @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         model.addAttribute("userList", adminService.getAllUsersByPage(pageNo, pageSize));
         return "admin";
     }
@@ -43,15 +43,17 @@ public class AdminController {
     /**
      * 商品列表页
      *
-     * @param model    模型
-     * @param pageNo   起始页码
-     * @param pageSize 分页大小
+     * @param model
+     *            模型
+     * @param pageNo
+     *            起始页码
+     * @param pageSize
+     *            分页大小
      * @return 视图
      */
     @GetMapping("itemList")
-    public String getItemListModel(Model model,
-                                   @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
-                                   @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+    public String getItemListModel(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+        @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         model.addAttribute("itemList", adminService.getAllItemsByPage(pageNo, pageSize));
         return "itemList";
     }
@@ -59,7 +61,8 @@ public class AdminController {
     /**
      * 增加管理员账号
      *
-     * @param admin 管理员
+     * @param admin
+     *            管理员
      * @return 返回消息
      */
     @PostMapping("addAdmin")
@@ -72,7 +75,8 @@ public class AdminController {
     /**
      * 删除管理员账号
      *
-     * @param adminId 管理员id
+     * @param adminId
+     *            管理员id
      * @return 返回消息
      */
     @PostMapping("banAdmin")
@@ -85,7 +89,8 @@ public class AdminController {
     /**
      * 删除用户账号
      *
-     * @param userId 用户id
+     * @param userId
+     *            用户id
      * @return 返回消息
      */
     @PostMapping("banUser")
@@ -98,7 +103,8 @@ public class AdminController {
     /**
      * 解禁用户
      *
-     * @param userId 用户id
+     * @param userId
+     *            用户id
      * @return 返回消息
      */
     @PostMapping("unbanUser")
@@ -111,7 +117,8 @@ public class AdminController {
     /**
      * 解禁管理员
      *
-     * @param adminId 管理id
+     * @param adminId
+     *            管理id
      * @return 返回消息
      */
     @PostMapping("unbanAdmin")
@@ -124,14 +131,18 @@ public class AdminController {
     /**
      * 审核商品
      *
-     * @param itemId 商品id
-     * @param adminId 审核者id
-     * @param status 审核结果
+     * @param itemId
+     *            商品id
+     * @param adminId
+     *            审核者id
+     * @param status
+     *            审核结果
      * @return 返回消息
      */
     @PostMapping("checkItem")
     @ResponseBody
-    public Result checkItem(@RequestParam("itemId") long itemId, @RequestParam("adminId") long adminId, @RequestParam("status") int status) {
+    public Result checkItem(@RequestParam("itemId") long itemId, @RequestParam("adminId") long adminId,
+        @RequestParam("status") int status) {
         adminService.setAuditStatus(itemId, adminId, status);
         return Result.ok();
     }
@@ -139,7 +150,8 @@ public class AdminController {
     /**
      * 删除商品
      *
-     * @param itemId 商品id
+     * @param itemId
+     *            商品id
      * @return 返回消息
      */
     @PostMapping("deleteItem")

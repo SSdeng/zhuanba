@@ -1,5 +1,12 @@
 package com.zb.service.impl;
 
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
+
 import com.zb.elasticsearch.ItemEsRepository;
 import com.zb.entity.Item;
 import com.zb.entity.User;
@@ -8,10 +15,6 @@ import com.zb.repository.UserRepository;
 import com.zb.service.AdminService;
 import com.zb.service.ItemService;
 import com.zb.service.UserService;
-import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 
 /**
  * 管理员服务实现类
@@ -34,11 +37,14 @@ public class AdminServiceImpl implements AdminService {
     private ItemEsRepository itemEsRepository;
 
     /**
-     * 修改商品审核状态
+     * 修改商品审核状态，放入索引库
      *
-     * @param itemId 商品id
-     * @param adminId 管理者id
-     * @param status 审核结果
+     * @param itemId
+     *            商品id
+     * @param adminId
+     *            管理者id
+     * @param status
+     *            审核结果
      * @return 商品
      */
     @Override
@@ -49,21 +55,26 @@ public class AdminServiceImpl implements AdminService {
     }
 
     /**
-     * 删除商品
+     * 删除商品,同时从索引库删除
      *
-     * @param itemId 商品id
+     * @param itemId
+     *            商品id
      * @return 删除结果
      */
     @Override
     public boolean deleteItem(long itemId) {
-        return itemService.deleteById(itemId);
+        itemService.deleteById(itemId);
+        itemEsRepository.deleteById(itemId);
+        return true;
     }
 
     /**
      * 分页获取所有商品
      *
-     * @param pageNo 起始页码
-     * @param pageSize 分页大小
+     * @param pageNo
+     *            起始页码
+     * @param pageSize
+     *            分页大小
      * @return 分页商品表
      */
     @Override
@@ -74,18 +85,22 @@ public class AdminServiceImpl implements AdminService {
     /**
      * 删除用户
      *
-     * @param userId 用户id
+     * @param userId
+     *            用户id
      */
     @Override
     public void deleteUser(long userId) {
         userService.deleteUserById(userId);
+        itemEsRepository.deleteAllByUser_id(userId);
     }
 
     /**
      * 分页获取所有用户
      *
-     * @param pageNo   起始页码
-     * @param pageSize 分页大小
+     * @param pageNo
+     *            起始页码
+     * @param pageSize
+     *            分页大小
      * @return 分页用户表
      */
     @Override
@@ -96,7 +111,8 @@ public class AdminServiceImpl implements AdminService {
     /**
      * 增加管理员
      *
-     * @param newAdmin 管理员
+     * @param newAdmin
+     *            管理员
      */
     @Override
     public User addAdmin(User newAdmin) {
@@ -107,7 +123,8 @@ public class AdminServiceImpl implements AdminService {
     /**
      * 删除管理员
      *
-     * @param adminId 管理员id
+     * @param adminId
+     *            管理员id
      */
     @Override
     public void deleteAdmin(long adminId) {
@@ -121,12 +138,13 @@ public class AdminServiceImpl implements AdminService {
     /**
      * 解禁用户
      *
-     * @param userId 用户id
+     * @param userId
+     *            用户id
      */
     @Override
     public void unbanUser(long userId) {
         User user = userRepository.findByUserIdFromAll(userId);
-        if (user.getRole() != "user") {
+        if (!user.getRole().equals("user")) {
             throw new MyException("非法操作！");
         }
         unban(user);
@@ -135,23 +153,27 @@ public class AdminServiceImpl implements AdminService {
     /**
      * 解禁管理员
      *
-     * @param adminId 管理员id
+     * @param adminId
+     *            管理员id
      */
     @Override
     public void unbanAdmin(long adminId) {
         User user = userRepository.findByUserIdFromAll(adminId);
-        if (user.getRole() != "admin") {
+        if (!user.getRole().equals("admin")) {
             throw new MyException("非法操作！");
         }
     }
 
     /**
-     * 解禁
+     * 解禁,同时恢复用户所有商品
      *
-     * @param user 用户
+     * @param user
+     *            用户
      */
     private void unban(User user) {
         user.setDeleted(0);
         userRepository.save(user);
+        List<Item> list = user.getItems();
+        itemEsRepository.saveAll(list);
     }
 }

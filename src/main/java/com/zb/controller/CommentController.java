@@ -1,21 +1,23 @@
 package com.zb.controller;
 
-import com.zb.entity.ItemComment;
-import com.zb.entity.WantsComment;
-import com.zb.service.*;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.annotation.Resource;
-import java.util.Map;
+import com.zb.entity.ItemComment;
+import com.zb.entity.WantsComment;
+import com.zb.service.*;
 
 /**
- * CommentController
- * shenmanjie
- * 2021/1/10 23:16
+ * 评论Controller
+ * 
+ * @author shenmanjie 2021/1/10 23:16
  */
 @Controller
 @RequestMapping("/api/comment")
@@ -58,12 +60,14 @@ public class CommentController {
     /**
      * 新增求购评论
      *
-     * @param wantsId 求购id
-     * @param map 参数集合
+     * @param wantsId
+     *            求购id
+     * @param map
+     *            参数集合
      * @return 求购详情页
      */
     @PostMapping("/wants")
-    public String addWantsComment(@RequestParam("wantsId") long wantsId, @RequestBody Map<String, String> map){
+    public String addWantsComment(@RequestParam("wantsId") long wantsId, @RequestBody Map<String, String> map) {
         long userId = Long.parseLong(map.get("userId"));
         WantsComment newComment = new WantsComment();
         newComment.setContent(map.get("content"));

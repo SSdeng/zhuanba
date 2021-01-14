@@ -37,8 +37,18 @@ public interface ItemEsRepository extends ElasticsearchRepository<Item, Long> {
      * 分页返回指定分类的所有商品
      * 
      * @param id
+     *            分类id
      * @param pageable
-     * @return
+     *            分页参数
+     * @return 分页商品列表
      */
     Page<Item> findAllByCategories_id(long id, Pageable pageable);
+
+    /**
+     * 从索引删除指定用户的所有商品
+     * 
+     * @param id
+     *            用户id
+     */
+    void deleteAllByUser_id(long id);
 }

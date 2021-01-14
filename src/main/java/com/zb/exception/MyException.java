@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
+ * 自定义异常类
+ * 
  * @author dengzhijian
  * @version 1.0
  **/
