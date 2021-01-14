@@ -122,7 +122,7 @@ public class WantsController {
                            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         Page<Wants> wants = wantsService.getAllByPage(pageNo, pageSize);
         List<CategoryVO> categories = categoryService.getAllCategories();
-        model.addAttribute("wants", wants);
+        model.addAttribute("items", wants);
         model.addAttribute("categories", categories);
         model.addAttribute("b",3);
         return "index";
