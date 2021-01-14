@@ -28,6 +28,7 @@
         <div class="denglu-font2 top">
             <a href="/" id="want">发布求购</a>
             <a href="/" id="cart">我的购物车</a>
+            <a href="#" id="release1">发布商品</a>
             <a href="#" id="uname">zyl</a>
             <a href="login" id="login_logout">登录</a>
 
@@ -581,14 +582,17 @@
         if (theme == null || theme == '') {
             $('#login_logout').text('登录')
             $('#uname').text('')
-            $('#want').hide()
+            $('#want').hide();
+            $("#release1").hide()
             $('#cart').hide()
         } else {
             $('#login_logout').text('退出')
             $('#login_logout').attr('href', '/logout')
             $('#uname').text(theme)
             $('#want').show()
-            $('#want').attr('href', '/api/wants/release?userId=' + userId)
+            $('#want').attr('href', '/api/wants/release?userId=' + userId);
+            $('#release1').show();
+            $('#release1').attr('href', '/release')
             $('#cart').show()
             $('#cart').attr('href', '/api/cart/all?userId=' + userId)
             $('#uname').attr('href', '/api/user/info?userId=' + userId)
