@@ -83,10 +83,10 @@
                     location.assign("/");
                 } else if(data.code == 255) {
                   localStorage.setItem("admin", username);
-                  location.assign("admin");
+                  location.assign("/api/admin/itemList");
                 } else if(data.code == 265) {
                   localStorage.setItem("admin", username);
-                  location.assign("root");
+                  location.assign("/api/root/adminList");
                 }
             }
         })
