@@ -153,6 +153,9 @@
         error: function (data) {
         }
       })
+        $(this).val("已在购物车中");
+        $(this).attr('disabled',true);
+        $(this).css("background-color", "#6d757a");
     })
 
     $('.comment-send-button').on('click', function () {
