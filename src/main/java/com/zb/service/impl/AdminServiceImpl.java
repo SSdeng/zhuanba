@@ -1,5 +1,6 @@
 package com.zb.service.impl;
 
+import com.zb.elasticsearch.ItemEsRepository;
 import com.zb.entity.Item;
 import com.zb.entity.User;
 import com.zb.repository.UserRepository;
@@ -28,6 +29,9 @@ public class AdminServiceImpl implements AdminService {
     @Resource
     private UserRepository userRepository;
 
+    @Resource
+    private ItemEsRepository itemEsRepository;
+
     /**
      * 修改商品审核状态
      *
@@ -38,7 +42,9 @@ public class AdminServiceImpl implements AdminService {
      */
     @Override
     public Item setAuditStatus(long itemId, long adminId, int status) {
-        return itemService.setAuditStatus(itemId, adminId, status);
+        Item item = itemService.setAuditStatus(itemId, adminId, status);
+        itemEsRepository.save(item);
+        return item;
     }
 
     /**

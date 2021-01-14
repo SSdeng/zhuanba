@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
-import com.zb.entity.Category;
 import com.zb.entity.vo.CategoryVO;
 import com.zb.entity.vo.ItemVO;
 import com.zb.service.CategoryService;

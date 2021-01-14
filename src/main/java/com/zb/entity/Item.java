@@ -156,15 +156,6 @@ public class Item implements Serializable {
     private List<Category> categories;
 
     /**
-     * 所属收藏
-     */
-    @ManyToOne(targetEntity = Collection.class, cascade = {CascadeType.REFRESH})
-    @JoinColumn(name = "collection_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @JsonIgnoreProperties(value = "items")
-    @ToString.Exclude
-    private Collection collection;
-
-    /**
      * 商品评论列表
      */
     @OneToMany(mappedBy = "item", cascade = {CascadeType.REMOVE, CascadeType.MERGE})

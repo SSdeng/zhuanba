@@ -86,7 +86,8 @@ public class CartOrder implements Serializable {
     @ToString.Exclude
     private Cart cart;
 
-    public CartOrder(long itemId, int cnt) {
+    public CartOrder(Cart cart, long itemId, int cnt) {
+        this.cart = cart;
         this.item = new Item();
         this.item.setId(itemId);
         this.itemCount = cnt;
