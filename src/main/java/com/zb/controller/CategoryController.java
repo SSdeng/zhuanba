@@ -45,6 +45,7 @@ public class CategoryController {
 
         model.addAttribute("items", page);
         model.addAttribute("categories", categories);
+        model.addAttribute("categoryId",categoryId);
         model.addAttribute("b", 2);
 
         return "index";

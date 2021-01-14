@@ -127,6 +127,9 @@
         var data = $('#searchText').val()
         location.assign('/search?keyword=' + data)
     }
+    $('#login_logout').click(function () {
+        localStorage.clear()
+    })
 
     var itemId = 0
     itemId = [[${item.id}]]
