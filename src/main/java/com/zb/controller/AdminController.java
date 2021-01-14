@@ -21,22 +21,28 @@ public class AdminController {
 
     @Resource
     private AdminService adminService;
-    @Resource
-    private UserRepository userRepository;
 
     /**
      * 用户列表页
      *
-     * @param model    模型
-     * @param pageNo   起始页码
-     * @param pageSize 分页大小
+     * @param model 模型
      * @return 视图
      */
     @GetMapping("userList")
-    public String getUserList(Model model,
-                              @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
-                              @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-        model.addAttribute("userList", adminService.getAllUsersByPage(pageNo, pageSize));
+    public String getUserList(Model model) {
+        model.addAttribute("userList", adminService.getAllUser());
+        return "userList";
+    }
+
+    /**
+     * 管理员列表页
+     *
+     * @param model 模型
+     * @return 视图
+     */
+    @GetMapping("adminList")
+    public String getAdminList(Model model) {
+        model.addAttribute("adminList", adminService.getAllAdmin());
         return "userList";
     }
 
@@ -124,9 +130,9 @@ public class AdminController {
     /**
      * 审核商品
      *
-     * @param itemId 商品id
+     * @param itemId  商品id
      * @param adminId 审核者id
-     * @param status 审核结果
+     * @param status  审核结果
      * @return 返回消息
      */
     @PostMapping("checkItem")

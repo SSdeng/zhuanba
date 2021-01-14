@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 管理员服务实现类
@@ -82,15 +83,25 @@ public class AdminServiceImpl implements AdminService {
     }
 
     /**
-     * 分页获取所有用户
+     * 获取所有用户
+     * 包括被封禁用户
      *
-     * @param pageNo   起始页码
-     * @param pageSize 分页大小
-     * @return 分页用户表
+     * @return 用户表
      */
     @Override
-    public Page<User> getAllUsersByPage(int pageNo, int pageSize) {
-        return userService.findAllByPage(pageNo, pageSize);
+    public List<User> getAllUser() {
+        return userRepository.getAllByRole("user");
+    }
+
+    /**
+     * 获取所有管理员
+     * 包括被封禁的
+     *
+     * @return 管理员表
+     */
+    @Override
+    public List<User> getAllAdmin() {
+        return userRepository.getAllByRole("admin");
     }
 
     /**
