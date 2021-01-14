@@ -80,7 +80,13 @@ public class UserController {
         LoginUserVO loginUser = userService.login(username, password);
         Map<String, Object> data = new HashMap<>();
         data.put("userId", loginUser.getId());
-        return Result.ok("登录成功", data);
+        Result result = Result.ok(data);
+        if (loginUser.getRole().equals("user")) {
+            result.injectEnum(ResultEnum.USER_LOGIN);
+        } else if (loginUser.getRole().equals("admin")) {
+            result.injectEnum(ResultEnum.ADMIN_LOGIN);
+        }
+        return result;
     }
 
     /**

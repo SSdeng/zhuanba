@@ -24,6 +24,11 @@ public class Result {
     /** 数据 */
     private Object data;
 
+    public void injectEnum(ResultEnum resultEnum) {
+        this.setCode(resultEnum.getCode());
+        this.setMsg(resultEnum.getMsg());
+    }
+
     public static Result build(ResultEnum resultEnum, Object obj) {
         Result result = new Result();
         result.setCode(resultEnum.getCode());
