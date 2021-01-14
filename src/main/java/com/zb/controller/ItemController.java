@@ -2,12 +2,15 @@ package com.zb.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import com.zb.entity.Category;
 import com.zb.entity.vo.ItemVO;
+import com.zb.service.CategoryService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +35,8 @@ public class ItemController {
 
     @Resource
     private ItemService itemService;
+    @Resource
+    private CategoryService categoryService;
 
     /**
      * 发布商品处理
@@ -60,9 +65,10 @@ public class ItemController {
     public ModelAndView itemDetails(@RequestParam("itemId") long itemId) {
         ModelAndView modelAndView = new ModelAndView("item");
         Item item = itemService.findById(itemId);
+        List<Category> categories = categoryService.getAllCategories();
         modelAndView.addObject("item", item);
         modelAndView.addObject("comments", item.getItemComments());
-        modelAndView.addObject("categories", item.getCategories());
+        modelAndView.addObject("categories", categories);
         return modelAndView;
     }
 

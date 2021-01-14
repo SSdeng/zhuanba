@@ -40,6 +40,7 @@ public class  HomeController {
         model.addAttribute("items", items);
         List<CategoryVO> categories = categoryService.getAllCategories();
         model.addAttribute("categories", categories);
+        model.addAttribute("b",false);
         return "index";
     }
 
