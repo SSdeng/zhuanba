@@ -137,7 +137,6 @@ public class Item implements Serializable {
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false, nullable = false)
     @JsonIgnoreProperties(value = "items")
     @ToString.Exclude
-    @org.springframework.data.annotation.Transient
     private User user;
 
     /**

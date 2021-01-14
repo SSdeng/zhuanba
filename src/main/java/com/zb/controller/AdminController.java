@@ -76,7 +76,7 @@ public class AdminController {
     }
 
     /**
-     * 删除管理员账号
+     * 封禁管理员账号
      *
      * @param adminId 管理员id
      * @return 返回消息
@@ -89,7 +89,7 @@ public class AdminController {
     }
 
     /**
-     * 删除用户账号
+     * 封禁用户账号
      *
      * @param userId 用户id
      * @return 返回消息

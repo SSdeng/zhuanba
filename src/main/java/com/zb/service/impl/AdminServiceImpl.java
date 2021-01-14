@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.zb.repository.ItemRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Resource
     private UserRepository userRepository;
+
+    @Resource
+    private ItemRepository itemRepository;
 
     @Resource
     private ItemEsRepository itemEsRepository;
@@ -170,6 +174,10 @@ public class AdminServiceImpl implements AdminService {
         user.setDeleted(0);
         userRepository.save(user);
         List<Item> list = user.getItems();
+        for (Item item : list) {
+            item.setDeleted(0);
+            itemRepository.save(item);
+        }
         itemEsRepository.saveAll(list);
     }
 }
