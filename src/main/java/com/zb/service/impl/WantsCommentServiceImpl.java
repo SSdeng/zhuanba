@@ -21,6 +21,7 @@ public class WantsCommentServiceImpl implements WantsCommentService {
 
     @Resource
     private WantsCommentRepository wantsCommentRepository;
+
     /**
      * 新增求购评论
      *

@@ -64,9 +64,9 @@ public class OrderController {
     /**
      * 购物车结算
      *
-     * @param userId
-     * @param maps
-     * @return
+     * @param userId 用户id
+     * @param maps 参数对象
+     * @return Result
      */
     @PostMapping("/addcart")
     @ResponseBody
