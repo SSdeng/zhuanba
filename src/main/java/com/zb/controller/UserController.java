@@ -85,6 +85,8 @@ public class UserController {
             result.injectEnum(ResultEnum.USER_LOGIN);
         } else if (loginUser.getRole().equals("admin")) {
             result.injectEnum(ResultEnum.ADMIN_LOGIN);
+        } else if (loginUser.getRole().equals("root")) {
+            result.injectEnum(ResultEnum.ADMIN_LOGIN);
         }
         return result;
     }
