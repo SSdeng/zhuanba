@@ -40,7 +40,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
      * @param username 用户名
      * @return 用户对象
      */
-    @Query(value = "SELECT * FROM sys_user", nativeQuery = true)
+    @Query(value = "SELECT * FROM sys_user where username = ?1", nativeQuery = true)
     User findByUsernameFromAll(String username);
 
     /**
@@ -50,6 +50,6 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
      * @param userId 用户id
      * @return 用户对象
      */
-    @Query(value = "SELECT * FROM sys_user", nativeQuery = true)
+    @Query(value = "SELECT * FROM sys_user where id = ?1", nativeQuery = true)
     User findByUserIdFromAll(long userId);
 }
