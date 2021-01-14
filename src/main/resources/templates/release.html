@@ -8,34 +8,44 @@
 
     <link rel="stylesheet" type="text/css" href="/css/release.css">
     <link rel="stylesheet" type="text/css" href="/css/header.css">
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <body>
 <div class="dingbu">
-    <div class="denglu-font">
-        <a href="#" id="dingbuhome"><img src="../images/logo.jpg"></a>
+    <div class="denglu-font top">
+        <a href="/" id="dingbuhome"><img src="/images/logo.jpg"></a>
 
-        <div class="denglu-font2">
-            <a href="#" id="uname">...</a>
-            <a href="login.html" id="login_logout">登录</a>
+        <div id="so" style="position: relative; left: 350px;top:8px;width: 100px; float: left;" class="top">
+            <div class="input-group">
+                <input type="text" class="form-control" id="searchText" style="width: 380px;">
+                <span class="input-group-addon" id="search" onclick="search()"><i class="glyphicon glyphicon-search"
+                                                                                  style="color: #0055aa;"> <span>搜索
+                                </span></i></span>
+            </div>
+        </div>
+        <div class="denglu-font2 top">
+            <a href="/" id="wants">发布求购</a>
+            <a href="/" id="cart">我的购物车</a><a href="#" id="release">发布商品</a>
+            <a href="#" id="uname">zyl</a>
+            <a href="login" id="login_logout">登录</a>
 
         </div>
     </div>
 </div>
 
-
 <div class="list-1">
     <ul class="list-ul-2" style="position: relative;right: 190px;">
-        <div class="img"><img src="../static/images/logo1.jpg" width="55px" height="55px" class="img-logo"/></div>
-        <li><a href="login.html">全部商品分类</a></li>
-        <li><a href="#" class="click1">小米手机</a></li>
-        <li><a href="#">红米</a></li>
-        <li><a href="tv4c.html">电视</a></li>
-        <li><a href="bijibenmenu.html">笔记本</a></li>
-        <li><a href="#">空调</a></li>
-        <li><a href="#">新品</a></li>
-        <li><a href="#">路由器</a></li>
-        <li><a href="#">智能硬件</a></li>
-        <li><a href="#">服务</a></li>
-        <li><a href="#">社区</a></li>
+        <div class="img"><img src="/images/logo1.jpg" width="55px" height="55px" class="img-logo"/></div>
+
+        <li>
+            <a href="/" class="index_click">全部商品</a>
+        </li>
+        <li th:each="category:${categories}">
+            <a th:href="'/api/category/find?categoryId='+${category.id}" th:text="${category.name}"
+               class="category_click">123</a>
+        </li>
+        <li>
+            <a href="/api/wants/all" class="index_click">求购区</a>
+        </li>
     </ul>
 </div>
 
@@ -110,6 +120,8 @@
 <script>
 
     $(function () {
+
+      load_data();
 
         $("#chooseimage").change(function () {
             if (checkFile() == false) {
@@ -268,6 +280,30 @@
 
     });
 
+    function load_data () {
+      var theme = localStorage.getItem('username')
+      var userId = localStorage.getItem('userId')
+      console.log(localStorage.getItem('username'))
+      console.log(localStorage.getItem('userId'))
+      if (theme == null || theme == '') {
+        $('#login_logout').text('登录')
+        $('#uname').text('')
+        $('#wants').hide()
+        $('release').hide()
+        $('#cart').hide()
+      } else {
+        $('#login_logout').text('退出')
+        $('#login_logout').attr('href', '/logout')
+        $('#uname').text(theme)
+        $('#wants').show()
+        $('#wants').attr('href', '/api/wants/release?userId=' + userId)
+        $('#release').show()
+        $('#release').attr('href', '/release')
+        $('#cart').show()
+        $('#cart').attr('href', '/api/cart/all?userId=' + userId)
+        $('#uname').attr('href', '/api/user/info?userId=' + userId)
+      }
+    }
     function checkFile() {
         var $file1 = $("#chooseimage").val();
         if ($file1 == "") {

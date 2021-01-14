@@ -7,7 +7,8 @@
     <title>求购发布</title>
 
     <link rel="stylesheet" type="text/css" href="/css/release.css">
-    <link rel="stylesheet" type="text/css" href="/css/header.css">
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <body>
 <div class="dingbu">
     <div class="denglu-font top">
@@ -22,7 +23,7 @@
         </div>
         <div class="denglu-font2 top">
             <a href="/" id="wants">发布求购</a>
-            <a href="/" id="cart">我的购物车</a>
+            <a href="/" id="cart">我的购物车</a><a href="#" id="release">发布商品</a>
             <a href="#" id="uname">zyl</a>
             <a href="login" id="login_logout">登录</a>
 
@@ -75,192 +76,193 @@
 <script src="/layer/layer.js"></script>
 <script>
 
-    $(function () {
-        load_data();
-        $("#chooseimage").change(function () {
-            if (checkFile() == false) {
-                return;
+  $(function () {
+    load_data()
+    $('#chooseimage').change(function () {
+      if (checkFile() == false) {
+        return
+      }
+      var file = document.getElementById('chooseimage')
+      $('#showimage').attr('src', getObjectURL($('#chooseimage')[0].files[0]))
+    })
+    $('#itemname').change(function () {
+      if (checkName() == false) {
+        layer.msg('求购的名字必须大于两个字符')
+      }
+    })
+
+    $('#submit').click(function () {
+      var wantsId = -1
+      var userId = localStorage.getItem('userId')
+      var itemname = $('#itemname').val()
+      var description = $('#description').val()
+      // var formdata = new FormData($("#chooseimage")[0]);
+
+      if (checkFile() != false && checkName() != false) {
+        $.ajax({
+          url: '/api/wants/release?userId=' + userId,
+          type: 'POST',
+          dataType: 'json',
+          contentType: 'application/json',
+          traditional: true,
+          data: JSON.stringify({
+            'title': itemname,
+            'description': description,
+          }),
+          success: function (data) {
+            if (data.code == 0) {
+              wantsId = data.data.wantsId
+              console.log(wantsId)
+              if (wantsId != -1) {
+                console.log('start transferring image')
+                var type = 'file'
+                var formData = new FormData()
+                formData.append(type, $('#chooseimage')[0].files[0])
+                $.ajax({
+                  url: '/api/wants/upload?wantsId=' + wantsId,
+                  type: 'POST',
+                  data: formData,
+                  async: false,
+                  cache: false,
+                  contentType: false,
+                  processData: false,
+                  success: function (data) {
+                    location.assign('/api/wants/details?wantsId=' + wantsId)
+
+                  },
+                  error: function (data) {
+                    location.assign('/api/wants/details?wantsId=' + wantsId)
+                    // var res = $.parseJSON(data.responseText);
+                    // layer.msg(res.msg);
+                  }
+                })
+              }
+            } else {
+              layer.msg(data.msg)
             }
-            var file = document.getElementById("chooseimage");
-            $("#showimage").attr("src", getObjectURL($("#chooseimage")[0].files[0]));
-        });
-        $("#itemname").change(function () {
-            if (checkName() == false) {
-                layer.msg("求购的名字必须大于两个字符")
-            }
+          },
+          error: function () {
+
+          }
+
         })
 
-        $("#submit").click(function () {
-            var wantsId = -1;
-            var userId = localStorage.getItem("userId");
-            var itemname = $("#itemname").val();
-            var description = $("#description").val();
-            // var formdata = new FormData($("#chooseimage")[0]);
+      } else {
+        layer.msg('商品发布失败！')
+        return
+      }
 
+    })
 
-            if (checkFile() != false && checkName() != false) {
-                $.ajax({
-                    url: "/api/wants/release?userId=" + userId,
-                    type: "POST",
-                    dataType: "json",
-                    contentType: "application/json",
-                    traditional: true,
-                    data: JSON.stringify({
-                        "title": itemname,
-                        "description": description,
-                    }),
-                    success: function (data) {
-                        if (data.code == 0) {
-                            wantsId = data.data.wantsId;
-                            console.log(wantsId);
-                            if (wantsId != -1) {
-                                console.log("start transferring image")
-                                var type = "file";
-                                var formData = new FormData();
-                                formData.append(type, $("#chooseimage")[0].files[0]);
-                                $.ajax({
-                                    url: "/api/wants/upload?wantsId=" + wantsId,
-                                    type: 'POST',
-                                    data: formData,
-                                    async: false,
-                                    cache: false,
-                                    contentType: false,
-                                    processData: false,
-                                    success: function (data) {
-                                        location.assign("/api/wants/details?wantsId=" + wantsId)
+  })
 
-                                    },
-                                    error: function (data) {
-                                        location.assign("/api/wants/details?wantsId=" + wantsId)
-                                        // var res = $.parseJSON(data.responseText);
-                                        // layer.msg(res.msg);
-                                    }
-                                });
-                            }
-                        } else {
-                            layer.msg(data.msg);
-                        }
-                    },
-                    error: function () {
-
-                    }
-
-                });
-
-            } else {
-                layer.msg("商品发布失败！");
-                return;
-            }
-
-        });
-
-    });
-
-    function checkFile() {
-        var $file1 = $("#chooseimage").val();
-        if ($file1 == "") {
-            layer.msg("请选择上传的目标文件! ")
-            return false;
-        }
-        var fileName1 = $file1.substring($file1.lastIndexOf(".") + 1).toLowerCase();
-        if (fileName1 != "png" && fileName1 != "jpg" && fileName1 != "gif" && fileName1 != "jpeg") {
-            layer.msg("请选择上传图片! ")
-            return false;
-        }
-        var size1 = $("#chooseimage")[0].files[0].size;
-        if (size1 > 10485760) {
-            alert("上传文件不能大于10M!");
-            return false;
-        }
-        return true;
+  function checkFile () {
+    var $file1 = $('#chooseimage').val()
+    if ($file1 == '') {
+      layer.msg('请选择上传的目标文件! ')
+      return false
     }
-
-    function changelabel() {
-        var level = $("#level").val();
-        if (level == 10) {
-            $("#levellabel").text("全新");
-        } else {
-            $("#levellabel").text(level + "成新");
-        }
-    };
-
-    function checkName() {
-        var itemName = $("#itemname").val();
-        if (itemName.length < 2) {
-            return false;
-        } else {
-            return true;
-        }
+    var fileName1 = $file1.substring($file1.lastIndexOf('.') + 1).toLowerCase()
+    if (fileName1 != 'png' && fileName1 != 'jpg' && fileName1 != 'gif' && fileName1 != 'jpeg') {
+      layer.msg('请选择上传图片! ')
+      return false
     }
-
-    function checkPrice() {
-        var price = $("#price").val() * 1;
-        if (price == null || price == "" || price <= 0) {
-            return false;
-        } else {
-            $("#price").val(price.toFixed(2));
-        }
+    var size1 = $('#chooseimage')[0].files[0].size
+    if (size1 > 10485760) {
+      alert('上传文件不能大于10M!')
+      return false
     }
+    return true
+  }
 
-    function checkCount() {
-        var count = $("#count").val();
-        if (count == null || count == "" || count <= 0) {
-            return false;
-        } else {
-            $("#count").val(Math.trunc(count));
-            return true;
-        }
+  function changelabel () {
+    var level = $('#level').val()
+    if (level == 10) {
+      $('#levellabel').text('全新')
+    } else {
+      $('#levellabel').text(level + '成新')
     }
+  }
 
-
-    function checkName() {
-        var itemName = $("#itemname").val();
-        if (itemName.length < 2) {
-            return false;
-        } else {
-            return true;
-        }
+  function checkName () {
+    var itemName = $('#itemname').val()
+    if (itemName.length < 2) {
+      return false
+    } else {
+      return true
     }
+  }
 
-    function getObjectURL(file) {
-        var url = null
-        if (window.createObjectURL != undefined) { // basic
-            url = window.createObjectURL(file)
-        } else if (window.URL != undefined) { // mozilla(firefox)
-            url = window.URL.createObjectURL(file)
-        } else if (window.webkitURL != undefined) { // webkit or chrome
-            url = window.webkitURL.createObjectURL(file)
-        }
-        return url;
+  function checkPrice () {
+    var price = $('#price').val() * 1
+    if (price == null || price == '' || price <= 0) {
+      return false
+    } else {
+      $('#price').val(price.toFixed(2))
     }
+  }
 
-    function search () {
-        console.log($('#searchText').val())
-        var data = $('#searchText').val()
-        location.assign("/search?keyword=" + data);
+  function checkCount () {
+    var count = $('#count').val()
+    if (count == null || count == '' || count <= 0) {
+      return false
+    } else {
+      $('#count').val(Math.trunc(count))
+      return true
     }
+  }
 
-    function load_data () {
-        var theme = localStorage.getItem('username')
-        var userId = localStorage.getItem('userId')
-        console.log(localStorage.getItem('username'))
-        console.log(localStorage.getItem('userId'))
-        if (theme == null || theme == '') {
-            $('#login_logout').text('登录')
-            $('#uname').text('')
-            $('#wants').hide()
-            $('#cart').hide()
-        } else {
-            $('#login_logout').text('退出')
-            $('#login_logout').attr('href', '/logout')
-            $('#uname').text(theme)
-            $('#wants').show()
-            $('#wants').attr('href', '/api/wants/release?userId='+userId)
-            $('#cart').show()
-            $('#cart').attr('href', '/api/cart/all?userId='+userId)
-            $('#uname').attr('href', '/api/user/info?userId=' + userId)
-        }
+  function checkName () {
+    var itemName = $('#itemname').val()
+    if (itemName.length < 2) {
+      return false
+    } else {
+      return true
     }
+  }
+
+  function getObjectURL (file) {
+    var url = null
+    if (window.createObjectURL != undefined) { // basic
+      url = window.createObjectURL(file)
+    } else if (window.URL != undefined) { // mozilla(firefox)
+      url = window.URL.createObjectURL(file)
+    } else if (window.webkitURL != undefined) { // webkit or chrome
+      url = window.webkitURL.createObjectURL(file)
+    }
+    return url
+  }
+
+  function search () {
+    console.log($('#searchText').val())
+    var data = $('#searchText').val()
+    location.assign('/search?keyword=' + data)
+  }
+
+  function load_data () {
+    var theme = localStorage.getItem('username')
+    var userId = localStorage.getItem('userId')
+    console.log(localStorage.getItem('username'))
+    console.log(localStorage.getItem('userId'))
+    if (theme == null || theme == '') {
+      $('#login_logout').text('登录')
+      $('#uname').text('')
+      $('#wants').hide()
+      $('release').hide()
+      $('#cart').hide()
+    } else {
+      $('#login_logout').text('退出')
+      $('#login_logout').attr('href', '/logout')
+      $('#uname').text(theme)
+      $('#wants').show()
+      $('#wants').attr('href', '/api/wants/release?userId=' + userId)
+      $('#release').show()
+      $('#release').attr('href', '/release')
+      $('#cart').show()
+      $('#cart').attr('href', '/api/cart/all?userId=' + userId)
+      $('#uname').attr('href', '/api/user/info?userId=' + userId)
+    }
+  }
 
 </script>
 

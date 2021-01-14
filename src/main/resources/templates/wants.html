@@ -24,7 +24,7 @@
         </div>
         <div class="denglu-font2 top">
             <a href="/" id="wants">发布求购</a>
-            <a href="/" id="cart">我的购物车</a>
+            <a href="/" id="cart">我的购物车</a><a href="#" id="release">发布商品</a>
             <a href="#" id="uname">zyl</a>
             <a href="login" id="login_logout">登录</a>
 
@@ -180,15 +180,16 @@
         console.log(localStorage.getItem('userId'))
         if (theme == null || theme == '') {
             $('#login_logout').text('登录')
-            $('#uname').text('')
-            $('#wants').hide()
-            $('#cart').hide()
+      $('#uname').text('')
+      $('#wants').hide();$("release").hide()
+      $('#cart').hide()
         } else {
             $('#login_logout').text('退出')
             $('#login_logout').attr('href', '/logout')
             $('#uname').text(theme)
             $('#wants').show()
-            $('#wants').attr('href', '/api/wants/release?userId='+userId)
+      $('#wants').attr('href', '/api/wants/release?userId='+userId);$('#release').show();
+      $('#release').attr('href', '/release')
             $('#cart').show()
             $('#cart').attr('href', '/api/cart/all?userId='+userId)
             $('#uname').attr('href', '/api/user/info?userId=' + userId)
