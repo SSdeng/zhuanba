@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -103,6 +104,16 @@ class ZhuanbaApplicationTests {
         Item item = new Item();
         item.setCategories(list);
         log.info(item.getCategories().get(0).toString());
+    }
+
+    @Test
+    void passwordTest(){
+        User user = new User();
+        user.setUsername("admin1");
+        user.setPassword("admin1");
+        String newPassword = new Md5Hash(user.getPassword(), user.getUsername(), 2).toString();
+        user.setPassword(newPassword);
+        log.info("New Password Is " + newPassword);
     }
     /*@Test
     @Transactional
