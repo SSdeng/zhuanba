@@ -111,7 +111,7 @@ public class User implements Serializable {
     /**
      * 用户购物车
      */
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @PrimaryKeyJoinColumn
     @JsonIgnoreProperties(value = "user")
     @ToString.Exclude
@@ -120,7 +120,7 @@ public class User implements Serializable {
     /**
      * 用户收藏夹
      */
-    @OneToOne(mappedBy = "user", cascade = {CascadeType.ALL})
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @PrimaryKeyJoinColumn
     @JsonIgnoreProperties(value = "user")
     @ToString.Exclude
@@ -129,7 +129,7 @@ public class User implements Serializable {
     /**
      * 用户地址表
      */
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnoreProperties(value = "user")
     @ToString.Exclude
     @org.springframework.data.annotation.Transient
@@ -145,7 +145,7 @@ public class User implements Serializable {
     /**
      * 用户订单列表
      */
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnoreProperties(value = "user")
     @ToString.Exclude
     @org.springframework.data.annotation.Transient
@@ -153,7 +153,7 @@ public class User implements Serializable {
     /**
      * 用户求购项列表
      */
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnoreProperties(value = "user")
     @ToString.Exclude
     @org.springframework.data.annotation.Transient
@@ -161,7 +161,7 @@ public class User implements Serializable {
     /**
      * 用户求购评论列表
      */
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnoreProperties(value = "user")
     @ToString.Exclude
     @org.springframework.data.annotation.Transient
@@ -170,7 +170,7 @@ public class User implements Serializable {
     /**
      * 商品评论列表
      */
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE, CascadeType.MERGE})
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnoreProperties(value = "user")
     @ToString.Exclude
     @org.springframework.data.annotation.Transient
