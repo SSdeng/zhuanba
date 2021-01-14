@@ -21,7 +21,7 @@
         </div>
         <div class="denglu-font2 top">
             <a href="/" id="wants">发布求购</a>
-            <a href="/" id="cart">我的购物车</a>
+            <a href="/" id="cart">我的购物车</a><a href="#" id="release">发布商品</a>
             <a href="#" id="uname">zyl</a>
             <a href="login" id="login_logout">登录</a>
 
@@ -35,7 +35,7 @@
                 <a href="#">
                     <img th:src="*{image}" alt="">
                     <div class="cont">
-                        <span th:text="*{itemName}" style="word-break: break-word;overflow: hidden;font-size: 16px">简约时尚水泥花瓶</span>
+                        <span th:utext="*{itemName}" style="word-break: break-word;overflow: hidden;font-size: 16px;color: black">简约时尚水泥花瓶</span>
                         <br>
                         <p th:text="'￥' + *{price}">￥450</p>
                     </div>
@@ -53,7 +53,7 @@
             <a href="/search">首页</a>
             <a th:href="'/search?keyword'+${keyword}+'&pageNo='+(${items.hasPrevious()}?${items.getNumber()}:1)">上一页</a>
 
-            <a th:href="'/search?keyword'+${keyword}+'&pageNo='+(${items.hasNext()}?(${items.getNumber()}+2):${items.totalPages})}">下一页</a>
+            <a th:href="'/search?keyword'+${keyword}+'&pageNo='+(${items.hasNext()}?(${items.getNumber()}+2):${items.totalPages})">下一页</a>
 
             <a th:href="@{#request.getContextPath()+${items.totalPages}}">尾页</a>
 
@@ -102,14 +102,15 @@
     if (theme == null || theme == '') {
       $('#login_logout').text('登录')
       $('#uname').text('')
-      $('#wants').hide()
+      $('#wants').hide();$("release").hide()
       $('#cart').hide()
     } else {
       $('#login_logout').text('退出')
       $('#login_logout').attr('href', '/logout')
       $('#uname').text(theme)
       $('#wants').show()
-      $('#wants').attr('href', '/api/wants/release?userId='+userId)
+      $('#wants').attr('href', '/api/wants/release?userId='+userId);$('#release').show();
+      $('#release').attr('href', '/release')
       $('#cart').show()
       $('#cart').attr('href', '/api/cart/all?userId='+userId)
       $('#uname').attr('href', '/api/user/info?userId=' + userId)
