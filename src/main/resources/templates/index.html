@@ -61,8 +61,8 @@
                         <p th:text="'￥' + *{price}">￥450</p>
                     </div>
                 </a>
-                <div class="mask">
-                    <a th:href="'/api/item/details?itemId=' + *{id} + '&userId' + " class="btn">
+                <div class="mask" th:id="*{id}">
+                    <a class="btn" >
                         查看详情
                     </a>
                 </div>
@@ -109,24 +109,23 @@
   function search () {
     console.log($('#searchText').val())
     var data = $('#searchText').val()
-    $.ajax({
-      url: '/search?keyword=' + data,
-      data: JSON.stringify(data),
-      type: 'POST',
-      contentType: 'application/json',
-      dataType: 'json',
-      traditional: true
-    })
+    location.assign("/search?keyword=" + data);
   }
 
 </script>
 <script>
   $('#login_logout').click(function () {
     localStorage.clear()
-    location.href('login')
+
   })
 </script>
 <script>
+  $('.mask').click(function (){
+    var userId = localStorage.getItem("userId");
+    var itemId = $(this).attr('id');
+    console.log(userId + " " + itemId)
+    location.assign("/api/item/details?itemId=" + itemId + "&userId=" + userId);
+  })
   $(function () {
     load_data()
   })
