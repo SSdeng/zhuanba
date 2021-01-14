@@ -160,6 +160,9 @@ public class OrderServiceImpl implements OrderService {
     public UserOrder addOrder(long userId, long itemId, int count) {
         User user = userService.findById(userId);
         Item item = itemService.findById(itemId);
+        if(item.getCount() < count){
+            throw new MyException("订单提交失败，商品库存不够");
+        }
         UserOrder order = new UserOrder();
         item.setCount(item.getCount() - count);
         item.setSales(item.getSales() + count);

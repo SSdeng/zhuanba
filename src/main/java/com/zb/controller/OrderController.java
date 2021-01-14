@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.zb.service.ItemService;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,8 @@ import com.zb.util.Result;
 @RequestMapping("/api/order")
 public class OrderController {
 
+    @Resource
+    private ItemService itemService;
     @Resource
     private OrderService orderService;
     @Resource
@@ -43,22 +46,11 @@ public class OrderController {
     @ResponseBody
     public Result addOneOrder(@RequestParam("itemId") long itemId, @RequestParam("userId") long userId,
         @RequestParam(value = "value", defaultValue = "1") int count) {
+        if(itemService.findById(itemId).getCount() == 0){
+            return Result.error("购买失败，商品库存为空");
+        }
         orderService.addOrder(userId, itemId, count);
         return Result.ok("购买成功", null);
-    }
-
-    /**
-     * 删除指定id的订单
-     *
-     * @param orderId
-     *            订单id
-     * @return 删除结果
-     */
-    @PostMapping("/remove")
-    @ResponseBody
-    public String removeOrder(@RequestParam("userId") long userId, @RequestParam("orderId") long orderId) {
-        orderService.deleteById(orderId);
-        return "redirect:/api/user/info?userId" + userId;
     }
 
     /**
@@ -74,6 +66,10 @@ public class OrderController {
     public Result addMultipleOrder(@RequestParam("userId") long userId, @RequestBody Map<String, Object> maps) {
         List<Map<String, String>> items = (List<Map<String, String>>)maps.get("items");
         for (Map<String, String> map : items) {
+            long itemId = Long.parseLong((map.get("itemId")));
+            if(itemService.findById(itemId).getCount() == 0){
+                return Result.error("购买失败，商品库存已空", null);
+            }
             orderService.addOrder(userId, Long.parseLong(map.get("itemId")), Integer.parseInt(map.get("value")));
             cartService.removeOrder(userId, Long.parseLong(map.get("itemId")));
         }

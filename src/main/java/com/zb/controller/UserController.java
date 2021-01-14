@@ -135,12 +135,13 @@ public class UserController {
      * @return 个人主页
      */
     @PostMapping("/addAddress")
-    public String addAddress(@RequestParam("userId") long userId, @RequestBody Map<String, String> map) {
+    @ResponseBody
+    public Result addAddress(@RequestParam("userId") long userId, @RequestBody Map<String, String> map) {
         Address newAddress = new Address();
         newAddress.setDetail(map.get("address"));
         newAddress.setUser(userService.findById(userId));
         addressService.insertSelective(newAddress);
-        return "redirect:/api/user/info";
+        return Result.ok("添加成功", null);
     }
 
     /**
@@ -151,8 +152,9 @@ public class UserController {
      * @return 用户主页
      */
     @GetMapping("/delAddress")
-    public String deleteAddress(@RequestParam("userId") long userId, @RequestParam("addressId") long addressId) {
+    public String deleteAddress(@RequestParam("addressId") long addressId) {
+        long userId = addressService.findById(addressId).getUser().getId();
         addressService.deleteById(addressId);
-        return "redirect:/api/user/info?userId" + userId;
+        return "redirect:/api/user/info?userId=" + userId;
     }
 }
