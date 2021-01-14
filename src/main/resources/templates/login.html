@@ -23,11 +23,7 @@
                 <input type="password" id="password" class="input-field" placeholder="请输入密码">
 
             </div>
-            <div class="checkbox" style="float: left;">
-                <label >
-                    <input type="checkbox" id="admin" value=1>管理员
-                </label>
-            </div>
+
             <button type="button" class="login-button">登录<i class="ai ai-enter"></i></button>
             <p class="text-muted text-center">
                 <a href="/register"><p style="position: relative;text-align: center">注册一个新账号</p></a>
@@ -41,10 +37,8 @@
 
     //按钮点击事件
     $(".login-button").click(function () {
-        console.log($("#admin:checked").val());
+
         var username = $("#username").val();
-/*        var role = $("#admin:checked").val()==1?"admin":"user";
-        var locatione = $("#admin:checked").val()==1?"/admin":"/";*/
 
 
         //编写校验过程
@@ -79,13 +73,16 @@
                     //把用户名密码存储在session里面，首页显示用户名称
                     localStorage.setItem("username", username);
                     localStorage.setItem("userId", data.data.userId);
+                  console.log(data.data.userId)
                     //跳转到主页
                     location.assign("/");
                 } else if(data.code == 255) {
-                  localStorage.setItem("admin", username);
+                  localStorage.setItem("username", username);
+                  localStorage.setItem("userId", data.data.userId);console.log(data.data.userId)
                   location.assign("/api/admin/itemList");
                 } else if(data.code == 265) {
-                  localStorage.setItem("admin", username);
+                  localStorage.setItem("username", username);
+                  localStorage.setItem("userId", data.data.userId);console.log(data.data.userId)
                   location.assign("/api/root/adminList");
                 }
             }
