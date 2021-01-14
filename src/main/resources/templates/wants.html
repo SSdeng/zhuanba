@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>求购详情页</title>
+    <link rel="stylesheet" href="/css/item.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="dingbu">
+    <div class="denglu-font top">
+        <a href="/" id="dingbuhome"><img src="/images/logo.jpg"></a>
+
+        <div id="so" style="position: relative; left: 350px;top:8px;width: 100px; float: left;" class="top">
+            <div class="input-group">
+                <input type="text" class="form-control" id="searchText" style="width: 380px;">
+                <span class="input-group-addon" id="search" onclick="search()"><i class="glyphicon glyphicon-search"
+                                                                                  style="color: #0055aa;"> <span>搜索</span></i></span>
+            </div>
+        </div>
+        <div class="denglu-font2 top">
+            <a href="/" id="wants">发布求购</a>
+            <a href="/" id="cart">我的购物车</a>
+            <a href="#" id="uname">zyl</a>
+            <a href="login" id="login_logout">登录</a>
+
+        </div>
+    </div>
+</div>
+
+<div id="itemboard" class="board">
+    <div class="imge">
+        <img th:src="${wants.image}" class="itemimage" >
+    </div>
+
+    <div id="details" class="details">
+        <h1 id="itemname" class="itemname" th:text="${wants.title}"></h1>
+
+        <h3 class="sellerName" th:text="'求购者：' + ${wants.user.username}"></h3>
+<!--        <div>-->
+<!--            <input type="button" class="buybutton" value="加入购物车">-->
+<!--        </div>-->
+
+
+    </div>
+
+</div>
+<div class="container">
+    <h2>商品描述</h2>
+    <span class="itemdescription" th:text="${wants.description}">暂无商品的描述信息</span>
+</div>
+
+<div class="container">
+    <div>
+        <h2>评论</h2>
+    </div>
+    <div class="comment-send" style="width: 100%">
+
+        <div id="commentForm" method="GET">
+            <textarea class="comment-send-input" name="comment" form="commentForm" cols="30" rows="5"
+                      id="commentboard" style="width: 980px"
+                      placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。"></textarea>
+            <input class="comment-send-button" type="submit" value="发表评论">
+        </div>
+    </div>
+
+    <div class="comment-list" id="commentList">
+
+        <div th:each="comment:${comments}" class="comment comment-bottom">
+            <div class="comment-content">
+
+                <p class="comment-content-name" th:text="${comment.user.username}">Leon</p>
+
+                <p class="comment-content-article" th:text="${comment.content}">Hello World!</p>
+
+                <p class="comment-content-footer">
+                        <span class="comment-content-footer-timestamp" th:text="${comment.createTime}">2020-08-08
+                            10:08</span>
+                </p>
+            </div>
+
+            <div class="cls"></div>
+        </div>
+    </div>
+</div>
+
+<script src="/jquery/jquery2.1.4.js"></script>
+<script src="/layer/layer.js"></script>
+<script th:inline="javascript">
+    function search () {
+        console.log($('#searchText').val())
+        var data = $('#searchText').val()
+        location.assign("/search?keyword=" + data);
+    }
+    var itemId = 0
+    itemId = [[${wants.id}]]
+
+    var userId = localStorage.getItem('userId')
+    console.log(userId)
+
+    $(function () {
+        load_data()
+
+        $('.buybutton').on('click', function () {
+            if (userId == null || userId == '') {
+                layer.msg('请先登录再添加购物车')
+                return
+            } else if (itemId == null || itemId == '') {
+                layer.msg('暂无此商品信息，无法添加购物车')
+                return
+            }
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: '/api/cart/add?itemId=' + itemId + '&userId=' + userId + '&count=1',
+                contentType: 'application/json',
+                traditional: true,
+                data: JSON.stringify(''),
+                success: function (data) {
+                    if (data.code == 0) {
+                        layer.msg('添加购物车成功')
+                    } else {
+                        layer.msg(data.msg)
+                    }
+                },
+                error: function (data) {
+                }
+            })
+            $(this).val("已在购物车中");
+            $(this).attr('disabled',true);
+            $(this).css("background-color", "#6d757a");
+        })
+
+        $('.comment-send-button').on('click', function () {
+            var content = $('#commentboard').val()
+            if (userId == null || userId == '') {
+                layer.msg('请先登录再进行评论')
+                return
+            } else if (itemId == null || itemId == '') {
+                layer.msg('暂无此商品信息，无法添加评论')
+                return
+            } else if (content == null || content == ''){
+                layer.msg('请输入评论内容')
+                return
+            }
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: '/api/comment/wants?wantsId=' + itemId,
+                contentType: 'application/json',
+                traditional: true,
+                data: JSON.stringify({ 'userId': userId, 'content': content }),
+                success: function (data) {
+                    location.reload()
+                    // location.href(data);
+                    // if (data.code == 0) {
+                    //     layer.msg("添加评论成功");
+                    // } else {
+                    //     layer.msg("添加评论失败");
+                    // }
+                },
+                error: function (data) {
+                    location.reload()
+                    // layer.msg("fail!")
+                }
+            })
+        })
+    })
+
+    //设置顶部栏的登录/退出按钮和用户名显示
+
+    function load_data () {
+        var theme = localStorage.getItem('username')
+        var userId = localStorage.getItem('userId')
+        console.log(localStorage.getItem('username'))
+        console.log(localStorage.getItem('userId'))
+        if (theme == null || theme == '') {
+            $('#login_logout').text('登录')
+            $('#uname').text('')
+            $('#wants').hide()
+            $('#cart').hide()
+        } else {
+            $('#login_logout').text('退出')
+            $('#login_logout').attr('href', '/logout')
+            $('#uname').text(theme)
+            $('#wants').show()
+            $('#wants').attr('href', '/api/wants?userId='+userId)
+            $('#cart').show()
+            $('#cart').attr('href', '/api/cart/all?userId='+userId)
+            $('#uname').attr('href', '/api/user/info?userId=' + userId)
+        }
+    }
+</script>
+</body>
