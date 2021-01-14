@@ -43,16 +43,20 @@ public class AdminServiceImpl implements AdminService {
     /**
      * 修改商品审核状态，放入索引库
      *
-     * @param itemId 商品id
+     * @param itemId  商品id
      * @param adminId 管理者id
-     * @param status 审核结果
+     * @param status  审核结果
      * @return 商品
      */
     @Override
     public Item setAuditStatus(long itemId, long adminId, int status) {
-        Item item = itemService.setAuditStatus(itemId, adminId, status);
-        itemEsRepository.save(item);
-        return item;
+        Item item = itemService.findById(itemId);
+        if (item.getStatus() == 1 && status != 1) {
+            itemEsRepository.delete(item);
+        } else if (item.getStatus() != 1 && status == 1) {
+            itemEsRepository.save(item);
+        }
+        return itemService.setAuditStatus(item, adminId, status);
     }
 
     /**
@@ -71,7 +75,7 @@ public class AdminServiceImpl implements AdminService {
     /**
      * 分页获取所有商品
      *
-     * @param pageNo 起始页码
+     * @param pageNo   起始页码
      * @param pageSize 分页大小
      * @return 分页商品表
      */

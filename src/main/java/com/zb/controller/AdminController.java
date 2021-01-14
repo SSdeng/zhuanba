@@ -68,7 +68,7 @@ public class AdminController {
      * @return 视图
      */
     @GetMapping("/admin/itemList")
-    public String getItemListModel(Model model,
+    public String getItemList(Model model,
                                    @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
                                    @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         model.addAttribute("itemList", adminService.getAllItemsByPage(pageNo, pageSize));

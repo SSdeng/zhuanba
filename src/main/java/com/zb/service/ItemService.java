@@ -64,8 +64,8 @@ public interface ItemService {
     /**
      * 修改商品id对应商品的审核状态
      *
-     * @param itemId
-     *            商品id
+     * @param item
+     *            商品
      * @param adminId
      *            管理员id
      * @param status
@@ -73,7 +73,7 @@ public interface ItemService {
      * @return 修改后的Item对象
      * @see com.zb.entity.Item
      */
-    Item setAuditStatus(long itemId, long adminId, int status);
+    Item setAuditStatus(Item item, long adminId, int status);
 
     /**
      * 根据状态分页查询所有商品
