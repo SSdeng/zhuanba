@@ -1,29 +1,28 @@
 package com.zb;
 
-import java.math.BigDecimal;
-import java.io.IOException;
-import java.util.List;
-
-import com.zb.entity.*;
+import com.zb.elasticsearch.ItemEsRepository;
+import com.zb.entity.Cart;
+import com.zb.entity.CartOrder;
+import com.zb.entity.Item;
+import com.zb.entity.User;
 import com.zb.repository.CartRepository;
+import com.zb.repository.CategoryRepository;
+import com.zb.repository.ItemRepository;
 import com.zb.service.CartService;
-import org.apache.shiro.crypto.hash.Md5Hash;
+import com.zb.service.CategoryService;
+import com.zb.service.ItemService;
+import com.zb.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.test.annotation.Rollback;
-
-import com.zb.elasticsearch.ItemEsRepository;
-import com.zb.repository.ItemRepository;
-import com.zb.service.CategoryService;
-import com.zb.util.HtmlParseUtil;
-
-import javax.transaction.Transactional;
 
 import javax.annotation.Resource;
+import javax.transaction.Transactional;
+import java.math.BigDecimal;
+import java.util.List;
 
 @Slf4j
 @SpringBootTest
