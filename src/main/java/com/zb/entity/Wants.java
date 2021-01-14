@@ -30,7 +30,7 @@ import lombok.*;
 @Table(name = "sys_wants")
 @DynamicInsert
 @DynamicUpdate
-@SQLDelete(sql = "update sys_user set deleted = 1 where id = ?")
+@SQLDelete(sql = "update sys_wants set deleted = 1 where id = ?")
 @Where(clause = "deleted = 0")
 public class Wants implements Serializable {
 

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页</title>
+    <link href="/css/index.css" rel="stylesheet">
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+<div class="dingbu">
+    <div class="denglu-font top">
+        <a href="/" id="dingbuhome"><img src="/images/logo.jpg"></a>
+
+        <div id="so" style="position: relative; left: 350px;top:8px;width: 100px; float: left;" class="top">
+            <div class="input-group">
+                <input type="text" class="form-control" id="searchText" style="width: 380px;">
+                <span class="input-group-addon" id="search" onclick="search()"><i class="glyphicon glyphicon-search"
+                                                                                  style="color: #0055aa;"> <span>搜索
+                                </span></i></span>
+            </div>
+        </div>
+        <div class="denglu-font2 top">
+            <a href="/" id="wants">发布求购</a>
+            <a href="/" id="cart">我的购物车</a><a href="#" id="release">发布商品</a>
+            <a href="#" id="uname">zyl</a>
+            <a href="login" id="login_logout">登录</a>
+
+        </div>
+    </div>
+</div>
+
+<div class="list-1">
+    <ul class="list-ul-2" style="position: relative;right: 190px;">
+        <div class="img"><img src="/images/logo1.jpg" width="55px" height="55px" class="img-logo"/></div>
+
+        <li>
+            <a href="/" class="index_click">全部商品</a>
+        </li>
+        <li th:each="category:${categories}">
+            <a th:href="'/api/category/find?categoryId='+${category.id}" th:text="${category.name}"
+               class="category_click">123</a>
+        </li>
+        <li>
+            <a href="/api/wants/all" class="index_click">求购区</a>
+        </li>
+    </ul>
+</div>
+
+
+<div class="pro3">
+    <div class="pro3_c">
+        <ul class="pub_pro">
+            <li th:each="item:${items}" th:object="${item}">
+                <a href="#">
+                    <img th:src="*{image}" alt="">
+                    <div class="cont">
+                        <span th:text="*{title}" style="word-break: break-word;overflow: hidden;font-size: 16px;color: black">简约时尚水泥花瓶</span>
+                        <br>
+                        <p th:text="*{description}">￥450</p>
+                    </div>
+                </a>
+                <div class="mask" th:id="*{id}">
+                    <a class="btn" >
+                        查看详情
+                    </a>
+                </div>
+            </li>
+        </ul>
+
+        <div class="pages" id="index_pages" th:style="${b}==1?'display: ':'display: none'">
+            <a th:href="@{/(pageNo=1)}">首页</a>
+
+            <a th:href="@{/(pageNo = ${items.hasPrevious()} ? ${items.getNumber()} : 1)}">上一页</a>
+
+            <a th:href="@{/(pageNo = ${items.hasNext()}?(${items.getNumber()}+2):${items.totalPages})}">下一页</a>
+
+            <a th:href="@{/(pageNo = ${items.totalPages})}">尾页</a>
+
+            当前页：<span th:text="${items.getNumber()}+1">1</span>
+
+            总页数:<span th:text="${items.totalPages}">1</span>
+
+            总条数:<span th:text="${items.totalElements}">1</span>
+        </div>
+        <div class="pages" id="category_pages" style="display: none" th:style="${b}==2?'display: ':'display: none'">
+            <a href="/api/category/find">首页</a>
+
+            <a th:href="'/api/category/find?categoryId=1&pageNo='+ (${items.hasPrevious()}?${items.getNumber()} : 1)">上一页</a>
+
+            <a th:href="'/api/category/find?categoryId=1&pageNo='+ (${items.hasNext()}?(${items.getNumber()}+2):${items.totalPages})">下一页</a>
+
+            <a th:href="'/api/category/find?categoryId=1&pageNo='+ ${items.totalPages}">尾页</a>
+
+            当前页：<span th:text="${items.getNumber()}+1">1</span>
+
+            总页数:<span th:text="${items.totalPages}">1</span>
+
+            总条数:<span th:text="${items.totalElements}">1</span>
+        </div>
+        <div class="pages" id="wants_pages" style="display: none" th:style="${b}==3?'display: ':'display: none'">
+            <a href="/api/wants/all?pageNo=1">首页</a>
+
+            <a th:href="'/api/wants/all?pageNo='+ (${items.hasPrevious()}?${items.getNumber()} : 1)">上一页</a>
+
+            <a th:href="'/api/wants/all?pageNo='+ (${items.hasNext()}?(${items.getNumber()}+2):${items.totalPages})">下一页</a>
+
+            <a th:href="'/api/wants/all?pageNo='+ ${items.totalPages}">尾页</a>
+
+            当前页：<span th:text="${items.getNumber()}+1">1</span>
+
+            总页数:<span th:text="${items.totalPages}">1</span>
+
+            总条数:<span th:text="${items.totalElements}">1</span>
+        </div>
+    </div>
+</div>
+
+</body>
+<script src="/jquery/jquery2.1.4.js"></script>
+<script src="/layer/layer.js"></script>
+<script>
+  function search () {
+    console.log($('#searchText').val())
+    var data = $('#searchText').val()
+    location.assign("/search?keyword=" + data);
+  }
+
+  $('#login_logout').click(function () {
+    localStorage.clear()
+
+  })
+</script>
+<script>
+  $('.mask').click(function (){
+    var userId = localStorage.getItem("userId");
+    var itemId = $(this).attr('id');
+    console.log(userId + " " + itemId)
+    location.assign("/api/item/details?itemId=" + itemId + "&userId=" + userId);
+  })
+  $(function () {
+    load_data()
+  })
+
+  //设置顶部栏的登录/退出按钮和用户名显示
+
+  function load_data () {
+    var theme = localStorage.getItem('username')
+    var userId = localStorage.getItem('userId')
+    console.log(localStorage.getItem('username'))
+    console.log(localStorage.getItem('userId'))
+    if (theme == null || theme == '') {
+      $('#login_logout').text('登录')
+      $('#uname').text('')
+      $('#wants').hide();$("release").hide()
+      $('#cart').hide()
+    } else {
+      $('#login_logout').text('退出')
+      $('#login_logout').attr('href', '/logout')
+      $('#uname').text(theme)
+      $('#wants').show()
+      $('#wants').attr('href', '/api/wants/release?userId='+userId);
+      $('#release').show();
+      $('#release').attr('href', '/release')
+      $('#cart').show()
+      $('#cart').attr('href', '/api/cart/all?userId='+userId)
+      $('#uname').attr('href', '/api/user/info?userId=' + userId)
+    }
+  }
+
+
+</script>
+
+</html>
