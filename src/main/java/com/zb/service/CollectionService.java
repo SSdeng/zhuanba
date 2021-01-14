@@ -44,9 +44,9 @@ public interface CollectionService {
     /**
      * 检查商品是否已收藏
      *
-     * @param userId 用户id
+     * @param id 收藏id
      * @param itemId 商品id
      * @return 是否已收藏
      */
-    boolean hasItem(Long userId, Long itemId);
+    public boolean hasItem(long id, long itemId);
 }

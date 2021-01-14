@@ -24,10 +24,11 @@ public class CollectionServiceImpl implements CollectionService {
     private ItemService itemService;
 
     /**
-     * 检查收藏夹中是否已有商品
+     * 检查商品是否已收藏
      *
+     * @param id 收藏id
      * @param itemId 商品id
-     * @return true表有 false表无
+     * @return 是否已收藏
      */
     @Override
     public boolean hasItem(long id, long itemId) {
@@ -84,24 +85,6 @@ public class CollectionServiceImpl implements CollectionService {
             }
         }
         return null;
-    }
-
-    /**
-     * 检查商品是否已删除
-     *
-     * @param userId 用户id
-     * @param itemId 商品id
-     * @return 是否已收藏
-     */
-    @Override
-    public boolean hasItem(Long userId, Long itemId) {
-        Collection collection = findByUser(userId);
-        for(Item item : collection.getItems()){
-            if(item.getId().equals(itemId)){
-                return true;
-            }
-        }
-        return false;
     }
 
     /**
