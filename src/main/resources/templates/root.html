@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/jquery/jquery2.1.4.js"></script>
+    <script src="/layer/layer.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <link href="/css/header.css" rel="stylesheet">
+</head>
+
+<body style="background-color: #ecf0f5;">
+<div class="dingbu">
+    <div class="denglu-font top">
+        <a href="#" id="dingbuhome"><img src="/images/logo.jpg"></a>
+
+        <div id="so" style="position: relative; left: 350px;top:8px;width: 100px; float: left;" class="top">
+            <div class="input-group">
+                <input type="text" class="form-control" id="searchText" style="width: 400px;">
+                <span class="input-group-addon" id="search" onclick="search()"><i class="glyphicon glyphicon-search"
+                                                                                  style="color: #0055aa;"> <span>搜索</span></i></span>
+            </div>
+        </div>
+        <div class="denglu-font2 top">
+            <a href="#" id="uname">admin</a>
+            <a href="/" id="login_logout">退出</a>
+
+        </div>
+    </div>
+</div>
+<div class="list-1">
+    <ul class="list-ul-2" style="position: relative;right: 190px;">
+        <div class="img"><img src="/images/logo1.jpg" width="55px" height="55px" class="img-logo"/></div>
+
+        <li>
+            <a href="/api/admin/userList" class="index_click">管理admin</a>
+        </li>
+
+        <li>
+            <a href="/api/admin/userList" class="index_click">管理用户</a>
+        </li>
+
+        <li>
+            <a href="/api/admin/itemList" class="index_click">审核商品</a>
+        </li>
+    </ul>
+</div>
+<div class="container-fluid">
+    <div class="row" style="margin-top: 70px">
+        <!--左边部分 -->
+        <div class="col-md-10 col-md-offset-1" style="top: -20px;">
+            <div class="row tzgl admin-h1" style="display: block;">
+                <h1><span class="text-primary" id="article_total">管理用户</span></h1>
+                <div class="col-md-12" style="background-color: #fff; border-top: 3px solid #00a65a; top: 8px;">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>用户名</th>
+                            <th>真实姓名</th>
+                            <th>手机号码</th>
+                            <th>性别</th>
+                            <th>学院</th>
+                            <th>学号</th>
+                            <th>当前状态</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <!-- 用户列表 - 模板 -->
+                        <tbody id="listArticle_hide">
+                        <tr th:each="user:${userList}" th:object="${user}">
+                            <!-- 用户名 -->
+                            <td  id="articleNum">
+                                <div style="width:70px;word-wrap:break-word;" th:text="*{username}">张一隆</div>
+                            </td>
+                            <!-- 真实姓名 -->
+                            <td id="articleTitles">
+                                <div style="word-wrap:break-word;" th:text="*{realName}">
+                                    123
+                                </div>
+                            </td>
+                            <!-- 手机号码 -->
+                            <td id="articleUsername" th:text="*{phoneNumber}">简约时尚水泥花瓶4</td>
+                            <!-- 性别 -->
+                            <td id="articleBname" th:text="*{gender}==0?'男':'女'">数码电子</td>
+                            <!-- 学院 -->
+                            <td id="articleCreateTime" th:text="*{academy}">这是一款很好吃的酸辣粉</td>
+                            <!-- 学号 -->
+                            <td id="articleUpdateTime" th:text="*{studentNumber}">九成新</td>
+                            <!-- 当前状态 -->
+                            <td id="status">
+                                <button type="button" disabled="disabled"
+                                        class="btn btn-info btn-sm">123</button>
+                            </td>
+                            <!-- 操作 -->
+                            <td id="listArticle_caozuo">
+
+                                <!-- 通过 -->
+                                <form method="put" id="pass" style="display: inline">
+                                    <input type="button" class="btn btn-info btn-sm" value="通过" />
+                                </form>
+                                <!-- 拒绝 -->
+                                <form method="put" id="refuse" style="display: inline">
+                                    <input type="button" class="btn btn-danger btn-sm" value="拒绝" />
+                                </form>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+
+</html>

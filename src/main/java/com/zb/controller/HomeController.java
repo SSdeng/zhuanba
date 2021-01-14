@@ -36,9 +36,9 @@ public class  HomeController {
     @GetMapping("/")
     public String allItems(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
         @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-        Page<Item> items = itemService.findAllPage(pageNo, pageSize);
+        //Page<Item> items = itemService.findAllPage(pageNo, pageSize);
         //首页只展示已经审核过的商品
-        //Page<Item> items = itemService.findAllPageByStatus(1, pageNo, pageSize);
+        Page<Item> items = itemService.findAllPageByStatus(1, pageNo, pageSize);
         model.addAttribute("items", items);
         List<CategoryVO> categories = categoryService.getAllCategories();
         model.addAttribute("categories", categories);

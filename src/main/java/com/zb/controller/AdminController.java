@@ -37,7 +37,7 @@ public class AdminController {
                               @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
                               @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         model.addAttribute("userList", adminService.getAllUsersByPage(pageNo, pageSize));
-        return "userList";
+        return "admin";
     }
 
     /**

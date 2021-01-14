@@ -30,7 +30,7 @@ public interface ItemEsRepository extends ElasticsearchRepository<Item, Long> {
      * @return 包含高亮的商品列表
      */
     @Highlight(fields = {@HighlightField(name = "itemName"), @HighlightField(name = "description")},
-        parameters = @HighlightParameters(preTags = "<strong><font style='color:red'>", postTags = "</strong>"))
+        parameters = @HighlightParameters(preTags = "<span style='color:red'>", postTags = "</span>"))
     SearchPage<Item> findAllByItemNameOrDescription(String itemName, String description, Pageable pageable);
 
     /**
