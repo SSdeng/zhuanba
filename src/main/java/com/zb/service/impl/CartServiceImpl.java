@@ -4,6 +4,7 @@ import com.zb.entity.Cart;
 import com.zb.entity.CartOrder;
 import com.zb.entity.vo.CartOrderVO;
 import com.zb.exception.MyException;
+import com.zb.repository.CartOrderRepository;
 import com.zb.repository.CartRepository;
 import com.zb.service.CartService;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,9 @@ public class CartServiceImpl implements CartService {
 
     @Resource
     private CartRepository cartRepository;
+
+    @Resource
+    private CartOrderRepository cartOrderRepository;
 
     /**
      * 按id查找购物车
@@ -80,6 +84,7 @@ public class CartServiceImpl implements CartService {
         CartOrder cartOrder = findCartOrderByItemId(list, itemId);
         if (cartOrder != null) {
             list.remove(cartOrder);
+            cartOrderRepository.delete(cartOrder);
         } else {
             throw new MyException("商品订单不存在");
         }
@@ -101,6 +106,7 @@ public class CartServiceImpl implements CartService {
         CartOrder cartOrder = findCartOrderByItemId(list, itemId);
         if (cartOrder != null) {
             cartOrder.setItemCount(count);
+            cartOrderRepository.save(cartOrder);
         } else {
             throw new MyException("商品订单不存在");
         }
