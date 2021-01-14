@@ -333,3 +333,8 @@
     width: 50%;
     float: left;
 }
+.star {
+    position: relative;
+    top: 190px;
+    left: 250px;
+}

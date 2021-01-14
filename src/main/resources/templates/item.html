@@ -47,7 +47,7 @@
 </div>
 <div id="itemboard" class="board">
     <div class="imge">
-        <img th:src="${item.image}" class="itemimage" >
+        <img th:src="${item.image}" class="itemimage">
     </div>
 
     <div id="details" class="details">
@@ -69,6 +69,12 @@
             <input type="button" class="incartbutton" value="已在购物车中" disabled>
         </div>
 
+        <div class="star">
+            <button type="button" class="btn btn-default" id="btn_collect">
+                <span class="glyphicon glyphicon-star-empty" id="btn_collect_icon" aria-hidden="true"></span>收藏
+            </button>
+        </div>
+
     </div>
 
 </div>
@@ -85,8 +91,8 @@
 
         <div id="commentForm" method="GET">
             <textarea class="comment-send-input" name="comment" form="commentForm" cols="30" rows="5"
-                          id="commentboard" style="width: 980px"
-                          placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。"></textarea>
+                      id="commentboard" style="width: 980px"
+                      placeholder="请自觉遵守互联网相关的政策法规，严禁发布色情、暴力、反动的言论。"></textarea>
             <input class="comment-send-button" type="submit" value="发表评论">
         </div>
     </div>
@@ -112,87 +118,134 @@
 </div>
 
 <script src="/jquery/jquery2.1.4.js"></script>
+<script src="/bootstrap/js/bootstrap.js"></script>
 <script src="/layer/layer.js"></script>
 <script th:inline="javascript">
-  function search () {
-    console.log($('#searchText').val())
-    var data = $('#searchText').val()
-    location.assign("/search?keyword=" + data);
-  }
-  var itemId = 0
-  itemId = [[${item.id}]]
+    function search() {
+        console.log($('#searchText').val())
+        var data = $('#searchText').val()
+        location.assign("/search?keyword=" + data);
+    }
 
-  var userId = localStorage.getItem('userId')
-  console.log(userId)
+    var itemId = 0
+    itemId = [[${item.id}]]
 
-  $(function () {
-    load_data()
+    var userId = localStorage.getItem('userId')
+    console.log(userId)
 
-    $('.buybutton').on('click', function () {
-      if (userId == null || userId == '') {
-        layer.msg('请先登录再添加购物车')
-        return
-      } else if (itemId == null || itemId == '') {
-        layer.msg('暂无此商品信息，无法添加购物车')
-        return
-      }
-      $.ajax({
-        type: 'POST',
-        dataType: 'json',
-        url: '/api/cart/add?itemId=' + itemId + '&userId=' + userId + '&count=1',
-        contentType: 'application/json',
-        traditional: true,
-        data: JSON.stringify(''),
-        success: function (data) {
-          if (data.code == 0) {
-            layer.msg('添加购物车成功')
-          } else {
-            layer.msg(data.msg)
-          }
-        },
-        error: function (data) {
-        }
-      })
-        $(this).val("已在购物车中");
-        $(this).attr('disabled',true);
-        $(this).css("background-color", "#6d757a");
+    $(function () {
+        load_data();
+        load_collect();
+        $('.buybutton').on('click', function () {
+            if (userId == null || userId == '') {
+                layer.msg('请先登录再添加购物车')
+                return
+            } else if (itemId == null || itemId == '') {
+                layer.msg('暂无此商品信息，无法添加购物车')
+                return
+            }
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: '/api/cart/add?itemId=' + itemId + '&userId=' + userId + '&count=1',
+                contentType: 'application/json',
+                traditional: true,
+                data: JSON.stringify(''),
+                success: function (data) {
+                    if (data.code == 0) {
+                        layer.msg('添加购物车成功')
+                    } else {
+                        layer.msg(data.msg)
+                    }
+                },
+                error: function (data) {
+                }
+            })
+            $(this).val("已在购物车中");
+            $(this).attr('disabled', true);
+            $(this).css("background-color", "#6d757a");
+        })
+
+        $('.comment-send-button').on('click', function () {
+            var content = $('#commentboard').val()
+            if (userId == null || userId == '') {
+                layer.msg('请先登录再进行评论')
+                return
+            } else if (itemId == null || itemId == '') {
+                layer.msg('暂无此商品信息，无法添加评论')
+                return
+            } else if (content == null || content == '') {
+                layer.msg('请输入评论内容')
+                return
+            }
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: '/api/comment/item?itemId=' + itemId,
+                contentType: 'application/json',
+                traditional: true,
+                data: JSON.stringify({'userId': userId, 'content': content}),
+                success: function (data) {
+                    location.reload()
+                    // location.href(data);
+                    // if (data.code == 0) {
+                    //     layer.msg("添加评论成功");
+                    // } else {
+                    //     layer.msg("添加评论失败");
+                    // }
+                },
+                error: function (data) {
+                    location.reload()
+                    // layer.msg("fail!")
+                }
+            })
+        })
+
+        $("#btn_collect").click(function () {
+            var classname = $("#btn_collect_icon").attr("class");
+            $("#btn_collect_icon").removeClass("glyphicon-star-empty glyphicon-star");
+            if (classname == "glyphicon glyphicon-star-empty") {
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    url: '/api/collection/add?userId=' + userId + '&itemId=' + itemId,
+                    contentType: 'application/json',
+                    traditional: true,
+                    data: JSON.stringify(''),
+                    success: function (data) {
+                        if (data.code == 0) {
+                            layer.msg('收藏成功！');
+                            $("#btn_collect_icon").addClass("glyphicon glyphicon-star");
+                        } else {
+                            layer.msg(data.msg)
+                        }
+                    },
+                    error: function (data) {
+                    }
+                })
+
+            } else {
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    url: '/api/collection/remove?userId=' + userId + '&itemId=' + itemId,
+                    contentType: 'application/json',
+                    traditional: true,
+                    data: JSON.stringify(''),
+                    success: function (data) {
+                        if (data.code == 0) {
+                            layer.msg('取消收藏成功！');
+                            $("#btn_collect_icon").addClass("glyphicon glyphicon-star-empty");
+                        } else {
+                            layer.msg(data.msg)
+                        }
+                    },
+                    error: function (data) {
+                    }
+                })
+            }
+        });
     })
-
-    $('.comment-send-button').on('click', function () {
-      var content = $('#commentboard').val()
-      if (userId == null || userId == '') {
-        layer.msg('请先登录再进行评论')
-        return
-      } else if (itemId == null || itemId == '') {
-        layer.msg('暂无此商品信息，无法添加评论')
-        return
-      }else if (content == null || content == ''){
-          layer.msg('请输入评论内容')
-          return
-      }
-      $.ajax({
-        type: 'POST',
-        dataType: 'json',
-        url: '/api/comment/item?itemId=' + itemId,
-        contentType: 'application/json',
-        traditional: true,
-        data: JSON.stringify({ 'userId': userId, 'content': content }),
-        success: function (data) {
-          location.reload()
-          // location.href(data);
-          // if (data.code == 0) {
-          //     layer.msg("添加评论成功");
-          // } else {
-          //     layer.msg("添加评论失败");
-          // }
-        },
-        error: function (data) {
-          location.reload()
-          // layer.msg("fail!")
-        }
-      })
-    })
-  })
 
   //设置顶部栏的登录/退出按钮和用户名显示
 
@@ -216,6 +269,15 @@
       $('#cart').attr('href', '/api/cart/all?userId='+userId)
       $('#uname').attr('href', '/api/user/info?userId=' + userId)
     }
-  }
+
+    function load_collect() {
+        var isCollected = [[${collected}]]
+        if (isCollected == false) {
+            $("#btn_collect_icon").addClass("glyphicon glyphicon-star-empty");
+        } else {
+            $("#btn_collect_icon").addClass("glyphicon glyphicon-star");
+        }
+    }
 </script>
 </body>
+</html>
