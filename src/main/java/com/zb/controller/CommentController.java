@@ -42,7 +42,7 @@ public class CommentController {
     @PostMapping("/item")
     public String addItemComment(@RequestParam("itemId") long itemId, Map<String, Object> map) {
 
-        int userId = (int) map.get("userId");
+        long userId = (long) map.get("userId");
         String content = (String) map.get("content");
 
         ItemComment itemComment = new ItemComment();
