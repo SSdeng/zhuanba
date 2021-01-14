@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -102,23 +102,29 @@
                             <td id="listArticle_caozuo">
 
                                 <!-- 通过 -->
-                                <form method="post"  th:if="*{status==1}">
+                                <form method="post" th:if="*{status==1}">
                                     <div th:id="*{id}" class="div">
-                                        <input th:id="'pass'+*{id}" type="button" class="btn btn-info btn-sm check" value="通过" style="display: none"/>
-                                        <input th:id="'reject'+*{id}" type="button" class="btn btn-danger btn-sm reject" value="拒绝" />
+                                        <input th:id="'pass'+*{id}" type="button" class="btn btn-info btn-sm check"
+                                               value="通过" style="display: none"/>
+                                        <input th:id="'reject'+*{id}" type="button" class="btn btn-danger btn-sm reject"
+                                               value="拒绝"/>
                                     </div>
                                 </form>
                                 <!-- 拒绝 -->
                                 <form method="post" th:if="*{status==-1}">
                                     <div th:id="*{id}" class="div">
-                                        <input  th:id="'pass'+*{id}" type="button" class="btn btn-info btn-sm check" value="通过"/>
-                                        <input  th:id="'reject'+*{id}" type="button" class="btn btn-danger btn-sm reject" value="拒绝" style="display: none"/>
+                                        <input th:id="'pass'+*{id}" type="button" class="btn btn-info btn-sm check"
+                                               value="通过"/>
+                                        <input th:id="'reject'+*{id}" type="button" class="btn btn-danger btn-sm reject"
+                                               value="拒绝" style="display: none"/>
                                     </div>
                                 </form>
-                                <form method="post"  th:if="*{status==0}">
+                                <form method="post" th:if="*{status==0}">
                                     <div th:id="*{id}" class="div">
-                                        <input th:id="'pass'+*{id}" type="button" class="btn btn-info btn-sm check" value="通过"/>
-                                        <input th:id="'reject'+*{id}" type="button" class="btn btn-danger btn-sm reject" value="拒绝"/>
+                                        <input th:id="'pass'+*{id}" type="button" class="btn btn-info btn-sm check"
+                                               value="通过"/>
+                                        <input th:id="'reject'+*{id}" type="button" class="btn btn-danger btn-sm reject"
+                                               value="拒绝"/>
                                     </div>
                                 </form>
                             </td>
@@ -133,55 +139,55 @@
 </div>
 </body>
 <script>
-  $(function () {
-    $('.check').click(function () {
-      var adminId = localStorage.getItem('userId')
-      var itemId = $(this).parent().attr('id')
-      console.log(itemId)
-      $.ajax({
-        type: 'POST',
-        url: '/api/admin/checkItem?adminId=' + adminId + '&itemId=' + itemId + '&status=1',
-        contentType: 'application/json',
-        traditional: true,
-        success: function (data) {
-          layer.msg(data.msg)
-          if (data.code == 0) {
-            $('#pass' + itemId).hide()
-            $('#reject' + itemId).attr("style","display:block")
-            $('#status' + itemId).attr('class', 'btn btn-info btn-sm')
-            $('#status' + itemId).text('已通过')
-          }
-        },
-        error: function (data) {
-        }
-      })
-    })
+    $(function () {
+        $('.check').click(function () {
+            var adminId = localStorage.getItem('userId')
+            var itemId = $(this).parent().attr('id')
+            console.log(itemId)
+            $.ajax({
+                type: 'POST',
+                url: '/api/admin/checkItem?adminId=' + adminId + '&itemId=' + itemId + '&status=1',
+                contentType: 'application/json',
+                traditional: true,
+                success: function (data) {
+                    layer.msg(data.msg)
+                    if (data.code == 0) {
+                        $('#pass' + itemId).hide()
+                        $('#reject' + itemId).attr("style", "display:block")
+                        $('#status' + itemId).attr('class', 'btn btn-info btn-sm')
+                        $('#status' + itemId).text('已通过')
+                    }
+                },
+                error: function (data) {
+                }
+            })
+        })
 
-    $('.reject').click(function () {
-      var adminId = localStorage.getItem('userId')
-      var itemId = $(this).parent().attr('id')
-      console.log(itemId)
-      $.ajax({
-        type: 'POST',
-        dataType: 'json',
-        url: '/api/admin/checkItem?adminId=' + adminId + '&itemId=' + itemId + '&status=-1',
-        contentType: 'application/json',
-        traditional: true,
-        success: function (data) {
-          layer.msg(data.msg)
-          if (data.code == 0) {
-            $('#pass' + itemId).attr("style","display:block")
-            $('#reject' + itemId).hide()
-            $('#status' + itemId).attr('class', 'btn btn-danger btn-sm')
-            $('#status' + itemId).text('未通过')
-          }
-        },
-        error: function (data) {
-        }
-      })
-    })
+        $('.reject').click(function () {
+            var adminId = localStorage.getItem('userId')
+            var itemId = $(this).parent().attr('id')
+            console.log(itemId)
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: '/api/admin/checkItem?adminId=' + adminId + '&itemId=' + itemId + '&status=-1',
+                contentType: 'application/json',
+                traditional: true,
+                success: function (data) {
+                    layer.msg(data.msg)
+                    if (data.code == 0) {
+                        $('#pass' + itemId).attr("style", "display:block")
+                        $('#reject' + itemId).hide()
+                        $('#status' + itemId).attr('class', 'btn btn-danger btn-sm')
+                        $('#status' + itemId).text('未通过')
+                    }
+                },
+                error: function (data) {
+                }
+            })
+        })
 
-  })
+    })
 
 </script>
 

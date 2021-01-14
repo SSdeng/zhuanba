@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -34,16 +34,16 @@
 
 <div id="itemboard" class="board">
     <div class="imge">
-        <img th:src="${wants.image}" class="itemimage" >
+        <img th:src="${wants.image}" class="itemimage">
     </div>
 
     <div id="details" class="details">
         <h1 id="itemname" class="itemname" th:text="${wants.title}"></h1>
 
         <h3 class="sellerName" th:text="'求购者：' + ${wants.user.username}"></h3>
-<!--        <div>-->
-<!--            <input type="button" class="buybutton" value="加入购物车">-->
-<!--        </div>-->
+        <!--        <div>-->
+        <!--            <input type="button" class="buybutton" value="加入购物车">-->
+        <!--        </div>-->
 
 
     </div>
@@ -91,11 +91,12 @@
 <script src="/jquery/jquery2.1.4.js"></script>
 <script src="/layer/layer.js"></script>
 <script th:inline="javascript">
-    function search () {
+    function search() {
         console.log($('#searchText').val())
         var data = $('#searchText').val()
         location.assign("/search?keyword=" + data);
     }
+
     var itemId = 0
     itemId = [[${wants.id}]]
 
@@ -131,7 +132,7 @@
                 }
             })
             $(this).val("已在购物车中");
-            $(this).attr('disabled',true);
+            $(this).attr('disabled', true);
             $(this).css("background-color", "#6d757a");
         })
 
@@ -143,7 +144,7 @@
             } else if (itemId == null || itemId == '') {
                 layer.msg('暂无此商品信息，无法添加评论')
                 return
-            } else if (content == null || content == ''){
+            } else if (content == null || content == '') {
                 layer.msg('请输入评论内容')
                 return
             }
@@ -153,7 +154,7 @@
                 url: '/api/comment/wants?wantsId=' + itemId,
                 contentType: 'application/json',
                 traditional: true,
-                data: JSON.stringify({ 'userId': userId, 'content': content }),
+                data: JSON.stringify({'userId': userId, 'content': content}),
                 success: function (data) {
                     location.reload()
                     // location.href(data);
@@ -173,25 +174,27 @@
 
     //设置顶部栏的登录/退出按钮和用户名显示
 
-    function load_data () {
+    function load_data() {
         var theme = localStorage.getItem('username')
         var userId = localStorage.getItem('userId')
         console.log(localStorage.getItem('username'))
         console.log(localStorage.getItem('userId'))
         if (theme == null || theme == '') {
             $('#login_logout').text('登录')
-      $('#uname').text('')
-      $('#wants').hide();$("release").hide()
-      $('#cart').hide()
+            $('#uname').text('')
+            $('#wants').hide();
+            $("release").hide()
+            $('#cart').hide()
         } else {
             $('#login_logout').text('退出')
             $('#login_logout').attr('href', '/logout')
             $('#uname').text(theme)
             $('#wants').show()
-      $('#wants').attr('href', '/api/wants/release?userId='+userId);$('#release').show();
-      $('#release').attr('href', '/release')
+            $('#wants').attr('href', '/api/wants/release?userId=' + userId);
+            $('#release').show();
+            $('#release').attr('href', '/release')
             $('#cart').show()
-            $('#cart').attr('href', '/api/cart/all?userId='+userId)
+            $('#cart').attr('href', '/api/cart/all?userId=' + userId)
             $('#uname').attr('href', '/api/user/info?userId=' + userId)
         }
     }

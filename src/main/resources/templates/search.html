@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>搜索结果</title>
@@ -35,13 +35,14 @@
                 <a href="#">
                     <img th:src="*{image}" alt="">
                     <div class="cont">
-                        <span th:utext="*{itemName}" style="word-break: break-word;overflow: hidden;font-size: 16px;color: black">简约时尚水泥花瓶</span>
+                        <span th:utext="*{itemName}"
+                              style="word-break: break-word;overflow: hidden;font-size: 16px;color: black">简约时尚水泥花瓶</span>
                         <br>
                         <p th:text="'￥' + *{price}">￥450</p>
                     </div>
                 </a>
                 <div class="mask" th:id="*{id}">
-                    <a class="btn" >
+                    <a class="btn">
                         查看详情
                     </a>
                 </div>
@@ -49,7 +50,7 @@
         </ul>
 
 
-        <div class="pages" id="wants_pages"  >
+        <div class="pages" id="wants_pages">
             <a href="/search">首页</a>
             <a th:href="'/search?keyword'+${keyword}+'&pageNo='+(${items.hasPrevious()}?${items.getNumber()}:1)">上一页</a>
 
@@ -70,52 +71,54 @@
 <script src="/jquery/jquery2.1.4.js"></script>
 <script src="/layer/layer.js"></script>
 <script>
-  function search () {
-    console.log($('#searchText').val())
-    var data = $('#searchText').val()
-    location.assign("/search?keyword=" + data);
-  }
+    function search() {
+        console.log($('#searchText').val())
+        var data = $('#searchText').val()
+        location.assign("/search?keyword=" + data);
+    }
 
-  $('#login_logout').click(function () {
-    localStorage.clear()
+    $('#login_logout').click(function () {
+        localStorage.clear()
 
-  })
+    })
 </script>
 <script>
-  $('.mask').click(function (){
-    var userId = localStorage.getItem("userId");
-    var itemId = $(this).attr('id');
-    console.log(userId + " " + itemId)
-    location.assign("/api/item/details?itemId=" + itemId + "&userId=" + userId);
-  })
-  $(function () {
-    load_data()
-  })
+    $('.mask').click(function () {
+        var userId = localStorage.getItem("userId");
+        var itemId = $(this).attr('id');
+        console.log(userId + " " + itemId)
+        location.assign("/api/item/details?itemId=" + itemId + "&userId=" + userId);
+    })
+    $(function () {
+        load_data()
+    })
 
-  //设置顶部栏的登录/退出按钮和用户名显示
+    //设置顶部栏的登录/退出按钮和用户名显示
 
-  function load_data () {
-    var theme = localStorage.getItem('username')
-    var userId = localStorage.getItem('userId')
-    console.log(localStorage.getItem('username'))
-    console.log(localStorage.getItem('userId'))
-    if (theme == null || theme == '') {
-      $('#login_logout').text('登录')
-      $('#uname').text('')
-      $('#wants').hide();$("release").hide()
-      $('#cart').hide()
-    } else {
-      $('#login_logout').text('退出')
-      $('#login_logout').attr('href', '/logout')
-      $('#uname').text(theme)
-      $('#wants').show()
-      $('#wants').attr('href', '/api/wants/release?userId='+userId);$('#release').show();
-      $('#release').attr('href', '/release')
-      $('#cart').show()
-      $('#cart').attr('href', '/api/cart/all?userId='+userId)
-      $('#uname').attr('href', '/api/user/info?userId=' + userId)
+    function load_data() {
+        var theme = localStorage.getItem('username')
+        var userId = localStorage.getItem('userId')
+        console.log(localStorage.getItem('username'))
+        console.log(localStorage.getItem('userId'))
+        if (theme == null || theme == '') {
+            $('#login_logout').text('登录')
+            $('#uname').text('')
+            $('#wants').hide();
+            $("release").hide()
+            $('#cart').hide()
+        } else {
+            $('#login_logout').text('退出')
+            $('#login_logout').attr('href', '/logout')
+            $('#uname').text(theme)
+            $('#wants').show()
+            $('#wants').attr('href', '/api/wants/release?userId=' + userId);
+            $('#release').show();
+            $('#release').attr('href', '/release')
+            $('#cart').show()
+            $('#cart').attr('href', '/api/cart/all?userId=' + userId)
+            $('#uname').attr('href', '/api/user/info?userId=' + userId)
+        }
     }
-  }
 
 
 </script>

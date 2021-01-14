@@ -81,14 +81,13 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/**", "authc");
         filterChainDefinitionMap.put("/api/user/**", "roles[user]");
         filterChainDefinitionMap.put("/api/wants/**", "roles[user]");
+        filterChainDefinitionMap.put("/api/wants/all", "anon");
         filterChainDefinitionMap.put("/api/order/**", "roles[user]");
         filterChainDefinitionMap.put("/api/item/**", "roles[user]");
         filterChainDefinitionMap.put("/api/comment/**", "roles[user]");
         filterChainDefinitionMap.put("/api/collection/**", "roles[user]");
         filterChainDefinitionMap.put("/api/admin/**", "roleOrFilter[root,admin]");
-        filterChainDefinitionMap.put("/api/admin/banAdmin", "roles[root]");
-        filterChainDefinitionMap.put("/api/admin/addAdmin", "roles[root]");
-        filterChainDefinitionMap.put("/api/admin/unbanAdmin", "roles[root]");
+        filterChainDefinitionMap.put("/api/root/**", "roles[root]");
         // 设置未授权路由，之后再返回json数据给前端
         shiroFilterFactoryBean.setLoginUrl("/login");
         // 未授权界面, 对应LoginController中 unauthorized 请求
