@@ -66,16 +66,13 @@ public class HtmlParseUtil {
             System.out.println("title " + title);
 
             Item item = new Item();
-            item.setItemName(title);
+            item.setItemName("商品名称");
+            item.setDescription(title);
             item.setPrice(BigDecimal.valueOf(Double.parseDouble(price.substring(1))));
             item.setImage(img);
             item.setCount(1);
             item.setLevel(10);
             User user = userService.findById(userId);
-            System.out.println(user.getUsername());
-            if(user == null){
-                System.out.println("NULL________________NULL");
-            }
             item.setUser(user);
             List<Category> categoryList = categoryRepository.findByIdIn(categoryIds);
             item.setCategories(categoryList);

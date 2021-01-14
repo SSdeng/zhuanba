@@ -103,9 +103,9 @@ public class WantsController {
      * @return 求购信息
      */
     @PostMapping("/upload")
-    public ModelAndView uploadPicture(@RequestParam("wantsId") long wantsId, @RequestParam("file") MultipartFile file, HttpSession session) throws IOException {
+    public ModelAndView uploadPicture(@RequestParam("wantsId") long wantsId, @RequestParam("file") MultipartFile file) throws IOException {
         ModelAndView modelAndView = new ModelAndView("wants");
-        String fileName = FileUtil.uploadFile(file, session);
+        String fileName = FileUtil.uploadFile(file);
         Wants wants = wantsService.setImageById(wantsId, fileName);
         modelAndView.addObject("wants", wants);
         return modelAndView;
