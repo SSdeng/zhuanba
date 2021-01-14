@@ -77,7 +77,7 @@ public class Collection implements Serializable {
     /**
      * 拥有商品表
      */
-    @ManyToMany(mappedBy = "collection")
+    @ManyToMany(targetEntity = Item.class)
     @JoinTable(name = "sys_collection_item",
             // 当前对象在中间表的外键
             joinColumns = {@JoinColumn(name = "collection_id", referencedColumnName = "id")},
