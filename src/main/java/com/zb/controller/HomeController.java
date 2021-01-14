@@ -36,7 +36,7 @@ public class  HomeController {
     @GetMapping("/")
     public String allItems(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
         @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-        Page<Item> items = itemService.findAllByPage(pageNo, pageSize);
+        Page<Item> items = itemService.findAllPage(pageNo, pageSize);
         model.addAttribute("items", items);
         List<CategoryVO> categories = categoryService.getAllCategories();
         model.addAttribute("categories", categories);

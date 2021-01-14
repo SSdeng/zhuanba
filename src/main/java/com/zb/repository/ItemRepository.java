@@ -45,4 +45,12 @@ public interface ItemRepository extends JpaRepository<Item, Long>, JpaSpecificat
      * @return
      */
     public Page<Item> findItemsByCategories_id(Long id, Pageable pageable);
+
+    /**
+     * 根据商品状态分页查询
+     *
+     * @param status 商品状态
+     * @return
+     */
+    public Page<Item> findAllByStatus(int status, Pageable pageable);
 }

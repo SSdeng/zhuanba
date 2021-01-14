@@ -116,14 +116,27 @@ public class ItemServiceImpl implements ItemService {
     }
 
     /**
-     * 分页查询
+     * 根据状态分页查询所有商品
+     *
+     * @param status   审核装态
+     * @param pageNo   起始页码
+     * @param pageSize 分页大小
+     * @return 商品列表
+     */
+    @Override
+    public Page<Item> findAllPageByStatus(int status, int pageNo, int pageSize) {
+        return null;
+    }
+
+    /**
+     * 分页查询所有商品
      *
      * @param pageNo   起始页码
      * @param pageSize 分页大小
      * @return 商品列表
      */
     @Override
-    public Page<Item> findAllByPage(int pageNo, int pageSize) {
+    public Page<Item> findAllPage(int pageNo, int pageSize) {
         return itemRepository.findAll(PageRequest.of(pageNo - 1, pageSize));
     }
 
