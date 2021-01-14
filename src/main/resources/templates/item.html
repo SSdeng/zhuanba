@@ -153,6 +153,9 @@
         error: function (data) {
         }
       })
+        $(this).val("已在购物车中");
+        $(this).attr('disabled',true);
+        $(this).css("background-color", "#6d757a");
     })
 
     $('.comment-send-button').on('click', function () {
@@ -163,6 +166,9 @@
       } else if (itemId == null || itemId == '') {
         layer.msg('暂无此商品信息，无法添加评论')
         return
+      }else if (content == null || content == ''){
+          layer.msg('请输入评论内容')
+          return
       }
       $.ajax({
         type: 'POST',
@@ -170,7 +176,7 @@
         url: '/api/comment/item?itemId=' + itemId,
         contentType: 'application/json',
         traditional: true,
-        data: JSON.stringify({ 'userId': itemId, 'content': content }),
+        data: JSON.stringify({ 'userId': userId, 'content': content }),
         success: function (data) {
           location.reload()
           // location.href(data);
