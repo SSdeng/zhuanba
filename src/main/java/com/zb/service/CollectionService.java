@@ -40,4 +40,13 @@ public interface CollectionService {
      * @return Collection
      */
     Collection removeItem(Long collectionId , Long itemId);
+
+    /**
+     * 检查商品是否已收藏
+     *
+     * @param userId 用户id
+     * @param itemId 商品id
+     * @return 是否已收藏
+     */
+    boolean hasItem(Long userId, Long itemId);
 }
