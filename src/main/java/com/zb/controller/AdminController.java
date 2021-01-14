@@ -1,6 +1,7 @@
 package com.zb.controller;
 
 import com.zb.entity.User;
+import com.zb.repository.UserRepository;
 import com.zb.service.AdminService;
 import com.zb.util.Result;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,8 @@ public class AdminController {
 
     @Resource
     private AdminService adminService;
+    @Resource
+    private UserRepository userRepository;
 
     /**
      * 用户列表页
@@ -72,9 +75,9 @@ public class AdminController {
      * @param adminId 管理员id
      * @return 返回消息
      */
-    @PostMapping("deleteAdmin")
+    @PostMapping("banAdmin")
     @ResponseBody
-    public Result deleteAdmin(@RequestParam("adminId") long adminId) {
+    public Result banAdmin(@RequestParam("adminId") long adminId) {
         adminService.deleteAdmin(adminId);
         return Result.ok();
     }
@@ -85,10 +88,36 @@ public class AdminController {
      * @param userId 用户id
      * @return 返回消息
      */
-    @PostMapping("deleteUser")
+    @PostMapping("banUser")
     @ResponseBody
-    public Result deleteUser(@RequestParam("userId") long userId) {
-        adminService.deleteAdmin(userId);
+    public Result banUser(@RequestParam("userId") long userId) {
+        adminService.deleteUser(userId);
+        return Result.ok();
+    }
+
+    /**
+     * 解禁用户
+     *
+     * @param userId 用户id
+     * @return 返回消息
+     */
+    @PostMapping("unbanUser")
+    @ResponseBody
+    public Result unbanUser(@RequestParam("userId") long userId) {
+        adminService.unbanUser(userId);
+        return Result.ok();
+    }
+
+    /**
+     * 解禁管理员
+     *
+     * @param adminId 管理id
+     * @return 返回消息
+     */
+    @PostMapping("unbanAdmin")
+    @ResponseBody
+    public Result unbanAdmin(@RequestParam("adminId") long adminId) {
+        adminService.unbanUser(adminId);
         return Result.ok();
     }
 

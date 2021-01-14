@@ -2,6 +2,7 @@ package com.zb.shiro;
 
 import javax.annotation.Resource;
 
+import com.zb.exception.MyException;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -60,9 +61,12 @@ public class MyShiroRealm extends AuthorizingRealm {
         String userName = (String)token.getPrincipal();
 
         // 通过username从数据库中查找 User对象.
-        User user = userRepository.findByUsername(userName);
+        User user = userRepository.findByUsernameFromAll(userName);
         if (user == null) {
             return null;
+        }
+        if (user.getDeleted().equals(1)) {
+            throw new MyException("用户已被封禁！");
         }
         LoginUserVO loginUser = LoginUserVO.asVO(user);
         return new SimpleAuthenticationInfo(loginUser, loginUser.getPassword(), ByteSource.Util.bytes(userName),
