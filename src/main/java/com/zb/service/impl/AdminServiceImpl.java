@@ -171,6 +171,7 @@ public class AdminServiceImpl implements AdminService {
         if (!user.getRole().equals("admin")) {
             throw new MyException("非法操作！");
         }
+        unban(user);
     }
 
     /**
