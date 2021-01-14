@@ -140,9 +140,10 @@ public class ItemController {
      * @param itemId 商品id
      * @return
      */
-    @GetMapping("/remove")
-    public String deleteItem(@RequestParam("userId") long userId, @RequestParam("itemId") long itemId){
+    @PostMapping("/remove")
+    @ResponseBody
+    public Result deleteItem(@RequestParam("userId") long userId, @RequestParam("itemId") long itemId){
         itemService.deleteById(itemId);
-        return "redirect:/api/user/info?userId" + userId;
+        return Result.ok();
     }
 }
