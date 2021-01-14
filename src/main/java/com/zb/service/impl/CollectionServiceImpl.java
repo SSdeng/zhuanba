@@ -84,6 +84,21 @@ public class CollectionServiceImpl implements CollectionService {
     }
 
     /**
+     * 根据用户id获取收藏夹
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public Collection findByUser(Long userId) {
+        Collection collection = collectionRepository.findByUser_Id(userId);
+        if(collection == null){
+            throw new MyException("收藏未找到");
+        }
+        return collection;
+    }
+
+    /**
      * 获取id对应收藏
      *
      * @param id 收藏id

@@ -12,7 +12,12 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  */
 public interface CollectionRepository extends JpaRepository<Collection,Long> , JpaSpecificationExecutor<Collection> {
 
-
+    /**
+     * 根据用户id查找收藏夹
+     * @param userId 用户id
+     * @return 用户收藏夹
+     */
+    Collection findByUser_Id(Long userId);
 
 
 }
