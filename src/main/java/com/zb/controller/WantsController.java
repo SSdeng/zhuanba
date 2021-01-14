@@ -92,7 +92,7 @@ public class WantsController {
     public Result removeWants(@RequestParam("userId") long userId, @RequestParam("wantsId") long wantsId) {
         System.err.println(userId + " " + wantsId);;
         wantsService.deleteById(wantsId);
-        return Result.ok();
+        return Result.ok("删除成功", null);
     }
 
     /**
@@ -112,11 +112,12 @@ public class WantsController {
     }
 
     /**
+     * 获得所有求购信息
      *
-     * @param model
-     * @param pageNo
-     * @param pageSize
-     * @return
+     * @param model Model
+     * @param pageNo 起始页码
+     * @param pageSize 分页大小
+     * @return 所有求购分页
      */
     @GetMapping("/all")
     public String allWants(Model model, @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
