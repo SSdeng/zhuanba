@@ -15,6 +15,7 @@ import com.zb.service.ItemService;
 import com.zb.service.UserService;
 import com.zb.util.HtmlParseUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
@@ -97,14 +98,16 @@ class ZhuanbaApplicationTests {
         itemRepository.saveAll(items);
     }
 
+    /**
+     * 密码生成
+     */
     @Test
-    void categoryTest(){
-        List<Category> list = new ArrayList<>();
-        list.add(categoryService.findById((long)1));
-        log.info(list.get(0).toString().substring(1));
-        Item item = new Item();
-        item.setCategories(list);
-        log.info(item.getCategories().get(0).toString());
+    void passwordTest(){
+        User user = new User();
+        user.setUsername("root");
+        user.setPassword("rootadmin");
+        String newPassword = new Md5Hash(user.getPassword(), user.getUsername(), 2).toString();
+        log.info("New Password Is "+newPassword);
     }
     /*@Test
     @Transactional
