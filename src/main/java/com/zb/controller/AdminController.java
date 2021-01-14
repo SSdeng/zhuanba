@@ -1,6 +1,7 @@
 package com.zb.controller;
 
 import com.zb.entity.User;
+import com.zb.repository.UserRepository;
 import com.zb.service.AdminService;
 import com.zb.util.Result;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,8 @@ public class AdminController {
 
     @Resource
     private AdminService adminService;
+    @Resource
+    private UserRepository userRepository;
 
     /**
      * 用户列表页
@@ -93,15 +96,15 @@ public class AdminController {
     }
 
     /**
-     * 解禁用户/管理员
+     * 解禁用户
      *
      * @param userId 用户id
      * @return 返回消息
      */
-    @PostMapping("unban")
+    @PostMapping("unbanUser")
     @ResponseBody
-    public Result unban(@RequestParam("userId") long userId) {
-        adminService.unban(userId);
+    public Result unbanUser(@RequestParam("userId") long userId) {
+        adminService.unbanUser(userId);
         return Result.ok();
     }
 

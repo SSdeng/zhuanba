@@ -3,6 +3,7 @@ package com.zb.service.impl;
 import com.zb.elasticsearch.ItemEsRepository;
 import com.zb.entity.Item;
 import com.zb.entity.User;
+import com.zb.exception.MyException;
 import com.zb.repository.UserRepository;
 import com.zb.service.AdminService;
 import com.zb.service.ItemService;
@@ -110,17 +111,46 @@ public class AdminServiceImpl implements AdminService {
      */
     @Override
     public void deleteAdmin(long adminId) {
-        userRepository.deleteById(adminId);
+        if (userService.findById(adminId).getRole().equals("admin")) {
+            userRepository.deleteById(adminId);
+        } else {
+            throw new MyException("非法操作！");
+        }
     }
 
     /**
-     * 解禁用户/管理员
+     * 解禁用户
      *
      * @param userId 用户id
      */
     @Override
-    public void unban(long userId) {
+    public void unbanUser(long userId) {
         User user = userRepository.findByUserIdFromAll(userId);
+        if (user.getRole() != "user") {
+            throw new MyException("非法操作！");
+        }
+        unban(user);
+    }
+
+    /**
+     * 解禁管理员
+     *
+     * @param adminId 管理员id
+     */
+    @Override
+    public void unbanAdmin(long adminId) {
+        User user = userRepository.findByUserIdFromAll(adminId);
+        if (user.getRole() != "admin") {
+            throw new MyException("非法操作！");
+        }
+    }
+
+    /**
+     * 解禁
+     *
+     * @param user 用户
+     */
+    private void unban(User user) {
         user.setDeleted(0);
         userRepository.save(user);
     }
