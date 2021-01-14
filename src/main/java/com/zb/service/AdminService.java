@@ -4,6 +4,8 @@ import com.zb.entity.Item;
 import com.zb.entity.User;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 /**
  * 管理员服务接口
  *
@@ -47,13 +49,20 @@ public interface AdminService {
     void deleteUser(long userId);
 
     /**
-     * 分页获取所有用户
+     * 获取所有用户
+     * 包括被封禁的
      *
-     * @param pageNo   起始页码
-     * @param pageSize 分页大小
-     * @return 分页用户表
+     * @return 用户表
      */
-    Page<User> getAllUsersByPage(int pageNo, int pageSize);
+    List<User> getAllUser();
+
+    /**
+     * 获取所有管理员
+     * 包括被封禁的
+     *
+     * @return 管理员表
+     */
+    List<User> getAllAdmin();
 
     /**
      * 增加管理员

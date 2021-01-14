@@ -36,7 +36,7 @@
         <div class="img"><img src="/images/logo1.jpg" width="55px" height="55px" class="img-logo"/></div>
 
         <li>
-            <a href="/api/admin/userList" class="index_click">管理admin</a>
+            <a href="/api/admin/adminList" class="index_click">管理admin</a>
         </li>
 
         <li>
@@ -53,57 +53,68 @@
         <!--左边部分 -->
         <div class="col-md-10 col-md-offset-1" style="top: -20px;">
             <div class="row tzgl admin-h1" style="display: block;">
-                <h1><span class="text-primary" id="article_total">管理用户</span></h1>
+                <h1><span class="text-primary" id="article_total">商品审核</span></h1>
                 <div class="col-md-12" style="background-color: #fff; border-top: 3px solid #00a65a; top: 8px;">
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>用户名</th>
-                            <th>真实姓名</th>
-                            <th>手机号码</th>
-                            <th>性别</th>
-                            <th>学院</th>
-                            <th>学号</th>
+                            <th>发布人</th>
+                            <th>商品图片</th>
+                            <th>商品名称</th>
+                            <th>商品描述</th>
+                            <th>更新时间</th>
                             <th>当前状态</th>
                             <th>操作</th>
                         </tr>
                         </thead>
                         <!-- 用户列表 - 模板 -->
                         <tbody id="listArticle_hide">
-                        <tr th:each="user:${userList}" th:object="${user}">
-                            <!-- 用户名 -->
-                            <td  id="articleNum">
-                                <div style="width:70px;word-wrap:break-word;" th:text="*{username}">张一隆</div>
+                        <tr th:each="item:${itemList}" th:object="${item}">
+                            <!-- 发布人 -->
+                            <td id="articleNum">
+                                <div style="width:70px;word-wrap:break-word;" th:text="*{user.username}">张一隆</div>
                             </td>
-                            <!-- 真实姓名 -->
+                            <!-- 商品图片 -->
                             <td id="articleTitles">
-                                <div style="word-wrap:break-word;" th:text="*{realName}">
-                                    123
+                                <div style="width:100px;word-wrap:break-word;">
+                                    <img th:src="*{image}" style="width:80px;" class="mid" onclick="fun(this)">
                                 </div>
                             </td>
-                            <!-- 手机号码 -->
-                            <td id="articleUsername" th:text="*{phoneNumber}">简约时尚水泥花瓶4</td>
-                            <!-- 性别 -->
-                            <td id="articleBname" th:text="*{gender}==0?'男':'女'">数码电子</td>
-                            <!-- 学院 -->
-                            <td id="articleCreateTime" th:text="*{academy}">这是一款很好吃的酸辣粉</td>
-                            <!-- 学号 -->
-                            <td id="articleUpdateTime" th:text="*{studentNumber}">九成新</td>
+                            <!-- 商品名称 -->
+                            <td id="articleUsername" th:text="*{itemName}" style="word-wrap:break-word;">简约时尚水泥花瓶4</td>
+                            <!-- 商品描述 -->
+                            <td id="articleCreateTime" th:text="*{description}" style="word-wrap:break-word; width: 300px">
+                                这是一款很好吃的酸辣粉
+                            </td>
+                            <!-- 更新时间 -->
+                            <td id="articleUpdateTime" th:text="*{updateTime}" style="word-wrap:break-word;">九成新</td>
                             <!-- 当前状态 -->
                             <td id="status">
-                                <button type="button" disabled="disabled"
-                                        class="btn btn-info btn-sm">123</button>
+                                <button type="button" disabled="disabled" th:id="'status'+*{id}" th:if="*{status==1}"
+                                        class="btn btn-info btn-sm">已通过
+                                </button>
+                                <button type="button" disabled="disabled" th:id="'status'+*{id}" th:if="*{status==0}"
+                                        class="btn btn-warning btn-sm">待审核
+                                </button>
+                                <button type="button" disabled="disabled" th:id="'status'+*{id}" th:if="*{status==-1}"
+                                        class="btn btn-danger btn-sm">未通过
+                                </button>
+
                             </td>
                             <!-- 操作 -->
                             <td id="listArticle_caozuo">
 
                                 <!-- 通过 -->
-                                <form method="put" id="pass" style="display: inline">
-                                    <input type="button" class="btn btn-info btn-sm" value="通过" />
+                                <form method="post" th:id="'pass'+*{id}" th:css="'display:' + (*{status}==1?'none':'')" >
+                                    <div th:id="*{id}" class="div">
+                                        <input type="button" class="btn btn-info btn-sm check" value="通过"/>
+                                    </div>
                                 </form>
                                 <!-- 拒绝 -->
-                                <form method="put" id="refuse" style="display: inline">
-                                    <input type="button" class="btn btn-danger btn-sm" value="拒绝" />
+                                <form method="post" th:id="'reject'+*{id}" th:css="'display:' +(*{status}==-1?'none':'')">
+                                    <div th:id="*{id}" class="div">
+                                        <input type="button" class="btn btn-danger btn-sm reject"  value="拒绝"/>
+                                    </div>
                                 </form>
                             </td>
                         </tr>
@@ -116,6 +127,57 @@
     </div>
 </div>
 </body>
+<script>
+  $(function (){
+    $(".check").click(function () {
+      var adminId = localStorage.getItem('userId')
+      var itemId = $(this).parent().attr("id");
+      console.log(itemId)
+      $.ajax({
+        type: 'POST',
+        url: '/api/admin/checkItem?adminId=' + adminId + '&itemId=' + itemId + '&status=1',
+        contentType: 'application/json',
+        traditional: true,
+        success: function (data) {
+          layer.msg(data.msg)
+          if (data.code == 0) {
+            $('#pass' + itemId).css("display","none");
+            $('#reject' + itemId).css("display","block");
+            $('#status' + itemId).attr('class', 'btn btn-info btn-sm')
+            $('#status' + itemId).text('已通过')
+          }
+        },
+        error: function (data) {
+        }
+      })
+    })
 
+    $(".reject").click(function () {
+      var adminId = localStorage.getItem('userId')
+      var itemId = $(this).parent().attr("id");
+      console.log(itemId)
+      $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: '/api/admin/checkItem?adminId=' + adminId + '&itemId=' + itemId + '&status=-1',
+        contentType: 'application/json',
+        traditional: true,
+        success: function (data) {
+          layer.msg(data.msg)
+          if (data.code == 0) {
+            $('#pass' + itemId).css("display","block");
+            $('#reject' + itemId).css("display","none");
+            $('#status' + itemId).attr('class', 'btn btn-danger btn-sm')
+            $('#status' + itemId).text('未通过')
+          }
+        },
+        error: function (data) {
+        }
+      })
+    })
+
+  })
+
+</script>
 
 </html>

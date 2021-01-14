@@ -1,30 +1,25 @@
 package com.zb;
 
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
-import com.zb.service.CartService;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.zb.elasticsearch.ItemEsRepository;
 import com.zb.entity.Cart;
-import com.zb.entity.Category;
 import com.zb.entity.Item;
 import com.zb.entity.User;
 import com.zb.repository.ItemRepository;
+import com.zb.service.CartService;
 import com.zb.service.CategoryService;
 import com.zb.service.ItemService;
 import com.zb.service.UserService;
-import com.zb.util.HtmlParseUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -101,7 +96,7 @@ class ZhuanbaApplicationTests {
     }
 
     @Test
-    void passwordTest(){
+    void passwordTest() {
         User user = new User();
         user.setUsername("admin1");
         user.setPassword("admin1");
@@ -110,16 +105,13 @@ class ZhuanbaApplicationTests {
         log.info("New Password Is " + newPassword);
     }
 
-    /**@Test
-    @Transactional
-    @Rollback(false)
-    void paquItems() throws IOException {
-        String key = "笔记本电脑";
-        Long uId = (long)2;
-        Long[] cIds = {(long)2};
-        List<Item> items = HtmlParseUtil.getItemsByJD(key, uId, cIds);
-        itemRepository.saveAll(items);
-    }*/
+    /**
+     * @Test
+     * @Transactional
+     * @Rollback(false) void paquItems() throws IOException { String key = "笔记本电脑"; Long uId = (long)2; Long[] cIds =
+     *                  {(long)2}; List<Item> items = HtmlParseUtil.getItemsByJD(key, uId, cIds);
+     *                  itemRepository.saveAll(items); }
+     */
 
     /*@Test
     @Transactional
@@ -152,7 +144,12 @@ class ZhuanbaApplicationTests {
     @Test
     @Transactional
     public void addData() {
-        List<Item> item = itemRepository.findAll();
+        List<Item> item = itemRepository.findAllByStatus(1);
         itemEsRepository.saveAll(item);
+    }
+
+    @Test
+    public void delete() {
+        itemEsRepository.deleteAll();
     }
 }

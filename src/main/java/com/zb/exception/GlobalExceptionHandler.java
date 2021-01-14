@@ -65,6 +65,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public Result otherExceptionHandler(Exception e) {
         log.error("发生异常！原因是:{}", e.getMessage());
+        e.printStackTrace();
         return Result.error("其他异常", null);
     }
 }

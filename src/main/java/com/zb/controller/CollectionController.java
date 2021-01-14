@@ -67,7 +67,7 @@ public class CollectionController {
      *            用户Id
      * @param itemId
      *            商品Id
-     * @return
+     * @return Result
      */
     @PostMapping("/delete")
     @ResponseBody

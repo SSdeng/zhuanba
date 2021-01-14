@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.zb.repository.ItemRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -34,17 +35,17 @@ public class AdminServiceImpl implements AdminService {
     private UserRepository userRepository;
 
     @Resource
+    private ItemRepository itemRepository;
+
+    @Resource
     private ItemEsRepository itemEsRepository;
 
     /**
      * 修改商品审核状态，放入索引库
      *
-     * @param itemId
-     *            商品id
-     * @param adminId
-     *            管理者id
-     * @param status
-     *            审核结果
+     * @param itemId 商品id
+     * @param adminId 管理者id
+     * @param status 审核结果
      * @return 商品
      */
     @Override
@@ -57,8 +58,7 @@ public class AdminServiceImpl implements AdminService {
     /**
      * 删除商品,同时从索引库删除
      *
-     * @param itemId
-     *            商品id
+     * @param itemId 商品id
      * @return 删除结果
      */
     @Override
@@ -71,10 +71,8 @@ public class AdminServiceImpl implements AdminService {
     /**
      * 分页获取所有商品
      *
-     * @param pageNo
-     *            起始页码
-     * @param pageSize
-     *            分页大小
+     * @param pageNo 起始页码
+     * @param pageSize 分页大小
      * @return 分页商品表
      */
     @Override
@@ -85,8 +83,7 @@ public class AdminServiceImpl implements AdminService {
     /**
      * 删除用户
      *
-     * @param userId
-     *            用户id
+     * @param userId 用户id
      */
     @Override
     public void deleteUser(long userId) {
@@ -95,24 +92,31 @@ public class AdminServiceImpl implements AdminService {
     }
 
     /**
-     * 分页获取所有用户
+     * 获取所有用户
+     * 包括被封禁用户
      *
-     * @param pageNo
-     *            起始页码
-     * @param pageSize
-     *            分页大小
-     * @return 分页用户表
+     * @return 用户表
      */
     @Override
-    public Page<User> getAllUsersByPage(int pageNo, int pageSize) {
-        return userService.findAllByPage(pageNo, pageSize);
+    public List<User> getAllUser() {
+        return userRepository.getAllByRole("user");
+    }
+
+    /**
+     * 获取所有管理员
+     * 包括被封禁的
+     *
+     * @return 管理员表
+     */
+    @Override
+    public List<User> getAllAdmin() {
+        return userRepository.getAllByRole("admin");
     }
 
     /**
      * 增加管理员
      *
-     * @param newAdmin
-     *            管理员
+     * @param newAdmin 管理员
      */
     @Override
     public User addAdmin(User newAdmin) {
@@ -123,8 +127,7 @@ public class AdminServiceImpl implements AdminService {
     /**
      * 删除管理员
      *
-     * @param adminId
-     *            管理员id
+     * @param adminId 管理员id
      */
     @Override
     public void deleteAdmin(long adminId) {
@@ -138,8 +141,7 @@ public class AdminServiceImpl implements AdminService {
     /**
      * 解禁用户
      *
-     * @param userId
-     *            用户id
+     * @param userId 用户id
      */
     @Override
     public void unbanUser(long userId) {
@@ -153,8 +155,7 @@ public class AdminServiceImpl implements AdminService {
     /**
      * 解禁管理员
      *
-     * @param adminId
-     *            管理员id
+     * @param adminId 管理员id
      */
     @Override
     public void unbanAdmin(long adminId) {
@@ -167,13 +168,16 @@ public class AdminServiceImpl implements AdminService {
     /**
      * 解禁,同时恢复用户所有商品
      *
-     * @param user
-     *            用户
+     * @param user 用户
      */
     private void unban(User user) {
         user.setDeleted(0);
         userRepository.save(user);
         List<Item> list = user.getItems();
+        for (Item item : list) {
+            item.setDeleted(0);
+            itemRepository.save(item);
+        }
         itemEsRepository.saveAll(list);
     }
 }

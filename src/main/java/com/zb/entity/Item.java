@@ -137,7 +137,6 @@ public class Item implements Serializable {
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false, nullable = false)
     @JsonIgnoreProperties(value = "items")
     @ToString.Exclude
-    @org.springframework.data.annotation.Transient
     private User user;
 
     /**
@@ -160,7 +159,6 @@ public class Item implements Serializable {
         inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")})
     @JsonIgnoreProperties(value = "items")
     @ToString.Exclude
-    // @org.springframework.data.annotation.Transient
     private List<Category> categories;
 
     /**

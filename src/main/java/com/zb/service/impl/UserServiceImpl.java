@@ -1,7 +1,5 @@
 package com.zb.service.impl;
 
-import java.util.Optional;
-
 import javax.annotation.Resource;
 
 import com.zb.entity.Collection;
@@ -124,6 +122,8 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 分页查询
+     * 包括管理员
+     * 不包括被封禁用户
      *
      * @param pageNo
      *            起始页码

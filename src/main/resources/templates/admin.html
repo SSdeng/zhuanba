@@ -66,9 +66,9 @@
                             </thead>
                             <!-- 用户列表 - 模板 -->
                             <tbody id="listArticle_hide">
-                                <tr th:each="user:${userList}" th:object="${user}">
+                                <tr class="usertable" th:each="user:${userList}" th:object="${user}">
                                     <!-- 用户名 -->
-                                    <td  id="articleNum">
+                                    <td class="name" th:id="${user.id}">
                                         <div style="width:70px;word-wrap:break-word;" th:text="*{username}">张一隆</div>
                                     </td>
                                     <!-- 真实姓名 -->
@@ -88,18 +88,20 @@
                                     <!-- 当前状态 -->
                                     <td id="status">
                                         <button type="button" disabled="disabled"
-                                            class="btn btn-info btn-sm">123</button>
+                                            class="btn btn-info btn-sm status">正常</button>
                                     </td>
                                     <!-- 操作 -->
                                     <td id="listArticle_caozuo">
 
                                         <!-- 通过 -->
                                         <form method="put" id="pass" style="display: inline">
-                                            <input type="button" class="btn btn-info btn-sm" value="通过" />
+                                            <input th:if="${user.deleted} eq 0" type="button" class="btn btn-info btn-sm disban" value="解封" disabled/>
+                                            <input th:if="${user.deleted} eq 1" type="button" class="btn btn-info btn-sm disban" value="解封" />
                                         </form>
                                         <!-- 拒绝 -->
                                         <form method="put" id="refuse" style="display: inline">
-                                            <input type="button" class="btn btn-danger btn-sm" value="拒绝" />
+                                            <input th:if="${user.deleted} eq 0" type="button" class="btn btn-danger btn-sm ban" value="封禁" />
+                                            <input th:if="${user.deleted} eq 1" type="button" class="btn btn-danger btn-sm ban" value="封禁" disabled />
                                         </form>
                                     </td>
                                 </tr>
@@ -113,7 +115,51 @@
     </div>
 </body>
 <script>
+    $(".disban").on('click',function (){
+        var parent = $(this).parents('.usertable');
+        var status = $(parent).find('.status');
+        var userId = $($(parent).find('.name')).attr('id');
+        console.log(userId);
+        $.ajax({
+            type: 'POST',
+            url: '/api/admin/unbanUser?userId=' + userId,
+            contentType: 'application/json',
+            traditional: true,
+            success: function (data) {
+                layer.msg(data.msg)
+                console.log(data.code);
+                if (data.code == 0) {
+                    $(status).attr("style","btn btn-danger btn-sm status");
+                    $(status).text("封禁");
+                }
+            },
+            error: function (data) {
+            }
+        });
+    })
 
+    $(".ban").on('click',function (){
+        var parent = $(this).parents('.usertable');
+        var status = $(parent).find('.status');
+        var userId = $($(parent).find('.name')).attr('id');
+        console.log(userId);
+        $.ajax({
+            type: 'POST',
+            url: '/api/admin/banUser?userId=' + userId,
+            contentType: 'application/json',
+            traditional: true,
+            success: function (data) {
+                layer.msg(data.msg);
+                console.log(data.code);
+                if (data.code == 0) {
+                    $(status).attr("style","btn btn-info btn-sm status");
+                    $(status).text("正常");
+                }
+            },
+            error: function (data) {
+            }
+        });
+    })
 </script>
 
 </html>

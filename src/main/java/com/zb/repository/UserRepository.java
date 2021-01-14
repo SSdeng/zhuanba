@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import com.zb.entity.User;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 /**
  * UserDAO层
  * 
@@ -27,11 +29,11 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
      * 分页返回所有用户
      * 包括封禁用户
      *
-     * @param pageable 分页信息
+     * @param role 角色
      * @return 分页用户表
      */
-    @Query(value = "SELECT * FROM sys_user", nativeQuery = true)
-    Page<User> getAll(Pageable pageable);
+    @Query(value = "SELECT * FROM sys_user WHERE role = ?1", nativeQuery = true)
+    List<User> getAllByRole(String role);
 
     /**
      * 按用户名查找用户
@@ -40,7 +42,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
      * @param username 用户名
      * @return 用户对象
      */
-    @Query(value = "SELECT * FROM sys_user where username = ?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM sys_user WHERE username = ?1", nativeQuery = true)
     User findByUsernameFromAll(String username);
 
     /**
@@ -50,6 +52,6 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
      * @param userId 用户id
      * @return 用户对象
      */
-    @Query(value = "SELECT * FROM sys_user where id = ?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM sys_user WHERE id = ?1", nativeQuery = true)
     User findByUserIdFromAll(long userId);
 }
