@@ -3,7 +3,6 @@ package com.zb.controller;
 import com.zb.entity.Category;
 import com.zb.entity.Item;
 import com.zb.service.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,7 +44,7 @@ public class CategoryController {
         //获取所有分类
         List<Category> categories = categoryService.getAllCategories();
 
-        model.addAttribute("page", page);
+        model.addAttribute("items", page);
         model.addAttribute("categories", categories);
 
         return "index";
