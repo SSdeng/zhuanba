@@ -46,8 +46,7 @@ public class CartServiceImpl implements CartService {
      */
     @Override
     public boolean hasItem(long id, long itemId) {
-        Cart cart = findCartById(id);
-        return findCartOrderByItemId(cart.getOrderList(), itemId) != null;
+        return findCartOrderByItemId(findCartById(id).getOrderList(), itemId) != null;
     }
 
     /**

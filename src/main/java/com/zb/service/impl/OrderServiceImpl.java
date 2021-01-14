@@ -1,17 +1,21 @@
 package com.zb.service.impl;
 
+import com.zb.entity.Item;
 import com.zb.entity.User;
 import com.zb.entity.UserOrder;
 import com.zb.exception.MyException;
 import com.zb.repository.UserOrderRepository;
 import com.zb.repository.UserRepository;
+import com.zb.service.ItemService;
 import com.zb.service.OrderService;
+import com.zb.service.UserService;
 import com.zb.util.JsonTransfer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -26,7 +30,9 @@ public class OrderServiceImpl implements OrderService {
     @Resource
     private UserOrderRepository orderRepository;
     @Resource
-    private UserRepository userRepository;
+    private UserService userService;
+    @Resource
+    private ItemService itemService;
 
     /**
      * 新建订单
@@ -47,11 +53,8 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public boolean deleteById(Long orderId) {
-        if (orderRepository.existsById(orderId)) {
-            orderRepository.deleteById(orderId);
-            return true;
-        }
-        return false;
+        orderRepository.deleteById(orderId);
+        return true;
     }
 
     /**
@@ -73,8 +76,8 @@ public class OrderServiceImpl implements OrderService {
      * @return 得到的订单
      */
     @Override
-    public UserOrder getById(Long orderId) {
-        UserOrder order = orderRepository.findById(orderId).orElse(null);
+    public UserOrder findById(Long orderId) {
+        UserOrder order = getById(orderId);
         if (order == null) {
             throw new MyException("待查找订单不存在");
         }
@@ -90,10 +93,7 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public UserOrder setOrderStatus(Long orderId, Integer newStatus) {
-        UserOrder order = orderRepository.findById(orderId).orElse(null);
-        if (order == null) {
-            throw new MyException("目标订单不存在");
-        }
+        UserOrder order = findById(orderId);
         order.setStatus(newStatus);
         return orderRepository.save(order);
     }
@@ -122,10 +122,7 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public Page<UserOrder> getPageByStatus(Long userId, Integer status, int pageNo, int pageSize) {
-        User user = userRepository.findById(userId).orElse(null);
-        if (user == null) {
-            throw new MyException("目标用户不存在");
-        }
+        User user = userService.findById(userId);
         return orderRepository.findAllByUser_IdAndStatus(user.getId(), status, PageRequest.of(pageNo - 1, pageSize));
     }
 
@@ -149,5 +146,36 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Page<UserOrder> getAllByPage(int pageNo, int pageSize) {
         return orderRepository.findAll(PageRequest.of(pageNo - 1, pageSize));
+    }
+
+    /**
+     * 插入单个订单
+     *
+     * @param userId 用户id
+     * @param itemId 商品id
+     * @param count 商品数量
+     * @return 结果订单
+     */
+    @Override
+    public UserOrder addOrder(long userId, long itemId, int count) {
+        User user = userService.findById(userId);
+        Item item = itemService.findById(itemId);
+        UserOrder order = new UserOrder();
+        item.setCount(item.getCount()-count);
+        order.setUser(user);
+        order.setItem(item);
+        order.setItemCount(count);
+        order.setTotalPrice(item.getPrice().multiply(new BigDecimal(count)));
+        return insertSelective(order);
+    }
+
+    /**
+     * 获取id对应userOrder
+     *
+     * @param id userOrderId
+     * @return userOrder对象
+     */
+    private UserOrder getById(Long id) {
+        return id == null ? null : orderRepository.findById(id).orElse(null);
     }
 }
