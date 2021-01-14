@@ -32,4 +32,12 @@ public interface CollectionService {
      * @return Collection
      */
     Collection removeItem(Long collectionId , Long itemId);
+
+    /**
+     * 检查收藏夹中是否已有商品
+     *
+     * @param itemId 商品id
+     * @return true表有 false表无
+     */
+    boolean hasItem(long id, long itemId);
 }
