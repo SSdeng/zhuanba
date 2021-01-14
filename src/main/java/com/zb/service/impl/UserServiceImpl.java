@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import javax.annotation.Resource;
 
+import com.zb.entity.Collection;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.Md5Hash;
@@ -44,7 +45,8 @@ public class UserServiceImpl implements UserService {
         newUser.setPassword(newPassword);
         // 级联保存
         newUser.setCart(new Cart(newUser));
-        return userRepository.saveAndFlush(newUser);
+        newUser.setCollection(new Collection(newUser));
+        return userRepository.save(newUser);
     }
 
     /**
