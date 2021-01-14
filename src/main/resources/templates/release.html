@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>商品发布</title>
 
-    <link rel="stylesheet" type="text/css" href="/css/release.css">
     <link rel="stylesheet" type="text/css" href="/css/header.css">
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/release.css">
 <body>
 <div class="dingbu">
     <div class="denglu-font top">
@@ -90,8 +90,9 @@
                 </tr>
                 <tr>
                     <td class="text-right">新旧程度</td>
-                    <td class="content_right"><input class="level" id="level" type="range" min="1" max="10"
-                                                     value="10" title="10" oninput="changelabel()" width="200px">
+                    <td class="content_right" style="width: 500px">
+                        <input class="level" id="level" type="range" min="1" max="10"
+                                                     value="10" oninput="changelabel()" style="width: 30%;">
                         <p id="levellabel">全新</p>
                     </td>
                 </tr>
@@ -153,7 +154,6 @@
             var itemId = -1;
             var categoryId = []
             var userId = localStorage.getItem("userId");
-            userId = 1;
             var itemname = $("#itemname").val();
             categoryId[0] = $($("#category").find('option:selected')).attr('id');
             var description = $("#description").val();

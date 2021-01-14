@@ -282,7 +282,7 @@
 </script>
     <script th:inline="javascript">
     function load_collect () {
-      var isCollected = [[${collected}]];
+      var isCollected = [[${inCollection}]];
       console.log(isCollected);
       if (isCollected == false) {
         $('#btn_collect_icon').addClass('glyphicon glyphicon-star-empty')

@@ -68,4 +68,18 @@ public interface AdminService {
      * @param adminId 管理员id
      */
     void deleteAdmin(long adminId);
+
+    /**
+     * 解禁用户
+     *
+     * @param userId 用户id
+     */
+    void unbanUser(long userId);
+
+    /**
+     * 解禁管理员
+     *
+     * @param adminId 管理员id
+     */
+    void unbanAdmin(long adminId);
 }

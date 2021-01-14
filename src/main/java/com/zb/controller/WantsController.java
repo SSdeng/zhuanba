@@ -87,10 +87,12 @@ public class WantsController {
      * @param wantsId 求购id
      * @return 删除结果
      */
-    @GetMapping("/remove")
-    public String removeWants(@RequestParam("userId") long userId, @RequestParam("wantsId") long wantsId) {
+    @PostMapping("/remove")
+    @ResponseBody
+    public Result removeWants(@RequestParam("userId") long userId, @RequestParam("wantsId") long wantsId) {
+        System.err.println(userId + " " + wantsId);;
         wantsService.deleteById(wantsId);
-        return "redirect:/api/user/info?userId" + userId;
+        return Result.ok();
     }
 
     /**
@@ -122,10 +124,6 @@ public class WantsController {
         Page<Wants> wants = wantsService.getAllByPage(pageNo, pageSize);
         List<CategoryVO> categories = categoryService.getAllCategories();
         model.addAttribute("items", wants);
-        System.out.println(wants.getSize());
-        for(Wants w : wants){
-            System.out.println(w.getDescription());
-        }
         model.addAttribute("categories", categories);
         model.addAttribute("b",3);
         return "wantsall";

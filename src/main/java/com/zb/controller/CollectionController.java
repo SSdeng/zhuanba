@@ -45,11 +45,11 @@ public class CollectionController {
      */
     @PostMapping("/remove")
     @ResponseBody
-    public String removeItem(@RequestParam("collectionId")Long collectionId
+    public Result removeItem(@RequestParam("collectionId")Long collectionId
             , @RequestParam("itemId") Long itemId){
         User user = collectionService.findById(collectionId).getUser();
         collectionService.removeItem(collectionId,itemId);
-        return "redirect:/api/user/info?userId"+user.getId();
+        return Result.ok();
     }
 
     @PostMapping("/delete")
