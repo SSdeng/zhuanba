@@ -30,12 +30,23 @@ public class CartServiceImpl implements CartService {
      * @return 对应购物车
      */
     @Override
-    public Cart findCartById(long id) {
-        Cart cart = cartRepository.findById(id).orElse(null);
+    public Cart findCartById(Long id) {
+        Cart cart = getById(id);
         if (cart == null) {
             throw new MyException("购物车不存在");
         }
         return cart;
+    }
+
+    /**
+     * 检查购物车中是否已有商品
+     *
+     * @param itemId 商品id
+     * @return true表有 false表无
+     */
+    @Override
+    public boolean hasItem(long id, long itemId) {
+        return findCartOrderByItemId(findCartById(id).getOrderList(), itemId) != null;
     }
 
     /**
@@ -48,6 +59,9 @@ public class CartServiceImpl implements CartService {
     @Override
     public Cart addOrder(long userId, long itemId, int count) {
         Cart cart = findCartById(userId);
+        if (hasItem(cart, itemId)) {
+            throw new MyException("商品已在购物车中！");
+        }
         cart.getOrderList().add(new CartOrder(cart, itemId, count));
         return cartRepository.save(cart);
     }
@@ -63,19 +77,13 @@ public class CartServiceImpl implements CartService {
     public Cart removeOrder(long userId, long itemId) {
         Cart cart = findCartById(userId);
         List<CartOrder> list = cart.getOrderList();
-        boolean flag = false;
-        for (CartOrder order : list) {
-            if (order.getItem().getId().equals(itemId)) {
-                list.remove(order);
-                flag = true;
-                break;
-            }
-        }
-        if (flag) {
-            return cartRepository.save(cart);
+        CartOrder cartOrder = findCartOrderByItemId(list, itemId);
+        if (cartOrder != null) {
+            list.remove(cartOrder);
         } else {
             throw new MyException("商品订单不存在");
         }
+        return cartRepository.save(cart);
     }
 
     /**
@@ -90,19 +98,13 @@ public class CartServiceImpl implements CartService {
     public Cart updateOrder(long cartId, long itemId, int count) {
         Cart cart = findCartById(cartId);
         List<CartOrder> list = cart.getOrderList();
-        boolean flag = false;
-        for (CartOrder order : list) {
-            if (order.getItem().getId().equals(itemId)) {
-                order.setItemCount(count);
-                flag = true;
-                break;
-            }
-        }
-        if (flag) {
-            return cartRepository.save(cart);
+        CartOrder cartOrder = findCartOrderByItemId(list, itemId);
+        if (cartOrder != null) {
+            cartOrder.setItemCount(count);
         } else {
             throw new MyException("商品订单不存在");
         }
+        return cartRepository.save(cart);
     }
 
     /**
@@ -118,5 +120,41 @@ public class CartServiceImpl implements CartService {
             list.add(new CartOrderVO(cartOrder));
         }
         return list;
+    }
+
+    /**
+     * 按商品id查找购物车中订单
+     *
+     * @param list   购物车
+     * @param itemId 商品id
+     * @return 购物车订单 不存在返回null
+     */
+    private CartOrder findCartOrderByItemId(List<CartOrder> list, long itemId) {
+        for (CartOrder cartOrder : list) {
+            if (cartOrder.getItem().getId().equals(itemId)) {
+                return cartOrder;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 根据id返回对应购物车对象
+     *
+     * @param id 购物车id
+     * @return 购物车对象 不存在时返回null
+     */
+    private Cart getById(Long id) {
+        return id == null ? null : cartRepository.findById(id).orElse(null);
+    }
+
+    /**
+     * 检查购物车中是否已有商品
+     *
+     * @param itemId 商品id
+     * @return true表有 false表无
+     */
+    public boolean hasItem(Cart cart, long itemId) {
+        return findCartOrderByItemId(cart.getOrderList(), itemId) != null;
     }
 }

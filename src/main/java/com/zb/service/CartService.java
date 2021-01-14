@@ -18,7 +18,16 @@ public interface CartService {
      * @param id 购物车/用户id
      * @return 对应购物车
      */
-    Cart findCartById(long id);
+    Cart findCartById(Long id);
+
+    /**
+     * 检查购物车中是否已有商品
+     *
+     * @param id 购物车/用户id
+     * @param itemId 商品id
+     * @return true表有 false表无
+     */
+    boolean hasItem(long id, long itemId);
 
     /**
      * 添加购物车订单

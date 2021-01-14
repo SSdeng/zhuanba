@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import com.zb.entity.vo.CategoryVO;
 import com.zb.entity.vo.ItemVO;
+import com.zb.service.CartService;
 import com.zb.service.CategoryService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -37,6 +38,8 @@ public class ItemController {
     private ItemService itemService;
     @Resource
     private CategoryService categoryService;
+    @Resource
+    private CartService cartService;
 
     /**
      * 发布商品处理
@@ -62,13 +65,14 @@ public class ItemController {
      * @return 商品信息
      */
     @GetMapping("/details")
-    public ModelAndView itemDetails(@RequestParam("itemId") long itemId) {
+    public ModelAndView itemDetails(@RequestParam("userId") long userId, @RequestParam("itemId") long itemId) {
         ModelAndView modelAndView = new ModelAndView("item");
         Item item = itemService.findById(itemId);
         List<CategoryVO> categories = categoryService.getAllCategories();
         modelAndView.addObject("item", item);
         modelAndView.addObject("comments", item.getItemComments());
         modelAndView.addObject("categories", categories);
+        modelAndView.addObject("inCart", cartService.hasItem(userId,itemId));
         return modelAndView;
     }
 
@@ -91,6 +95,7 @@ public class ItemController {
         //TODO
         Page<Item> items = itemService.searchByPage(searchInfo, pageNo, pageSize);
         model.addAttribute("itemList", items);
+        model.addAttribute("b",false);
         return "index";
     }
 

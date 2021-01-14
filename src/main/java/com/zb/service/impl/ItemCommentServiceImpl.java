@@ -40,4 +40,16 @@ public class ItemCommentServiceImpl implements ItemCommentService {
     public List<ItemComment> getSpecificItemComments(Long itemId) {
         return itemCommentRepository.getByItem_IdOrderByCreateTime(itemId);
     }
+
+    /**
+     * 根据id删除评论
+     *
+     * @param commentId 评论id
+     * @return
+     */
+    @Override
+    public boolean deleteById(Long commentId) {
+        itemCommentRepository.deleteById(commentId);
+        return true;
+    }
 }

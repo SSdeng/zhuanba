@@ -29,22 +29,13 @@ public interface ItemCommentService {
      */
     List<ItemComment> getSpecificItemComments(Long itemId);
 
-//    /**
-//     * 根据id删除商品评论
-//     *
-//     * @param itemcomment_id
-//     *            商品评论id
-//     * @return 删除结果
-//     */
-//    boolean deleteById(int itemcomment_id);
+    /**
+     * 根据id删除评论
+     *
+     * @param commentId 评论id
+     * @return
+     */
+    boolean deleteById(Long commentId);
 
-//    /**
-//     * 更新商品评论
-//     *
-//     * @param itemComment
-//     *            待更新对象
-//     * @return 更新后对象
-//     */
-//    ItemComment updateCategory(ItemComment itemComment);
 
 }

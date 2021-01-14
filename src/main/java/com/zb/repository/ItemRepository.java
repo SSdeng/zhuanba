@@ -1,14 +1,13 @@
 package com.zb.repository;
 
-import java.util.List;
-
+import com.zb.entity.Item;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
-import com.zb.entity.Item;
+import java.util.List;
 
 /**
  * ItemDAO层
@@ -26,10 +25,8 @@ public interface ItemRepository extends JpaRepository<Item, Long>, JpaSpecificat
      * @param startIndex
      * @return
      */
-    @Query(
-        value = "SELECT * FROM sys_item WHERE id in (SELECT item_id FROM sys_item_category WHERE category_id = ?1) limit ?2 offset ?3",
-        nativeQuery = true)
-    List<Item> getSpecificCategoryItems(int categoryId, int pageSize, int startIndex);
+    @Query(value = "SELECT * FROM sys_item WHERE id in (SELECT item_id FROM sys_item_category WHERE category_id = ?1) limit ?2 offset ?3" ,nativeQuery = true)
+    public List<Item> getSpecificCategoryItems(int categoryId, int pageSize, int startIndex);
 
     /**
      * 返回指定分类下的商品数量
@@ -38,21 +35,22 @@ public interface ItemRepository extends JpaRepository<Item, Long>, JpaSpecificat
      * @return
      */
     @Query(value = "SELECT count(item_id) FROM sys_item_category WHERE category_id = ?1", nativeQuery = true)
-    int getSpecificCategoryItemsCount(int categoryId);
+    public int getSpecificCategoryItemsCount(int categoryId);
 
     /**
-     * 返回指定分类下的商品数量 方式：JPA的命名规则方法
+     * 返回指定分类下的商品数量
+     * 方式：JPA的命名规则方法
      *
      * @param id
      * @return
      */
-    Page<Item> findItemsByCategories_id(Long id, Pageable pageable);
+    public Page<Item> findItemsByCategories_id(Long id, Pageable pageable);
 
     /**
-     * 返回所有已审核的商品列表
-     * 
-     * @param status
+     * 根据商品状态分页查询
+     *
+     * @param status 商品状态
      * @return
      */
-    List<Item> findAllByStatus(int status);
+    public Page<Item> findAllByStatus(int status, Pageable pageable);
 }
