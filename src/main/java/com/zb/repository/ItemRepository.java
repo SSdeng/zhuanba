@@ -64,4 +64,8 @@ public interface ItemRepository extends JpaRepository<Item, Long>, JpaSpecificat
      * @return
      */
     List<Item> findAllByStatus(int status);
+
+    @Query(value = "SELECT * FROM sys_item WHERE user_id = ?1", nativeQuery = true)
+    List<Item> findByUserIdFromAll(long userId);
+
 }

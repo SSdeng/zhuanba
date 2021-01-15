@@ -41,6 +41,7 @@
         <h1 id="itemname" class="itemname" th:text="${wants.title}"></h1>
 
         <h3 class="sellerName" th:text="'求购者：' + ${wants.user.username}"></h3>
+        <h3 class="sellerName" th:text="'联系电话：'+${wants.user.phoneNumber}">13555555</h3>
         <!--        <div>-->
         <!--            <input type="button" class="buybutton" value="加入购物车">-->
         <!--        </div>-->
@@ -52,6 +53,7 @@
 <div class="container">
     <h2>商品描述</h2>
     <span class="itemdescription" th:text="${wants.description}">暂无商品的描述信息</span>
+
 </div>
 
 <div class="container">
@@ -76,6 +78,7 @@
                 <p class="comment-content-name" th:text="${comment.user.username}">Leon</p>
 
                 <p class="comment-content-article" th:text="${comment.content}">Hello World!</p>
+
 
                 <p class="comment-content-footer">
                         <span class="comment-content-footer-timestamp" th:text="${comment.createTime}">2020-08-08

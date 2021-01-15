@@ -182,7 +182,7 @@ public class AdminServiceImpl implements AdminService {
     private void unban(User user) {
         user.setDeleted(0);
         userRepository.save(user);
-        List<Item> list = user.getItems();
+        List<Item> list = itemRepository.findByUserIdFromAll(user.getId());
         for (Item item : list) {
             item.setDeleted(0);
             itemRepository.save(item);
