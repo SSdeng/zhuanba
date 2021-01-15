@@ -1,10 +1,10 @@
 package com.zb.service;
 
-import com.zb.entity.Wants;
-import com.zb.repository.WantsRepository;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 
-import java.util.List;
+import com.zb.entity.Wants;
 
 /**
  * 求购服务接口
@@ -16,7 +16,8 @@ public interface WantsService {
     /**
      * 新建求购项
      *
-     * @param newWants 新求购
+     * @param newWants
+     *            新求购
      * @return 新求购
      */
     Wants insertSelective(Wants newWants);
@@ -24,7 +25,8 @@ public interface WantsService {
     /**
      * 通过id删除求购项
      *
-     * @param wantsId 目标求购项id
+     * @param wantsId
+     *            目标求购项id
      * @return 删除结果
      */
     boolean deleteById(Long wantsId);
@@ -32,8 +34,10 @@ public interface WantsService {
     /**
      * 更新求购信息
      *
-     * @param json json字符串
-     * @param wantsId 求购id
+     * @param json
+     *            json字符串
+     * @param wantsId
+     *            求购id
      * @return 求购对象
      */
     Wants updateWants(String json, long wantsId);
@@ -41,8 +45,10 @@ public interface WantsService {
     /**
      * 更新求购信息
      *
-     * @param json json字符串
-     * @param wants 求购对象
+     * @param json
+     *            json字符串
+     * @param wants
+     *            求购对象
      * @return 求购对象
      */
     Wants updateWants(String json, Wants wants);
@@ -50,7 +56,8 @@ public interface WantsService {
     /**
      * 通过id查找求购项
      *
-     * @param wantsId 目标求购id
+     * @param wantsId
+     *            目标求购id
      * @return 查找结果
      */
     Wants findById(Long wantsId);
@@ -58,8 +65,10 @@ public interface WantsService {
     /**
      * 根据id设置求购图片
      *
-     * @param wantsId 求购id
-     * @param image 图片名
+     * @param wantsId
+     *            求购id
+     * @param image
+     *            图片名
      * @return 更新后求购
      */
     Wants setImageById(Long wantsId, String image);
@@ -74,8 +83,10 @@ public interface WantsService {
     /**
      * 分页获取所有求购
      *
-     * @param pageNo 起始页码
-     * @param pageSize 每页大小
+     * @param pageNo
+     *            起始页码
+     * @param pageSize
+     *            每页大小
      * @return 分页后求购列表
      */
     Page<Wants> getAllByPage(int pageNo, int pageSize);
