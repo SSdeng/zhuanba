@@ -200,7 +200,7 @@
                                     contentType: false,
                                     processData: false,
                                     success: function (data) {
-                                        location.assign("/api/item/details?itemId=" + itemId + "&userId=" + userId);
+                                        location.assign("/api/user/info?userId=" + userId);
                                     },
                                     error: function (e) {
                                         var res = $.parseJSON(e.responseText);

@@ -1,26 +1,38 @@
 package com.zb;
 
+import com.zb.elasticsearch.ItemEsRepository;
+import com.zb.entity.Item;
+import com.zb.repository.ItemRepository;
+import com.zb.service.CartService;
+import com.zb.service.CategoryService;
+import com.zb.service.ItemService;
+import com.zb.service.UserService;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import lombok.extern.slf4j.Slf4j;
 
+import javax.transaction.Transactional;
+import java.util.List;
+
 @Slf4j
 @SpringBootTest
 class ZhuanbaApplicationTests {
-    //
-    // @Autowired
-    // private ItemRepository itemRepository;
-    // @Autowired
-    // private ItemEsRepository itemEsRepository;
-    // @Autowired
-    // private CategoryService categoryService;
-    // @Autowired
-    // private ItemService itemService;
-    // @Autowired
-    // private UserService userService;
-    // @Autowired
-    // private CartService cartService;
-    //
+
+     @Autowired
+     private ItemRepository itemRepository;
+     @Autowired
+     private ItemEsRepository itemEsRepository;
+     @Autowired
+     private CategoryService categoryService;
+     @Autowired
+     private ItemService itemService;
+     @Autowired
+     private UserService userService;
+     @Autowired
+     private CartService cartService;
+
     // User creatUser() {
     // User user = new User();
     // user.setUsername("zhangsan");
@@ -121,16 +133,16 @@ class ZhuanbaApplicationTests {
     // Item item = itemRepository.findById(2L).get();
     // itemEsRepository.save(item);
     // }
-    //
-    // @Test
-    // @Transactional
-    // public void addData() {
-    // List<Item> item = itemRepository.findAllByStatus(1);
-    // itemEsRepository.saveAll(item);
-    // }
-    //
-    // @Test
-    // public void delete() {
-    // itemEsRepository.deleteAll();
-    // }
+
+     @Test
+     @Transactional
+     public void addData() {
+     List<Item> item = itemRepository.findAllByStatus(1);
+     itemEsRepository.saveAll(item);
+     }
+
+    @Test
+     public void delete() {
+     itemEsRepository.deleteAll();
+     }
 }

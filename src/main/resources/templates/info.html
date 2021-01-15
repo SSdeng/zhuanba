@@ -631,6 +631,7 @@
 
     $("#btn_submit1").click(function () {
 
+
         var address = $('#modifyaddr').val()
 
         console.log(address);
@@ -649,6 +650,7 @@
             success: function (data) {
                 layer.msg(data.msg);
                 console.log(data.msg);
+              location.reload();
             }
         })
     })
