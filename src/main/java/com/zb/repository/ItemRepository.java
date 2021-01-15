@@ -65,6 +65,12 @@ public interface ItemRepository extends JpaRepository<Item, Long>, JpaSpecificat
      */
     List<Item> findAllByStatus(int status);
 
+    /**
+     * 按用户id返回商品
+     *
+     * @param userId 用户id
+     * @return 商品list
+     */
     @Query(value = "SELECT * FROM sys_item WHERE user_id = ?1", nativeQuery = true)
     List<Item> findByUserIdFromAll(long userId);
 

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.zb.entity.Wants;
 import com.zb.entity.vo.CategoryVO;
+import com.zb.entity.vo.WantsVO;
 import com.zb.service.CategoryService;
 import com.zb.service.UserService;
 import com.zb.service.WantsService;
@@ -60,7 +62,9 @@ public class WantsController {
      */
     @PostMapping("/release")
     @ResponseBody
-    public Result releaseWants(@RequestParam("userId") Long userId, @RequestBody Wants wants) {
+    public Result releaseWants(@RequestParam("userId") Long userId, @RequestBody WantsVO wantsVO) {
+        Wants wants = new Wants();
+        BeanUtils.copyProperties(wantsVO, wants);
         wants.setUser(userService.findById(userId));
         wants = wantsService.insertSelective(wants);
         Map<String, Object> data = new HashMap<>();
@@ -94,7 +98,6 @@ public class WantsController {
     @PostMapping("/remove")
     @ResponseBody
     public Result removeWants(@RequestParam("userId") long userId, @RequestParam("wantsId") long wantsId) {
-        System.err.println(userId + " " + wantsId);;
         wantsService.deleteById(wantsId);
         return Result.ok();
     }

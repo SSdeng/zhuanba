@@ -2,6 +2,7 @@ package com.zb.controller;
 
 import javax.annotation.Resource;
 
+import com.zb.util.Base64Util;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +32,8 @@ public class CartController {
      * @return 视图
      */
     @GetMapping("all")
-    public String getUserCart(Model model, @RequestParam("userId") long userId) {
-        model.addAttribute(cartService.findCartById(userId));
+    public String getUserCart(Model model, @RequestParam("userId") String userId) {
+        model.addAttribute(cartService.findCartById(Base64Util.decode(userId)));
         return "cart";
     }
 
@@ -49,9 +50,9 @@ public class CartController {
      */
     @PostMapping("add")
     @ResponseBody
-    public Result addOrder(@RequestParam("userId") long userId, @RequestParam("itemId") long itemId,
+    public Result addOrder(@RequestParam("userId") String userId, @RequestParam("itemId") long itemId,
         @RequestParam("count") int count) {
-        cartService.addOrder(userId, itemId, count);
+        cartService.addOrder(Base64Util.decode(userId), itemId, count);
         return Result.ok();
     }
 
@@ -66,8 +67,8 @@ public class CartController {
      */
     @PostMapping("remove")
     @ResponseBody
-    public Result removeOrder(@RequestParam("userId") long userId, @RequestParam("itemId") long itemId) {
-        cartService.removeOrder(userId, itemId);
+    public Result removeOrder(@RequestParam("userId") String userId, @RequestParam("itemId") long itemId) {
+        cartService.removeOrder(Base64Util.decode(userId), itemId);
         return Result.ok();
     }
 

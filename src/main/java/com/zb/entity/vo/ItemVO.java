@@ -21,7 +21,7 @@ public class ItemVO {
     /**
      * 创建用户的id
      */
-    private Long userId;
+    private long userId;
     /**
      * 商品所属分类id
      */

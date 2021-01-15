@@ -151,25 +151,25 @@ public class Item implements Serializable {
     /**
      * 商品所有的分类标签，负责维护外键
      */
-    @ManyToMany(targetEntity = Category.class, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "sys_item_category",
-        // 当前对象在中间表的外键
-        joinColumns = {@JoinColumn(name = "item_id", referencedColumnName = "id")},
-        // 对方对象在中间表的外键
-        inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")})
+    @ManyToMany(mappedBy = "items", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    //@JoinTable(name = "sys_item_category",
+    //    // 当前对象在中间表的外键
+    //    joinColumns = {@JoinColumn(name = "item_id", referencedColumnName = "id")},
+    //    // 对方对象在中间表的外键
+    //    inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")})
     @JsonIgnoreProperties(value = "items")
     @ToString.Exclude
     private List<Category> categories;
 
-    /**
-     * 所属收藏
-     */
-    @ManyToOne(targetEntity = Collection.class, cascade = {CascadeType.REFRESH})
-    @JoinColumn(name = "collection_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @JsonIgnoreProperties(value = "items")
-    @ToString.Exclude
-    @org.springframework.data.annotation.Transient
-    private Collection collection;
+    ///**
+    // * 所属收藏
+    // */
+    //@ManyToOne(targetEntity = Collection.class, cascade = {CascadeType.REFRESH})
+    //@JoinColumn(name = "collection_id", referencedColumnName = "id", insertable = false, updatable = false)
+    //@JsonIgnoreProperties(value = "items")
+    //@ToString.Exclude
+    //@org.springframework.data.annotation.Transient
+    //private Collection collection;
 
     /**
      * 商品评论列表

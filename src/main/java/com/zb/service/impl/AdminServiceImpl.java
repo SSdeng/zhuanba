@@ -186,7 +186,9 @@ public class AdminServiceImpl implements AdminService {
         user.setDeleted(0);
         userRepository.save(user);
         List<Item> list = itemRepository.findByUserIdFromAll(user.getId());
+        System.out.println("开始恢复商品！！！！\n\n\n\n");
         for (Item item : list) {
+            System.out.println(item.toString());
             item.setDeleted(0);
             itemRepository.save(item);
         }

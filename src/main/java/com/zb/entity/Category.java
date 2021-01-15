@@ -76,7 +76,12 @@ public class Category implements Serializable {
     /**
      * 该分类下的所有商品，放弃维护权
      */
-    @ManyToMany(mappedBy = "categories", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(targetEntity = Item.class, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "sys_item_category",
+            // 当前对象在中间表的外键
+            joinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")},
+            // 对方对象在中间表的外键
+            inverseJoinColumns = {@JoinColumn(name = "item_id", referencedColumnName = "id")})
     @JsonIgnoreProperties(value = "categories")
     @ToString.Exclude
     @org.springframework.data.annotation.Transient

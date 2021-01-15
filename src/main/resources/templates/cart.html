@@ -270,6 +270,7 @@
 
     var deleteGoods = null
     var userId = localStorage.getItem('userId')
+
     var cartId = [[${cart.id}]]
     var items = []
     buyitem = null
@@ -452,23 +453,6 @@
         checkEvent.checkedChange()
         checkEvent.checkIsAll()
     })
-    // $('.goods-content').on('click', '.car-decrease', function () {
-    //     var goodsInput = $(this).parents('.input-group').find('.goods-count')
-    //     var decreaseCount = new ShoppingCarObserver(goodsInput, false)
-    //     decreaseCount.showCount()
-    //     decreaseCount.computeGoodsMoney()
-    // })
-    // $('.goods-content').on('click', '.car-add', function () {
-    //     var goodsInput = $(this).parents('.input-group').find('.goods-count')
-    //     var addCount = new ShoppingCarObserver(goodsInput, true)
-    //     addCount.showCount()
-    //     addCount.computeGoodsMoney()
-    // })
-    // $('.goods-content').on('click', '.item-delete', function () {
-    //     var goodsInput = $(this).parents('.goods-item').find('.goods-list-item')
-    //     deleteGoods = new ShoppingCarObserver(goodsInput, null)
-    //     $('#deleteItemTip').modal('show')
-    // })
 
     $('.car-decrease').on('click', function () {
         var goodsInput = $(this).parents('.input-group').find('.goods-count')
@@ -482,26 +466,6 @@
         addCount.showCount()
         addCount.computeGoodsMoney()
     })
-    // $('.goods-count').change(function(){
-    //     var value = $(this).val();
-    //     var parent = $(this).parents('.panel-default');
-    //     var totalprice = parent.find('.single-total');
-    //     var singleprice = $(parent.find('.single-price')).val();
-    //     if(checkValue(count) == false){
-    //         $(this).val(1);
-    //     }else{
-    //         count = Math.trunc(count);
-    //         if(count == 0){
-    //             count++;
-    //         }
-    //         $(this).val(count)
-    //     }
-    //     $(totalprice).val(($(this).val() * singleprice).toFixed(2));
-    // })
-    // $('.single-total').change(function(){
-    //     var totalprice = $(this).val();
-    //     $(this).val(totalprice.toFixed(2));
-    // })
     $('.item-delete').on('click', function () {
         var goodsInput = $(this).parents('.goods-item').find('.goods-list-item')
         deleteGoods = new ShoppingCarObserver(goodsInput, null)
@@ -585,6 +549,7 @@
     function load_data() {
         var theme = localStorage.getItem('username')
         var userId = localStorage.getItem('userId')
+
         console.log(localStorage.getItem('username'))
         console.log(localStorage.getItem('userId'))
         if (theme == null || theme == '') {
