@@ -53,6 +53,8 @@ public class ShiroConfig {
     @Bean
     public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
 
+        final String ROLES_USER = "roles[user]";
+
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         // 添加自定义过滤器
@@ -84,12 +86,12 @@ public class ShiroConfig {
         // druid放行
         filterChainDefinitionMap.put("/druid/**", "anon");
         // 所有url都必须认证通过才可以访问
-        filterChainDefinitionMap.put("/api/user/**", "roles[user]");
-        filterChainDefinitionMap.put("/api/wants/**", "roles[user]");
-        filterChainDefinitionMap.put("/api/order/**", "roles[user]");
-        filterChainDefinitionMap.put("/api/item/**", "roles[user]");
-        filterChainDefinitionMap.put("/api/comment/**", "roles[user]");
-        filterChainDefinitionMap.put("/api/collection/**", "roles[user]");
+        filterChainDefinitionMap.put("/api/user/**", ROLES_USER);
+        filterChainDefinitionMap.put("/api/wants/**", ROLES_USER);
+        filterChainDefinitionMap.put("/api/order/**", ROLES_USER);
+        filterChainDefinitionMap.put("/api/item/**", ROLES_USER);
+        filterChainDefinitionMap.put("/api/comment/**", ROLES_USER);
+        filterChainDefinitionMap.put("/api/collection/**", ROLES_USER);
         filterChainDefinitionMap.put("/api/admin/**", "roleOrFilter[root,admin]");
         filterChainDefinitionMap.put("/api/root/**", "roles[root]");
         filterChainDefinitionMap.put("/**", "authc");

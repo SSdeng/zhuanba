@@ -19,6 +19,7 @@ import javax.annotation.Resource;
 @RequestMapping("/api")
 public class AdminController {
 
+    private static final String ITEM_LIST = "itemList";
     @Resource
     private AdminService adminService;
 
@@ -71,8 +72,8 @@ public class AdminController {
     public String getItemList(Model model,
                                    @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
                                    @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-        model.addAttribute("itemList", adminService.getAllItemsByPage(pageNo, pageSize));
-        return "itemList";
+        model.addAttribute(ITEM_LIST, adminService.getAllItemsByPage(pageNo, pageSize));
+        return ITEM_LIST;
     }
 
     /**
@@ -87,7 +88,7 @@ public class AdminController {
     public String getItemListModelRoot(Model model,
                                    @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
                                    @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-        model.addAttribute("itemList", adminService.getAllItemsByPage(pageNo, pageSize));
+        model.addAttribute(ITEM_LIST, adminService.getAllItemsByPage(pageNo, pageSize));
         return "ritemList";
     }
 

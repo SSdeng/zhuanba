@@ -32,7 +32,7 @@ public class FileUtil {
 
         // 文件原名
         String filename = multipartFile.getOriginalFilename();
-        // 文件后缀 123.jpg
+        // 文件后缀 (.jpg, .png)
         String suffix = filename.substring(filename.lastIndexOf("."));
         // 存储的文件名
         String newName = UUID.randomUUID() + suffix;

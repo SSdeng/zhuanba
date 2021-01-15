@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class GlobalExceptionHandler {
 
+    private static final String ERROR = "发生异常！原因是:{}";
     /**
      * 处理自定义异常
      * 
@@ -31,7 +32,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = MyException.class)
     public Result customerExceptionHandler(MyException e) {
         e.printStackTrace();
-        log.error("发生异常！原因是:{}", e.getMessage());
+        log.error(ERROR, e.getMessage());
         return Result.build(e.getCode(), e.getMsg(), null);
     }
 
@@ -44,7 +45,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public Result DaoExceptionHandler(DataIntegrityViolationException e) {
         e.printStackTrace();
-        log.error("发生异常！原因是:{}", e.getMessage());
+        log.error(ERROR, e.getMessage());
         return Result.error("含有重复字段", null);
     }
 
@@ -57,7 +58,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ShiroException.class)
     public Result authExceptionHandler(AuthenticationException e) {
         e.printStackTrace();
-        log.error("发生异常！原因是:{}", e.getMessage());
+        log.error(ERROR, e.getMessage());
         if (e instanceof UnknownAccountException) {
             return Result.error("用户名不存在", null);
         } else if (e instanceof IncorrectCredentialsException) {
@@ -69,7 +70,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public Result otherExceptionHandler(Exception e) {
         e.printStackTrace();
-        log.error("发生异常！原因是:{}", e.getMessage());
+        log.error(ERROR, e.getMessage());
         return Result.error("其他异常", null);
     }
 }

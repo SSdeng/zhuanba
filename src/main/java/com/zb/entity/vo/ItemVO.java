@@ -9,6 +9,8 @@ import org.springframework.beans.BeanUtils;
 import java.math.BigDecimal;
 
 /**
+ * 用于商品数据的更新和保存
+ *
  * @author lijiacheng
  * @version 1.0
  */

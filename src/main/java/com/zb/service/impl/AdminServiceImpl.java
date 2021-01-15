@@ -25,6 +25,9 @@ import com.zb.service.UserService;
 @Service
 public class AdminServiceImpl implements AdminService {
 
+    private static final String ADMIN = "admin";
+    private static final String ILLEGALITY = "非法操作！";
+
     @Resource
     private ItemService itemService;
 
@@ -114,7 +117,7 @@ public class AdminServiceImpl implements AdminService {
      */
     @Override
     public List<User> getAllAdmin() {
-        return userRepository.getAllByRole("admin");
+        return userRepository.getAllByRole(ADMIN);
     }
 
     /**
@@ -124,7 +127,7 @@ public class AdminServiceImpl implements AdminService {
      */
     @Override
     public User addAdmin(User newAdmin) {
-        newAdmin.setRole("admin");
+        newAdmin.setRole(ADMIN);
         return userService.insertSelective(newAdmin);
     }
 
@@ -135,10 +138,10 @@ public class AdminServiceImpl implements AdminService {
      */
     @Override
     public void deleteAdmin(long adminId) {
-        if (userService.findById(adminId).getRole().equals("admin")) {
+        if (userService.findById(adminId).getRole().equals(ADMIN)) {
             userRepository.deleteById(adminId);
         } else {
-            throw new MyException("非法操作！");
+            throw new MyException(ILLEGALITY);
         }
     }
 
@@ -153,7 +156,7 @@ public class AdminServiceImpl implements AdminService {
         System.out.println(user.toString()+"*****************************************");
         System.out.println(user.getRole()+"\n\n\n\n\n");
         if (!user.getRole().equals("user")) {
-            throw new MyException("非法操作！");
+            throw new MyException(ILLEGALITY);
         }
         unban(user);
     }
@@ -168,8 +171,8 @@ public class AdminServiceImpl implements AdminService {
         User user = userRepository.findByUserIdFromAll(adminId);
         System.out.println(user.toString()+"*****************************************");
         System.out.println(user.getRole()+"\n\n\n\n\n");
-        if (!user.getRole().equals("admin")) {
-            throw new MyException("非法操作！");
+        if (!user.getRole().equals(ADMIN)) {
+            throw new MyException(ILLEGALITY);
         }
         unban(user);
     }

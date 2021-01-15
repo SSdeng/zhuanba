@@ -12,12 +12,12 @@ public class PaginationSupport<T> {
     /**
      * 页面默认大小
      */
-    public final static int PAGESIZE = 10;
+    public final static int PAGE_SIZE = 10;
 
     /**
      * 页面大小
      */
-    private int pageSize = PAGESIZE;
+    private int pageSize = PAGE_SIZE;
 
     /**
      * 全部记录
@@ -48,7 +48,7 @@ public class PaginationSupport<T> {
      *            总记录数。
      */
     public PaginationSupport(List<T> items, int totalCount) {
-        setPageSize(PAGESIZE);
+        setPageSize(PAGE_SIZE);
         setTotalCount(totalCount);
         setItems(items);
         setStartIndex(0);
@@ -65,7 +65,7 @@ public class PaginationSupport<T> {
      *            起始记录索引。
      */
     public PaginationSupport(List<T> items, int totalCount, int startIndex) {
-        setPageSize(PAGESIZE);
+        setPageSize(PAGE_SIZE);
         setTotalCount(totalCount);
         setItems(items);
         setStartIndex(startIndex);
@@ -98,7 +98,7 @@ public class PaginationSupport<T> {
      * @return 起始记录索引号。
      */
     public static int convertFromPageToStartIndex(int pageNo) {
-        return (pageNo - 1) * PAGESIZE;
+        return (pageNo - 1) * PAGE_SIZE;
     }
 
     /**
