@@ -72,17 +72,19 @@
                 if (data.code == 245) {
                     //把用户名密码存储在session里面，首页显示用户名称
                     localStorage.setItem("username", username);
-                    localStorage.setItem("userId", data.data.userId);
+                    localStorage.setItem("userId", btoa(data.data.userId));
                   console.log(data.data.userId)
                     //跳转到主页
                     location.assign("/");
                 } else if(data.code == 255) {
                   localStorage.setItem("username", username);
-                  localStorage.setItem("userId", data.data.userId);console.log(data.data.userId)
+                  localStorage.setItem("userId", btoa(data.data.userId));
+                  console.log(data.data.userId)
                   location.assign("/api/admin/itemList");
                 } else if(data.code == 265) {
                   localStorage.setItem("username", username);
-                  localStorage.setItem("userId", data.data.userId);console.log(data.data.userId)
+                  localStorage.setItem("userId", btoa(data.data.userId));
+                  console.log(data.data.userId)
                   location.assign("/api/root/adminList");
                 }
             }

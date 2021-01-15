@@ -156,7 +156,6 @@
   })
   function load_data() {
     var theme = localStorage.getItem('username')
-    var userId = localStorage.getItem('userId')
     console.log(localStorage.getItem('username'))
     console.log(localStorage.getItem('userId'))
     if (theme == null || theme == '') {
@@ -194,6 +193,7 @@
 
         $('.reject').click(function () {
             var adminId = localStorage.getItem('userId')
+
             var itemId = $(this).parent().attr('id')
             console.log(itemId)
             $.ajax({

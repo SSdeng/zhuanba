@@ -1,10 +1,14 @@
 package com.zb.controller;
 
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.zb.util.Base64Util;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,6 +21,8 @@ import com.zb.service.AddressService;
 import com.zb.service.UserService;
 import com.zb.util.Result;
 
+import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
+
 /**
  * 用户控制器
  *
@@ -25,6 +31,7 @@ import com.zb.util.Result;
  **/
 @Controller
 @RequestMapping("/api/user")
+@Slf4j
 public class UserController {
 
     @Resource
@@ -40,9 +47,9 @@ public class UserController {
      * @return 用户信息
      */
     @GetMapping("/info")
-    public ModelAndView getUserInfo(@RequestParam("userId") long userId) {
+    public ModelAndView getUserInfo(@RequestParam("userId") String userId) {
         ModelAndView modelAndView = new ModelAndView("info");
-        User user = userService.findById(userId);
+        User user = userService.findById(Base64Util.decode(userId));
 
         modelAndView.addObject("user", user);
         modelAndView.addObject("address", user.getAddresses());
@@ -62,8 +69,8 @@ public class UserController {
      */
     @PostMapping("/info")
     @ResponseBody
-    public Result modifyUserInfo(@RequestBody String JSONUser, @RequestParam("userId") Long userId) {
-        userService.updateUserInfo(JSONUser, userId);
+    public Result modifyUserInfo(@RequestBody String JSONUser, @RequestParam("userId") String userId) {
+        userService.updateUserInfo(JSONUser, Base64Util.decode(userId));
         return Result.ok("修改用户信息成功", null);
     }
 
@@ -136,10 +143,10 @@ public class UserController {
      */
     @PostMapping("/addAddress")
     @ResponseBody
-    public Result addAddress(@RequestParam("userId") long userId, @RequestBody Map<String, String> map) {
+    public Result addAddress(@RequestParam("userId") String userId, @RequestBody Map<String, String> map) {
         Address newAddress = new Address();
         newAddress.setDetail(map.get("address"));
-        newAddress.setUser(userService.findById(userId));
+        newAddress.setUser(userService.findById(Base64Util.decode(userId)));
         addressService.insertSelective(newAddress);
         return Result.ok("添加成功", null);
     }
@@ -155,6 +162,6 @@ public class UserController {
     public String deleteAddress(@RequestParam("addressId") long addressId) {
         long userId = addressService.findById(addressId).getUser().getId();
         addressService.deleteById(addressId);
-        return "redirect:/api/user/info?userId=" + userId;
+        return "redirect:/api/user/info?userId=" + Base64Util.encode(userId);
     }
 }

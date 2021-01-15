@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import com.zb.service.ItemService;
+import com.zb.util.Base64Util;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -44,12 +45,12 @@ public class OrderController {
      */
     @PostMapping("/addone")
     @ResponseBody
-    public Result addOneOrder(@RequestParam("itemId") long itemId, @RequestParam("userId") long userId,
+    public Result addOneOrder(@RequestParam("itemId") long itemId, @RequestParam("userId") String userId,
         @RequestParam(value = "value", defaultValue = "1") int count) {
         if(itemService.findById(itemId).getCount() == 0){
             return Result.error("购买失败，商品库存为空");
         }
-        orderService.addOrder(userId, itemId, count);
+        orderService.addOrder(Base64Util.decode(userId), itemId, count);
         return Result.ok("购买成功", null);
     }
 
@@ -63,15 +64,15 @@ public class OrderController {
     @PostMapping("/addcart")
     @ResponseBody
     @Transactional
-    public Result addMultipleOrder(@RequestParam("userId") long userId, @RequestBody Map<String, Object> maps) {
+    public Result addMultipleOrder(@RequestParam("userId") String userId, @RequestBody Map<String, Object> maps) {
         List<Map<String, String>> items = (List<Map<String, String>>)maps.get("items");
         for (Map<String, String> map : items) {
             long itemId = Long.parseLong((map.get("itemId")));
             if(itemService.findById(itemId).getCount() == 0){
                 return Result.error("购买失败，商品库存已空", null);
             }
-            orderService.addOrder(userId, Long.parseLong(map.get("itemId")), Integer.parseInt(map.get("value")));
-            cartService.removeOrder(userId, Long.parseLong(map.get("itemId")));
+            orderService.addOrder(Base64Util.decode(userId), Long.parseLong(map.get("itemId")), Integer.parseInt(map.get("value")));
+            cartService.removeOrder(Base64Util.decode(userId), Long.parseLong(map.get("itemId")));
         }
         return Result.ok("结算成功", null);
     }

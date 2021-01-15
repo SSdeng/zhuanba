@@ -9,6 +9,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.zb.util.Base64Util;
 import org.hibernate.annotations.*;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -175,4 +176,8 @@ public class User implements Serializable {
     @ToString.Exclude
     @org.springframework.data.annotation.Transient
     private List<ItemComment> itemComments;
+
+    public String encode(){
+        return Base64Util.encode(id);
+    }
 }

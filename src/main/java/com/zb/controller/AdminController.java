@@ -3,6 +3,7 @@ package com.zb.controller;
 import com.zb.entity.User;
 import com.zb.repository.UserRepository;
 import com.zb.service.AdminService;
+import com.zb.util.Base64Util;
 import com.zb.util.Result;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -112,8 +113,8 @@ public class AdminController {
      */
     @PostMapping("/root/banAdmin")
     @ResponseBody
-    public Result banAdmin(@RequestParam("adminId") long adminId) {
-        adminService.deleteAdmin(adminId);
+    public Result banAdmin(@RequestParam("adminId") String adminId) {
+        adminService.deleteAdmin(Base64Util.decode(adminId));
         return Result.ok();
     }
 
@@ -166,8 +167,8 @@ public class AdminController {
      */
     @PostMapping("/admin/checkItem")
     @ResponseBody
-    public Result checkItem(@RequestParam("itemId") long itemId, @RequestParam("adminId") long adminId, @RequestParam("status") int status) {
-        adminService.setAuditStatus(itemId, adminId, status);
+    public Result checkItem(@RequestParam("itemId") long itemId, @RequestParam("adminId") String adminId, @RequestParam("status") int status) {
+        adminService.setAuditStatus(itemId, Base64Util.decode(adminId), status);
         return Result.ok();
     }
 

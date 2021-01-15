@@ -174,7 +174,7 @@
                     contentType: "application/json",
                     traditional: true,
                     data: JSON.stringify({
-                        "userId": userId,
+                        "userId": atob(userId),
                         "categoryIds": categoryId,
                         "itemName": itemname,
                         "description": description,
@@ -224,62 +224,6 @@
             }
 
         });
-
-        // $("form#data").submit(function () {
-        //     var userId = localStorage.getItem("userId");
-        //     var itemname = $("#itemname").val();
-        //     var description = $("#description").val();
-        //     var level = $("#level").val();
-        //     var price = $("#price").val();
-        //     var count = $("#count").val();
-
-        //     if (checkName() && checkPrice() && checkCount) {
-        //         $.ajax({
-        //             type: "POST",
-        //             dataType: "json",
-        //             url: "/api/item/release",
-        //             data: {
-        //                 "userId": userId,
-        //                 "itemname": itemname,
-        //                 "description": description,
-        //                 "level": level,
-        //                 "price": price,
-        //                 "count": count
-        //             },
-        //             success: function (data) {
-        //                 if (data.code == 0) {
-        //                     itemId = data.data.itemId;
-        //                 } else {
-        //                     alert(data.msg);
-        //                 }
-        //             },
-        //             error: function () {
-
-        //             }
-        //         });
-        //     }
-        //     else {
-        //         return;
-        //     }
-        // });
-
-        // $("form#file").submit(function () {
-        //     var formdata = new FormData($(this)[0]);
-
-        //     $.ajax({
-        //         url: "/api/item/upload",
-        //         type: 'POST',
-        //         data: formData,
-        //         async: false,
-        //         success: function (data) {
-        //             alert(data)
-        //         },
-        //         cache: false,
-        //         contentType: false,
-        //         processData: false
-        //     });
-        // });
-
 
     });
 

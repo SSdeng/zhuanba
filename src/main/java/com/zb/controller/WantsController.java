@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.zb.util.Base64Util;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -60,8 +61,8 @@ public class WantsController {
      */
     @PostMapping("/release")
     @ResponseBody
-    public Result releaseWants(@RequestParam("userId") Long userId, @RequestBody Wants wants) {
-        wants.setUser(userService.findById(userId));
+    public Result releaseWants(@RequestParam("userId") String userId, @RequestBody Wants wants) {
+        wants.setUser(userService.findById(Base64Util.decode(userId)));
         wants = wantsService.insertSelective(wants);
         Map<String, Object> data = new HashMap<>();
         data.put("wantsId", wants.getId());
@@ -93,8 +94,8 @@ public class WantsController {
      */
     @PostMapping("/remove")
     @ResponseBody
-    public Result removeWants(@RequestParam("userId") long userId, @RequestParam("wantsId") long wantsId) {
-        System.err.println(userId + " " + wantsId);;
+    public Result removeWants(@RequestParam("userId") String userId, @RequestParam("wantsId") long wantsId) {
+
         wantsService.deleteById(wantsId);
         return Result.ok();
     }

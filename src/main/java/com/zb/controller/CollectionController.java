@@ -2,6 +2,7 @@ package com.zb.controller;
 
 import javax.annotation.Resource;
 
+import com.zb.util.Base64Util;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,8 +38,8 @@ public class CollectionController {
      */
     @PostMapping("/add")
     @ResponseBody
-    public Result addItem(@RequestParam("userId") Long userId, @RequestParam("itemId") Long itemId) {
-        collectionService.addItem(userId, itemId);
+    public Result addItem(@RequestParam("userId") String userId, @RequestParam("itemId") Long itemId) {
+        collectionService.addItem(Base64Util.decode(userId), itemId);
         return Result.ok("收藏成功", null);
 
     }
@@ -54,9 +55,9 @@ public class CollectionController {
      */
     @PostMapping("/remove")
     @ResponseBody
-    public Result removeItem(@RequestParam("collectionId") Long collectionId, @RequestParam("itemId") Long itemId) {
-        User user = collectionService.findById(collectionId).getUser();
-        collectionService.removeItem(collectionId, itemId);
+    public Result removeItem(@RequestParam("collectionId") String collectionId, @RequestParam("itemId") Long itemId) {
+        User user = collectionService.findById(Base64Util.decode(collectionId)).getUser();
+        collectionService.removeItem(Base64Util.decode(collectionId), itemId);
         return Result.ok("收藏已移除", null);
     }
 
@@ -71,8 +72,8 @@ public class CollectionController {
      */
     @PostMapping("/delete")
     @ResponseBody
-    public Result deleteItem(@RequestParam("userId") Long userId, @RequestParam("itemId") Long itemId) {
-        Collection collection = collectionService.findByUser(userId);
+    public Result deleteItem(@RequestParam("userId") String userId, @RequestParam("itemId") Long itemId) {
+        Collection collection = collectionService.findByUser(Base64Util.decode(userId));
         collectionService.removeItem(collection.getId(), itemId);
         return Result.ok("已取消收藏", null);
     }

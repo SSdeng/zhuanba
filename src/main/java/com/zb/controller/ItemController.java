@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.zb.util.Base64Util;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -52,6 +53,7 @@ public class ItemController {
     @PostMapping("/release")
     @ResponseBody
     public Result releaseItem(@RequestBody ItemVO itemVO) {
+
         Item insert = itemService.insertSelective(itemVO);
         Map<String, Object> data = new HashMap<>();
         data.put("itemId", insert.getId());
@@ -68,7 +70,7 @@ public class ItemController {
      * @return 视图
      */
     @GetMapping("/details")
-    public String itemDetails(Model model, @RequestParam("userId") long userId, @RequestParam("itemId") long itemId) {
+    public String itemDetails(Model model, @RequestParam("userId") String userId, @RequestParam("itemId") long itemId) {
         Item item = itemService.findById(itemId);
         if (!item.getStatus().equals(1)) {
             return "itemNotAvailable";
@@ -77,8 +79,8 @@ public class ItemController {
         model.addAttribute("item", item);
         model.addAttribute("comments", item.getItemComments());
         model.addAttribute("categories", categories);
-        model.addAttribute("inCart", cartService.hasItem(userId, itemId));
-        model.addAttribute("inCollection", collectionService.hasItem(userId, itemId));
+        model.addAttribute("inCart", cartService.hasItem(Base64Util.decode(userId), itemId));
+        model.addAttribute("inCollection", collectionService.hasItem(Base64Util.decode(userId), itemId));
         return "item";
     }
 
@@ -112,7 +114,7 @@ public class ItemController {
      */
     @PostMapping("/remove")
     @ResponseBody
-    public Result deleteItem(@RequestParam("userId") long userId, @RequestParam("itemId") long itemId) {
+    public Result deleteItem(@RequestParam("userId") String userId, @RequestParam("itemId") long itemId) {
         itemService.deleteById(itemId);
         return Result.ok();
     }

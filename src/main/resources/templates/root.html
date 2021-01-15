@@ -233,8 +233,8 @@
       layer.msg("请输入正确的手机号");
       return;
     }
-    if (code.length < 1) {
-      layer.msg("请输入正确的学号");
+    if (code.match(/(\d{3,8}$)/) == null) {
+      layer.msg("请输入3-8位纯数字的学号");
       return;
     }
 

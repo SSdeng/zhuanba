@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.zb.util.Base64Util;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,11 +42,11 @@ public class CommentController {
     @PostMapping("/item")
     public String addItemComment(@RequestParam("itemId") long itemId, @RequestBody Map<String, String> map) {
 
-        long userId = Long.parseLong(map.get("userId"));
+        String userId = (map.get("userId"));
         String content = map.get("content");
 
         ItemComment itemComment = new ItemComment();
-        itemComment.setUser(userService.findById(userId));
+        itemComment.setUser(userService.findById(Base64Util.decode(userId)));
         itemComment.setItem(itemService.findById(itemId));
         itemComment.setContent(content);
 
@@ -65,11 +66,11 @@ public class CommentController {
     @PostMapping("/wants")
     public String addWantsComment(@RequestParam("wantsId") long wantsId, @RequestBody Map<String, String> map) {
 
-        long userId = Long.parseLong(map.get("userId"));
+        String userId = (map.get("userId"));
 
         WantsComment newComment = new WantsComment();
         newComment.setContent(map.get("content"));
-        newComment.setUser(userService.findById(userId));
+        newComment.setUser(userService.findById(Base64Util.decode(userId)));
         newComment.setWants(wantsService.findById(wantsId));
 
         wCommentService.insertSelective(newComment);
