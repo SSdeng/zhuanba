@@ -19,7 +19,6 @@ import javax.annotation.Resource;
 @RequestMapping("/api")
 public class AdminController {
 
-    private static final String ITEM_LIST = "itemList";
     @Resource
     private AdminService adminService;
 
@@ -72,8 +71,8 @@ public class AdminController {
     public String getItemList(Model model,
                                    @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
                                    @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-        model.addAttribute(ITEM_LIST, adminService.getAllItemsByPage(pageNo, pageSize));
-        return ITEM_LIST;
+        model.addAttribute("itemList", adminService.getAllItemsByPage(pageNo, pageSize));
+        return "itemList";
     }
 
     /**
@@ -88,7 +87,7 @@ public class AdminController {
     public String getItemListModelRoot(Model model,
                                    @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
                                    @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-        model.addAttribute(ITEM_LIST, adminService.getAllItemsByPage(pageNo, pageSize));
+        model.addAttribute("itemList", adminService.getAllItemsByPage(pageNo, pageSize));
         return "ritemList";
     }
 
@@ -139,8 +138,8 @@ public class AdminController {
      */
     @PostMapping("/admin/unbanUser")
     @ResponseBody
-    public Result unbanUser(@RequestParam("userId") long userId) {
-        adminService.unbanUser(userId);
+    public Result unbanUser(@RequestParam("userId") String userId) {
+        adminService.unbanUser(Base64Util.decode(userId));
         return Result.ok();
     }
 
@@ -152,8 +151,8 @@ public class AdminController {
      */
     @PostMapping("/root/unbanAdmin")
     @ResponseBody
-    public Result unbanAdmin(@RequestParam("adminId") long adminId) {
-        adminService.unbanAdmin(adminId);
+    public Result unbanAdmin(@RequestParam("adminId") String adminId) {
+        adminService.unbanAdmin(Base64Util.decode(adminId));
         return Result.ok();
     }
 

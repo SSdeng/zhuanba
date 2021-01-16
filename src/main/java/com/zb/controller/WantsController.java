@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.zb.util.Base64Util;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -56,16 +57,16 @@ public class WantsController {
      *
      * @param userId
      *            发布用户id
-     * @param wants
+     * @param wantsVO
      *            求购信息
      * @return 求购id
      */
     @PostMapping("/release")
     @ResponseBody
-    public Result releaseWants(@RequestParam("userId") Long userId, @RequestBody WantsVO wantsVO) {
+    public Result releaseWants(@RequestParam("userId") String userId, @RequestBody WantsVO wantsVO) {
         Wants wants = new Wants();
         BeanUtils.copyProperties(wantsVO, wants);
-        wants.setUser(userService.findById(userId));
+        wants.setUser(userService.findById(Base64Util.decode(userId)));
         wants = wantsService.insertSelective(wants);
         Map<String, Object> data = new HashMap<>();
         data.put("wantsId", wants.getId());

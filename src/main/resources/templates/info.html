@@ -553,249 +553,246 @@
 
 </body>
 <script>
-    function search() {
-        console.log($('#searchText').val())
-        var data = $('#searchText').val()
-        location.assign("/search?keyword=" + data);
+  function search () {
+    console.log($('#searchText').val())
+    var data = $('#searchText').val()
+    location.assign('/search?keyword=' + data)
+  }
+
+  $('#login_logout').click(function () {
+    localStorage.clear()
+  })
+  $(function () {
+    load_data()
+  })
+
+  //设置顶部栏的登录/退出按钮和用户名显示
+
+  function load_data () {
+    var theme = localStorage.getItem('username')
+    var userId = localStorage.getItem('userId')
+
+    console.log(localStorage.getItem('username'))
+    console.log(localStorage.getItem('userId'))
+    if (theme == null || theme == '') {
+      $('#login_logout').text('登录')
+      $('#uname').text('')
+      $('#want').hide()
+      $('#release1').hide()
+      $('#cart').hide()
+    } else {
+      $('#login_logout').text('退出')
+      $('#login_logout').attr('href', '/logout')
+      $('#uname').text(theme)
+      $('#want').show()
+      $('#want').attr('href', '/api/wants/release?userId=' + userId)
+      $('#release1').show()
+      $('#release1').attr('href', '/release')
+      $('#cart').show()
+      $('#cart').attr('href', '/api/cart/all?userId=' + userId)
+      $('#uname').attr('href', '/api/user/info?userId=' + userId)
     }
+  }
 
-    $('#login_logout').click(function () {
-        localStorage.clear()
-    })
-    $(function () {
-        load_data()
-    })
+  $('#edituser').on('click', function () {
+    console.log('click')
+    var name = $('#myself_family').text()
+    var phone = $('#myself_intro').text()
+    var email = $('#myself_email').text()
+    var gender = $('#myself_sex_age').text()
+    var address = $('#myself_address').text()
+    var academy = $('#myself_student1').text()
+    var studentNumber = $('#myself_student2').text()
+    console.log(name + phone + email + address)
+    $('#modifyname').val(name)
+    $('#modifyphone').val(phone)
+    $('#modifyemail').val(email)
+    $('#modifyacademy').val(academy)
+    $('#modifycode').val(studentNumber)
 
-
-    //设置顶部栏的登录/退出按钮和用户名显示
-
-    function load_data() {
-        var theme = localStorage.getItem('username')
-        var userId = localStorage.getItem('userId')
-
-        console.log(localStorage.getItem('username'))
-        console.log(localStorage.getItem('userId'))
-        if (theme == null || theme == '') {
-            $('#login_logout').text('登录')
-            $('#uname').text('')
-            $('#want').hide();
-            $("#release1").hide()
-            $('#cart').hide()
-        } else {
-            $('#login_logout').text('退出')
-            $('#login_logout').attr('href', '/logout')
-            $('#uname').text(theme)
-            $('#want').show()
-            $('#want').attr('href', '/api/wants/release?userId=' + userId);
-            $('#release1').show();
-            $('#release1').attr('href', '/release')
-            $('#cart').show()
-            $('#cart').attr('href', '/api/cart/all?userId=' + userId)
-            $('#uname').attr('href', '/api/user/info?userId=' + userId)
-        }
+    if (gender == '女') {
+      $('#female').prop('checked', 'checked')
     }
+    $('#modifyinfo').modal('show')
+  })
 
-    $('#edituser').on('click', function () {
-        console.log('click')
-        var name = $('#myself_family').text()
-        var phone = $('#myself_intro').text()
-        var email = $('#myself_email').text()
-        var gender = $('#myself_sex_age').text()
-        var address = $('#myself_address').text()
-        var academy = $("#myself_student1").text();
-        var studentNumber = $("#myself_student2").text();
-        console.log(name + phone + email + address)
-        $('#modifyname').val(name)
-        $('#modifyphone').val(phone)
-        $('#modifyemail').val(email)
-        $('#modifyacademy').val(academy)
-        $('#modifycode').val(studentNumber)
+  $('#form_addressUpdate_button').on('click', function () {
+    $('#modifyadd').modal('show')
+  })
 
-        if (gender == '女') {
-            $('#female').prop('checked', 'checked')
-        }
-        $('#modifyinfo').modal('show')
-    })
-
-    $('#form_addressUpdate_button').on('click', function () {
-        $('#modifyadd').modal('show')
-    })
-
-    function changelabel() {
-        var level = $('#modifylevel').val()
-        if (level == 10) {
-            $('#levellabel').text('全新')
-        } else {
-            $('#levellabel').text(level + '成新')
-        }
+  function changelabel () {
+    var level = $('#modifylevel').val()
+    if (level == 10) {
+      $('#levellabel').text('全新')
+    } else {
+      $('#levellabel').text(level + '成新')
     }
+  }
 
-    $("#btn_submit1").click(function () {
+  $('#btn_submit1').click(function () {
 
+    var address = $('#modifyaddr').val()
 
-        var address = $('#modifyaddr').val()
+    console.log(address)
 
-        console.log(address);
+    var userId = localStorage.getItem('userId')
 
-        var userId = localStorage.getItem("userId");
-
-      console.log(btoa(userId))
-      console.log(atob(btoa(userId)))
-        var data = {
-            "address": address
-        }
-        $.ajax({
-            url: "/api/user/addAddress?userId=" + userId,
-            data: JSON.stringify(data),
-            type: "POST",
-            contentType: "application/json",
-            dataType: "json",
-            traditional: true,
-            success: function (data) {
-                layer.msg(data.msg);
-                console.log(data.msg);
-              //location.reload();
-            }
-        })
+    console.log(btoa(userId))
+    console.log(atob(btoa(userId)))
+    var data = {
+      'address': address
+    }
+    $.ajax({
+      url: '/api/user/addAddress?userId=' + userId,
+      data: JSON.stringify(data),
+      type: 'POST',
+      contentType: 'application/json',
+      dataType: 'json',
+      traditional: true,
+      success: function (data) {
+        layer.msg(data.msg)
+        console.log(data.msg)
+        location.reload()
+      }
     })
+  })
 
-    $("#btn_submit2").click(function () {
-        var realName = $('#modifyname').val()
-        var phoneNumber = $('#modifyphone').val()
-        var email = $('#modifyemail').val()
-        var academy = $('#modifyacademy').val()
-        var studentNumber = $('#modifycode').val()
-        var gender = $("#modifyinfo").find("input[type='radio']:checked").val();
-        console.log(gender);
-        if (gender == "female") {
-            gender = 1
+  $('#btn_submit2').click(function () {
+    var realName = $('#modifyname').val()
+    var phoneNumber = $('#modifyphone').val()
+    var email = $('#modifyemail').val()
+    var academy = $('#modifyacademy').val()
+    var studentNumber = $('#modifycode').val()
+    var gender = $('#modifyinfo').find('input[type=\'radio\']:checked').val()
+    console.log(gender)
+    if (gender == 'female') {
+      gender = 1
+    } else {
+      gender = 0
+    }
+    console.log(gender)
+    userId = localStorage.getItem('userId')
+    var data = {
+      'realName': realName,
+      'phoneNumber': phoneNumber,
+      'email': email,
+      'academy': academy,
+      'studentNumber': studentNumber,
+      'gender': gender
+    }
+    $.ajax({
+      url: '/api/user/info?userId=' + userId,
+      data: JSON.stringify(data),
+      type: 'POST',
+      contentType: 'application/json',
+      dataType: 'json',
+      traditional: true,
+      success: function (data) {
+        layer.msg(data.msg)
+        console.log(data.msg)
+        if (data.code == 0) {
+          $('#modifyitem').modal('hide')
+          location.reload()
         } else {
-            gender = 0
+
         }
-        console.log(gender);
-        userId = localStorage.getItem("userId");
-        var data = {
-            "realName": realName,
-            "phoneNumber": phoneNumber,
-            "email": email,
-            "academy": academy,
-            "studentNumber": studentNumber,
-            "gender": gender
+      }
+    })
+  })
+
+  $('.collectdel').click(function () {
+    var itemId = $($(this).parents('.col-md-1')).attr('id')
+    var userId = localStorage.getItem('userId')
+
+    console.log(itemId)
+    $.ajax({
+      url: '/api/collection/remove?collectionId=' + userId + '&itemId=' + itemId,
+      type: 'POST',
+      contentType: 'application/json',
+      dataType: 'json',
+      traditional: true,
+      success: function (data) {
+        if (data.code == 0) {
+          console.log('success')
+          $(this).parents('.tab-content').remove()
         }
-        $.ajax({
-            url: "/api/user/info?userId=" + userId,
-            data: JSON.stringify(data),
-            type: "POST",
-            contentType: "application/json",
-            dataType: "json",
-            traditional: true,
-            success: function (data) {
-                layer.msg(data.msg);
-                console.log(data.msg);
-                if (data.code == 0) {
-                    $('#modifyitem').modal('hide')
-                    location.reload();
-                } else {
-
-                }
-            }
-        })
+        layer.msg(data.msg)
+        console.log(data.msg)
+        location.reload()
+        //   $("#my_order").trigger('click');
+      }
     })
+  })
 
+  $('.wantsdel').click(function () {
+    var itemId = $($(this).parents('.col-md-1')).attr('id')
+    var userId = localStorage.getItem('userId')
 
-    $(".collectdel").click(function () {
-        var itemId = $($(this).parents(".col-md-1")).attr('id');
-        var userId = localStorage.getItem("userId");
+    console.log(itemId)
+    $.ajax({
+      url: '/api/wants/remove?userId=' + userId + '&wantsId=' + itemId,
+      type: 'POST',
+      contentType: 'application/json',
+      dataType: 'json',
+      traditional: true,
+      success: function (data) {
+        if (data.code == 0) {
+          console.log('success')
+          $(this).parents('.tab-content').remove()
+        }
+        layer.msg(data.msg)
+        console.log(data.msg)
+        location.reload()
 
-        console.log(itemId);
-        $.ajax({
-            url: "/api/collection/remove?collectionId=" + userId + "&itemId=" + itemId,
-            type: "POST",
-            contentType: "application/json",
-            dataType: "json",
-            traditional: true,
-            success: function (data) {
-                if (data.code == 0) {
-                    console.log("success")
-                    $(this).parents(".tab-content").remove();
-                }
-                layer.msg(data.msg);
-                console.log(data.msg);
-                location.reload();
-                //   $("#my_order").trigger('click');
-            }
-        })
+      }
     })
+  })
 
-    $(".wantsdel").click(function () {
-        var itemId = $($(this).parents(".col-md-1")).attr('id');
-        var userId = localStorage.getItem("userId");
+  $('.itemdel').click(function () {
+    var itemId = $($(this).parents('.col-md-1')).attr('id')
+    var userId = localStorage.getItem('userId')
 
-        console.log(itemId);
-        $.ajax({
-            url: "/api/wants/remove?userId=" + userId + "&wantsId=" + itemId,
-            type: "POST",
-            contentType: "application/json",
-            dataType: "json",
-            traditional: true,
-            success: function (data) {
-                if (data.code == 0) {
-                    console.log("success")
-                    $(this).parents(".tab-content").remove();
-                }
-                layer.msg(data.msg);
-                console.log(data.msg);
-                location.reload();
-
-            }
-        })
+    console.log(itemId)
+    $.ajax({
+      url: '/api/item/remove?userId=' + userId + '&itemId=' + itemId,
+      type: 'POST',
+      contentType: 'application/json',
+      dataType: 'json',
+      traditional: true,
+      success: function (data) {
+        // if(data.code==0){
+        //     console.log("success")
+        //     $($(this).parents(".tab-content")).remove();
+        // }
+        layer.msg(data.msg)
+        console.log(data.msg)
+        location.reload()
+      }
     })
+  })
 
-    $(".itemdel").click(function () {
-        var itemId = $($(this).parents(".col-md-1")).attr('id');
-        var userId = localStorage.getItem("userId");
+  $('.orderdel').click(function () {
+    var orderId = $($(this).parents('.col-md-1')).attr('id')
+    var userId = localStorage.getItem('userId')
 
-        console.log(itemId);
-        $.ajax({
-            url: "/api/item/remove?userId=" + userId + "&itemId=" + itemId,
-            type: "POST",
-            contentType: "application/json",
-            dataType: "json",
-            traditional: true,
-            success: function (data) {
-                // if(data.code==0){
-                //     console.log("success")
-                //     $($(this).parents(".tab-content")).remove();
-                // }
-                layer.msg(data.msg);
-                console.log(data.msg);
-                location.reload();
-            }
-        })
+    // console.log(itemId);
+    $.ajax({
+      url: '/api/order/remove?userId=' + userId + '&orderId=' + orderId,
+      type: 'POST',
+      contentType: 'application/json',
+      dataType: 'json',
+      traditional: true,
+      success: function (data) {
+        // if(data.code==0){
+        //     console.log("success")
+        //     $($(this).parents(".tab-content")).remove();
+        // }
+        layer.msg(data.msg)
+        console.log(data.msg)
+        location.reload()
+      }
     })
-
-    $(".orderdel").click(function () {
-        var orderId = $($(this).parents(".col-md-1")).attr('id');
-        var userId = localStorage.getItem("userId");
-
-        // console.log(itemId);
-        $.ajax({
-            url: "/api/order/remove?userId=" + userId + "&orderId=" + orderId,
-            type: "POST",
-            contentType: "application/json",
-            dataType: "json",
-            traditional: true,
-            success: function (data) {
-                // if(data.code==0){
-                //     console.log("success")
-                //     $($(this).parents(".tab-content")).remove();
-                // }
-                layer.msg(data.msg);
-                console.log(data.msg);
-                location.reload();
-            }
-        })
-    })
+  })
 </script>
 
 </html>
