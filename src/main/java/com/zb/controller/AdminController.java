@@ -1,7 +1,6 @@
 package com.zb.controller;
 
 import com.zb.entity.User;
-import com.zb.repository.UserRepository;
 import com.zb.service.AdminService;
 import com.zb.util.Base64Util;
 import com.zb.util.Result;

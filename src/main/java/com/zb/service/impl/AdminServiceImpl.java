@@ -153,8 +153,6 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void unbanUser(long userId) {
         User user = userRepository.findByUserIdFromAll(userId);
-        System.out.println(user.toString()+"*****************************************");
-        System.out.println(user.getRole()+"\n\n\n\n\n");
         if (!user.getRole().equals("user")) {
             throw new MyException(ILLEGALITY);
         }
@@ -169,8 +167,6 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void unbanAdmin(long adminId) {
         User user = userRepository.findByUserIdFromAll(adminId);
-        System.out.println(user.toString()+"*****************************************");
-        System.out.println(user.getRole()+"\n\n\n\n\n");
         if (!user.getRole().equals(ADMIN)) {
             throw new MyException(ILLEGALITY);
         }
