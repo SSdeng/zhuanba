@@ -112,8 +112,8 @@ public class AdminController {
      */
     @PostMapping("/root/banAdmin")
     @ResponseBody
-    public Result banAdmin(@RequestParam("adminId") String adminId) {
-        adminService.deleteAdmin(Base64Util.decode(adminId));
+    public Result banAdmin(@RequestParam("adminId") long adminId) {
+        adminService.deleteAdmin(adminId);
         return Result.ok();
     }
 
@@ -138,8 +138,9 @@ public class AdminController {
      */
     @PostMapping("/admin/unbanUser")
     @ResponseBody
-    public Result unbanUser(@RequestParam("userId") String userId) {
-        adminService.unbanUser(Base64Util.decode(userId));
+    public Result unbanUser(@RequestParam("userId") long userId) {
+        //adminService.unbanUser(Base64Util.decode(userId));
+        adminService.unbanUser(userId);
         return Result.ok();
     }
 
@@ -151,8 +152,9 @@ public class AdminController {
      */
     @PostMapping("/root/unbanAdmin")
     @ResponseBody
-    public Result unbanAdmin(@RequestParam("adminId") String adminId) {
-        adminService.unbanAdmin(Base64Util.decode(adminId));
+    public Result unbanAdmin(@RequestParam("adminId") long adminId) {
+        //adminService.unbanAdmin(Base64Util.decode(adminId));
+        adminService.unbanAdmin(adminId);
         return Result.ok();
     }
 
